@@ -1,54 +1,54 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Server Overlay Admin
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Overlay'
+                    title="Create Overlay"
                     @click='router.push("/admin/overlay/new")'
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
         <div>
-            <div class='row col-12 mx-1 my-2'>
-                <div class='col'>
+            <div class="row col-12 mx-1 my-2">
+                <div class="col">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        placeholder='Filter...'
+                        v-model="paging.filter"
+                        icon="search"
+                        placeholder="Filter..."
                     />
                 </div>
-                <div class='col-auto d-flex align-items-center'>
+                <div class="col-auto d-flex align-items-center">
                     <TablerPillGroup
-                        v-model='paging.type'
+                        v-model="paging.type"
                         :options='[
                             { value: "basemap", label: "Basemap" },
                             { value: "overlay", label: "Overlay" }
                         ]'
-                        :full-width='false'
-                        padding=''
+                        :full-width="false"
+                        padding=""
                     />
 
                     <TablerIconButton
                         :title='advanced ? "Hide Advanced Search" : "Show Advanced Search"'
-                        class='ms-2'
-                        @click='advanced = !advanced'
+                        class="ms-2"
+                        @click="advanced = !advanced"
                     >
                         <IconFilter
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                             :color='advanced ? "#206bc4" : "white"'
                         />
                     </TablerIconButton>
@@ -56,14 +56,14 @@
             </div>
 
             <div
-                v-if='advanced'
-                class='row col-12 mx-1 my-2'
+                v-if="advanced"
+                class="row col-12 mx-1 my-2"
             >
-                <div class='col-md-6'>
+                <div class="col-md-6">
                     <TablerEnum
-                        v-model='paging.scope'
-                        label='Ownership'
-                        default='all'
+                        v-model="paging.scope"
+                        label="Ownership"
+                        default="all"
                         :options='[
                             "all",
                             "server",
@@ -71,11 +71,11 @@
                         ]'
                     />
                 </div>
-                <div class='col-md-6'>
+                <div class="col-md-6">
                     <TablerEnum
-                        v-model='paging.hidden'
-                        label='Hidden'
-                        default='all'
+                        v-model="paging.hidden"
+                        label="Hidden"
+                        default="all"
                         :options='[
                             "true",
                             "false",
@@ -86,51 +86,51 @@
             </div>
 
             <div
-                v-if='paging.collection'
-                class='d-flex align-items-center gap-2 mx-3 mt-2'
+                v-if="paging.collection"
+                class="d-flex align-items-center gap-2 mx-3 mt-2"
             >
-                <PathBreadcrumb v-model:collection='paging.collection' />
+                <PathBreadcrumb v-model:collection="paging.collection" />
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Overlays'
+                v-if="loading"
+                desc="Loading Overlays"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length && !list.collections.length'
-                label='No Overlays'
-                :create='false'
+                v-else-if="!list.items.length && !list.collections.length"
+                label="No Overlays"
+                :create="false"
             />
             <div
                 v-else
-                class='d-flex flex-column gap-2 p-3 pb-5'
+                class="d-flex flex-column gap-2 p-3 pb-5"
             >
                 <StandardItemFolder
-                    v-for='collection in list.collections'
-                    :key='collection.name'
-                    :name='collection.name'
-                    @click='setCollection(collection.name)'
+                    v-for="collection in list.collections"
+                    :key="collection.name"
+                    :name="collection.name"
+                    @click="setCollection(collection.name)"
                 />
 
                 <StandardItemBasemap
-                    v-for='ov in list.items'
-                    :key='ov.id'
-                    :basemap='ov'
-                    @click='stdclick(router, $event, `/admin/overlay/${ov.id}`)'
+                    v-for="ov in list.items"
+                    :key="ov.id"
+                    :basemap="ov"
+                    @click="stdclick(router, $event, `/admin/overlay/${ov.id}`)"
                 />
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

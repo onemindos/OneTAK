@@ -1,14 +1,14 @@
 <template>
     <IconCircleFilled
-        v-if='props.team'
-        :size='props.size ? props.size : 32'
-        :color='teamColor'
-        stroke='1'
+        v-if="props.team"
+        :size="props.size ? props.size : 32"
+        :color="teamColor"
+        stroke="1"
     />
     <IconUserQuestion
         v-else
-        :size='props.size ? props.size : 32'
-        stroke='1'
+        :size="props.size ? props.size : 32"
+        stroke="1"
     />
 </template>
 

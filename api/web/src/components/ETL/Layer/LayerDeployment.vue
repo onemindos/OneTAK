@@ -1,165 +1,165 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Layer Deployment
             </h3>
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerIconButton
-                        title='Redeploy'
-                        @click='redeploy'
+                        title="Redeploy"
+                        @click="redeploy"
                     >
                         <IconCloudUpload
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Refresh'
+                        title="Refresh"
                         @click='emit("stack")'
                     >
                         <IconRefresh
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Edit'
-                        @click='disabled = false'
+                        title="Edit"
+                        @click="disabled = false"
                     >
                         <IconPencil
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
 
-        <div class='card-body'>
-            <template v-if='loading.full'>
+        <div class="card-body">
+            <template v-if="loading.full">
                 <TablerLoading />
             </template>
-            <template v-else-if='errors.cloudformation'>
+            <template v-else-if="errors.cloudformation">
                 <TablerAlert
-                    title='AWS CloudFormation Error'
-                    :err='new Error(errors.cloudformation.message)'
-                    :compact='true'
+                    title="AWS CloudFormation Error"
+                    :err="new Error(errors.cloudformation.message)"
+                    :compact="true"
                 />
 
-                <div class='d-flex justify-content-center my-3'>
+                <div class="d-flex justify-content-center my-3">
                     <div
-                        class='btn btn-secondary'
-                        @click='refresh'
+                        class="btn btn-secondary"
+                        @click="refresh"
                     >
                         Refresh
                     </div>
                 </div>
             </template>
-            <template v-else-if='errors.cloudwatch'>
+            <template v-else-if="errors.cloudwatch">
                 <TablerAlert
-                    title='AWS CloudWatch Error'
-                    :err='new Error(errors.cloudwatch.message)'
-                    :compact='true'
+                    title="AWS CloudWatch Error"
+                    :err="new Error(errors.cloudwatch.message)"
+                    :compact="true"
                 />
 
-                <div class='d-flex justify-content-center my-3'>
+                <div class="d-flex justify-content-center my-3">
                     <div
-                        class='btn btn-secondary'
-                        @click='refresh'
+                        class="btn btn-secondary"
+                        @click="refresh"
                     >
                         Refresh
                     </div>
                 </div>
             </template>
             <template v-else-if='stack.status === "DOES_NOT_EXIST_COMPLETE"'>
-                <div class='d-flex justify-content-center mb-4'>
+                <div class="d-flex justify-content-center mb-4">
                     Stack Hasn't Deployed
                 </div>
-                <div class='d-flex justify-content-center mb-4'>
+                <div class="d-flex justify-content-center mb-4">
                     <div
-                        class='btn btn-primary'
-                        @click='postStack'
+                        class="btn btn-primary"
+                        @click="postStack"
                     >
                         Deploy Stack
                     </div>
                 </div>
             </template>
             <template v-else>
-                <div class='row g-2'>
-                    <div class='col-md-12'>
+                <div class="row g-2">
+                    <div class="col-md-12">
                         <LayerTaskSelect
-                            v-model='config.task'
-                            :disabled='disabled'
-                            :updates='true'
-                            @update='taskUpdate = $event'
+                            v-model="config.task"
+                            :disabled="disabled"
+                            :updates="true"
+                            @update="taskUpdate = $event"
                         />
                         <div
-                            v-if='errors.task'
-                            class='invalid-feedback d-block'
-                            v-text='errors.task'
+                            v-if="errors.task"
+                            class="invalid-feedback d-block"
+                            v-text="errors.task"
                         />
                     </div>
 
-                    <div class='col-md-6'>
+                    <div class="col-md-6">
                         <TablerInput
-                            v-model='config.memory'
-                            label='Memory (Mb)'
-                            :disabled='disabled'
-                            type='number'
-                            min='1'
-                            step='1'
+                            v-model="config.memory"
+                            label="Memory (Mb)"
+                            :disabled="disabled"
+                            type="number"
+                            min="1"
+                            step="1"
                         />
                     </div>
-                    <div class='col-md-6'>
+                    <div class="col-md-6">
                         <TablerInput
-                            v-model='config.timeout'
-                            label='Timeout (s)'
-                            :disabled='disabled'
-                            type='number'
-                            min='1'
-                            step='1'
+                            v-model="config.timeout"
+                            label="Timeout (s)"
+                            :disabled="disabled"
+                            type="number"
+                            min="1"
+                            step="1"
                         />
                     </div>
 
                     <div
-                        v-if='!disabled'
-                        class='col-12 pt-3 d-flex'
+                        v-if="!disabled"
+                        class="col-12 pt-3 d-flex"
                     >
                         <button
-                            class='btn'
-                            @click='refresh'
+                            class="btn"
+                            @click="refresh"
                         >
                             Cancel
                         </button>
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <button
-                                class='btn btn-primary'
-                                @click='saveLayer'
+                                class="btn btn-primary"
+                                @click="saveLayer"
                             >
                                 Save
                             </button>
                         </div>
                     </div>
                     <div v-else>
-                        <label class='subheader'>Stack Status</label>
-                        <pre v-text='stack.status' />
-                        <label class='subheader'>Layer Runtime Logs</label>
-                        <pre v-text='logs' />
+                        <label class="subheader">Stack Status</label>
+                        <pre v-text="stack.status" />
+                        <label class="subheader">Layer Runtime Logs</label>
+                        <pre v-text="logs" />
                     </div>
                 </div>
             </template>
         </div>
 
         <LayerTaskUpdateModal
-            v-if='taskUpdate'
-            :layer='layer'
-            :update='taskUpdate'
-            @close='taskUpdate = undefined'
-            @updated='taskUpdated'
+            v-if="taskUpdate"
+            :layer="layer"
+            :update="taskUpdate"
+            @close="taskUpdate = undefined"
+            @updated="taskUpdated"
         />
     </div>
 </template>

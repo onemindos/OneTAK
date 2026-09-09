@@ -1,47 +1,47 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Video
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
-                    displaytype='icon'
-                    @delete='deleteAll'
+                    displaytype="icon"
+                    @delete="deleteAll"
                 />
                 <TablerRefreshButton
-                    title='Refresh'
-                    :loading='loading'
-                    @click='fetch'
+                    title="Refresh"
+                    :loading="loading"
+                    @click="fetch"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 60px'>
-            <div class='col-12 px-2 py-2'>
+        <div style="min-height: 20vh; margin-bottom: 60px">
+            <div class="col-12 px-2 py-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='list.total === 0'
-                :create='false'
-                label='No Videos'
+                v-else-if="list.total === 0"
+                :create="false"
+                label="No Videos"
             />
             <div
                 v-else
-                class='table-responsive'
+                class="table-responsive"
             >
-                <table class='table table-hover card-table table-vcenter cursor-pointer'>
+                <table class="table table-hover card-table table-vcenter cursor-pointer">
                     <thead>
                         <tr>
                             <th>Token Name</th>
@@ -51,25 +51,25 @@
                     </thead>
                     <tbody>
                         <tr
-                            v-for='lease in list.items'
-                            :key='lease.id'
+                            v-for="lease in list.items"
+                            :key="lease.id"
                         >
-                            <td v-text='lease.name' />
-                            <td><TablerEpoch :date='+new Date(lease.created)' /></td>
-                            <td><TablerEpoch :date='+new Date(lease.updated)' /></td>
+                            <td v-text="lease.name" />
+                            <td><TablerEpoch :date="+new Date(lease.created)" /></td>
+                            <td><TablerEpoch :date="+new Date(lease.updated)" /></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div
-            class='position-absolute bottom-0 w-100'
-            style='height: 60px;'
+            class="position-absolute bottom-0 w-100"
+            style="height: 60px;"
         >
             <TableFooter
-                :limit='paging.limit'
-                :total='list.total'
-                @page='paging.page = $event'
+                :limit="paging.limit"
+                :total="list.total"
+                @page="paging.page = $event"
             />
         </div>
     </div>

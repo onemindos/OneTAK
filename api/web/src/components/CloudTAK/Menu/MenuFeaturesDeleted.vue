@@ -1,123 +1,123 @@
 <template>
     <MenuTemplate
-        name='Deleted Features'
+        name="Deleted Features"
     >
         <template #buttons>
             <TablerDropdown>
                 <TablerIconButton
-                    title='Export'
+                    title="Export"
                 >
                     <IconDownload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <template #dropdown>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click.stop.prevent='download("geojson")'
                     >
                         <IconFile
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>GeoJSON</span>
+                        <span class="mx-2">GeoJSON</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click.stop.prevent='download("kml")'
                     >
                         <IconFile
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>KML</span>
+                        <span class="mx-2">KML</span>
                     </div>
                 </template>
             </TablerDropdown>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh'
+                :loading="loading"
+                @click="refresh"
             />
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='query.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
+                    v-model="query.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
                 >
                     <template #sort-icon>
-                        <template v-if='sort'>
+                        <template v-if="sort">
                             <component
-                                :is='sortTypeIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortTypeIcon"
+                                :size="20"
+                                stroke="1"
                             />
                             <component
-                                :is='sortDirectionIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortDirectionIcon"
+                                :size="20"
+                                stroke="1"
                             />
                         </template>
                         <IconArrowsSort
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                 </SearchSortFilter>
             </div>
             <TablerLoading
-                v-if='loading'
-                v-model='query.filter'
-                desc='Loading Deleted Features'
+                v-if="loading"
+                v-model="query.filter"
+                desc="Loading Deleted Features"
             />
             <TablerNone
-                v-else-if='list.features.length === 0'
-                :create='false'
-                label='No Archived Features'
+                v-else-if="list.features.length === 0"
+                :create="false"
+                label="No Archived Features"
             />
             <template v-else>
                 <GenericSelect
-                    ref='select'
-                    role='menu'
-                    :disabled='false'
-                    :hover='false'
-                    :sticky-controls='true'
-                    :items='list.features'
+                    ref="select"
+                    role="menu"
+                    :disabled="false"
+                    :hover="false"
+                    :sticky-controls="true"
+                    :items="list.features"
                 >
-                    <template #buttons='{disabled}'>
+                    <template #buttons="{disabled}">
                         <TablerIconButton
-                            title='Restore Features'
-                            :disabled='disabled'
-                            @click.stop='restoreFeatures'
+                            title="Restore Features"
+                            :disabled="disabled"
+                            @click.stop="restoreFeatures"
                         >
                             <IconRestore
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </template>
-                    <template #item='{ item }'>
+                    <template #item="{ item }">
                         <FeatureRow
-                            :id='item.id'
-                            :select='false'
-                            :grip-handle='false'
-                            :delete-button='false'
-                            :info-button='false'
-                            :feature='item'
+                            :id="item.id"
+                            :select="false"
+                            :grip-handle="false"
+                            :delete-button="false"
+                            :info-button="false"
+                            :feature="item"
                         />
                     </template>
                 </GenericSelect>
-                <div class='d-flex justify-content-center mt-2'>
+                <div class="d-flex justify-content-center mt-2">
                     <TablerPager
-                        :page='query.page'
-                        :total='total'
-                        :limit='query.limit'
-                        @page='query.page = $event'
+                        :page="query.page"
+                        :total="total"
+                        :limit="query.limit"
+                        @page="query.page = $event"
                     />
                 </div>
             </template>

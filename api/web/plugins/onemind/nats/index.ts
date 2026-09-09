@@ -1,6 +1,6 @@
 import { h } from 'vue';
 import type { App } from 'vue';
-import type { PluginAPI, PluginInstance } from '../../plugin';
+import type { PluginAPI, PluginInstance } from '../../../plugin';
 import MenuTemplate from './lib/MenuTemplate.vue';
 import NatsConsole from './lib/NatsConsole/NatsConsole.vue';
 import NatsBottomBar from './lib/NatsBottomBar.vue';

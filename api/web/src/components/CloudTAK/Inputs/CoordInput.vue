@@ -1,42 +1,42 @@
 <template>
-    <TablerModal size='md'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="md">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 Coordinate Entry
             </div>
         </div>
-        <div class='modal-body text-body'>
-            <div class='mx-2 my-2'>
+        <div class="modal-body text-body">
+            <div class="mx-2 my-2">
                 <TablerInput
-                    v-model='config.name'
-                    label='Name'
-                    @submit='submitPoint'
+                    v-model="config.name"
+                    label="Name"
+                    @submit="submitPoint"
                 />
             </div>
 
             <Coordinate
-                v-model='config.coordinates'
-                :edit='true'
-                :hover='true'
-                @submit='submitPoint'
+                v-model="config.coordinates"
+                :edit="true"
+                :hover="true"
+                @submit="submitPoint"
             />
-            <Div class='d-flex justify-content-center'>
+            <Div class="d-flex justify-content-center">
                 <CoordinateType
-                    v-model='config.type'
-                    class='pt-3'
-                    :size='24'
+                    v-model="config.type"
+                    class="pt-3"
+                    :size="24"
                 />
             </div>
             <button
-                class='btn btn-primary w-100 mt-3'
-                @click='submitPoint'
+                class="btn btn-primary w-100 mt-3"
+                @click="submitPoint"
             >
                 Save
             </button>

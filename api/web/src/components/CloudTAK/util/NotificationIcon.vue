@@ -1,33 +1,33 @@
 <template>
     <IconAlertTriangle
-        v-if='type === NotificationType.Alert'
-        :size='props.size'
-        stroke='1'
+        v-if="type === NotificationType.Alert"
+        :size="props.size"
+        stroke="1"
     />
     <IconHeartbeat
-        v-else-if='type === NotificationType.Medical'
-        :size='props.size'
-        stroke='1'
+        v-else-if="type === NotificationType.Medical"
+        :size="props.size"
+        stroke="1"
     />
     <IconMessage
-        v-else-if='type === NotificationType.Chat'
-        :size='props.size'
-        stroke='1'
+        v-else-if="type === NotificationType.Chat"
+        :size="props.size"
+        stroke="1"
     />
     <IconUser
-        v-else-if='type === NotificationType.Contact'
-        :size='props.size'
-        stroke='1'
+        v-else-if="type === NotificationType.Contact"
+        :size="props.size"
+        stroke="1"
     />
     <IconAmbulance
-        v-else-if='type === NotificationType.Mission'
-        :size='props.size'
-        stroke='1'
+        v-else-if="type === NotificationType.Mission"
+        :size="props.size"
+        stroke="1"
     />
     <IconCircleDot
         v-else
-        :size='props.size'
-        stroke='1'
+        :size="props.size"
+        stroke="1"
     />
 </template>
 <script setup lang='ts'>

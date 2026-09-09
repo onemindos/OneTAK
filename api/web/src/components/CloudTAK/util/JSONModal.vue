@@ -1,26 +1,26 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-green' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-green" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
+        <div class="modal-header text-body">
             <div
-                class='modal-title'
-                v-text='title'
+                class="modal-title"
+                v-text="title"
             />
         </div>
-        <div class='modal-body overflow-auto'>
+        <div class="modal-body overflow-auto">
             <CopyField
-                v-model='json'
-                :rows='10'
-                :pre='true'
+                v-model="json"
+                :rows="10"
+                :pre="true"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <TablerButton @click='emit("close")'>
                 Done
             </TablerButton>

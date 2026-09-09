@@ -1,46 +1,46 @@
 <template>
-    <div class='d-flex align-items-center gap-2'>
+    <div class="d-flex align-items-center gap-2">
         <span
             :class='{ "drop-target": droppable && hoverDepth === 0 }'
-            class='d-inline-flex rounded'
-            @dragover='onDragOver(0, $event)'
-            @dragleave='hoverDepth = undefined'
-            @drop='onDrop(0, $event)'
+            class="d-inline-flex rounded"
+            @dragover="onDragOver(0, $event)"
+            @dragleave="hoverDepth = undefined"
+            @drop="onDrop(0, $event)"
         >
             <TablerIconButton
-                title='Home'
-                @click='navigateTo(0)'
+                title="Home"
+                @click="navigateTo(0)"
             >
                 <IconFolder
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
             </TablerIconButton>
         </span>
 
         <template
-            v-for='(segment, idx) in displaySegments'
-            :key='`${idx}-${segment}`'
+            v-for="(segment, idx) in displaySegments"
+            :key="`${idx}-${segment}`"
         >
             <IconChevronRight
-                :size='20'
-                stroke='1'
-                class='text-white-50'
+                :size="20"
+                stroke="1"
+                class="text-white-50"
             />
 
             <span
-                class='fw-semibold cursor-pointer hover-opacity rounded px-1'
+                class="fw-semibold cursor-pointer hover-opacity rounded px-1"
                 :class='{ "drop-target": droppable && hoverDepth === idx + 1 }'
-                @dragover='onDragOver(idx + 1, $event)'
-                @dragleave='hoverDepth = undefined'
-                @drop='onDrop(idx + 1, $event)'
-                @click='navigateTo(idx + 1)'
+                @dragover="onDragOver(idx + 1, $event)"
+                @dragleave="hoverDepth = undefined"
+                @drop="onDrop(idx + 1, $event)"
+                @click="navigateTo(idx + 1)"
             >{{ segment }}</span>
         </template>
 
         <span
-            v-if='!displaySegments.length'
-            class='small text-white-50'
+            v-if="!displaySegments.length"
+            class="small text-white-50"
         >/</span>
     </div>
 </template>

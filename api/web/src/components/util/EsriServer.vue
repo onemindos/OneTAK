@@ -1,100 +1,100 @@
 <template>
-    <div class='border py-2 mx-2'>
-        <div class='d-flex'>
+    <div class="border py-2 mx-2">
+        <div class="d-flex">
             <h1
-                class='subheader px-3 col-9 text-truncate'
-                v-text='server'
+                class="subheader px-3 col-9 text-truncate"
+                v-text="server"
             />
 
-            <div class='ms-auto btn-list mx-3'>
+            <div class="ms-auto btn-list mx-3">
                 <TablerIconButton
-                    v-if='!disabled && !err && !loading'
-                    title='Refresh'
-                    @click='getList'
+                    v-if="!disabled && !err && !loading"
+                    title="Refresh"
+                    @click="getList"
                 >
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    v-if='!disabled && !err && !loading'
-                    title='Back'
-                    @click='back'
+                    v-if="!disabled && !err && !loading"
+                    title="Back"
+                    @click="back"
                 >
                     <IconArrowBack
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    v-if='!disabled'
-                    title='Close Explorer'
+                    v-if="!disabled"
+                    title="Close Explorer"
                     @click='$emit("close")'
                 >
                     <IconX
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
-        <template v-if='err'>
+        <template v-if="err">
             <TablerAlert
-                title='ESRI Connection Error'
-                :err='err'
-                :compact='true'
+                title="ESRI Connection Error"
+                :err="err"
+                :compact="true"
             />
         </template>
-        <template v-else-if='loading'>
-            <TablerLoading desc='Connecting to ESRI Server' />
+        <template v-else-if="loading">
+            <TablerLoading desc="Connecting to ESRI Server" />
         </template>
-        <template v-else-if='!container'>
-            <template v-if='list.length === 0'>
+        <template v-else-if="!container">
+            <template v-if="list.length === 0">
                 <TablerNone
-                    :compact='true'
-                    :create='false'
-                    label='No Services'
+                    :compact="true"
+                    :create="false"
+                    label="No Services"
                 />
             </template>
             <template v-else>
-                <div class='table-responsive'>
-                    <table class='table table-hover card-table table-vcenter cursor-pointer'>
+                <div class="table-responsive">
+                    <table class="table table-hover card-table table-vcenter cursor-pointer">
                         <thead><tr><th>Name</th></tr></thead>
                         <tbody>
                             <tr
-                                v-for='l in list'
-                                :key='l.id'
-                                @click='listpath.push(l)'
+                                v-for="l in list"
+                                :key="l.id"
+                                @click="listpath.push(l)"
                             >
                                 <td>
-                                    <div class='d-flex align-items-center'>
+                                    <div class="d-flex align-items-center">
                                         <template v-if='l.type === "folder"'>
                                             <IconFolder
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
                                             <span
-                                                class='mx-3'
-                                                v-text='l.name'
+                                                class="mx-3"
+                                                v-text="l.name"
                                             />
                                         </template>
                                         <template v-else>
                                             <IconMap
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
                                             <span
-                                                class='mx-3'
-                                                v-text='l.name'
+                                                class="mx-3"
+                                                v-text="l.name"
                                             />
                                             <TablerBadge
-                                                class='ms-auto'
-                                                background-color='rgba(107, 114, 128, 0.2)'
-                                                border-color='rgba(107, 114, 128, 0.5)'
-                                                text-color='#6b7280'
+                                                class="ms-auto"
+                                                background-color="rgba(107, 114, 128, 0.2)"
+                                                border-color="rgba(107, 114, 128, 0.5)"
+                                                text-color="#6b7280"
                                             >
                                                 {{ l.type }}
                                             </TablerBadge>
@@ -108,22 +108,22 @@
             </template>
         </template>
         <template v-else>
-            <div class='datagrid mx-4'>
+            <div class="datagrid mx-4">
                 <template v-for='ele in ["description", "currentVersion", "spatialReference"]'>
-                    <div class='datagrid-item'>
+                    <div class="datagrid-item">
                         <div
-                            class='datagrid-title'
-                            v-text='ele'
+                            class="datagrid-title"
+                            v-text="ele"
                         />
                         <template v-if='ele === "spatialReference"'>
                             <div
-                                class='datagrid-content'
+                                class="datagrid-content"
                                 v-text='`${(container[ele] as Record<string, unknown>)?.wkid} ${(container[ele] as Record<string, unknown>)?.latestWkid ? "(" + (container[ele] as Record<string, unknown>)?.latestWkid + ")" : ""}`'
                             />
                         </template>
                         <template v-else>
                             <div
-                                class='datagrid-content'
+                                class="datagrid-content"
                                 v-text='container[ele] || "Unknown"'
                             />
                         </template>
@@ -131,18 +131,18 @@
                 </template>
             </div>
 
-            <template v-if='container.layers.length === 0'>
+            <template v-if="container.layers.length === 0">
                 <TablerNone
-                    :compact='true'
-                    :create='!disabled'
-                    label='No Layers'
-                    @create='createLayer'
+                    :compact="true"
+                    :create="!disabled"
+                    label="No Layers"
+                    @create="createLayer"
                 />
             </template>
             <template v-else>
-                <div class='table-responsive'>
+                <div class="table-responsive">
                     <table
-                        class='table card-table table-vcenter'
+                        class="table card-table table-vcenter"
                         :class='{
                             "table-hover cursor-pointer": !disabled
                         }'
@@ -150,46 +150,46 @@
                         <thead><tr><th>Name</th></tr></thead>
                         <tbody>
                             <tr
-                                v-for='lyr in container.layers'
-                                :key='lyr.id'
-                                @click='!disabled && (layer && layer.id === lyr.id) ? layer = null : layer = lyr'
+                                v-for="lyr in container.layers"
+                                :key="lyr.id"
+                                @click="!disabled && (layer && layer.id === lyr.id) ? layer = null : layer = lyr"
                             >
                                 <td>
-                                    <div class='d-flex align-items-center'>
+                                    <div class="d-flex align-items-center">
                                         <IconMapPin
                                             v-if='lyr.geometryType === "esriGeometryPoint"'
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                         <IconLine
                                             v-else-if='lyr.geometryType === "esriGeometryPolyline"'
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                         <IconPolygon
                                             v-else-if='lyr.geometryType === "esriGeometryPolygon"'
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                         <IconMap
                                             v-else
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         /><span
-                                            class='mx-3'
-                                            v-text='lyr.name'
+                                            class="mx-3"
+                                            v-text="lyr.name"
                                         />
-                                        <div class='ms-auto btn-list'>
+                                        <div class="ms-auto btn-list">
                                             <IconCheck
-                                                v-if='layer && Number(layer.id) === lyr.id'
-                                                :size='32'
-                                                stroke='1'
+                                                v-if="layer && Number(layer.id) === lyr.id"
+                                                :size="32"
+                                                stroke="1"
                                             />
                                             <TablerDelete
-                                                v-if='!readonly && !disabled'
-                                                displaytype='icon'
-                                                label='Delete Layer'
-                                                @delete='deleteLayer(lyr)'
+                                                v-if="!readonly && !disabled"
+                                                displaytype="icon"
+                                                label="Delete Layer"
+                                                @delete="deleteLayer(lyr)"
                                             />
                                         </div>
                                     </div>

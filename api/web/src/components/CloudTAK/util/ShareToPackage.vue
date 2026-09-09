@@ -1,102 +1,102 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-red' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='d-flex align-items-center'>
+        <div class="modal-header text-body">
+            <div class="d-flex align-items-center">
                 <IconPackage
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
-                <span class='mx-2'>Create Data Package</span>
+                <span class="mx-2">Create Data Package</span>
             </div>
         </div>
-        <div class='modal-body text-body'>
-            <TablerLoading v-if='loading' />
+        <div class="modal-body text-body">
+            <TablerLoading v-if="loading" />
             <div
                 v-else
-                class='row mx-2'
+                class="row mx-2"
             >
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='body.name'
-                        label='Name'
+                        v-model="body.name"
+                        label="Name"
                     />
                 </div>
-                <div class='col-12 pt-3'>
-                    <label class='mx-2 user-select-none'>Contents:</label>
+                <div class="col-12 pt-3">
+                    <label class="mx-2 user-select-none">Contents:</label>
 
                     <div
-                        v-if='props.upload'
-                        class='mb-2'
+                        v-if="props.upload"
+                        class="mb-2"
                     >
                         <Upload
-                            ref='upload'
-                            :cancel='false'
-                            :url='uploadUrl'
-                            :autoupload='false'
-                            @staged='stageUpload($event)'
+                            ref="upload"
+                            :cancel="false"
+                            :url="uploadUrl"
+                            :autoupload="false"
+                            @staged="stageUpload($event)"
                         />
                     </div>
                     <div
-                        v-else-if='props.feats.length !== 0 || props.assets.length !== 0'
-                        class='col-12 overflow-auto'
-                        style='
+                        v-else-if="props.feats.length !== 0 || props.assets.length !== 0"
+                        class="col-12 overflow-auto"
+                        style="
                             max-height: 20vh;
-                        '
+                        "
                     >
                         <div
-                            v-for='asset of props.assets'
-                            class='d-flex align-items-center px-3 py-2'
+                            v-for="asset of props.assets"
+                            class="d-flex align-items-center px-3 py-2"
                         >
                             <IconFile
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                             <span
-                                class='mx-2 user-select-none'
-                                v-text='asset.name'
+                                class="mx-2 user-select-none"
+                                v-text="asset.name"
                             />
                         </div>
                         <FeatureRow
-                            v-for='feat of props.feats'
-                            :key='feat.id'
-                            :feature='feat'
-                            :hover='false'
-                            :delete-button='false'
+                            v-for="feat of props.feats"
+                            :key="feat.id"
+                            :feature="feat"
+                            :hover="false"
+                            :delete-button="false"
                         />
                     </div>
                     <TablerNone
                         v-else
-                        :compact='true'
-                        :create='false'
-                        label='No Contents'
+                        :compact="true"
+                        :create="false"
+                        label="No Contents"
                     />
                 </div>
 
                 <GroupSelect
-                    v-model='body.groups'
-                    :active='true'
-                    direction='IN'
+                    v-model="body.groups"
+                    :active="true"
+                    direction="IN"
                 />
 
                 <Keywords
-                    placeholder='Hashtags'
-                    :keywords='body.keywords'
-                    :relevant='[]'
-                    @update:keywords='body.keywords = $event'
+                    placeholder="Hashtags"
+                    :keywords="body.keywords"
+                    :relevant="[]"
+                    @update:keywords="body.keywords = $event"
                 />
 
-                <div class='col-12 pt-3'>
+                <div class="col-12 pt-3">
                     <TablerButton
-                        class='w-100 btn-primary'
-                        :disabled='createDisabled'
-                        @click='share'
+                        class="w-100 btn-primary"
+                        :disabled="createDisabled"
+                        @click="share"
                     >
                         Create
                     </TablerButton>

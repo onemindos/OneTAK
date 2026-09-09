@@ -1,45 +1,45 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <IconMountain
-            :size='18'
-            stroke='1'
-            color='#6b7990'
-            class='ms-2 me-1'
+            :size="18"
+            stroke="1"
+            color="#6b7990"
+            class="ms-2 me-1"
         />
         <label
-            class='subheader user-select-none'
-            v-text='props.label'
+            class="subheader user-select-none"
+            v-text="props.label"
         />
-        <div class='mx-2'>
+        <div class="mx-2">
             <CopyField
-                v-model='inMode'
-                :size='24'
+                v-model="inMode"
+                :size="24"
             />
             <div
-                class='mx-2'
-                role='menu'
+                class="mx-2"
+                role="menu"
             >
                 <span
-                    class='my-1 px-2 user-select-none'
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "feet",
                         "cursor-pointer": mode !== "feet",
                     }'
-                    title='Feet'
-                    role='menuitem'
-                    tabindex='0'
+                    title="Feet"
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "feet"'
                     @click='mode = "feet"'
                 >Feet</span>
                 <span
-                    class='my-1 px-2 user-select-none'
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "meter",
                         "cursor-pointer": mode !== "meter",
                     }'
-                    title='Meters'
-                    role='menuitem'
-                    tabindex='0'
+                    title="Meters"
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "meter"'
                     @click='mode = "meter"'
                 >Meters</span>

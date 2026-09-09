@@ -1,39 +1,39 @@
 <template>
-    <router-view v-if='appStore.isMobileDetected' />
+    <router-view v-if="appStore.isMobileDetected" />
     <template v-else>
         <div
-            ref='container'
-            class='position-absolute end-0 bottom-0 start-0'
+            ref="container"
+            class="position-absolute end-0 bottom-0 start-0"
             :class='{
                 "start-0 end-0 top-0 bottom-0": resizing
             }'
         />
         <div
-            class='position-absolute cloudtak-panel d-flex'
-            role='menubar'
-            style='
+            class="position-absolute cloudtak-panel d-flex"
+            role="menubar"
+            style="
                 z-index: 4;
                 right: 8px;
                 top: calc(76px + var(--status-bar-height, 0px));
                 bottom: calc(8px + var(--map-bottom-bar-size, 50px));
-            '
+            "
             :style='`
                 width: ${compact ? "var(--map-compact-menu-size, 60px)" : `${menuWidth}px`};
                 min-width: ${compact ? "var(--map-compact-menu-size, 60px)" : `400px`};
             `'
         >
             <div
-                v-if='!compact'
-                ref='resize'
-                class='resize cloudtak-panel cloudtak-hover cursor-drag'
+                v-if="!compact"
+                ref="resize"
+                class="resize cloudtak-panel cloudtak-hover cursor-drag"
             />
             <div
-                ref='menu'
-                class='position-relative w-100 h-100 px-0 main-menu-surface'
+                ref="menu"
+                class="position-relative w-100 h-100 px-0 main-menu-surface"
             >
                 <MainMenuContents
-                    v-if='compact'
-                    :compact='true'
+                    v-if="compact"
+                    :compact="true"
                 />
                 <router-view v-else />
             </div>

@@ -1,66 +1,66 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <IconPolygon
-            :size='18'
-            stroke='1'
-            color='#6b7990'
-            class='ms-2 me-1'
+            :size="18"
+            stroke="1"
+            color="#6b7990"
+            class="ms-2 me-1"
         />
-        <label class='subheader user-select-none'>Polygon Area</label>
-        <div class='mx-2'>
+        <label class="subheader user-select-none">Polygon Area</label>
+        <div class="mx-2">
             <CopyField
-                v-model='inMode'
-                :size='24'
+                v-model="inMode"
+                :size="24"
             />
             <div
-                class='mx-2'
-                role='menu'
+                class="mx-2"
+                role="menu"
             >
                 <span
-                    title='Square Feet'
-                    class='my-1 px-2 user-select-none'
+                    title="Square Feet"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "sqfeet",
                         "cursor-pointer": mode !== "sqfeet",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "sqfeet"'
                     @click='mode = "sqfeet"'
                 >Feet<sup>2</sup></span>
                 <span
-                    title='Square Meters'
-                    class='my-1 px-2 user-select-none'
+                    title="Square Meters"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "sqmeter",
                         "cursor-pointer": mode !== "sqmeter",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "sqmeter"'
                     @click='mode = "sqmeter"'
                 >Meters<sup>2</sup></span>
                 <span
-                    title='Acres'
-                    class='my-1 px-2 user-select-none'
+                    title="Acres"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom": mode === "acre",
                         "cursor-pointer": mode !== "acre",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "acre"'
                     @click='mode = "acre"'
                 >Acres</span>
                 <span
-                    title='Hectare'
-                    class='my-1 px-2 user-select-none'
+                    title="Hectare"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom": mode === "ha",
                         "cursor-pointer": mode !== "ha",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "ha"'
                     @click='mode = "ha"'
                 >Ha</span>

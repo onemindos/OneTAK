@@ -1,90 +1,90 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Terrain Profile'
+            v-model="expanded"
+            label="Terrain Profile"
         >
             <template #icon>
                 <IconChartLine
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <TablerBadge
-                    v-if='profile'
-                    class='me-2'
-                    background-color='rgba(59, 130, 246, 0.15)'
-                    border-color='rgba(59, 130, 246, 0.4)'
-                    text-color='#3b82f6'
+                    v-if="profile"
+                    class="me-2"
+                    background-color="rgba(59, 130, 246, 0.15)"
+                    border-color="rgba(59, 130, 246, 0.4)"
+                    text-color="#3b82f6"
                 >
                     Generated
                 </TablerBadge>
             </template>
 
-            <div class='overflow-hidden mb-2'>
-                <div class='cloudtak-accent rounded mx-2 mt-2 px-2 py-2'>
+            <div class="overflow-hidden mb-2">
+                <div class="cloudtak-accent rounded mx-2 mt-2 px-2 py-2">
                     <TablerLoading
-                        v-if='loading'
-                        desc='Loading terrain profile'
+                        v-if="loading"
+                        desc="Loading terrain profile"
                     />
 
                     <div
-                        v-else-if='error'
-                        class='px-1 py-1 text-danger'
+                        v-else-if="error"
+                        class="px-1 py-1 text-danger"
                     >
                         {{ error }}
                     </div>
 
                     <div
-                        v-else-if='!stats'
-                        class='px-1 py-1 text-muted'
+                        v-else-if="!stats"
+                        class="px-1 py-1 text-muted"
                     >
                         No terrain samples are available for this line.
                     </div>
 
                     <template v-else>
-                        <div class='row g-2'>
-                            <div class='col-sm-6 col-xl-3'>
-                                <div class='profile-stat rounded px-2 py-2'>
-                                    <div class='subheader'>
+                        <div class="row g-2">
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="profile-stat rounded px-2 py-2">
+                                    <div class="subheader">
                                         Distance
                                     </div>
-                                    <div class='fw-semibold'>
+                                    <div class="fw-semibold">
                                         {{ formatDistance(stats.distanceKm) }}
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-6 col-xl-3'>
-                                <div class='profile-stat rounded px-2 py-2'>
-                                    <div class='subheader'>
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="profile-stat rounded px-2 py-2">
+                                    <div class="subheader">
                                         Min / Max
                                     </div>
-                                    <div class='fw-semibold'>
+                                    <div class="fw-semibold">
                                         {{ formatElevation(stats.minElevation) }} / {{ formatElevation(stats.maxElevation) }}
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-6 col-xl-3'>
-                                <div class='profile-stat rounded px-2 py-2'>
-                                    <div class='subheader'>
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="profile-stat rounded px-2 py-2">
+                                    <div class="subheader">
                                         Gain
                                     </div>
-                                    <div class='fw-semibold text-success d-flex align-items-center gap-1'>
-                                        <IconArrowUp :size='16' />
+                                    <div class="fw-semibold text-success d-flex align-items-center gap-1">
+                                        <IconArrowUp :size="16" />
                                         {{ formatElevation(stats.gain) }}
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-6 col-xl-3'>
-                                <div class='profile-stat rounded px-2 py-2'>
-                                    <div class='subheader'>
+                            <div class="col-sm-6 col-xl-3">
+                                <div class="profile-stat rounded px-2 py-2">
+                                    <div class="subheader">
                                         Loss
                                     </div>
-                                    <div class='fw-semibold text-danger d-flex align-items-center gap-1'>
-                                        <IconArrowDown :size='16' />
+                                    <div class="fw-semibold text-danger d-flex align-items-center gap-1">
+                                        <IconArrowDown :size="16" />
                                         {{ formatElevation(stats.loss) }}
                                     </div>
                                 </div>
@@ -92,10 +92,10 @@
                         </div>
 
                         <div
-                            ref='shellRef'
-                            class='profile-chart-shell mt-2'
+                            ref="shellRef"
+                            class="profile-chart-shell mt-2"
                         >
-                            <canvas ref='canvasRef' />
+                            <canvas ref="canvasRef" />
                         </div>
                     </template>
                 </div>

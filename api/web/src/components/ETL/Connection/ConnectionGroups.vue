@@ -1,41 +1,41 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 User Groups
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetch'
+                    :loading="loading"
+                    @click="fetch"
                 />
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 60px'>
-            <div class='col-12 px-2 py-2'>
+        <div style="min-height: 20vh; margin-bottom: 60px">
+            <div class="col-12 px-2 py-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!Object.keys(processChannels).length'
-                :create='false'
-                label='No Channels'
+                v-else-if="!Object.keys(processChannels).length"
+                :create="false"
+                label="No Channels"
             />
             <div
                 v-else
-                class='table-responsive'
+                class="table-responsive"
             >
-                <table class='table card-table table-hover table-vcenter'>
+                <table class="table card-table table-hover table-vcenter">
                     <thead>
                         <tr>
                             <th>Group Name</th>
@@ -45,64 +45,64 @@
                     </thead>
                     <tbody>
                         <tr
-                            v-for='group in processChannels'
-                            :key='group.name'
+                            v-for="group in processChannels"
+                            :key="group.name"
                         >
                             <td>
-                                <div class='d-flex align-items-center'>
+                                <div class="d-flex align-items-center">
                                     <TablerIconButton
-                                        v-if='group.active'
-                                        title='Disable'
-                                        @click='setStatus(group, false)'
+                                        v-if="group.active"
+                                        title="Disable"
+                                        @click="setStatus(group, false)"
                                     >
                                         <IconEye
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                     <TablerIconButton
                                         v-else
-                                        title='Enable'
-                                        @click='setStatus(group, true)'
+                                        title="Enable"
+                                        @click="setStatus(group, true)"
                                     >
                                         <IconEyeOff
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                     <span
-                                        class='mx-2'
-                                        v-text='group.name'
+                                        class="mx-2"
+                                        v-text="group.name"
                                     />
                                 </div>
                             </td>
-                            <td v-text='group.description' />
+                            <td v-text="group.description" />
                             <td>
                                 <span
-                                    v-if='group.direction.length === 2'
-                                    title='Bi-Directional'
+                                    v-if="group.direction.length === 2"
+                                    title="Bi-Directional"
                                 >
                                     <IconLocation
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                                 <span
                                     v-else-if='group.direction.includes("IN")'
-                                    title='Location Sharing'
+                                    title="Location Sharing"
                                 >
                                     <IconLocation
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                                 <span
                                     v-else-if='group.direction.includes("OUT")'
-                                    title='No Location Sharing'
+                                    title="No Location Sharing"
                                 >
                                     <IconLocationOff
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                             </td>

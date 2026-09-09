@@ -1,105 +1,105 @@
 <template>
     <MenuTemplate
-        name='Mission Layers'
-        :zindex='0'
-        :back='false'
-        :border='false'
-        :standalone='false'
+        name="Mission Layers"
+        :zindex="0"
+        :back="false"
+        :border="false"
+        :standalone="false"
     >
         <template #buttons>
             <TablerIconButton
-                v-if='!createLayer && !loading && writable'
-                title='New Mission Layer'
-                :size='24'
-                @click='createLayer = true'
+                v-if="!createLayer && !loading && writable"
+                title="New Mission Layer"
+                :size="24"
+                @click="createLayer = true"
             >
                 <IconFolderPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh'
+                :loading="loading"
+                @click="refresh"
             />
         </template>
 
-        <div class='col-12'>
+        <div class="col-12">
             <TablerLoading
-                v-if='loading'
-                class='mx-2'
-                desc='Loading Layers...'
+                v-if="loading"
+                class="mx-2"
+                desc="Loading Layers..."
             />
             <template v-else>
                 <div
-                    v-if='createLayer'
-                    class='col-12 px-2 pb-4'
+                    v-if="createLayer"
+                    class="col-12 px-2 pb-4"
                 >
                     <MissionLayerCreate
-                        :subscription='props.subscription'
-                        @layer='refresh'
-                        @cancel='createLayer = false'
+                        :subscription="props.subscription"
+                        @layer="refresh"
+                        @cancel="createLayer = false"
                     />
                 </div>
                 <div
-                    v-if='editLayer'
-                    class='col-12 px-2 pb-4'
+                    v-if="editLayer"
+                    class="col-12 px-2 pb-4"
                 >
                     <MissionLayerEdit
-                        :subscription='props.subscription'
-                        :layer='editLayer'
-                        @layer='refresh'
-                        @cancel='editLayer = undefined'
+                        :subscription="props.subscription"
+                        :layer="editLayer"
+                        @layer="refresh"
+                        @cancel="editLayer = undefined"
                     />
                 </div>
 
                 <TablerAlert
-                    v-if='error'
-                    class='mx-2'
-                    :err='error'
+                    v-if="error"
+                    class="mx-2"
+                    :err="error"
                 />
 
-                <div class='px-2 py-2'>
+                <div class="px-2 py-2">
                     <PathBreadcrumb
-                        :segments='crumbNames'
-                        :droppable='writable'
-                        @navigate='navigateToDepth'
-                        @segment-drop='onBreadcrumbDrop'
+                        :segments="crumbNames"
+                        :droppable="writable"
+                        @navigate="navigateToDepth"
+                        @segment-drop="onBreadcrumbDrop"
                     />
                 </div>
 
                 <TablerNone
-                    v-if='!currentFolders.length && !currentItems.length'
-                    :create='false'
-                    :compact='true'
+                    v-if="!currentFolders.length && !currentItems.length"
+                    :create="false"
+                    :compact="true"
                     :label='pathStack.length ? "Folder is empty" : "No Layers"'
                 />
                 <template v-else>
                     <PathBrowser
-                        v-if='currentFolders.length'
-                        :nodes='currentFolders'
-                        :renamable='writable'
-                        :deletable='writable'
-                        :visibility-toggle='true'
-                        :is-node-hidden='isMissionFolderHidden'
-                        @navigate='navigateToFolder'
-                        @delete='deleteLayer'
-                        @rename='openEdit'
-                        @folder-drop='onFolderDrop'
-                        @toggle-visibility='toggleMissionFolderVisibility'
+                        v-if="currentFolders.length"
+                        :nodes="currentFolders"
+                        :renamable="writable"
+                        :deletable="writable"
+                        :visibility-toggle="true"
+                        :is-node-hidden="isMissionFolderHidden"
+                        @navigate="navigateToFolder"
+                        @delete="deleteLayer"
+                        @rename="openEdit"
+                        @folder-drop="onFolderDrop"
+                        @toggle-visibility="toggleMissionFolderVisibility"
                     />
                     <div
-                        ref='sortableItemsRef'
-                        class='mt-2'
+                        ref="sortableItemsRef"
+                        class="mt-2"
                     >
                         <FeatureRow
-                            v-for='feat of currentItems'
-                            :key='feat.id'
-                            :delete-button='writable'
-                            :info-button='true'
-                            :grip-handle='writable'
-                            :visibility-toggle='true'
-                            :feature='feat'
+                            v-for="feat of currentItems"
+                            :key="feat.id"
+                            :delete-button="writable"
+                            :info-button="true"
+                            :grip-handle="writable"
+                            :visibility-toggle="true"
+                            :feature="feat"
                         />
                     </div>
                 </template>

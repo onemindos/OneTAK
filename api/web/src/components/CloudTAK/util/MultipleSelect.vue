@@ -1,23 +1,23 @@
 <template>
     <div
-        ref='selectMenu'
-        class='cloudtak-panel p-2'
-        style='
+        ref="selectMenu"
+        class="cloudtak-panel p-2"
+        style="
             width: 200px;
-        '
+        "
     >
         <div
-            v-for='feat in mapStore.select.feats'
-            :key='feat.properties.id || feat.id'
-            role='menuitem'
-            tabindex='0'
-            class='col-12 text-white'
+            v-for="feat in mapStore.select.feats"
+            :key="feat.properties.id || feat.id"
+            role="menuitem"
+            tabindex="0"
+            class="col-12 text-white"
             @click='emit("selected", feat)'
         >
             <Feature
-                :feature='feat'
-                :compact='true'
-                :delete-button='false'
+                :feature="feat"
+                :compact="true"
+                :delete-button="false"
             />
         </div>
     </div>

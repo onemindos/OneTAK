@@ -1,41 +1,41 @@
 <template>
     <MenuTemplate
-        name='Mission Subscribers'
-        :back='false'
-        :border='false'
-        :loading='loading'
-        :standalone='false'
+        name="Mission Subscribers"
+        :back="false"
+        :border="false"
+        :loading="loading"
+        :standalone="false"
     >
         <template #buttons>
             <TablerDropdown
-                v-if='canInvite'
+                v-if="canInvite"
             >
                 <TablerIconButton
-                    title='Invite User'
+                    title="Invite User"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <template #dropdown>
                     <div
-                        class='px-2 py-2'
-                        style='min-width: 250px;'
+                        class="px-2 py-2"
+                        style="min-width: 250px;"
                     >
-                        <span class='strong'>Invite User</span>
+                        <span class="strong">Invite User</span>
                         <UserClientSelect
-                            v-model='inviteUsername'
-                            :input='true'
-                            placeholder='Username'
+                            v-model="inviteUsername"
+                            :input="true"
+                            placeholder="Username"
                             :groups='typeof subscription.meta.groups === "string" ? [subscription.meta.groups] : subscription.meta.groups'
                             @click.stop
-                            @select='inviteUser($event)'
+                            @select="inviteUser($event)"
                         />
                         <button
-                            class='btn btn-primary w-100 mt-2'
-                            :disabled='!inviteUsername'
-                            @click.stop='inviteUser()'
+                            class="btn btn-primary w-100 mt-2"
+                            :disabled="!inviteUsername"
+                            @click.stop="inviteUser()"
                         >
                             Invite
                         </button>
@@ -44,74 +44,74 @@
             </TablerDropdown>
         </template>
 
-        <div class='col-12 px-2 py-2'>
+        <div class="col-12 px-2 py-2">
             <TablerInput
-                v-model='filter'
-                icon='search'
-                placeholder='Filter'
+                v-model="filter"
+                icon="search"
+                placeholder="Filter"
             />
         </div>
 
-        <Offline v-if='isOffline' />
+        <Offline v-if="isOffline" />
         <template v-else>
             <div
-                v-if='invites.length'
-                class='col-12 px-2 py-2'
+                v-if="invites.length"
+                class="col-12 px-2 py-2"
             >
                 <StandardItem
-                    class='d-flex flex-column px-2 py-2'
-                    @click='showInvites = !showInvites'
+                    class="d-flex flex-column px-2 py-2"
+                    @click="showInvites = !showInvites"
                 >
-                    <div class='d-flex align-items-center gap-2'>
+                    <div class="d-flex align-items-center gap-2">
                         <IconMail
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
-                        <span class='fw-bold'>Pending Invites</span>
+                        <span class="fw-bold">Pending Invites</span>
                         <TablerBadge
-                            class='rounded-pill small ms-auto'
-                            background-color='var(--tblr-red-lt)'
-                            border-color='var(--tblr-red)'
-                            text-color='var(--tblr-red)'
+                            class="rounded-pill small ms-auto"
+                            background-color="var(--tblr-red-lt)"
+                            border-color="var(--tblr-red)"
+                            text-color="var(--tblr-red)"
                         >
                             {{ invites.length }}
                         </TablerBadge>
                         <IconChevronDown
-                            v-if='!showInvites'
-                            :size='20'
-                            stroke='1'
-                            class='ms-2'
+                            v-if="!showInvites"
+                            :size="20"
+                            stroke="1"
+                            class="ms-2"
                         />
                         <IconChevronUp
                             v-else
-                            :size='20'
-                            stroke='1'
-                            class='ms-2'
+                            :size="20"
+                            stroke="1"
+                            class="ms-2"
                         />
                     </div>
 
-                    <transition name='menu-overlays-fade'>
+                    <transition name="menu-overlays-fade">
                         <div
-                            v-if='showInvites'
-                            class='mt-2 pt-2 px-3 rounded-3 border cloudtak-accent'
+                            v-if="showInvites"
+                            class="mt-2 pt-2 px-3 rounded-3 border cloudtak-accent"
                             @click.stop
                         >
                             <div
-                                v-for='invite in invites'
-                                :key='invite.invitee'
-                                class='d-flex align-items-center justify-content-between mb-2'
+                                v-for="invite in invites"
+                                :key="invite.invitee"
+                                class="d-flex align-items-center justify-content-between mb-2"
                             >
-                                <div class='d-flex flex-column'>
-                                    <div v-text='invite.invitee' />
+                                <div class="d-flex flex-column">
+                                    <div v-text="invite.invitee" />
                                     <div
-                                        class='small text-muted'
+                                        class="small text-muted"
                                         v-text='invite.role ? invite.role.name : "Unknown Role"'
                                     />
                                 </div>
                                 <TablerDelete
-                                    label='Revoke Invite'
-                                    displaytype='icon'
-                                    @delete='removeInvite(invite)'
+                                    label="Revoke Invite"
+                                    displaytype="icon"
+                                    @delete="removeInvite(invite)"
                                 />
                             </div>
                         </div>
@@ -120,62 +120,62 @@
             </div>
 
             <TablerNone
-                v-if='!filteredSubscriptions.length'
-                :create='false'
-                label='No Mission Subscribers'
+                v-if="!filteredSubscriptions.length"
+                :create="false"
+                label="No Mission Subscribers"
             />
             <div
-                v-for='sub of filteredSubscriptions'
+                v-for="sub of filteredSubscriptions"
                 v-else
-                :key='sub.clientUid'
-                class='col-lg-12'
+                :key="sub.clientUid"
+                class="col-lg-12"
             >
                 <Contact
-                    :contact='toContact(sub)'
-                    @chat='router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)'
+                    :contact="toContact(sub)"
+                    @chat="router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)"
                 >
                     <template
-                        v-if='canInvite || canManageRoles'
+                        v-if="canInvite || canManageRoles"
                         #actions
                     >
-                        <div class='d-flex align-items-center gap-2'>
+                        <div class="d-flex align-items-center gap-2">
                             <TablerIconButton
-                                v-if='canManageRoles'
-                                title='Edit User'
-                                @click.stop='toggleEdit(sub.clientUid)'
+                                v-if="canManageRoles"
+                                title="Edit User"
+                                @click.stop="toggleEdit(sub.clientUid)"
                             >
                                 <IconPencil
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <TablerDelete
-                                v-if='canInvite'
-                                label='Remove User'
-                                displaytype='icon'
-                                @delete='removeUser(sub)'
+                                v-if="canInvite"
+                                label="Remove User"
+                                displaytype="icon"
+                                @delete="removeUser(sub)"
                             />
                         </div>
                     </template>
 
                     <template
-                        v-if='canManageRoles && editingUid === sub.clientUid'
+                        v-if="canManageRoles && editingUid === sub.clientUid"
                         #expanded
                     >
-                        <div class='d-flex align-items-center gap-2'>
+                        <div class="d-flex align-items-center gap-2">
                             <select
-                                class='form-select form-select-sm'
-                                style='width: auto;'
-                                :value='sub.role.type'
-                                @change='changeRole(sub, ($event.target as HTMLSelectElement).value as MissionRoleType)'
+                                class="form-select form-select-sm"
+                                style="width: auto;"
+                                :value="sub.role.type"
+                                @change="changeRole(sub, ($event.target as HTMLSelectElement).value as MissionRoleType)"
                             >
-                                <option value='MISSION_OWNER'>
+                                <option value="MISSION_OWNER">
                                     Owner
                                 </option>
-                                <option value='MISSION_SUBSCRIBER'>
+                                <option value="MISSION_SUBSCRIBER">
                                     Subscriber
                                 </option>
-                                <option value='MISSION_READONLY_SUBSCRIBER'>
+                                <option value="MISSION_READONLY_SUBSCRIBER">
                                     Read Only
                                 </option>
                             </select>

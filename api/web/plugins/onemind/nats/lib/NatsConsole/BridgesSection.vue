@@ -1,127 +1,127 @@
 <template>
-    <div class='br'>
+    <div class="br">
         <!-- Header -->
-        <div class='br-hd'>
+        <div class="br-hd">
             <GitMerge
-                :size='13'
-                class='br-acc'
+                :size="13"
+                class="br-acc"
             />
-            <span class='br-title'>BRIDGE MONITOR</span>
-            <span class='br-badge green'>LIVE {{ liveCount }}</span>
+            <span class="br-title">BRIDGE MONITOR</span>
+            <span class="br-badge green">LIVE {{ liveCount }}</span>
             <span
-                v-if='pausedCount > 0'
-                class='br-badge warn'
+                v-if="pausedCount > 0"
+                class="br-badge warn"
             >PAUSED {{ pausedCount }}</span>
             <span
-                v-if='errorCount > 0'
-                class='br-badge err'
+                v-if="errorCount > 0"
+                class="br-badge err"
             >ERROR {{ errorCount }}</span>
-            <span class='br-badge'>TOTAL {{ bridges.length }}</span>
-            <div class='br-spacer' />
+            <span class="br-badge">TOTAL {{ bridges.length }}</span>
+            <div class="br-spacer" />
             <span
-                v-if='nc'
-                class='br-rate br-mono'
+                v-if="nc"
+                class="br-rate br-mono"
             >{{ aggregateRate }} msg/s aggregate</span>
         </div>
 
         <!-- Grid -->
-        <div class='br-body'>
+        <div class="br-body">
             <div
-                v-if='!nc'
-                class='br-empty'
+                v-if="!nc"
+                class="br-empty"
             >
                 <GitMerge
-                    :size='24'
-                    class='br-empty-icon'
+                    :size="24"
+                    class="br-empty-icon"
                 />
                 <span>CONNECT TO NATS TO MONITOR BRIDGES</span>
             </div>
             <div
                 v-else
-                class='br-grid'
+                class="br-grid"
             >
                 <div
-                    v-for='bridge in bridges'
-                    :key='bridge.id'
-                    class='br-card'
-                    :class='bridge.status'
+                    v-for="bridge in bridges"
+                    :key="bridge.id"
+                    class="br-card"
+                    :class="bridge.status"
                 >
                     <!-- Card header -->
-                    <div class='br-card-hd'>
+                    <div class="br-card-hd">
                         <div
-                            class='br-icon-wrap'
-                            :class='bridge.status'
+                            class="br-icon-wrap"
+                            :class="bridge.status"
                         >
                             <component
-                                :is='bridge.icon'
-                                :size='14'
+                                :is="bridge.icon"
+                                :size="14"
                             />
                         </div>
-                        <div class='br-card-info'>
-                            <div class='br-card-name'>
+                        <div class="br-card-info">
+                            <div class="br-card-name">
                                 {{ bridge.name }}
                             </div>
-                            <div class='br-card-subj br-mono'>
+                            <div class="br-card-subj br-mono">
                                 {{ bridge.natsSubject }}
                             </div>
                         </div>
                         <div
-                            class='br-status-pill'
-                            :class='bridge.status'
+                            class="br-status-pill"
+                            :class="bridge.status"
                         >
                             <div
-                                class='br-dot'
-                                :class='bridge.status'
+                                class="br-dot"
+                                :class="bridge.status"
                             />
                             {{ STATUS_LABELS[bridge.status] }}
                         </div>
                     </div>
 
                     <!-- Metrics row -->
-                    <div class='br-metrics'>
-                        <div class='br-metric'>
+                    <div class="br-metrics">
+                        <div class="br-metric">
                             <span
-                                class='br-metric-val'
+                                class="br-metric-val"
                                 :class='{ bright: bridge.status === "live" }'
                             >
                                 {{ bridge.msgsPerSec }}
                             </span>
-                            <span class='br-metric-lbl'>msg/s</span>
+                            <span class="br-metric-lbl">msg/s</span>
                         </div>
-                        <div class='br-metric'>
-                            <span class='br-metric-val'>{{ fmtCount(bridge.totalMsgs) }}</span>
-                            <span class='br-metric-lbl'>total</span>
+                        <div class="br-metric">
+                            <span class="br-metric-val">{{ fmtCount(bridge.totalMsgs) }}</span>
+                            <span class="br-metric-lbl">total</span>
                         </div>
-                        <div class='br-metric'>
-                            <span class='br-metric-val'>{{ timeAgo(bridge.lastMessageAt) }}</span>
-                            <span class='br-metric-lbl'>last msg</span>
+                        <div class="br-metric">
+                            <span class="br-metric-val">{{ timeAgo(bridge.lastMessageAt) }}</span>
+                            <span class="br-metric-lbl">last msg</span>
                         </div>
                     </div>
 
                     <!-- Error message -->
                     <div
-                        v-if='bridge.errorMessage'
-                        class='br-error-msg'
+                        v-if="bridge.errorMessage"
+                        class="br-error-msg"
                     >
-                        <AlertTriangle :size='10' />
+                        <AlertTriangle :size="10" />
                         {{ bridge.errorMessage }}
                     </div>
 
                     <!-- Actions -->
-                    <div class='br-actions'>
+                    <div class="br-actions">
                         <button
                             v-if='bridge.status === "live"'
-                            class='br-btn warn'
-                            @click='pauseBridge(bridge.id)'
+                            class="br-btn warn"
+                            @click="pauseBridge(bridge.id)"
                         >
-                            <Pause :size='10' /> Pause
+                            <Pause :size="10" /> Pause
                         </button>
                         <button
                             v-else
-                            class='br-btn primary'
-                            @click='resumeBridge(bridge.id)'
+                            class="br-btn primary"
+                            @click="resumeBridge(bridge.id)"
                         >
-                            <Play :size='10' /> Resume
+                            <Play :size="10" /> Resume
                         </button>
                     </div>
                 </div>
@@ -129,9 +129,9 @@
         </div>
 
         <!-- Footer -->
-        <div class='br-footer'>
-            <span class='br-mono'>{{ bridges.filter(b => b.totalMsgs > 0).length }} bridges seen traffic</span>
-            <span class='br-mono'>LIVE • {{ BRIDGE_DEFS.map(b => b.natsSubject).join(', ').slice(0,60) }}…</span>
+        <div class="br-footer">
+            <span class="br-mono">{{ bridges.filter(b => b.totalMsgs > 0).length }} bridges seen traffic</span>
+            <span class="br-mono">LIVE • {{ BRIDGE_DEFS.map(b => b.natsSubject).join(', ').slice(0,60) }}…</span>
         </div>
     </div>
 </template>

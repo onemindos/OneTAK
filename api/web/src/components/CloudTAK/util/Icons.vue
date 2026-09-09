@@ -1,77 +1,77 @@
 <template>
     <div>
-        <div class='card-body'>
-            <div class='col-12 px-2 pt-2'>
+        <div class="card-body">
+            <div class="col-12 px-2 pt-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    placeholder="Filter"
                 />
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Icons'
+                v-if="loading"
+                desc="Loading Icons"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Icons'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Icons"
+                :create="false"
             />
             <template v-else>
-                <div class='row g-1 pt-2'>
+                <div class="row g-1 pt-2">
                     <div
-                        v-for='icon in list.items'
-                        :key='icon.key'
-                        class='col-sm-2'
-                        @click='openIcon(icon)'
+                        v-for="icon in list.items"
+                        :key="icon.key"
+                        class="col-sm-2"
+                        @click="openIcon(icon)"
                     >
-                        <div class='card card-sm cloudtak-hover cursor-pointer'>
-                            <div class='col-12'>
+                        <div class="card card-sm cloudtak-hover cursor-pointer">
+                            <div class="col-12">
                                 <div
-                                    class='d-flex justify-content-center mt-3'
+                                    class="d-flex justify-content-center mt-3"
                                     :class='{
                                         "mt-3": labels,
                                         "my-3": !labels
                                     }'
                                 >
                                     <img
-                                        :src='icon.data'
-                                        class='img-thumbnail'
-                                        style='background-color: rgb(30, 41, 59);'
-                                        height='32'
-                                        width='32'
+                                        :src="icon.data"
+                                        class="img-thumbnail"
+                                        style="background-color: rgb(30, 41, 59);"
+                                        height="32"
+                                        width="32"
                                     >
                                 </div>
                             </div>
                             <div
-                                v-if='labels'
-                                class='card-body'
+                                v-if="labels"
+                                class="card-body"
                             >
-                                <div class='row'>
+                                <div class="row">
                                     <div
-                                        class='d-inline-block text-truncate'
-                                        v-text='icon.path'
+                                        class="d-inline-block text-truncate"
+                                        v-text="icon.path"
                                     />
                                     <div
-                                        class='d-inline-block text-truncate text-muted'
+                                        class="d-inline-block text-truncate text-muted"
                                         v-text='icon.type2525b || "None"'
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class='col-lg-12 d-flex my-4'>
-                        <div class='ms-auto'>
+                    <div class="col-lg-12 d-flex my-4">
+                        <div class="ms-auto">
                             <TablerPager
-                                v-if='list.total > paging.limit'
-                                :page='paging.page'
-                                :total='list.total'
-                                :limit='paging.limit'
-                                @page='paging.page = $event'
+                                v-if="list.total > paging.limit"
+                                :page="paging.page"
+                                :total="list.total"
+                                :limit="paging.limit"
+                                @page="paging.page = $event"
                             />
                         </div>
                     </div>

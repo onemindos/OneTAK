@@ -1,27 +1,27 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Email'
+            v-model="expanded"
+            label="Email"
         >
             <template #icon>
                 <IconMail
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
 
-            <div class='mx-2 pt-2'>
-                <CopyField :model-value='props.email'>
+            <div class="mx-2 pt-2">
+                <CopyField :model-value="props.email">
                     <a
-                        :href='`mailto:${props.email}`'
-                        class='cursor-pointer pe-2'
+                        :href="`mailto:${props.email}`"
+                        class="cursor-pointer pe-2"
                     >
                         <IconMail
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </a>
                 </CopyField>

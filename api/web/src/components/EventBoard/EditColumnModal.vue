@@ -1,116 +1,116 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 Edit Column
             </div>
         </div>
-        <div class='modal-body text-body'>
-            <div class='d-flex align-items-center justify-content-center rounded py-4 mb-3 event-board-edit-preview'>
+        <div class="modal-body text-body">
+            <div class="d-flex align-items-center justify-content-center rounded py-4 mb-3 event-board-edit-preview">
                 <TablerBadge
-                    class='text-truncate'
+                    class="text-truncate"
                     :background-color='previewBase + "26"'
                     :border-color='previewBase + "59"'
-                    :text-color='previewBase'
+                    :text-color="previewBase"
                 >
                     {{ config.name.trim() || "Column Name" }}
                 </TablerBadge>
             </div>
 
-            <div class='row g-2'>
-                <div class='col-12'>
+            <div class="row g-2">
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.name'
-                        label='Name'
-                        :required='true'
-                        @keyup.enter='save'
+                        v-model="config.name"
+                        label="Name"
+                        :required="true"
+                        @keyup.enter="save"
                     />
                 </div>
 
-                <div class='col-12'>
-                    <label class='form-label'>Color</label>
-                    <div class='d-flex align-items-center flex-wrap gap-2'>
+                <div class="col-12">
+                    <label class="form-label">Color</label>
+                    <div class="d-flex align-items-center flex-wrap gap-2">
                         <button
-                            v-for='swatch in palette'
-                            :key='swatch.hex'
-                            type='button'
-                            class='event-board-swatch'
-                            :style='swatchStyle(swatch)'
-                            :title='swatch.label'
-                            :aria-pressed='config.color === swatch.hex'
-                            @click='config.color = swatch.hex'
+                            v-for="swatch in palette"
+                            :key="swatch.hex"
+                            type="button"
+                            class="event-board-swatch"
+                            :style="swatchStyle(swatch)"
+                            :title="swatch.label"
+                            :aria-pressed="config.color === swatch.hex"
+                            @click="config.color = swatch.hex"
                         >
                             <IconCheck
-                                v-if='config.color === swatch.hex'
-                                :size='16'
-                                stroke='3'
+                                v-if="config.color === swatch.hex"
+                                :size="16"
+                                stroke="3"
                             />
                         </button>
                     </div>
                 </div>
 
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.description'
-                        label='Description'
-                        :rows='3'
+                        v-model="config.description"
+                        label="Description"
+                        :rows="3"
                     />
                 </div>
 
-                <div class='col-12'>
-                    <label class='form-label'>Forms</label>
+                <div class="col-12">
+                    <label class="form-label">Forms</label>
                     <TablerLoading
-                        v-if='formsLoading'
-                        :compact='true'
-                        desc='Loading Forms'
+                        v-if="formsLoading"
+                        :compact="true"
+                        desc="Loading Forms"
                     />
                     <TablerAlert
-                        v-else-if='formsError'
-                        :err='formsError'
+                        v-else-if="formsError"
+                        :err="formsError"
                     />
                     <template v-else>
-                        <div class='d-flex align-items-end gap-2'>
+                        <div class="d-flex align-items-end gap-2">
                             <FormSelect
-                                ref='formSelect'
-                                v-model='forms'
-                                :channel='props.channel'
-                                class='flex-grow-1'
+                                ref="formSelect"
+                                v-model="forms"
+                                :channel="props.channel"
+                                class="flex-grow-1"
                             />
                             <TablerIconButton
-                                title='Manage Forms'
-                                @click='manageForms = true'
+                                title="Manage Forms"
+                                @click="manageForms = true"
                             >
                                 <IconSettings
-                                    :size='24'
-                                    stroke='1'
+                                    :size="24"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
-                        <div class='form-hint mt-1'>
+                        <div class="form-hint mt-1">
                             Required Forms must be completed for Events placed in this Column
                         </div>
                     </template>
                 </div>
             </div>
 
-            <div class='d-flex mt-3'>
+            <div class="d-flex mt-3">
                 <button
-                    class='btn btn-secondary'
+                    class="btn btn-secondary"
                     @click='emit("close")'
                 >
                     Cancel
                 </button>
                 <button
-                    class='btn btn-primary ms-auto'
-                    :disabled='!config.name.trim()'
-                    @click='save'
+                    class="btn btn-primary ms-auto"
+                    :disabled="!config.name.trim()"
+                    @click="save"
                 >
                     Save
                 </button>
@@ -118,11 +118,11 @@
         </div>
 
         <FormManager
-            v-if='manageForms'
-            :channel='props.channel'
-            @close='closeManager'
-            @saved='onFormSaved'
-            @deleted='onFormDeleted'
+            v-if="manageForms"
+            :channel="props.channel"
+            @close="closeManager"
+            @saved="onFormSaved"
+            @deleted="onFormDeleted"
         />
     </TablerModal>
 </template>

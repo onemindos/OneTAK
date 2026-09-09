@@ -1,93 +1,93 @@
 <template>
-    <div class='h-full w-full cloudtak-page d-flex flex-column video-wall'>
-        <NavHeader title='Video Wall'>
+    <div class="h-full w-full cloudtak-page d-flex flex-column video-wall">
+        <NavHeader title="Video Wall">
             <TablerIconButton
-                title='Refresh Videos'
-                @click='refresh'
+                title="Refresh Videos"
+                @click="refresh"
             >
                 <IconRefresh
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </NavHeader>
 
-        <div class='flex-grow-1 overflow-auto'>
+        <div class="flex-grow-1 overflow-auto">
             <div
-                v-if='loading'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-if="loading"
+                class="d-flex align-items-center justify-content-center h-100"
             >
-                <TablerLoading desc='Loading Video Wall' />
+                <TablerLoading desc="Loading Video Wall" />
             </div>
             <div
-                v-else-if='error'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-else-if="error"
+                class="d-flex align-items-center justify-content-center h-100"
             >
                 <TablerAlert
-                    title='Video Wall Error'
-                    :err='error'
+                    title="Video Wall Error"
+                    :err="error"
                 />
             </div>
             <div
-                v-else-if='layout.length === 0'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-else-if="layout.length === 0"
+                class="d-flex align-items-center justify-content-center h-100"
             >
                 <TablerNone
-                    label='No Videos on the Wall'
-                    :create='false'
+                    label="No Videos on the Wall"
+                    :create="false"
                 />
             </div>
             <GridLayout
                 v-else
-                v-model:layout='layout'
-                :col-num='12'
-                :row-height='60'
-                :margin='[8, 8]'
-                :is-draggable='true'
-                :is-resizable='true'
-                :vertical-compact='true'
-                :use-css-transforms='true'
-                @layout-updated='saveLayout'
+                v-model:layout="layout"
+                :col-num="12"
+                :row-height="60"
+                :margin="[8, 8]"
+                :is-draggable="true"
+                :is-resizable="true"
+                :vertical-compact="true"
+                :use-css-transforms="true"
+                @layout-updated="saveLayout"
             >
                 <GridItem
-                    v-for='item in layout'
-                    :key='item.i'
-                    :i='item.i'
-                    :x='item.x'
-                    :y='item.y'
-                    :w='item.w'
-                    :h='item.h'
-                    :min-w='2'
-                    :min-h='3'
-                    drag-allow-from='.video-wall-drag'
-                    drag-ignore-from='.video-wall-nodrag'
+                    v-for="item in layout"
+                    :key="item.i"
+                    :i="item.i"
+                    :x="item.x"
+                    :y="item.y"
+                    :w="item.w"
+                    :h="item.h"
+                    :min-w="2"
+                    :min-h="3"
+                    drag-allow-from=".video-wall-drag"
+                    drag-ignore-from=".video-wall-nodrag"
                 >
-                    <div class='d-flex flex-column h-100 w-100 cloudtak-panel overflow-hidden'>
-                        <div class='d-flex align-items-center px-2 py-1 border-bottom video-wall-drag cursor-move'>
+                    <div class="d-flex flex-column h-100 w-100 cloudtak-panel overflow-hidden">
+                        <div class="d-flex align-items-center px-2 py-1 border-bottom video-wall-drag cursor-move">
                             <IconGripVertical
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                             <div
-                                class='text-sm text-truncate mx-2 user-select-none'
+                                class="text-sm text-truncate mx-2 user-select-none"
                                 v-text='names.get(String(item.i)) || "Video Stream"'
                             />
-                            <div class='btn-list ms-auto video-wall-nodrag'>
+                            <div class="btn-list ms-auto video-wall-nodrag">
                                 <TablerIconButton
-                                    title='Remove from Wall'
-                                    @click='removeVideo(String(item.i))'
+                                    title="Remove from Wall"
+                                    @click="removeVideo(String(item.i))"
                                 >
                                     <IconX
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
                         <VideoPlayer
-                            class='flex-grow-1 overflow-hidden video-wall-nodrag'
-                            :lease='leases.get(String(item.i))'
-                            @metadata='names.set(String(item.i), $event.name)'
+                            class="flex-grow-1 overflow-hidden video-wall-nodrag"
+                            :lease="leases.get(String(item.i))"
+                            @metadata="names.set(String(item.i), $event.name)"
                         />
                     </div>
                 </GridItem>

@@ -1,103 +1,103 @@
 <template>
     <MenuTemplate
         :name='subscription ? subscription.meta.name : "Data Sync"'
-        :loading='(!subscription && !error) || loading'
-        :scroll='false'
+        :loading="(!subscription && !error) || loading"
+        :scroll="false"
     >
         <template #buttons>
             <TablerDelete
                 v-if='!loading && subscription && subscription.role.permissions.includes("MISSION_WRITE")'
-                title='Delete'
+                title="Delete"
                 :label='"Delete " + (subscription.meta.name || "Data Sync")'
-                displaytype='icon'
-                match='Delete Data Sync'
-                @delete='deleteMission'
+                displaytype="icon"
+                match="Delete Data Sync"
+                @delete="deleteMission"
             />
             <TablerDropdown
-                v-if='subscription && subscription.subscribed'
+                v-if="subscription && subscription.subscribed"
             >
                 <TablerIconButton
-                    title='More Options'
+                    title="More Options"
                 >
                     <IconDotsVertical
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <template #dropdown>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                            @click.stop='shareToPackageSetup'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                            @click.stop="shareToPackageSetup"
                         >
                             <IconPackages
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Export Data Package</span>
+                            <span class="mx-2">Export Data Package</span>
                         </div>
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                             @click.stop='exportToPackage("geojson")'
                         >
                             <IconFile
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Export GeoJSON</span>
+                            <span class="mx-2">Export GeoJSON</span>
                         </div>
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                             @click.stop='exportToPackage("kml")'
                         >
                             <IconFile
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Export KML</span>
+                            <span class="mx-2">Export KML</span>
                         </div>
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                             @click.stop='exportToPackage("zip")'
                         >
                             <IconFileZip
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Download Archive</span>
+                            <span class="mx-2">Download Archive</span>
                         </div>
                     </div>
                 </template>
             </TablerDropdown>
             <TablerRefreshButton
-                :loading='(!subscription && !error) || loading'
-                @click='fetchMission'
+                :loading="(!subscription && !error) || loading"
+                @click="fetchMission"
             />
         </template>
         <template #default>
             <TablerLoading
-                v-if='loadingInline'
-                :desc='loadingInline'
-                :compact='true'
+                v-if="loadingInline"
+                :desc="loadingInline"
+                :compact="true"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <template v-else>
                 <TablerPillGroup
-                    v-if='subscription && subscription.subscribed'
-                    :model-value='String(route.name)'
-                    :options='missionTabs'
-                    @update:model-value='navigateMissionTab'
+                    v-if="subscription && subscription.subscribed"
+                    :model-value="String(route.name)"
+                    :options="missionTabs"
+                    @update:model-value="navigateMissionTab"
                 >
-                    <template #option='{ option }'>
-                        <span :title='option.label'>
+                    <template #option="{ option }">
+                        <span :title="option.label">
                             <component
-                                :is='missionTabIcons[option.value]'
-                                :size='32'
-                                stroke='1'
+                                :is="missionTabIcons[option.value]"
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                     </template>
@@ -105,9 +105,9 @@
 
                 <Suspense>
                     <router-view
-                        v-if='subscription'
-                        :subscription='subscription'
-                        @refresh='fetchMission(true)'
+                        v-if="subscription"
+                        :subscription="subscription"
+                        @refresh="fetchMission(true)"
                     />
 
                     <template #fallback>
@@ -119,10 +119,10 @@
     </MenuTemplate>
 
     <ShareToPackage
-        v-if='shareToPackage.shown && subscription'
+        v-if="shareToPackage.shown && subscription"
         :name='`${new Date().toISOString().replace(/T.*/, "")} ${subscription ? subscription.meta.name : "Mission"}`'
-        :feats='shareToPackage.features'
-        @close='shareToPackage.shown = false'
+        :feats="shareToPackage.features"
+        @close="shareToPackage.shown = false"
     />
 </template>
 

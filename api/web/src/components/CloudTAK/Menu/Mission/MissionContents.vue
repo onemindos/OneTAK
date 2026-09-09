@@ -1,141 +1,141 @@
 <template>
     <MenuTemplate
-        name='Mission Files'
-        :zindex='0'
-        :back='false'
-        :border='false'
-        :standalone='false'
+        name="Mission Files"
+        :zindex="0"
+        :back="false"
+        :border="false"
+        :standalone="false"
     >
         <template #buttons>
             <TablerIconButton
                 v-if='!upload && props.subscription.role && props.subscription.role.permissions.includes("MISSION_WRITE")'
-                title='Upload File'
-                @click='upload = true'
+                title="Upload File"
+                @click="upload = true"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <TablerLoading
-            v-if='loading'
+            v-if="loading"
         />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
-            v-else-if='upload'
-            class='mx-2'
+            v-else-if="upload"
+            class="mx-2"
         >
             <Upload
-                ref='upload'
-                :url='stdurl(`/api/marti/missions/${props.subscription.guid}/upload`)'
-                :headers='uploadHeaders'
-                :autoupload='false'
-                format='raw'
-                method='POST'
-                @staged='uploadStaged($event)'
-                @error='error = $event'
-                @cancel='upload = false'
-                @done='doneUpload'
+                ref="upload"
+                :url="stdurl(`/api/marti/missions/${props.subscription.guid}/upload`)"
+                :headers="uploadHeaders"
+                :autoupload="false"
+                format="raw"
+                method="POST"
+                @staged="uploadStaged($event)"
+                @error="error = $event"
+                @cancel="upload = false"
+                @done="doneUpload"
             />
         </div>
 
         <TablerNone
-            v-else-if='!contents || !contents.length'
-            label='No Files'
-            :create='false'
+            v-else-if="!contents || !contents.length"
+            label="No Files"
+            :create="false"
         />
         <template v-else>
             <div
-                v-if='contents.length'
-                class='px-2 py-2'
+                v-if="contents.length"
+                class="px-2 py-2"
             >
                 <TablerPillGroup
-                    v-model='mode'
+                    v-model="mode"
                     :options='[
                         { value: "photos", label: "Photos" },
                         { value: "files", label: "Files" }
                     ]'
                 >
-                    <template #option='{ option }'>
+                    <template #option="{ option }">
                         <IconPhoto
                             v-if='option.value === "photos"'
-                            class='me-1'
-                            :size='20'
-                            stroke='1'
+                            class="me-1"
+                            :size="20"
+                            stroke="1"
                         />
                         <IconFiles
                             v-else
-                            class='me-1'
-                            :size='20'
-                            stroke='1'
+                            class="me-1"
+                            :size="20"
+                            stroke="1"
                         />
                         {{ option.label }}
                     </template>
                 </TablerPillGroup>
             </div>
             <TablerNone
-                v-if='!filteredContents.length'
+                v-if="!filteredContents.length"
                 :label='mode === "photos" ? "No Photos" : "No Files"'
-                :create='false'
+                :create="false"
             />
             <div
                 v-if='mode === "photos"'
-                class='w-100 d-flex flex-wrap align-items-center justify-content-center'
+                class="w-100 d-flex flex-wrap align-items-center justify-content-center"
             >
                 <div
-                    v-for='content in filteredContents'
-                    :key='content.uid'
-                    class='px-2 py-2 cloudtak-hover rounded'
+                    v-for="content in filteredContents"
+                    :key="content.uid"
+                    class="px-2 py-2 cloudtak-hover rounded"
                 >
                     <div
-                        class='d-flex align-items-center justify-content-center'
-                        style='
+                        class="d-flex align-items-center justify-content-center"
+                        style="
                             height: 200px;
                             width: 200px;
-                        '
+                        "
                     >
                         <img
-                            class='cursor-pointer'
-                            style='max-height: 180px; max-width: 100%; object-fit: contain;'
-                            :src='downloadAssetUrl(content.hash, content.name)'
-                            @click='openAttachment(content)'
+                            class="cursor-pointer"
+                            style="max-height: 180px; max-width: 100%; object-fit: contain;"
+                            :src="downloadAssetUrl(content.hash, content.name)"
+                            @click="openAttachment(content)"
                         >
                     </div>
 
                     <div
-                        class='d-flex align-items-center pt-2'
-                        style='
+                        class="d-flex align-items-center pt-2"
+                        style="
                             height: 30px;
                             width: 200px;
-                        '
+                        "
                     >
                         <span
-                            class='mx-2 text-truncate'
-                            style='max-width: 140px;'
-                            v-text='content.name'
+                            class="mx-2 text-truncate"
+                            style="max-width: 140px;"
+                            v-text="content.name"
                         />
 
-                        <div class='ms-auto d-flex'>
+                        <div class="ms-auto d-flex">
                             <TablerDelete
                                 v-if='props.subscription.role && props.subscription.role.permissions.includes("MISSION_WRITE")'
-                                displaytype='icon'
-                                :size='24'
-                                @delete='deleteFile(content.hash)'
+                                displaytype="icon"
+                                :size="24"
+                                @delete="deleteFile(content.hash)"
                             />
                             <TablerIconButton
-                                title='Download Asset'
-                                @click='props.subscription.contents.download(content.name, content.hash)'
+                                title="Download Asset"
+                                @click="props.subscription.contents.download(content.name, content.hash)"
                             >
                                 <IconDownload
-                                    :size='24'
-                                    stroke='1'
-                                    color='currentColor'
-                                    class='cursor-pointer'
+                                    :size="24"
+                                    stroke="1"
+                                    color="currentColor"
+                                    class="cursor-pointer"
                                 />
                             </TablerIconButton>
                         </div>
@@ -145,54 +145,54 @@
 
             <template v-else>
                 <StandardItem
-                    v-for='content in filteredContents'
-                    :key='content.uid'
-                    class='col-12 d-flex px-2 py-2 mb-2'
+                    v-for="content in filteredContents"
+                    :key="content.uid"
+                    class="col-12 d-flex px-2 py-2 mb-2"
                 >
                     <div
-                        style='width: calc(100% - 120px)'
+                        style="width: calc(100% - 120px)"
                     >
-                        <div class='col-12'>
+                        <div class="col-12">
                             <div
-                                class='text-break'
-                                v-text='content.name'
+                                class="text-break"
+                                v-text="content.name"
                             />
                             <div>
                                 <span
-                                    class='subheader'
-                                    v-text='content.submitter'
+                                    class="subheader"
+                                    v-text="content.submitter"
                                 /> - <span
-                                    class='subheader'
-                                    v-text='content.submissionTime'
+                                    class="subheader"
+                                    v-text="content.submissionTime"
                                 />
                             </div>
                         </div>
                     </div>
-                    <div class='col-auto'>
-                        <div class='d-flex ms-auto'>
+                    <div class="col-auto">
+                        <div class="d-flex ms-auto">
                             <TablerDelete
                                 v-if='props.subscription.role && props.subscription.role.permissions.includes("MISSION_WRITE")'
-                                displaytype='icon'
-                                @delete='deleteFile(content.hash)'
+                                displaytype="icon"
+                                @delete="deleteFile(content.hash)"
                             />
                             <TablerIconButton
-                                title='Import File'
-                                @click='importFile(content.name, content.hash)'
+                                title="Import File"
+                                @click="importFile(content.name, content.hash)"
                             >
                                 <IconFileImport
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <TablerIconButton
-                                title='Download Asset'
-                                @click='props.subscription.contents.download(content.name, content.hash)'
+                                title="Download Asset"
+                                @click="props.subscription.contents.download(content.name, content.hash)"
                             >
                                 <IconDownload
-                                    :size='32'
-                                    stroke='1'
-                                    color='currentColor'
-                                    class='cursor-pointer'
+                                    :size="32"
+                                    stroke="1"
+                                    color="currentColor"
+                                    class="cursor-pointer"
                                 />
                             </TablerIconButton>
                         </div>

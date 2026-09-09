@@ -1,47 +1,47 @@
 <template>
     <TablerModal
-        :fade='false'
+        :fade="false"
     >
         <div
-            class='modal-body rounded user-select-none'
+            class="modal-body rounded user-select-none"
         >
             <div
-                class='text-center'
-                style='margin-bottom: 24px;'
+                class="text-center"
+                style="margin-bottom: 24px;"
             >
                 <img
-                    alt='Agency Logo'
-                    :src='logo'
-                    style='height: 150px;'
+                    alt="Agency Logo"
+                    :src="logo"
+                    style="height: 150px;"
                 >
             </div>
-            <TablerLoading desc='Loading Map State' />
+            <TablerLoading desc="Loading Map State" />
             <Transition
-                name='stage-fade'
-                mode='out-in'
+                name="stage-fade"
+                mode="out-in"
             >
                 <div
-                    v-if='props.stage'
-                    :key='props.stage'
-                    class='text-center text-muted mt-1'
-                    style='font-size: 0.85rem;'
-                    v-text='props.stage'
+                    v-if="props.stage"
+                    :key="props.stage"
+                    class="text-center text-muted mt-1"
+                    style="font-size: 0.85rem;"
+                    v-text="props.stage"
                 />
             </Transition>
-            <Transition name='reset-fade'>
+            <Transition name="reset-fade">
                 <div
-                    v-if='showReset'
-                    class='text-center mt-3'
+                    v-if="showReset"
+                    class="text-center mt-3"
                 >
                     <button
-                        class='btn btn-danger'
-                        @click='hardReset'
+                        class="btn btn-danger"
+                        @click="hardReset"
                     >
                         Hard Reset
                     </button>
                     <div
-                        class='text-muted mt-1'
-                        style='font-size: 0.8rem;'
+                        class="text-muted mt-1"
+                        style="font-size: 0.8rem;"
                     >
                         If loading has stalled, click to clear the cache and reload.
                     </div>

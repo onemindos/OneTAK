@@ -1,86 +1,86 @@
 <template>
     <div>
-        <div class='card-header'>
+        <div class="card-header">
             <TablerIconButton
-                title='Back'
+                title="Back"
                 @click='$router.push("/admin/overlay")'
             >
                 <IconCircleArrowLeft
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
-            <h1 class='card-title'>
+            <h1 class="card-title">
                 <span
-                    v-if='isNew'
-                    class='mx-2'
+                    v-if="isNew"
+                    class="mx-2"
                 >New Overlay</span>
                 <span
                     v-else
-                    class='mx-2'
+                    class="mx-2"
                 >Edit Overlay</span>
             </h1>
         </div>
         <div
-            style='min-height: 20vh; margin-bottom: 61px'
-            class='px-2'
+            style="min-height: 20vh; margin-bottom: 61px"
+            class="px-2"
         >
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <template v-else>
-                <div class='row g-2'>
-                    <div class='col-12'>
-                        <label class='mx-2 my-1'>Ownership</label>
-                        <div class='border rounded'>
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label class="mx-2 my-1">Ownership</label>
+                        <div class="border rounded">
                             <UserSelect
-                                v-model='username'
+                                v-model="username"
                             />
                         </div>
                     </div>
                 </div>
 
                 <BasemapTypeSelector
-                    v-if='showTypeSelector'
-                    :is-system-admin='true'
-                    class='mt-3'
-                    @select='setBasemapType'
+                    v-if="showTypeSelector"
+                    :is-system-admin="true"
+                    class="mt-3"
+                    @select="setBasemapType"
                 />
                 <component
-                    :is='activeSelectorComponent'
-                    v-else-if='activeSelectorComponent'
-                    v-model:editing='editing'
-                    :basemap-id='basemapId'
-                    :vector-layers='vectorLayers'
-                    :errors='errors'
-                    :scope='scope'
-                    :warn-sharing='warnSharing'
-                    :is-system-admin='true'
-                    :url='tilejsonUrl'
-                    :upload-url='uploadUrl'
-                    @change-type='resetBasemapType'
-                    @update:scope='scope = $event'
-                    @update:warn-sharing='warnSharing = $event'
-                    @update:url='tilejsonUrl = $event'
-                    @fetch='fetchTileJSON'
-                    @done='processImport($event)'
+                    :is="activeSelectorComponent"
+                    v-else-if="activeSelectorComponent"
+                    v-model:editing="editing"
+                    :basemap-id="basemapId"
+                    :vector-layers="vectorLayers"
+                    :errors="errors"
+                    :scope="scope"
+                    :warn-sharing="warnSharing"
+                    :is-system-admin="true"
+                    :url="tilejsonUrl"
+                    :upload-url="uploadUrl"
+                    @change-type="resetBasemapType"
+                    @update:scope="scope = $event"
+                    @update:warn-sharing="warnSharing = $event"
+                    @update:url="tilejsonUrl = $event"
+                    @fetch="fetchTileJSON"
+                    @done="processImport($event)"
                 />
 
-                <template v-if='showStylesAndFooter'>
-                    <div class='row g-2 mt-2'>
-                        <div class='col-12'>
+                <template v-if="showStylesAndFooter">
+                    <div class="row g-2 mt-2">
+                        <div class="col-12">
                             <StyleContainer
-                                v-model='editing.styles'
-                                :advanced='true'
+                                v-model="editing.styles"
+                                :advanced="true"
                             />
                         </div>
-                        <div class='col-12 d-flex py-2'>
+                        <div class="col-12 d-flex py-2">
                             <TablerDelete
-                                v-if='basemapId'
-                                @delete='deleteOverlay'
+                                v-if="basemapId"
+                                @delete="deleteOverlay"
                             />
-                            <div class='ms-auto'>
+                            <div class="ms-auto">
                                 <TablerButton
-                                    class='btn-primary'
-                                    @click='saveOverlay'
+                                    class="btn-primary"
+                                    @click="saveOverlay"
                                 >
                                     Submit
                                 </TablerButton>

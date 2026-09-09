@@ -1,55 +1,55 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Data Export
             </h3>
         </div>
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <div
             v-else
-            class='card-body row g-2'
+            class="card-body row g-2"
         >
-            <div class='col-6'>
+            <div class="col-6">
                 <TablerInput
-                    v-model='data.startTime'
-                    label='Start Time'
-                    type='datetime-local'
+                    v-model="data.startTime"
+                    label="Start Time"
+                    type="datetime-local"
                 />
             </div>
-            <div class='col-6'>
+            <div class="col-6">
                 <TablerInput
-                    v-model='data.endTime'
-                    label='End Time'
-                    type='datetime-local'
+                    v-model="data.endTime"
+                    label="End Time"
+                    type="datetime-local"
                 />
             </div>
-            <GroupSelect v-model='data.groups' />
-            <div class='col-12'>
+            <GroupSelect v-model="data.groups" />
+            <div class="col-12">
                 <TablerEnum
-                    v-model='data.format'
-                    label='Export Format'
+                    v-model="data.format"
+                    label="Export Format"
                     :options='["kmz", "kml"]'
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerToggle
-                    v-model='data.extendedData'
-                    label='Extended Data (Disabled)'
+                    v-model="data.extendedData"
+                    label="Extended Data (Disabled)"
                     disabled
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerToggle
-                    v-model='data.optimizeExport'
-                    label='Optimize Export'
+                    v-model="data.optimizeExport"
+                    label="Optimize Export"
                 />
             </div>
-            <div class='col-12 d-flex py-2'>
-                <div class='ms-auto'>
+            <div class="col-12 d-flex py-2">
+                <div class="ms-auto">
                     <button
-                        class='btn btn-primary'
-                        @click='postExport'
+                        class="btn btn-primary"
+                        @click="postExport"
                     >
                         Export
                     </button>

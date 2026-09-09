@@ -1,35 +1,35 @@
 <template>
     <TypeSelectorSelected
-        v-if='showSelectedBanner'
-        :type='type'
+        v-if="showSelectedBanner"
+        :type="type"
         @change-type='emit("change-type")'
     />
 
     <TablerInlineAlert
-        v-if='warnSharing'
-        severity='danger'
-        title='You are disabling sharing'
-        description='Disabling sharing will prevent other users from sharing the basemap and will also disable their access if the basemap has already been shared'
-        :dismissable='true'
+        v-if="warnSharing"
+        severity="danger"
+        title="You are disabling sharing"
+        description="Disabling sharing will prevent other users from sharing the basemap and will also disable their access if the basemap has already been shared"
+        :dismissable="true"
     />
 
-    <div class='col-12 mt-3'>
+    <div class="col-12 mt-3">
         <TablerInput
-            v-model='editing.name'
+            v-model="editing.name"
             required
-            label='Name'
-            :error='errors.name'
+            label="Name"
+            :error="errors.name"
         >
             <TablerToggle
-                v-model='editing.sharing_enabled'
-                label='Enable Sharing'
+                v-model="editing.sharing_enabled"
+                label="Enable Sharing"
                 @change='emit("update:warnSharing", !editing.sharing_enabled)'
             />
         </TablerInput>
     </div>
     <div
-        v-if='isSystemAdmin'
-        class='col-12 mt-3'
+        v-if="isSystemAdmin"
+        class="col-12 mt-3"
     >
         <TablerPillGroup
             :model-value='editing.overlay ? "overlay" : "basemap"'
@@ -39,43 +39,43 @@
             ]'
             @update:model-value='(v: string) => editing.overlay = v === "overlay"'
         >
-            <template #option='{ option }'>
+            <template #option="{ option }">
                 <IconMap
                     v-if='option.value === "basemap"'
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
                 <IconStack2
                     v-else
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
-                <span class='mx-2'>{{ option.label }}</span>
+                <span class="mx-2">{{ option.label }}</span>
             </template>
         </TablerPillGroup>
     </div>
-    <div class='col-md-12'>
+    <div class="col-md-12">
         <TablerInput
-            v-model='editing.url'
+            v-model="editing.url"
             required
-            :label='config.urlLabel'
-            :description='config.urlDescription'
-            :placeholder='config.urlPlaceholder'
-            :error='errors.url'
+            :label="config.urlLabel"
+            :description="config.urlDescription"
+            :placeholder="config.urlPlaceholder"
+            :error="errors.url"
         >
             <div
-                v-if='config.urlTokens.length'
-                class='btn-list'
+                v-if="config.urlTokens.length"
+                class="btn-list"
             >
                 <TablerBadge
-                    v-for='token in config.urlTokens'
-                    :key='token.value'
-                    :title='token.tooltip'
-                    class='cursor-pointer'
-                    background-color='rgba(6, 182, 212, 0.15)'
-                    border-color='rgba(6, 182, 212, 0.4)'
-                    text-color='#0891b2'
-                    @click='editing.url = editing.url + token.value'
+                    v-for="token in config.urlTokens"
+                    :key="token.value"
+                    :title="token.tooltip"
+                    class="cursor-pointer"
+                    background-color="rgba(6, 182, 212, 0.15)"
+                    border-color="rgba(6, 182, 212, 0.4)"
+                    text-color="#0891b2"
+                    @click="editing.url = editing.url + token.value"
                 >
                     {{ token.value }}
                 </TablerBadge>
@@ -84,116 +84,116 @@
     </div>
 
     <label
-        class='subheader mt-3 cursor-pointer'
-        @click='advanced = !advanced'
+        class="subheader mt-3 cursor-pointer"
+        @click="advanced = !advanced"
     >
         <IconSquareChevronRight
-            v-if='!advanced'
-            :size='32'
-            stroke='1'
+            v-if="!advanced"
+            :size="32"
+            stroke="1"
         />
         <IconChevronDown
             v-else
-            :size='32'
-            stroke='1'
+            :size="32"
+            stroke="1"
         />
         Advanced Options
     </label>
 
     <div
-        v-if='advanced'
-        class='col-12'
+        v-if="advanced"
+        class="col-12"
     >
-        <div class='row g-2'>
+        <div class="row g-2">
             <div
-                v-if='showTypeField'
-                class='col-12 mt-3'
+                v-if="showTypeField"
+                class="col-12 mt-3"
             >
                 <TablerEnum
-                    v-model='editing.type'
+                    v-model="editing.type"
                     required
-                    label='Type'
+                    label="Type"
                     :options='["raster", "raster-dem", "vector"]'
                 />
             </div>
             <div
                 v-if='editing.type === "raster-dem"'
-                class='col-12 mt-3'
+                class="col-12 mt-3"
             >
                 <TablerEnum
-                    v-model='editing.encoding'
-                    label='Terrain Encoding'
+                    v-model="editing.encoding"
+                    label="Terrain Encoding"
                     :options='["mapbox", "terrarium"]'
                 />
             </div>
             <div
-                v-if='isSystemAdmin'
-                class='col-12 mt-3'
+                v-if="isSystemAdmin"
+                class="col-12 mt-3"
             >
                 <TablerEnum
-                    :model-value='scope'
+                    :model-value="scope"
                     required
-                    label='Access Scope'
+                    label="Access Scope"
                     :options='["user", "server"]'
                     @update:model-value='emit("update:scope", $event)'
                 />
             </div>
             <SelectBasemapCollection
-                v-model='editing.collection'
-                :overlay='editing.overlay'
+                v-model="editing.collection"
+                :overlay="editing.overlay"
             />
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerInput
-                    v-model='editing.attribution'
-                    label='Attribution'
-                    placeholder='Optional Attribution'
+                    v-model="editing.attribution"
+                    label="Attribution"
+                    placeholder="Optional Attribution"
                 />
             </div>
 
             <div
                 v-if='editing.type === "vector" && vectorLayers.length'
-                class='col-12'
+                class="col-12"
             >
                 <HandleForm
-                    v-model='vectorTitleField'
-                    label='Feature Title Field'
-                    description='Feature property used as the vector title. Type {{ to browse fields discovered from vector_layers.'
-                    :schema='vectorTitleSchema'
+                    v-model="vectorTitleField"
+                    label="Feature Title Field"
+                    description="Feature property used as the vector title. Type {{ to browse fields discovered from vector_layers."
+                    :schema="vectorTitleSchema"
                 />
             </div>
 
-            <slot name='advanced' />
+            <slot name="advanced" />
 
-            <template v-if='isSystemAdmin'>
-                <div class='col-12'>
+            <template v-if="isSystemAdmin">
+                <div class="col-12">
                     <TablerToggle
-                        v-model='editing.hidden'
-                        label='Hidden'
-                        description='Hide this layer from the default list'
+                        v-model="editing.hidden"
+                        label="Hidden"
+                        description="Hide this layer from the default list"
                     >
                         <TablerBadge>admin</TablerBadge>
                     </TablerToggle>
                 </div>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-if='editing.frequency !== undefined && editing.frequency !== null'
-                        v-model='editing.frequency'
-                        label='Update Frequency (Seconds)'
-                        description='How often to refresh the tiles in seconds'
+                        v-if="editing.frequency !== undefined && editing.frequency !== null"
+                        v-model="editing.frequency"
+                        label="Update Frequency (Seconds)"
+                        description="How often to refresh the tiles in seconds"
                     >
                         <TablerBadge>admin</TablerBadge>
                         <TablerToggle
-                            :model-value='true'
-                            label='Enabled'
-                            @click='editing.frequency = null'
+                            :model-value="true"
+                            label="Enabled"
+                            @click="editing.frequency = null"
                         />
                     </TablerInput>
                     <div v-else>
                         <TablerToggle
-                            :model-value='false'
-                            label='Enable Auto-Update Frequency'
-                            description='Automatically refresh the tiles periodically'
-                            @click='editing.frequency = 60'
+                            :model-value="false"
+                            label="Enable Auto-Update Frequency"
+                            description="Automatically refresh the tiles periodically"
+                            @click="editing.frequency = 60"
                         >
                             <TablerBadge>admin</TablerBadge>
                         </TablerToggle>
@@ -201,34 +201,34 @@
                 </div>
                 <div
                     v-if='editing.type === "vector"'
-                    class='col-12'
+                    class="col-12"
                 >
-                    <div class='row g-2 my-2 border rounded'>
-                        <div class='col-12'>
+                    <div class="row g-2 my-2 border rounded">
+                        <div class="col-12">
                             <TablerToggle
-                                v-model='editing.snapping_enabled'
-                                label='Enable Snapping'
-                                description='Allow drawing tools to snap to the underlying vector features'
+                                v-model="editing.snapping_enabled"
+                                label="Enable Snapping"
+                                description="Allow drawing tools to snap to the underlying vector features"
                             >
                                 <TablerBadge>admin</TablerBadge>
                             </TablerToggle>
                         </div>
                         <div
-                            v-if='editing.snapping_enabled'
-                            class='col-12'
+                            v-if="editing.snapping_enabled"
+                            class="col-12"
                         >
                             <TablerEnum
-                                v-if='vectorLayerOptions.length'
-                                v-model='editing.snapping_layer'
-                                label='Snapping Layer'
-                                description='Choose the vector layer to snap drawing tools to'
-                                :options='vectorLayerOptions'
+                                v-if="vectorLayerOptions.length"
+                                v-model="editing.snapping_layer"
+                                label="Snapping Layer"
+                                description="Choose the vector layer to snap drawing tools to"
+                                :options="vectorLayerOptions"
                             />
                             <TablerInput
                                 v-else
-                                v-model='editing.snapping_layer'
-                                label='Snapping Layer'
-                                description='The specific layer name within the vector tiles to snap to'
+                                v-model="editing.snapping_layer"
+                                label="Snapping Layer"
+                                description="The specific layer name within the vector tiles to snap to"
                             />
                         </div>
                     </div>

@@ -1,103 +1,103 @@
 <template>
     <div
-        class='page page-center cloudtak-gradient position-relative'
-        style='overflow: auto;'
+        class="page page-center cloudtak-gradient position-relative"
+        style="overflow: auto;"
     >
         <div
-            v-if='customBackgroundColor'
-            class='position-absolute w-100 h-100 top-0 start-0 bg-fade-enter'
-            style='z-index: 0;'
-            :style='{ backgroundColor: customBackgroundColor }'
+            v-if="customBackgroundColor"
+            class="position-absolute w-100 h-100 top-0 start-0 bg-fade-enter"
+            style="z-index: 0;"
+            :style="{ backgroundColor: customBackgroundColor }"
         />
 
         <img
-            v-if='brandStore.loaded && footerLogo'
-            class='position-absolute d-none d-md-inline user-select-none'
+            v-if="brandStore.loaded && footerLogo"
+            class="position-absolute d-none d-md-inline user-select-none"
             :class='{ "logo-visible": footerLogoLoaded }'
-            draggable='false'
-            style='
+            draggable="false"
+            style="
                 height: 48px;
                 bottom: 24px;
                 left: 24px;
                 opacity: 0;
                 transition: opacity 0.8s ease-in-out;
                 z-index: 1;
-            '
-            :src='footerLogo'
-            alt='CloudTAK Logo'
-            @load='footerLogoLoaded = true'
+            "
+            :src="footerLogo"
+            alt="CloudTAK Logo"
+            @load="footerLogoLoaded = true"
         >
 
         <div
-            class='container container-normal py-4 position-relative'
-            style='z-index: 1;'
+            class="container container-normal py-4 position-relative"
+            style="z-index: 1;"
         >
-            <div class='row align-items-center g-4'>
-                <div class='col-lg'>
-                    <div class='container-tight'>
-                        <div class='card card-md'>
+            <div class="row align-items-center g-4">
+                <div class="col-lg">
+                    <div class="container-tight">
+                        <div class="card card-md">
                             <div
-                                v-if='!brandStore || !brandStore.loaded'
-                                class='card-body d-flex align-items-center justify-content-center'
-                                style='height: 400px;'
+                                v-if="!brandStore || !brandStore.loaded"
+                                class="card-body d-flex align-items-center justify-content-center"
+                                style="height: 400px;"
                             >
                                 <TablerLoading />
                             </div>
                             <div
                                 v-else
-                                class='card-body'
+                                class="card-body"
                             >
                                 <div
-                                    class='text-center'
-                                    style='margin-bottom: 24px;'
+                                    class="text-center"
+                                    style="margin-bottom: 24px;"
                                 >
                                     <img
                                         :src='brandStore.login && brandStore.login.logo ? brandStore.login.logo : "/CloudTAKLogo.svg"'
-                                        style='height: 150px;'
-                                        draggable='false'
-                                        class='user-select-none'
-                                        alt='CloudTAK System Logo'
+                                        style="height: 150px;"
+                                        draggable="false"
+                                        class="user-select-none"
+                                        alt="CloudTAK System Logo"
                                     >
                                 </div>
-                                <h2 class='h2 text-center mb-4'>
+                                <h2 class="h2 text-center mb-4">
                                     Login to your account
                                 </h2>
                                 <TablerLoading
-                                    v-if='loading'
-                                    desc='Logging in'
+                                    v-if="loading"
+                                    desc="Logging in"
                                 />
-                                <template v-else-if='brandStore.oidc.enabled && brandStore.oidc.enforced'>
-                                    <div class='text-center text-muted py-3'>
-                                        <div class='mb-2'>
+                                <template v-else-if="brandStore.oidc.enabled && brandStore.oidc.enforced">
+                                    <div class="text-center text-muted py-3">
+                                        <div class="mb-2">
                                             <IconLock
-                                                :size='32'
-                                                stroke='1.5'
+                                                :size="32"
+                                                stroke="1.5"
                                             />
                                         </div>
-                                        <p class='mb-0'>
+                                        <p class="mb-0">
                                             This instance only supports Single Sign-On (SSO). Please use the SSO login button below.
                                         </p>
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <div class='mb-3'>
-                                        <template v-if='storedUsername'>
-                                            <label class='form-label'>
+                                    <div class="mb-3">
+                                        <template v-if="storedUsername">
+                                            <label class="form-label">
                                                 {{ brandStore.login?.username || "Username or Email" }}
                                             </label>
-                                            <div class='d-flex align-items-center justify-content-between border rounded px-3 py-2'>
-                                                <div class='d-flex align-items-center text-truncate'>
+                                            <div class="d-flex align-items-center justify-content-between border rounded px-3 py-2">
+                                                <div class="d-flex align-items-center text-truncate">
                                                     <IconUser
-                                                        :size='20'
-                                                        stroke='1.5'
-                                                        class='me-2 text-muted flex-shrink-0'
+                                                        :size="20"
+                                                        stroke="1.5"
+                                                        class="me-2 text-muted flex-shrink-0"
                                                     />
-                                                    <span class='text-truncate'>{{ storedUsername }}</span>
+                                                    <span class="text-truncate">{{ storedUsername }}</span>
                                                 </div>
                                                 <button
-                                                    type='button'
-                                                    class='btn btn-sm btn-link text-decoration-none flex-shrink-0 ms-2'
-                                                    @click='notMe'
+                                                    type="button"
+                                                    class="btn btn-sm btn-link text-decoration-none flex-shrink-0 ms-2"
+                                                    @click="notMe"
                                                 >
                                                     Not Me
                                                 </button>
@@ -105,129 +105,129 @@
                                         </template>
                                         <TablerInput
                                             v-else
-                                            v-model='body.username'
-                                            icon='user'
+                                            v-model="body.username"
+                                            icon="user"
                                             :label='brandStore.login?.username || "Username or Email"'
                                             :placeholder='brandStore.login?.username || "your@email.com"'
-                                            autocomplete='username webauthn'
-                                            @keyup.enter='createLogin'
+                                            autocomplete="username webauthn"
+                                            @keyup.enter="createLogin"
                                         />
                                     </div>
-                                    <div class='mb-2'>
-                                        <div class='d-flex'>
-                                            <label class='form-label mb-0'>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <label class="form-label mb-0">
                                                 Password
                                             </label>
-                                            <span class='ms-auto'>
+                                            <span class="ms-auto">
                                                 <a
-                                                    v-if='brandStore.login && brandStore.login.forgot'
-                                                    tabindex='-1'
-                                                    class='cursor-pointer'
-                                                    :href='brandStore.login.forgot'
+                                                    v-if="brandStore.login && brandStore.login.forgot"
+                                                    tabindex="-1"
+                                                    class="cursor-pointer"
+                                                    :href="brandStore.login.forgot"
                                                 >Forgot Password</a>
                                             </span>
                                         </div>
                                         <TablerInput
-                                            v-model='body.password'
-                                            icon='lock'
-                                            type='password'
-                                            placeholder='Your password'
-                                            @keyup.enter='createLogin'
+                                            v-model="body.password"
+                                            icon="lock"
+                                            type="password"
+                                            placeholder="Your password"
+                                            @keyup.enter="createLogin"
                                         />
                                     </div>
-                                    <div class='form-footer'>
+                                    <div class="form-footer">
                                         <button
-                                            type='submit'
-                                            class='btn btn-primary w-100'
-                                            @click='createLogin'
+                                            type="submit"
+                                            class="btn btn-primary w-100"
+                                            @click="createLogin"
                                         >
                                             Sign In
                                         </button>
                                     </div>
                                 </template>
-                                <template v-if='brandStore.oidc.enabled'>
+                                <template v-if="brandStore.oidc.enabled">
                                     <div
-                                        v-if='!brandStore.oidc.enforced'
-                                        class='my-3 d-flex align-items-center'
+                                        v-if="!brandStore.oidc.enforced"
+                                        class="my-3 d-flex align-items-center"
                                     >
-                                        <hr class='flex-grow-1 m-0'>
-                                        <span class='mx-2 text-muted small'>or</span>
-                                        <hr class='flex-grow-1 m-0'>
+                                        <hr class="flex-grow-1 m-0">
+                                        <span class="mx-2 text-muted small">or</span>
+                                        <hr class="flex-grow-1 m-0">
                                     </div>
                                     <TablerInlineAlert
-                                        v-if='!brandStore.oidc.discovery'
-                                        class='mb-2'
-                                        title='OIDC Misconfigured'
-                                        description='The administrator has not configured OIDC correctly. Please contact your system administrator.'
-                                        severity='warning'
+                                        v-if="!brandStore.oidc.discovery"
+                                        class="mb-2"
+                                        title="OIDC Misconfigured"
+                                        description="The administrator has not configured OIDC correctly. Please contact your system administrator."
+                                        severity="warning"
                                     />
                                     <a
                                         v-else
-                                        class='btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2'
-                                        href='/api/login/oidc'
+                                        class="btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                                        href="/api/login/oidc"
                                     >
                                         <img
-                                            v-if='brandStore.oidc.logo'
-                                            :src='brandStore.oidc.logo'
-                                            style='height: 20px; width: 20px; object-fit: contain;'
-                                            alt=''
+                                            v-if="brandStore.oidc.logo"
+                                            :src="brandStore.oidc.logo"
+                                            style="height: 20px; width: 20px; object-fit: contain;"
+                                            alt=""
                                         >
                                         Sign in with {{ brandStore.oidc.name || 'SSO' }}
                                     </a>
                                 </template>
-                                <template v-if='brandStore.passkey.enabled && !loading && !isNativePlatform()'>
+                                <template v-if="brandStore.passkey.enabled && !loading && !isNativePlatform()">
                                     <div
-                                        v-if='!brandStore.oidc.enabled || !brandStore.oidc.enforced'
-                                        class='my-3 d-flex align-items-center'
+                                        v-if="!brandStore.oidc.enabled || !brandStore.oidc.enforced"
+                                        class="my-3 d-flex align-items-center"
                                     >
-                                        <hr class='flex-grow-1 m-0'>
-                                        <span class='mx-2 text-muted small'>or</span>
-                                        <hr class='flex-grow-1 m-0'>
+                                        <hr class="flex-grow-1 m-0">
+                                        <span class="mx-2 text-muted small">or</span>
+                                        <hr class="flex-grow-1 m-0">
                                     </div>
                                     <button
-                                        type='button'
-                                        class='btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2'
-                                        @click='authenticatePasskey'
+                                        type="button"
+                                        class="btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                                        @click="authenticatePasskey"
                                     >
                                         <IconFingerprint
-                                            :size='20'
-                                            stroke='1.5'
+                                            :size="20"
+                                            stroke="1.5"
                                         />
                                         Sign in with Passkey
                                     </button>
                                 </template>
-                                <template v-if='certRenewal.required && !loading'>
+                                <template v-if="certRenewal.required && !loading">
                                     <TablerInlineAlert
-                                        class='mt-3 mb-2'
-                                        title='Certificate Renewal Required'
+                                        class="mt-3 mb-2"
+                                        title="Certificate Renewal Required"
                                         :description='certRenewal.expired
                                             ? "Your TAK certificate is expired or no longer valid. Please enter your password to issue a new one."
                                             : "Your TAK certificate is expiring soon. Please enter your password to renew it."'
                                         :severity='certRenewal.expired ? "danger" : "warning"'
                                     />
-                                    <div class='mb-3'>
+                                    <div class="mb-3">
                                         <TablerInput
-                                            v-model='certRenewal.password'
-                                            icon='lock'
-                                            type='password'
-                                            label='Password'
-                                            placeholder='Enter your password'
-                                            @keyup.enter='renewCertificate'
+                                            v-model="certRenewal.password"
+                                            icon="lock"
+                                            type="password"
+                                            label="Password"
+                                            placeholder="Enter your password"
+                                            @keyup.enter="renewCertificate"
                                         />
                                     </div>
-                                    <div class='d-flex gap-2'>
+                                    <div class="d-flex gap-2">
                                         <button
-                                            type='button'
-                                            class='btn btn-primary flex-fill'
-                                            @click='renewCertificate'
+                                            type="button"
+                                            class="btn btn-primary flex-fill"
+                                            @click="renewCertificate"
                                         >
                                             Renew Certificate
                                         </button>
                                         <button
-                                            v-if='!certRenewal.expired'
-                                            type='button'
-                                            class='btn btn-secondary'
-                                            @click='skipCertRenewal'
+                                            v-if="!certRenewal.expired"
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            @click="skipCertRenewal"
                                         >
                                             Skip
                                         </button>
@@ -236,14 +236,14 @@
                             </div>
                         </div>
                         <div
-                            v-if='brandStore.login && brandStore.login.signup'
-                            class='text-center text-muted mt-3'
+                            v-if="brandStore.login && brandStore.login.signup"
+                            class="text-center text-muted mt-3"
                         >
                             Don't have an account yet?
                             <a
-                                tabindex='-1'
-                                class='cursor-pointer'
-                                :href='brandStore.login.signup'
+                                tabindex="-1"
+                                class="cursor-pointer"
+                                :href="brandStore.login.signup"
                             >Sign Up</a>
                         </div>
                     </div>
@@ -252,101 +252,101 @@
         </div>
 
         <div
-            class='dropup position-absolute'
-            style='bottom: 24px; right: 24px; z-index: 20;'
+            class="dropup position-absolute"
+            style="bottom: 24px; right: 24px; z-index: 20;"
         >
             <div
-                class='cursor-pointer'
-                @click='showSettings = !showSettings'
+                class="cursor-pointer"
+                @click="showSettings = !showSettings"
             >
-                <IconSettings class='text-secondary' />
+                <IconSettings class="text-secondary" />
             </div>
 
             <div
-                v-if='showSettings'
-                class='dropdown-menu dropdown-menu-card show dropdown-menu-end p-0 shadow'
-                style='min-width: 300px; bottom: 100% !important; top: auto !important; right: 0 !important; left: auto !important;'
+                v-if="showSettings"
+                class="dropdown-menu dropdown-menu-card show dropdown-menu-end p-0 shadow"
+                style="min-width: 300px; bottom: 100% !important; top: auto !important; right: 0 !important; left: auto !important;"
             >
-                <div class='card'>
-                    <div class='card-header'>
-                        <h3 class='card-title'>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             Login Settings
                         </h3>
-                        <div class='card-actions'>
+                        <div class="card-actions">
                             <button
-                                class='btn-close'
-                                @click.stop='showSettings = false'
+                                class="btn-close"
+                                @click.stop="showSettings = false"
                             />
                         </div>
                     </div>
-                    <div class='card-body p-0'>
+                    <div class="card-body p-0">
                         <div
-                            v-if='isNativePlatform()'
-                            class='px-3 pt-2 pb-2 border-bottom'
+                            v-if="isNativePlatform()"
+                            class="px-3 pt-2 pb-2 border-bottom"
                         >
                             <button
-                                class='btn btn-sm btn-outline-secondary w-100'
-                                @click='switchServers'
+                                class="btn btn-sm btn-outline-secondary w-100"
+                                @click="switchServers"
                             >
                                 Switch Servers
                             </button>
                         </div>
-                        <div class='px-3 pt-2 pb-1 border-bottom'>
-                            <span class='text-muted small'>Running </span>
-                            <code class='small'>v{{ version }}</code>
-                            <span class='text-muted small'> (build: {{ buildHash }})</span>
+                        <div class="px-3 pt-2 pb-1 border-bottom">
+                            <span class="text-muted small">Running </span>
+                            <code class="small">v{{ version }}</code>
+                            <span class="text-muted small"> (build: {{ buildHash }})</span>
                         </div>
                         <div
-                            v-if='workers.length === 0'
-                            class='p-3 text-muted text-center'
+                            v-if="workers.length === 0"
+                            class="p-3 text-muted text-center"
                         >
                             No Service Workers Found
                         </div>
                         <div
                             v-else
-                            class='list-group list-group-flush'
+                            class="list-group list-group-flush"
                         >
                             <div
-                                v-for='w in workers'
-                                :key='w.url'
-                                class='list-group-item'
+                                v-for="w in workers"
+                                :key="w.url"
+                                class="list-group-item"
                             >
-                                <div class='d-flex justify-content-between align-items-center'>
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div
-                                        class='text-truncate me-2'
-                                        title='Service Worker'
+                                        class="text-truncate me-2"
+                                        title="Service Worker"
                                     >
-                                        <div class='fw-bold'>
+                                        <div class="fw-bold">
                                             {{ w.url }}
                                         </div>
-                                        <div class='mt-1 d-flex align-items-center gap-2'>
+                                        <div class="mt-1 d-flex align-items-center gap-2">
                                             <TablerBadge
-                                                background-color='rgba(34, 197, 94, 0.2)'
-                                                border-color='rgba(34, 197, 94, 0.5)'
-                                                text-color='#16a34a'
+                                                background-color="rgba(34, 197, 94, 0.2)"
+                                                border-color="rgba(34, 197, 94, 0.5)"
+                                                text-color="#16a34a"
                                             >
                                                 {{ w.state }}
                                             </TablerBadge>
                                             <div
-                                                v-if='w.version'
-                                                class='text-muted small'
+                                                v-if="w.version"
+                                                class="text-muted small"
                                             >
                                                 v{{ w.version }}
                                             </div>
                                             <div
-                                                v-if='w.build'
-                                                class='text-muted small'
+                                                v-if="w.build"
+                                                class="text-muted small"
                                             >
                                                 {{ w.build }}
                                             </div>
                                         </div>
                                     </div>
                                     <button
-                                        class='btn btn-icon btn-ghost-danger btn-sm'
-                                        title='Unregister'
-                                        @click='unregister(w.registration)'
+                                        class="btn btn-icon btn-ghost-danger btn-sm"
+                                        title="Unregister"
+                                        @click="unregister(w.registration)"
                                     >
-                                        <IconTrash size='16' />
+                                        <IconTrash size="16" />
                                     </button>
                                 </div>
                             </div>

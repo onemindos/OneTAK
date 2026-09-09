@@ -1,95 +1,95 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <TablerLoading
-            v-if='loading'
-            desc='Updating Log'
+            v-if="loading"
+            desc="Updating Log"
         />
         <template v-else>
             <div
-                class='mission-log-card cloudtak-accent border rounded-3 w-100 overflow-hidden'
+                class="mission-log-card cloudtak-accent border rounded-3 w-100 overflow-hidden"
                 :class='{
                     "shadow-sm": !editing && !!log.read,
                     "border-primary border-2 unread-pulse": !editing && !log.read,
                     "border-primary border-2 shadow": editing
                 }'
-                role='menuitem'
-                tabindex='0'
+                role="menuitem"
+                tabindex="0"
             >
-                <div class='d-flex align-items-center gap-2 px-2 pt-2'>
-                    <div class='d-flex flex-column lh-sm overflow-hidden'>
+                <div class="d-flex align-items-center gap-2 px-2 pt-2">
+                    <div class="d-flex flex-column lh-sm overflow-hidden">
                         <span
-                            class='fw-semibold text-truncate'
+                            class="fw-semibold text-truncate"
                             v-text='log.creatorUid || "Unknown Author"'
                         />
                         <span
-                            v-if='!editing'
-                            class='text-secondary small text-nowrap'
+                            v-if="!editing"
+                            class="text-secondary small text-nowrap"
                             :class='{ "cursor-pointer": !log.read }'
-                            @click='markAsRead'
+                            @click="markAsRead"
                         >{{ formatDtg(log.dtg) }}</span>
                     </div>
 
-                    <div class='ms-auto d-flex align-items-center gap-2'>
-                        <template v-if='!editing'>
+                    <div class="ms-auto d-flex align-items-center gap-2">
+                        <template v-if="!editing">
                             <span
-                                v-if='!log.read'
-                                class='unread-dot rounded-circle flex-shrink-0'
-                                title='Unread'
+                                v-if="!log.read"
+                                class="unread-dot rounded-circle flex-shrink-0"
+                                title="Unread"
                             />
                             <div
-                                v-if='canWrite'
-                                class='btn-list'
+                                v-if="canWrite"
+                                class="btn-list"
                             >
                                 <TablerIconButton
-                                    title='Edit Log'
-                                    @click='startEditing'
+                                    title="Edit Log"
+                                    @click="startEditing"
                                 >
                                     <IconPencil
-                                        :size='20'
-                                        stroke='1.5'
+                                        :size="20"
+                                        stroke="1.5"
                                     />
                                 </TablerIconButton>
                                 <TablerDelete
-                                    displaytype='icon'
-                                    :size='20'
-                                    @delete='deleteLog()'
+                                    displaytype="icon"
+                                    :size="20"
+                                    @delete="deleteLog()"
                                 />
                             </div>
                         </template>
                     </div>
                 </div>
 
-                <div class='px-2 pt-2 pb-2 d-flex flex-column gap-2'>
-                    <template v-if='editing'>
+                <div class="px-2 pt-2 pb-2 d-flex flex-column gap-2">
+                    <template v-if="editing">
                         <TablerInput
-                            type='datetime-local'
-                            label='Log Time'
-                            :model-value='editDtg'
-                            @update:model-value='editDtg = String($event)'
+                            type="datetime-local"
+                            label="Log Time"
+                            :model-value="editDtg"
+                            @update:model-value="editDtg = String($event)"
                         />
 
                         <TablerInput
-                            v-model='editContent'
-                            label=''
+                            v-model="editContent"
+                            label=""
                             :rows='Math.max(4, editContent.split("\n").length)'
-                            :autofocus='true'
+                            :autofocus="true"
                         />
 
                         <Keywords
-                            v-model:keywords='editKeywords'
-                            :relevant='relevant'
+                            v-model:keywords="editKeywords"
+                            :relevant="relevant"
                         />
 
-                        <div class='d-flex justify-content-end gap-2 mt-1'>
+                        <div class="d-flex justify-content-end gap-2 mt-1">
                             <TablerButton
-                                class='btn-sm btn-secondary'
-                                @click='cancelEditing'
+                                class="btn-sm btn-secondary"
+                                @click="cancelEditing"
                             >
                                 Cancel
                             </TablerButton>
                             <TablerButton
-                                class='btn-sm btn-primary'
-                                @click='saveEditing'
+                                class="btn-sm btn-primary"
+                                @click="saveEditing"
                             >
                                 Save
                             </TablerButton>
@@ -97,13 +97,13 @@
                     </template>
                     <template v-else>
                         <CopyField
-                            class='w-100'
-                            mode='text'
+                            class="w-100"
+                            mode="text"
                             :rows='Math.max(2, (log.content || "").split("\n").length)'
                             :model-value='log.content || ""'
                         />
 
-                        <Keywords :keywords='log.keywords' />
+                        <Keywords :keywords="log.keywords" />
                     </template>
                 </div>
             </div>

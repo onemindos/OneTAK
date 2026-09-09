@@ -1,28 +1,28 @@
 <template>
     <TablerDropdown
-        :width='menuWidth'
-        position='bottom-start'
-        class='board-select'
+        :width="menuWidth"
+        position="bottom-start"
+        class="board-select"
     >
         <template #default>
             <div
-                ref='trigger'
-                class='form-select d-flex align-items-center gap-2 w-100 board-select-trigger'
+                ref="trigger"
+                class="form-select d-flex align-items-center gap-2 w-100 board-select-trigger"
                 :class='{ "cursor-pointer": !props.disabled }'
-                role='button'
-                :tabindex='props.disabled ? -1 : 0'
-                :aria-label='props.placeholder'
+                role="button"
+                :tabindex="props.disabled ? -1 : 0"
+                :aria-label="props.placeholder"
             >
                 <IconLayoutKanban
-                    :size='18'
-                    stroke='1.5'
-                    class='flex-shrink-0 text-secondary'
+                    :size="18"
+                    stroke="1.5"
+                    class="flex-shrink-0 text-secondary"
                 />
                 <span
-                    class='flex-grow-1 text-truncate user-select-none'
-                    style='min-width: 0;'
+                    class="flex-grow-1 text-truncate user-select-none"
+                    style="min-width: 0;"
                     :class='{ "text-secondary": !selected }'
-                    v-text='selected ? selected.name : props.placeholder'
+                    v-text="selected ? selected.name : props.placeholder"
                 />
             </div>
         </template>
@@ -31,82 +31,82 @@
             <!-- Sized to the trigger so the panel doesn't spill under whatever
                  control sits beside it -->
             <div
-                class='board-select-menu'
-                :style='{ width: `${menuWidth}px` }'
+                class="board-select-menu"
+                :style="{ width: `${menuWidth}px` }"
             >
-                <div class='d-flex align-items-center px-3 py-2 border-bottom'>
-                    <h3 class='m-0 fw-bold'>
+                <div class="d-flex align-items-center px-3 py-2 border-bottom">
+                    <h3 class="m-0 fw-bold">
                         Boards
                     </h3>
-                    <div class='ms-auto btn-list'>
+                    <div class="ms-auto btn-list">
                         <TablerIconButton
-                            title='Refresh Boards'
-                            @click.stop='listBoards'
+                            title="Refresh Boards"
+                            @click.stop="listBoards"
                         >
                             <IconRefresh
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
 
-                <div class='px-3 py-2'>
+                <div class="px-3 py-2">
                     <!-- The dropdown autocloses on any click it sees - the
                          search field has to swallow its own -->
                     <TablerInput
-                        v-model='search'
-                        placeholder='Search...'
-                        icon='search'
-                        :autofocus='true'
-                        class='mb-0'
+                        v-model="search"
+                        placeholder="Search..."
+                        icon="search"
+                        :autofocus="true"
+                        class="mb-0"
                         @click.stop
                     />
                 </div>
 
-                <div class='px-2 pb-2 overflow-auto board-select-list'>
+                <div class="px-2 pb-2 overflow-auto board-select-list">
                     <TablerLoading
-                        v-if='loading'
-                        :compact='true'
-                        desc='Loading Boards'
+                        v-if="loading"
+                        :compact="true"
+                        desc="Loading Boards"
                     />
                     <TablerAlert
-                        v-else-if='error'
-                        :err='error'
+                        v-else-if="error"
+                        :err="error"
                     />
                     <template v-else>
                         <div
-                            v-for='board of filtered'
-                            :key='board.id'
-                            class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none d-flex align-items-center gap-2'
+                            v-for="board of filtered"
+                            :key="board.id"
+                            class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none d-flex align-items-center gap-2"
                             @click='emit("update:modelValue", board.id)'
                         >
                             <IconCheck
-                                v-if='board.id === props.modelValue'
-                                :size='20'
-                                stroke='1.5'
-                                class='flex-shrink-0'
+                                v-if="board.id === props.modelValue"
+                                :size="20"
+                                stroke="1.5"
+                                class="flex-shrink-0"
                             />
                             <span
                                 v-else
-                                class='flex-shrink-0 board-select-gutter'
+                                class="flex-shrink-0 board-select-gutter"
                             />
-                            <div style='min-width: 0;'>
+                            <div style="min-width: 0;">
                                 <div
-                                    class='text-truncate'
-                                    v-text='board.name'
+                                    class="text-truncate"
+                                    v-text="board.name"
                                 />
                                 <div
-                                    v-if='board.description'
-                                    class='small text-secondary text-truncate'
-                                    v-text='board.description'
+                                    v-if="board.description"
+                                    class="small text-secondary text-truncate"
+                                    v-text="board.description"
                                 />
                             </div>
                         </div>
                         <TablerNone
-                            v-if='!filtered.length'
-                            :compact='true'
-                            :create='false'
+                            v-if="!filtered.length"
+                            :compact="true"
+                            :create="false"
                             :label='boards.length ? "No Matching Boards" : "No Boards"'
                         />
                     </template>

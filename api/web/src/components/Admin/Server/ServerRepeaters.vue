@@ -1,51 +1,51 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 TAK Server COT Repeaters
             </h3>
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerRefreshButton
-                        :loading='loading'
-                        @click='fetchList'
+                        :loading="loading"
+                        @click="fetchList"
                     />
                 </div>
             </div>
         </div>
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
             v-else
-            class='card-body row'
+            class="card-body row"
         >
             <TablerNone
-                v-if='list.total === 0'
-                label='No Repeaters'
-                :create='false'
+                v-if="list.total === 0"
+                label="No Repeaters"
+                :create="false"
             />
             <template v-else>
-                <template v-for='repeater in list.items'>
-                    <div class='col-12 cloudtak-hover d-flex align-items-center px-2 py-2'>
-                        <div class='row'>
-                            <div class='col-12'>
-                                <span v-text='repeater.callsign' />
+                <template v-for="repeater in list.items">
+                    <div class="col-12 cloudtak-hover d-flex align-items-center px-2 py-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <span v-text="repeater.callsign" />
                             </div>
-                            <div class='col-12 subheader'>
-                                <span v-text='repeater.cotType' /> - <span
-                                    class='cursor-pointer'
-                                    @click='relative = !relative'
-                                    v-text='relative ? timeDiff(Number(repeater.dateTimeActivated)) : new Date(Number(repeater.dateTimeActivated))'
+                            <div class="col-12 subheader">
+                                <span v-text="repeater.cotType" /> - <span
+                                    class="cursor-pointer"
+                                    @click="relative = !relative"
+                                    v-text="relative ? timeDiff(Number(repeater.dateTimeActivated)) : new Date(Number(repeater.dateTimeActivated))"
                                 />
                             </div>
                         </div>
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <TablerDelete
-                                displaytype='icon'
-                                @delete='deleteRepeater(repeater)'
+                                displaytype="icon"
+                                @delete="deleteRepeater(repeater)"
                             />
                         </div>
                     </div>

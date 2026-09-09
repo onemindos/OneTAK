@@ -2,60 +2,60 @@
     <thead>
         <tr>
             <th
-                v-for='s in shown'
-                :key='s.name'
+                v-for="s in shown"
+                :key="s.name"
             >
-                <div class='d-flex align-items-center'>
+                <div class="d-flex align-items-center">
                     <span
-                        class='cursor-pointer'
-                        @click='updateSort(s.name)'
-                        v-text='s.name'
+                        class="cursor-pointer"
+                        @click="updateSort(s.name)"
+                        v-text="s.name"
                     />
                     <span
-                        v-if='s.name === sort'
-                        class='ms-auto'
+                        v-if="s.name === sort"
+                        class="ms-auto"
                     >
                         <IconChevronDown
                             v-if='order === "asc"'
-                            :size='16'
-                            stroke='1'
-                            class='cursor-pointer'
+                            :size="16"
+                            stroke="1"
+                            class="cursor-pointer"
                             @click='updateOrder("desc")'
                         />
                         <IconChevronUp
                             v-else
-                            :size='16'
-                            stroke='1'
-                            class='cursor-pointer'
+                            :size="16"
+                            stroke="1"
+                            class="cursor-pointer"
                             @click='updateOrder("asc")'
                         />
                     </span>
 
-                    <template v-if='shown[shown.length - 1] === s'>
-                        <div class='ms-auto'>
+                    <template v-if="shown[shown.length - 1] === s">
+                        <div class="ms-auto">
                             <TablerDropdown>
                                 <IconSettings
-                                    :size='16'
-                                    stroke='1'
-                                    class='mx-2 dropdown-toggle cursor-pointer'
+                                    :size="16"
+                                    stroke="1"
+                                    class="mx-2 dropdown-toggle cursor-pointer"
                                 />
 
                                 <template #dropdown>
                                     <div
-                                        v-for='(h, h_it) of header'
-                                        :key='h_it'
+                                        v-for="(h, h_it) of header"
+                                        :key="h_it"
                                     >
-                                        <label class='form-check subheader mb-1 mx-1'>
+                                        <label class="form-check subheader mb-1 mx-1">
                                             <input
-                                                class='form-check-input'
-                                                type='checkbox'
-                                                :checked='h.display'
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                :checked="h.display"
                                                 @click.stop
-                                                @change='displayHeader(h_it, $event)'
+                                                @change="displayHeader(h_it, $event)"
                                             >
                                             <span
-                                                class='form-check-label'
-                                                v-text='h.name'
+                                                class="form-check-label"
+                                                v-text="h.name"
                                             />
                                         </label>
                                     </div>

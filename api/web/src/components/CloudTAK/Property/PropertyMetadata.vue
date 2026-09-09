@@ -1,38 +1,38 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Metadata'
+            v-model="expanded"
+            label="Metadata"
         >
             <template #icon>
                 <IconDatabase
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
 
-            <div class='table-responsive rounded mx-2 py-2 px-2'>
-                <table class='table table-transparent card-table table-hover table-vcenter'>
+            <div class="table-responsive rounded mx-2 py-2 px-2">
+                <table class="table table-transparent card-table table-hover table-vcenter">
                     <thead>
                         <tr>
-                            <th class='fw-bold'>
+                            <th class="fw-bold">
                                 Key
                             </th>
-                            <th class='fw-bold'>
+                            <th class="fw-bold">
                                 Value
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            v-for='prop of Object.keys(cot.properties.takv || {})'
-                            :key='prop'
+                            v-for="prop of Object.keys(cot.properties.takv || {})"
+                            :key="prop"
                         >
-                            <td v-text='prop' />
+                            <td v-text="prop" />
                             <!-- @vue-expect-error Not a KeyOf -->
-                            <td v-text='cot.properties.takv[prop]' />
+                            <td v-text="cot.properties.takv[prop]" />
                         </tr>
                     </tbody>
                 </table>

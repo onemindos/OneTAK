@@ -1,27 +1,27 @@
 <template>
-    <div class='h-100 w-100 video-player'>
+    <div class="h-100 w-100 video-player">
         <div
-            v-if='loading'
-            class='col-12 d-flex align-items-center justify-content-center h-100'
+            v-if="loading"
+            class="col-12 d-flex align-items-center justify-content-center h-100"
         >
-            <TablerLoading desc='Loading Stream' />
+            <TablerLoading desc="Loading Stream" />
         </div>
-        <template v-else-if='error'>
-            <div class='video-player-error d-flex flex-column align-items-center justify-content-center text-center gap-3 h-100 w-100'>
-                <div class='row g-2 w-100'>
+        <template v-else-if="error">
+            <div class="video-player-error d-flex flex-column align-items-center justify-content-center text-center gap-3 h-100 w-100">
+                <div class="row g-2 w-100">
                     <TablerAlert
-                        class='video-player-error-alert w-100'
-                        title='Video Error'
-                        :compact='true'
-                        :err='error'
+                        class="video-player-error-alert w-100"
+                        title="Video Error"
+                        :compact="true"
+                        :err="error"
                     />
                 </div>
 
-                <div class='row g-2 w-100 video-player-error-actions'>
-                    <div class='col-12'>
+                <div class="row g-2 w-100 video-player-error-actions">
+                    <div class="col-12">
                         <TablerButton
-                            class='w-100'
-                            @click='requestStream'
+                            class="w-100"
+                            @click="requestStream"
                         >
                             Retry
                         </TablerButton>
@@ -29,26 +29,26 @@
                 </div>
             </div>
         </template>
-        <template v-else-if='!protocolQueue.length'>
+        <template v-else-if="!protocolQueue.length">
             <TablerNone
-                label='No Supported Streaming Protocol'
-                :create='false'
+                label="No Supported Streaming Protocol"
+                :create="false"
             />
         </template>
         <template v-else>
-            <div class='position-relative w-100 h-100'>
+            <div class="position-relative w-100 h-100">
                 <div
-                    ref='videoContainer'
-                    class='w-100 h-100 live-video'
+                    ref="videoContainer"
+                    class="w-100 h-100 live-video"
                 />
 
                 <div
-                    v-if='isBuffering'
-                    class='buffering-overlay'
+                    v-if="isBuffering"
+                    class="buffering-overlay"
                 >
-                    <div class='buffering-icon'>
-                        <IconPlayerPauseFilled :size='64' />
-                        <div class='mt-2 fw-bold'>
+                    <div class="buffering-icon">
+                        <IconPlayerPauseFilled :size="64" />
+                        <div class="mt-2 fw-bold">
                             Buffering...
                         </div>
                     </div>

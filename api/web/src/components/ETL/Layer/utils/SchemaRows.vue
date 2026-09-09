@@ -1,101 +1,101 @@
 <template>
     <template
-        v-for='field in fields'
-        :key='field.path'
+        v-for="field in fields"
+        :key="field.path"
     >
         <tr
             :class='{ "cursor-pointer": field.expandable }'
-            @click='field.expandable && toggleExpand(field.path)'
+            @click="field.expandable && toggleExpand(field.path)"
         >
             <td>
                 <div
-                    class='d-flex align-items-center'
+                    class="d-flex align-items-center"
                     :style='{ paddingLeft: (props.depth * 24) + "px" }'
                 >
-                    <span class='mx-3'>
+                    <span class="mx-3">
                         <template v-if='field.type === "string"'>
                             <IconAlphabetLatin
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else-if='field.type === "number"'>
                             <IconDecimal
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else-if='field.type === "integer"'>
                             <IconSort09
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else-if='field.type === "object"'>
                             <IconBraces
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else-if='field.type === "array"'>
                             <IconBrackets
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else-if='field.type === "boolean"'>
                             <IconToggleLeft
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                         <template v-else>
                             <IconBinary
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </template>
                     </span>
-                    <span v-text='field.name' />
+                    <span v-text="field.name" />
                 </div>
             </td>
-            <td v-text='field.type' />
-            <td v-text='field.format' />
+            <td v-text="field.type" />
+            <td v-text="field.format" />
             <td>
-                <div class='d-flex align-items-center'>
+                <div class="d-flex align-items-center">
                     <TablerBadge
-                        v-if='field.required'
-                        class='mx-1 mb-1'
-                        style='height: 20px;'
-                        background-color='rgba(239, 68, 68, 0.2)'
-                        border-color='rgba(239, 68, 68, 0.5)'
-                        text-color='#dc2626'
+                        v-if="field.required"
+                        class="mx-1 mb-1"
+                        style="height: 20px;"
+                        background-color="rgba(239, 68, 68, 0.2)"
+                        border-color="rgba(239, 68, 68, 0.5)"
+                        text-color="#dc2626"
                     >
                         Required
                     </TablerBadge>
                     <TablerBadge
-                        v-if='field.nullable'
-                        class='mx-1 mb-1'
-                        style='height: 20px;'
-                        background-color='rgba(245, 158, 11, 0.2)'
-                        border-color='rgba(245, 158, 11, 0.5)'
-                        text-color='#d97706'
+                        v-if="field.nullable"
+                        class="mx-1 mb-1"
+                        style="height: 20px;"
+                        background-color="rgba(245, 158, 11, 0.2)"
+                        border-color="rgba(245, 158, 11, 0.5)"
+                        text-color="#d97706"
                     >
                         Nullable
                     </TablerBadge>
                     <span
-                        v-if='field.expandable'
-                        class='d-flex align-items-center ms-auto'
+                        v-if="field.expandable"
+                        class="d-flex align-items-center ms-auto"
                     >
                         <IconChevronDown
-                            v-if='expanded.has(field.path)'
-                            :size='16'
-                            stroke='1'
+                            v-if="expanded.has(field.path)"
+                            :size="16"
+                            stroke="1"
                         />
                         <IconChevronRight
                             v-else
-                            :size='16'
-                            stroke='1'
+                            :size="16"
+                            stroke="1"
                         />
                     </span>
                 </div>
@@ -103,12 +103,12 @@
         </tr>
 
         <SchemaRows
-            v-if='field.expandable && expanded.has(field.path)'
-            :properties='field.childProperties ?? {}'
-            :required='field.childRequired'
-            :depth='props.depth + 1'
-            :parent-path='field.path'
-            :expanded='expanded'
+            v-if="field.expandable && expanded.has(field.path)"
+            :properties="field.childProperties ?? {}"
+            :required="field.childRequired"
+            :depth="props.depth + 1"
+            :parent-path="field.path"
+            :expanded="expanded"
             @toggle='emit("toggle", $event)'
         />
     </template>

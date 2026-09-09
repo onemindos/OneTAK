@@ -1,108 +1,108 @@
 <template>
     <div>
-        <div class='card-header d-flex align-items-center'>
-            <h3 class='card-title mb-0'>
+        <div class="card-header d-flex align-items-center">
+            <h3 class="card-title mb-0">
                 Geofence Server
             </h3>
-            <div class='ms-auto d-flex gap-1'>
+            <div class="ms-auto d-flex gap-1">
                 <TablerIconButton
-                    v-if='!edit'
-                    title='Edit'
-                    @click.stop='edit = true'
+                    v-if="!edit"
+                    title="Edit"
+                    @click.stop="edit = true"
                 >
-                    <IconPencil stroke='1' />
+                    <IconPencil stroke="1" />
                 </TablerIconButton>
                 <template v-else>
                     <TablerIconButton
-                        color='rgba(var(--tblr-primary-rgb), 0.14)'
-                        title='Save'
-                        @click.stop='save'
+                        color="rgba(var(--tblr-primary-rgb), 0.14)"
+                        title="Save"
+                        @click.stop="save"
                     >
                         <IconDeviceFloppy
-                            color='rgb(var(--tblr-primary-rgb))'
-                            stroke='1'
+                            color="rgb(var(--tblr-primary-rgb))"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel'
-                        @click.stop='edit = false; fetch()'
+                        title="Cancel"
+                        @click.stop="edit = false; fetch()"
                     >
-                        <IconX stroke='1' />
+                        <IconX stroke="1" />
                     </TablerIconButton>
                 </template>
             </div>
         </div>
-        <div class='card-body row'>
-            <div class='col-12'>
-                <div class='py-2 px-2 rounded'>
-                    <TablerLoading v-if='loading' />
+        <div class="card-body row">
+            <div class="col-12">
+                <div class="py-2 px-2 rounded">
+                    <TablerLoading v-if="loading" />
                     <template v-else>
                         <TablerAlert
-                            v-if='err'
-                            :err='err'
+                            v-if="err"
+                            :err="err"
                         />
-                        <div class='row'>
-                            <div class='col-lg-12 pb-2'>
-                                <div class='rounded cloudtak-accent px-3 py-2'>
-                                    <div class='d-flex align-items-center'>
+                        <div class="row">
+                            <div class="col-lg-12 pb-2">
+                                <div class="rounded cloudtak-accent px-3 py-2">
+                                    <div class="d-flex align-items-center">
                                         <StatusDot
-                                            :status='statusDot'
-                                            :title='statusLabel'
+                                            :status="statusDot"
+                                            :title="statusLabel"
                                         />
-                                        <div class='ms-2'>
-                                            <div class='fw-bold'>
+                                        <div class="ms-2">
+                                            <div class="fw-bold">
                                                 Connection Status
                                             </div>
-                                            <div class='text-secondary'>
-                                                <span v-text='statusLabel' />
+                                            <div class="text-secondary">
+                                                <span v-text="statusLabel" />
                                                 <span
-                                                    v-if='status.connected && status.url'
-                                                    class='ms-1'
-                                                    v-text='`(${status.url})`'
+                                                    v-if="status.connected && status.url"
+                                                    class="ms-1"
+                                                    v-text="`(${status.url})`"
                                                 />
                                             </div>
                                         </div>
                                         <div
-                                            v-if='status.reconnectAttempts > 0'
-                                            class='ms-auto text-secondary small'
-                                            v-text='`Reconnect Attempts: ${status.reconnectAttempts}`'
+                                            v-if="status.reconnectAttempts > 0"
+                                            class="ms-auto text-secondary small"
+                                            v-text="`Reconnect Attempts: ${status.reconnectAttempts}`"
                                         />
                                     </div>
                                     <div
-                                        v-if='status.lastError'
-                                        class='text-danger small pt-2'
-                                        v-text='status.lastError'
+                                        v-if="status.lastError"
+                                        class="text-danger small pt-2"
+                                        v-text="status.lastError"
                                     />
                                     <div
-                                        v-else-if='statusError'
-                                        class='text-danger small pt-2'
-                                        v-text='statusError.message'
+                                        v-else-if="statusError"
+                                        class="text-danger small pt-2"
+                                        v-text="statusError.message"
                                     />
                                 </div>
                             </div>
-                            <div class='col-lg-12'>
+                            <div class="col-lg-12">
                                 <TablerToggle
                                     v-model='config["geofence::enabled"]'
-                                    :disabled='!edit'
-                                    label='Geofence Server Enabled'
+                                    :disabled="!edit"
+                                    label="Geofence Server Enabled"
                                 />
                             </div>
                             <div
                                 v-if='config["geofence::enabled"]'
-                                class='col-lg-12'
+                                class="col-lg-12"
                             >
                                 <TablerInput
                                     v-model='config["geofence::url"]'
-                                    :disabled='!edit'
+                                    :disabled="!edit"
                                     :error='validateURL(config["geofence::url"])'
-                                    label='Geofence Server URL'
+                                    label="Geofence Server URL"
                                 />
                                 <TablerInput
                                     v-model='config["geofence::password"]'
-                                    type='password'
-                                    autocomplete='new-password'
-                                    :disabled='!edit'
-                                    label='Geofence Server Password'
+                                    type="password"
+                                    autocomplete="new-password"
+                                    :disabled="!edit"
+                                    label="Geofence Server Password"
                                 />
                             </div>
                         </div>

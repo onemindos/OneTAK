@@ -1,65 +1,65 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-red' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='d-flex align-items-center'>
+        <div class="modal-header text-body">
+            <div class="d-flex align-items-center">
                 <IconAmbulance
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
                 <span
                     v-if='props.action === "add"'
-                    class='mx-2'
+                    class="mx-2"
                 >Add to Data Sync</span>
                 <span
                     v-if='props.action === "move"'
-                    class='mx-2'
+                    class="mx-2"
                 >Move to Data Sync</span>
             </div>
         </div>
 
-        <div class='modal-body text-body'>
-            <TablerLoading v-if='loading' />
+        <div class="modal-body text-body">
+            <TablerLoading v-if="loading" />
             <EmptyInfo
-                v-else-if='!missions.length'
-                type='Missions'
+                v-else-if="!missions.length"
+                type="Missions"
             />
             <template v-else>
                 <div
-                    class='col-12 overflow-auto'
-                    style='
+                    class="col-12 overflow-auto"
+                    style="
                         max-height: 20vh;
-                    '
+                    "
                 >
-                    <div v-for='mission in missions'>
+                    <div v-for="mission in missions">
                         <div
-                            class='col-12 cursor-pointer cloudtak-hover py-2 rounded'
-                            @click='selected.has(mission) ? selected.delete(mission) : selected.add(mission)'
+                            class="col-12 cursor-pointer cloudtak-hover py-2 rounded"
+                            @click="selected.has(mission) ? selected.delete(mission) : selected.add(mission)"
                         >
-                            <div class='d-flex align-items-center'>
-                                <div class='col-auto'>
+                            <div class="d-flex align-items-center">
+                                <div class="col-auto">
                                     <IconCheck
-                                        v-if='selected.has(mission)'
-                                        :size='32'
-                                        stroke='1'
-                                        style='margin-left: 16px;'
+                                        v-if="selected.has(mission)"
+                                        :size="32"
+                                        stroke="1"
+                                        style="margin-left: 16px;"
                                     />
                                     <IconAmbulance
                                         v-else
-                                        :size='32'
-                                        stroke='1'
-                                        style='margin-left: 16px;'
+                                        :size="32"
+                                        stroke="1"
+                                        style="margin-left: 16px;"
                                     />
                                 </div>
                                 <span
-                                    class='mx-2'
-                                    v-text='mission.name'
+                                    class="mx-2"
+                                    v-text="mission.name"
                                 />
                             </div>
                         </div>
@@ -67,25 +67,25 @@
                 </div>
             </template>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <TablerButton
-                title='Cancel Share'
+                title="Cancel Share"
                 @click='emit("close")'
             >
                 Cancel
             </TablerButton>
 
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <TablerButton
-                    class='btn-primary'
-                    title='Share to Selected'
-                    :disabled='selected.size === 0'
-                    @click='share'
+                    class="btn-primary"
+                    title="Share to Selected"
+                    :disabled="selected.size === 0"
+                    @click="share"
                 >
                     <IconShare2
-                        :size='20'
-                        stroke='1'
-                        class='me-2'
+                        :size="20"
+                        stroke="1"
+                        class="me-2"
                     />
 
                     <span v-if='props.action === "add"'>Add to Data Sync</span>

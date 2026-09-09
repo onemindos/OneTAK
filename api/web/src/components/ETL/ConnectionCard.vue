@@ -1,103 +1,103 @@
 <template>
-    <div class='card-header'>
-        <ConnectionStatus :connection='connection' />
+    <div class="card-header">
+        <ConnectionStatus :connection="connection" />
 
         <div
-            class='mx-2 d-flex flex-column'
-            style='min-width: 0; overflow: hidden;'
+            class="mx-2 d-flex flex-column"
+            style="min-width: 0; overflow: hidden;"
         >
             <div
-                class='card-title m-0 text-truncate'
+                class="card-title m-0 text-truncate"
                 :class='{ "cursor-pointer": clickable }'
-                @click='clickable ? router.push(`/connection/${connection.id}`) : null'
-                v-text='connection.name'
+                @click="clickable ? router.push(`/connection/${connection.id}`) : null"
+                v-text="connection.name"
             />
         </div>
 
-        <div class='ms-auto d-flex align-items-center flex-shrink-0 flex-nowrap btn-list'>
-            <AgencyBadge :connection='connection' />
+        <div class="ms-auto d-flex align-items-center flex-shrink-0 flex-nowrap btn-list">
+            <AgencyBadge :connection="connection" />
 
             <TablerIconButton
-                v-if='!connection.readonly && connection.id !== 0'
-                title='Cycle Connection'
-                @click='cycle'
+                v-if="!connection.readonly && connection.id !== 0"
+                title="Cycle Connection"
+                @click="cycle"
             >
                 <IconPlugConnected
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh'
+                :loading="loading"
+                @click="refresh"
             />
 
             <TablerIconButton
-                v-if='connection.id !== 0'
-                title='Edit'
-                @click='router.push(`/connection/${connection.id}/edit`)'
+                v-if="connection.id !== 0"
+                title="Edit"
+                @click="router.push(`/connection/${connection.id}/edit`)"
             >
                 <IconSettings
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </div>
     </div>
     <div
-        v-if='expanded'
-        class='card-body'
+        v-if="expanded"
+        class="card-body"
     >
-        <TablerMarkdown :markdown='connection.description' />
+        <TablerMarkdown :markdown="connection.description" />
 
-        <div class='datagrid mt-3'>
-            <CertificateInfo :certificate='connection.certificate' />
+        <div class="datagrid mt-3">
+            <CertificateInfo :certificate="connection.certificate" />
         </div>
 
         <div
-            v-if='connection.readonly'
-            class='row g-2'
+            v-if="connection.readonly"
+            class="row g-2"
         >
             <div
-                class='col-12 d-flex align-items-center justify-content-center pt-3'
+                class="col-12 d-flex align-items-center justify-content-center pt-3"
             >
                 <TablerDropdown>
                     <template #default>
-                        <button class='btn mx-2'>
+                        <button class="btn mx-2">
                             <IconDownload
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Download Truststore</span>
+                            <span class="mx-2">Download Truststore</span>
                         </button>
                     </template>
                     <template #dropdown>
                         <div
-                            class='py-1'
-                            style='max-width: 300px;'
+                            class="py-1"
+                            style="max-width: 300px;"
                         >
-                            <div class='row g-2 px-3 pt-2 pb-2'>
-                                <div class='col-12'>
+                            <div class="row g-2 px-3 pt-2 pb-2">
+                                <div class="col-12">
                                     <TablerInput
-                                        v-model='certificate.truststorePassword'
-                                        label='Choose Certificate Password'
-                                        type='password'
-                                        autocomplete='new-password'
+                                        v-model="certificate.truststorePassword"
+                                        label="Choose Certificate Password"
+                                        type="password"
+                                        autocomplete="new-password"
                                         @click.stop
                                     />
                                 </div>
-                                <div class='col-12'>
+                                <div class="col-12">
                                     <button
-                                        class='btn btn-primary w-100'
-                                        :disabled='!certificate.truststorePassword'
+                                        class="btn btn-primary w-100"
+                                        :disabled="!certificate.truststorePassword"
                                         @click='downloadCertificate("truststore")'
                                     >
                                         <IconDownload
-                                            :size='24'
-                                            stroke='1'
+                                            :size="24"
+                                            stroke="1"
                                         />
-                                        <span class='mx-2'>Download Truststore</span>
+                                        <span class="mx-2">Download Truststore</span>
                                     </button>
                                 </div>
                             </div>
@@ -106,40 +106,40 @@
                 </TablerDropdown>
                 <TablerDropdown>
                     <template #default>
-                        <button class='btn mx-2'>
+                        <button class="btn mx-2">
                             <IconDownload
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Download Certificate</span>
+                            <span class="mx-2">Download Certificate</span>
                         </button>
                     </template>
                     <template #dropdown>
                         <div
-                            class='py-1'
-                            style='max-width: 300px;'
+                            class="py-1"
+                            style="max-width: 300px;"
                         >
-                            <div class='row g-2 px-3 pt-2 pb-2'>
-                                <div class='col-12'>
+                            <div class="row g-2 px-3 pt-2 pb-2">
+                                <div class="col-12">
                                     <TablerInput
-                                        v-model='certificate.clientPassword'
-                                        label='Choose Certificate Password'
-                                        type='password'
-                                        autocomplete='new-password'
+                                        v-model="certificate.clientPassword"
+                                        label="Choose Certificate Password"
+                                        type="password"
+                                        autocomplete="new-password"
                                         @click.stop
                                     />
                                 </div>
-                                <div class='col-12'>
+                                <div class="col-12">
                                     <button
-                                        class='btn btn-primary w-100'
-                                        :disabled='!certificate.clientPassword'
+                                        class="btn btn-primary w-100"
+                                        :disabled="!certificate.clientPassword"
                                         @click='downloadCertificate("client")'
                                     >
                                         <IconDownload
-                                            :size='24'
-                                            stroke='1'
+                                            :size="24"
+                                            stroke="1"
                                         />
-                                        <span class='mx-2'>Download Certificate</span>
+                                        <span class="mx-2">Download Certificate</span>
                                     </button>
                                 </div>
                             </div>
@@ -150,13 +150,13 @@
         </div>
     </div>
     <div
-        v-if='expanded'
-        class='card-footer d-flex align-items-center'
+        v-if="expanded"
+        class="card-footer d-flex align-items-center"
     >
         <div>
-            Last updated <span v-text='timeDiff(connection.updated)' />
+            Last updated <span v-text="timeDiff(connection.updated)" />
         </div>
-        <div class='ms-auto'>
+        <div class="ms-auto">
             <InitialAuthor
                 :email='connection.username || "Unknown"'
             />

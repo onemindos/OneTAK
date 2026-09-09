@@ -1,17 +1,17 @@
 <template>
     <TablerBadge
         v-if='state === "expired"'
-        background-color='rgba(220, 38, 38, 0.15)'
-        border-color='rgba(220, 38, 38, 0.35)'
-        text-color='#b91c1c'
+        background-color="rgba(220, 38, 38, 0.15)"
+        border-color="rgba(220, 38, 38, 0.35)"
+        text-color="#b91c1c"
     >
         {{ expiredLabel }}
     </TablerBadge>
     <TablerBadge
         v-else-if='state === "near-expiry"'
-        background-color='rgba(249, 115, 22, 0.15)'
-        border-color='rgba(249, 115, 22, 0.35)'
-        text-color='#c2410c'
+        background-color="rgba(249, 115, 22, 0.15)"
+        border-color="rgba(249, 115, 22, 0.35)"
+        text-color="#c2410c"
     >
         {{ nearExpiryLabel }}
     </TablerBadge>

@@ -1,72 +1,72 @@
 <template>
-    <div class='col-12'>
-        <div class='d-flex align-items-center'>
+    <div class="col-12">
+        <div class="d-flex align-items-center">
             <IconAlertTriangle
-                :size='18'
-                stroke='1'
-                color='#6b7990'
-                class='ms-2 me-1'
+                :size="18"
+                stroke="1"
+                color="#6b7990"
+                class="ms-2 me-1"
             />
             <label
-                class='subheader user-select-none'
+                class="subheader user-select-none"
                 v-text='"Priority"'
             />
-            <div class='ms-auto d-flex align-items-center me-2'>
+            <div class="ms-auto d-flex align-items-center me-2">
                 <span
-                    v-if='!props.active && props.ended'
-                    class='mx-2 text-muted cursor-pointer'
-                    @click='relative = !relative'
-                    v-text='relative ? timediff(props.ended) : props.ended'
+                    v-if="!props.active && props.ended"
+                    class="mx-2 text-muted cursor-pointer"
+                    @click="relative = !relative"
+                    v-text="relative ? timediff(props.ended) : props.ended"
                 />
 
                 <TablerBadge
-                    v-if='props.active'
-                    background-color='rgba(47, 179, 68, 0.15)'
-                    border-color='rgba(47, 179, 68, 0.4)'
-                    text-color='#2fb344'
+                    v-if="props.active"
+                    background-color="rgba(47, 179, 68, 0.15)"
+                    border-color="rgba(47, 179, 68, 0.4)"
+                    text-color="#2fb344"
                 >
                     Active
                 </TablerBadge>
                 <TablerBadge
                     v-else
-                    background-color='rgba(107, 121, 144, 0.15)'
-                    border-color='rgba(107, 121, 144, 0.4)'
-                    text-color='#6b7990'
+                    background-color="rgba(107, 121, 144, 0.15)"
+                    border-color="rgba(107, 121, 144, 0.4)"
+                    text-color="#6b7990"
                 >
                     Ended
                 </TablerBadge>
 
                 <TablerIconButton
-                    v-if='props.edit'
+                    v-if="props.edit"
                     :title='props.active ? "End Event" : "Reactivate Event"'
                     @click='emit("update:active", !props.active)'
                 >
                     <IconPlayerStop
-                        v-if='props.active'
-                        :size='20'
-                        stroke='1'
+                        v-if="props.active"
+                        :size="20"
+                        stroke="1"
                     />
                     <IconPlayerPlay
                         v-else
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div class='mx-2 pt-1'>
+        <div class="mx-2 pt-1">
             <TablerEnum
-                v-if='props.edit'
-                :model-value='props.modelValue'
-                label=''
-                :options='PRIORITIES'
+                v-if="props.edit"
+                :model-value="props.modelValue"
+                label=""
+                :options="PRIORITIES"
                 @update:model-value='emit("update:modelValue", String($event))'
             />
             <TablerBadge
                 v-else
-                :background-color='display.background'
-                :border-color='display.border'
-                :text-color='display.text'
+                :background-color="display.background"
+                :border-color="display.border"
+                :text-color="display.text"
             >
                 {{ display.label }}
             </TablerBadge>

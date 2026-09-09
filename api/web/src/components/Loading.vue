@@ -1,49 +1,49 @@
 <template>
-    <div class='page page-center user-select-none'>
-        <div class='container container-normal py-4'>
-            <div class='row align-items-center g-4'>
-                <div class='col-lg'>
-                    <div class='container-tight'>
-                        <div class='card card-md'>
-                            <div class='card-body'>
+    <div class="page page-center user-select-none">
+        <div class="container container-normal py-4">
+            <div class="row align-items-center g-4">
+                <div class="col-lg">
+                    <div class="container-tight">
+                        <div class="card card-md">
+                            <div class="card-body">
                                 <div
-                                    class='text-center'
-                                    style='margin-bottom: 24px;'
+                                    class="text-center"
+                                    style="margin-bottom: 24px;"
                                 >
                                     <img
-                                        alt='Agency Logo'
-                                        :src='logo'
-                                        draggable='false'
-                                        style='height: 150px;'
+                                        alt="Agency Logo"
+                                        :src="logo"
+                                        draggable="false"
+                                        style="height: 150px;"
                                     >
                                 </div>
-                                <TablerLoading desc='Loading CloudTAK' />
+                                <TablerLoading desc="Loading CloudTAK" />
                                 <Transition
-                                    name='stage-fade'
-                                    mode='out-in'
+                                    name="stage-fade"
+                                    mode="out-in"
                                 >
                                     <div
-                                        v-if='props.stage'
-                                        :key='props.stage'
-                                        class='text-center text-muted mt-1'
-                                        style='font-size: 0.85rem;'
-                                        v-text='props.stage'
+                                        v-if="props.stage"
+                                        :key="props.stage"
+                                        class="text-center text-muted mt-1"
+                                        style="font-size: 0.85rem;"
+                                        v-text="props.stage"
                                     />
                                 </Transition>
-                                <Transition name='reset-fade'>
+                                <Transition name="reset-fade">
                                     <div
-                                        v-if='showReset'
-                                        class='text-center mt-3'
+                                        v-if="showReset"
+                                        class="text-center mt-3"
                                     >
                                         <button
-                                            class='btn btn-danger'
-                                            @click='hardReset'
+                                            class="btn btn-danger"
+                                            @click="hardReset"
                                         >
                                             Hard Reset
                                         </button>
                                         <div
-                                            class='text-muted mt-1'
-                                            style='font-size: 0.8rem;'
+                                            class="text-muted mt-1"
+                                            style="font-size: 0.8rem;"
                                         >
                                             If loading has stalled, click to clear the cache and reload.
                                         </div>

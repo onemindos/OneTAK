@@ -1,13 +1,13 @@
 <template>
     <div
-        v-if='!isDeleted'
-        class='w-100'
+        v-if="!isDeleted"
+        class="w-100"
     >
         <Contact
-            v-if='feature.properties.group'
-            class='px-2 py-2 w-100'
-            :button-chat='false'
-            :compact='compact'
+            v-if="feature.properties.group"
+            class="px-2 py-2 w-100"
+            :button-chat="false"
+            :compact="compact"
             :contact='{
                 "uid": feature.properties.id,
                 "callsign": feature.properties.callsign,
@@ -20,96 +20,96 @@
         />
         <StandardItem
             v-else
-            class='w-100 d-flex flex-row gap-3 mb-2 align-items-center'
+            class="w-100 d-flex flex-row gap-3 mb-2 align-items-center"
             :class='{
                 "cursor-pointer": isZoomable && props.hover,
                 "cursor-default": !isZoomable || props.hover === false,
                 "cloudtak-hover-fill": hover
             }'
-            :hover='hover'
-            @click='(e: MouseEvent) => { if (e.ctrlKey) selectClick(); else flyToClick(); }'
+            :hover="hover"
+            @click="(e: MouseEvent) => { if (e.ctrlKey) selectClick(); else flyToClick(); }"
         >
             <div
-                v-if='props.gripHandle'
-                :id='feature.id'
-                class='d-flex drag-handle cursor-grab ms-2 align-items-center'
+                v-if="props.gripHandle"
+                :id="feature.id"
+                class="d-flex drag-handle cursor-grab ms-2 align-items-center"
             >
                 <IconGripVertical
-                    :size='18'
-                    stroke='1'
+                    :size="18"
+                    stroke="1"
                 />
             </div>
 
             <div
-                class='icon-wrapper d-flex align-items-center justify-content-center rounded-circle'
+                class="icon-wrapper d-flex align-items-center justify-content-center rounded-circle"
                 :class='{
                     "ms-2": !props.gripHandle
                 }'
             >
                 <FeatureIcon
-                    :feature='feature'
+                    :feature="feature"
                 />
             </div>
 
             <div
-                class='flex-grow-1 d-flex flex-column gap-1 py-2'
-                style='min-width: 0;'
+                class="flex-grow-1 d-flex flex-column gap-1 py-2"
+                style="min-width: 0;"
             >
-                <div class='d-flex align-items-center gap-2'>
+                <div class="d-flex align-items-center gap-2">
                     <span
                         v-if='(feature.properties.callsign || "").trim().length > 0'
-                        class='fw-semibold text-truncate'
-                        v-text='feature.properties.callsign'
+                        class="fw-semibold text-truncate"
+                        v-text="feature.properties.callsign"
                     />
                     <span
                         v-else
-                        class='fw-semibold text-truncate fst-italic text-muted'
+                        class="fw-semibold text-truncate fst-italic text-muted"
                     >No Callsign</span>
                 </div>
             </div>
 
-            <div class='align-self-center me-2 btn-list flex-shrink-0'>
+            <div class="align-self-center me-2 btn-list flex-shrink-0">
                 <TablerIconButton
-                    v-if='visibilityToggle'
+                    v-if="visibilityToggle"
                     :title='isHidden ? "Show Feature" : "Hide Feature"'
-                    @click.stop.prevent='toggleVisibility'
+                    @click.stop.prevent="toggleVisibility"
                 >
                     <IconEyeOff
-                        v-if='isHidden'
-                        :size='20'
-                        stroke='1'
+                        v-if="isHidden"
+                        :size="20"
+                        stroke="1"
                     />
                     <IconEye
                         v-else
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    v-if='infoButton'
-                    title='View Info'
-                    @click.stop.prevent='router.push(`/cot/${feature.id}`)'
+                    v-if="infoButton"
+                    title="View Info"
+                    @click.stop.prevent="router.push(`/cot/${feature.id}`)"
                 >
                     <IconListDetails
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerDelete
                     v-if='deleteButton && deleteAction === "delete"'
-                    :size='20'
-                    displaytype='icon'
-                    @delete='deleteCOT'
+                    :size="20"
+                    displaytype="icon"
+                    @delete="deleteCOT"
                 />
                 <TablerIconButton
-                    v-else-if='deleteButton'
-                    title='Remove'
-                    @click.stop.prevent='deleteCOT'
+                    v-else-if="deleteButton"
+                    title="Remove"
+                    @click.stop.prevent="deleteCOT"
                 >
                     <IconTrash
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>

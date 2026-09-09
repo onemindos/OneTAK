@@ -1,123 +1,123 @@
 <template>
     <div
-        class='col-12'
+        class="col-12"
         :style='{ zIndex: expanded ? 10 : "auto", position: "relative" }'
     >
         <SlideDownHeader
-            v-model='expanded'
-            label='Style'
+            v-model="expanded"
+            label="Style"
         >
             <template #icon>
                 <IconPaint
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
 
-            <div class='mx-2 py-2'>
-                <div class='rounded px-2 py-2'>
-                    <div class='row g-2'>
+            <div class="mx-2 py-2">
+                <div class="rounded px-2 py-2">
+                    <div class="row g-2">
                         <template v-if='geometry === "Point"'>
-                            <div class='col-12'>
+                            <div class="col-12">
                                 <IconSelect
                                     :model-value='(modelValue.icon as string | undefined) ?? ""'
-                                    label='Point Icon'
-                                    :size='32'
-                                    stroke='1'
-                                    @update:model-value='updatePropertyIcon($event)'
+                                    label="Point Icon"
+                                    :size="32"
+                                    stroke="1"
+                                    @update:model-value="updatePropertyIcon($event)"
                                 />
                             </div>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Point Color</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Point Color</label>
                                 <TablerInput
                                     :model-value='modelValue["marker-color"]'
-                                    label=''
-                                    default='#FFFFFF'
-                                    type='color'
-                                    class='pb-2'
+                                    label=""
+                                    default="#FFFFFF"
+                                    type="color"
+                                    class="pb-2"
                                     @update:model-value='updateProperty("marker-color", $event)'
                                 />
                             </div>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Point Opacity</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Point Opacity</label>
                                 <TablerRange
                                     :model-value='modelValue["marker-opacity"] ?? 1'
-                                    label=''
-                                    :default='1'
-                                    :min='0'
-                                    :max='1'
-                                    :step='0.01'
+                                    label=""
+                                    :default="1"
+                                    :min="0"
+                                    :max="1"
+                                    :step="0.01"
                                     @update:model-value='updateProperty("marker-opacity", $event)'
                                 />
                             </div>
                         </template>
                         <template v-else>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Line Colour</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Line Colour</label>
                                 <TablerInput
                                     :model-value='modelValue["stroke"]'
-                                    label=''
-                                    type='color'
+                                    label=""
+                                    type="color"
                                     @update:model-value='updateProperty("stroke", $event)'
                                 />
                             </div>
 
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Line Style</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Line Style</label>
                                 <TablerEnum
                                     :model-value='modelValue["stroke-style"] ?? "solid"'
-                                    label=''
+                                    label=""
                                     :options='["solid", "dashed", "dotted", "outlined"]'
-                                    default='solid'
+                                    default="solid"
                                     @update:model-value='updateProperty("stroke-style", $event)'
                                 />
                             </div>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Line Thickness</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Line Thickness</label>
                                 <TablerRange
                                     :model-value='modelValue["stroke-width"] ?? 1'
-                                    label=''
-                                    :default='1'
-                                    :min='1'
-                                    :max='6'
-                                    :step='1'
+                                    label=""
+                                    :default="1"
+                                    :min="1"
+                                    :max="6"
+                                    :step="1"
                                     @update:model-value='updateProperty("stroke-width", $event)'
                                 />
                             </div>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Line Opacity</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Line Opacity</label>
                                 <TablerRange
                                     :model-value='modelValue["stroke-opacity"] ?? 1'
-                                    label=''
-                                    :default='1'
-                                    :min='0'
-                                    :max='1'
-                                    :step='0.01'
+                                    label=""
+                                    :default="1"
+                                    :min="0"
+                                    :max="1"
+                                    :step="0.01"
                                     @update:model-value='updateProperty("stroke-opacity", $event)'
                                 />
                             </div>
                         </template>
                         <template v-if='geometry === "Polygon" || geometry === "MultiPolygon"'>
-                            <div class='col-12'>
-                                <label class='subheader user-select-none'>Fill Colour</label>
+                            <div class="col-12">
+                                <label class="subheader user-select-none">Fill Colour</label>
                                 <TablerInput
                                     :model-value='modelValue["fill"]'
-                                    label=''
-                                    type='color'
+                                    label=""
+                                    type="color"
                                     @update:model-value='updateProperty("fill", $event)'
                                 />
                             </div>
-                            <div class='col-12 round'>
-                                <label class='subheader user-select-none'>Fill Opacity</label>
+                            <div class="col-12 round">
+                                <label class="subheader user-select-none">Fill Opacity</label>
                                 <TablerRange
                                     :model-value='modelValue["fill-opacity"] ?? 1'
-                                    label=''
-                                    :default='1'
-                                    :min='0'
-                                    :max='1'
-                                    :step='0.01'
+                                    label=""
+                                    :default="1"
+                                    :min="0"
+                                    :max="1"
+                                    :step="0.01"
                                     @update:model-value='updateProperty("fill-opacity", $event)'
                                 />
                             </div>

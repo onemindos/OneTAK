@@ -1,25 +1,25 @@
 <template>
     <StandardItem>
-        <div class='d-flex align-items-center gap-3 px-3 py-2'>
+        <div class="d-flex align-items-center gap-3 px-3 py-2">
             <StatusDot :status='session.active ? "Success" : "Unknown"' />
-            <div class='flex-grow-1 overflow-hidden'>
-                <div class='d-flex align-items-center gap-2 fw-bold'>
+            <div class="flex-grow-1 overflow-hidden">
+                <div class="d-flex align-items-center gap-2 fw-bold">
                     <component
-                        :is='deviceIcon'
-                        :size='16'
-                        stroke='1.5'
-                        class='flex-shrink-0'
+                        :is="deviceIcon"
+                        :size="16"
+                        stroke="1.5"
+                        class="flex-shrink-0"
                     />
-                    <span class='text-truncate'>{{ session.browser || 'Unknown Browser' }}</span>
+                    <span class="text-truncate">{{ session.browser || 'Unknown Browser' }}</span>
                 </div>
-                <div class='text-muted small text-truncate'>
+                <div class="text-muted small text-truncate">
                     {{ session.os }}
-                    <template v-if='session.os && session.device_type'>
+                    <template v-if="session.os && session.device_type">
                         &middot;
                     </template>
                     {{ session.device_type }}
                 </div>
-                <div class='text-muted small text-truncate'>
+                <div class="text-muted small text-truncate">
                     {{ session.ip }} &middot; {{ new Date(session.created).toLocaleString() }}
                 </div>
             </div>

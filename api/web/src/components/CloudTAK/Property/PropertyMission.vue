@@ -1,30 +1,30 @@
 <template>
-    <div class='col-12 d-flex align-items-center gap-1'>
+    <div class="col-12 d-flex align-items-center gap-1">
         <TablerButton
-            class='w-100 d-flex align-items-center text-start'
-            :title='name'
-            @click='router.push(`/menu/missions/${props.guid}`)'
+            class="w-100 d-flex align-items-center text-start"
+            :title="name"
+            @click="router.push(`/menu/missions/${props.guid}`)"
         >
             <IconAmbulance
-                :size='20'
-                stroke='1'
-                class='flex-shrink-0'
+                :size="20"
+                stroke="1"
+                class="flex-shrink-0"
             />
-            <span class='mx-2 flex-shrink-0'>Associated Mission</span>
+            <span class="mx-2 flex-shrink-0">Associated Mission</span>
             <span
-                class='text-muted text-truncate'
-                v-text='name'
+                class="text-muted text-truncate"
+                v-text="name"
             />
         </TablerButton>
 
         <TablerIconButton
-            v-if='props.edit'
-            title='Remove Associated Mission'
+            v-if="props.edit"
+            title="Remove Associated Mission"
             @click='emit("remove")'
         >
             <IconTrash
-                :size='18'
-                stroke='1'
+                :size="18"
+                stroke="1"
             />
         </TablerIconButton>
     </div>

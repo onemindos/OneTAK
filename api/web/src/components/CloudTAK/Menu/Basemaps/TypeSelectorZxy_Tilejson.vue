@@ -1,28 +1,28 @@
 <template>
-    <div class='row row-cards'>
+    <div class="row row-cards">
         <TypeSelectorSelected
-            type='tilejson'
+            type="tilejson"
             @change-type='emit("change-type")'
         />
 
-        <div class='col-md-12 mt-3'>
+        <div class="col-md-12 mt-3">
             <TablerInput
-                :model-value='url'
-                label='TileJSON URL'
+                :model-value="url"
+                label="TileJSON URL"
                 @update:model-value='emit("update:url", $event)'
             />
         </div>
-        <div class='col-md-12 mt-3'>
-            <div class='d-flex'>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex">
                 <button
-                    class='cursor-pointer btn btn-secondary'
+                    class="cursor-pointer btn btn-secondary"
                     @click='emit("change-type")'
                 >
                     Cancel
                 </button>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <a
-                        class='cursor-pointer btn btn-primary'
+                        class="cursor-pointer btn btn-primary"
                         @click='emit("fetch")'
                     >Fetch TileJSON</a>
                 </div>

@@ -1,94 +1,94 @@
 <template>
     <TablerModal>
-        <div class='modal-status bg-red' />
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
 
-        <div class='modal-header user-select-none'>
+        <div class="modal-header user-select-none">
             <IconMap
-                :size='32'
-                stroke='1'
-                class='me-2'
+                :size="32"
+                stroke="1"
+                class="me-2"
             />
-            <div class='d-flex flex-column'>
-                <div class='strong d-flex align-items-center'>
+            <div class="d-flex flex-column">
+                <div class="strong d-flex align-items-center">
                     Basemaps &amp; Overlays
                 </div>
                 <div
-                    v-if='basemap.id'
-                    class='small text-white-50'
-                    v-text='basemap.name'
+                    v-if="basemap.id"
+                    class="small text-white-50"
+                    v-text="basemap.name"
                 />
                 <div
                     v-else
-                    class='small text-white-50'
+                    class="small text-white-50"
                 >
                     New Entry
                 </div>
             </div>
 
             <div
-                v-if='basemap.id'
-                class='ms-auto btn-list'
+                v-if="basemap.id"
+                class="ms-auto btn-list"
             >
                 <TablerIconButton
-                    title='Download TAK XML'
-                    @click='download'
+                    title="Download TAK XML"
+                    @click="download"
                 >
                     <IconDownload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div class='modal-body basemap-modal-body'>
-            <TablerLoading v-if='loading' />
+        <div class="modal-body basemap-modal-body">
+            <TablerLoading v-if="loading" />
             <BasemapTypeSelector
-                v-else-if='showTypeSelector'
-                :is-system-admin='isSystemAdmin'
-                @select='setBasemapType'
+                v-else-if="showTypeSelector"
+                :is-system-admin="isSystemAdmin"
+                @select="setBasemapType"
             />
             <component
-                :is='activeSelectorComponent'
-                v-else-if='activeSelectorComponent'
-                v-model:editing='editing'
-                :basemap-id='props.basemap.id'
-                :vector-layers='vectorLayers'
-                :errors='errors'
-                :scope='scope'
-                :warn-sharing='warnSharing'
-                :is-system-admin='isSystemAdmin'
-                :url='tilejson.url'
-                :upload-url='uploadUrl'
-                @change-type='resetBasemapType'
-                @update:scope='scope = $event'
-                @update:warn-sharing='warnSharing = $event'
-                @update:url='tilejson.url = $event'
-                @fetch='fetchTileJSON'
-                @done='processUpload($event)'
+                :is="activeSelectorComponent"
+                v-else-if="activeSelectorComponent"
+                v-model:editing="editing"
+                :basemap-id="props.basemap.id"
+                :vector-layers="vectorLayers"
+                :errors="errors"
+                :scope="scope"
+                :warn-sharing="warnSharing"
+                :is-system-admin="isSystemAdmin"
+                :url="tilejson.url"
+                :upload-url="uploadUrl"
+                @change-type="resetBasemapType"
+                @update:scope="scope = $event"
+                @update:warn-sharing="warnSharing = $event"
+                @update:url="tilejson.url = $event"
+                @fetch="fetchTileJSON"
+                @done="processUpload($event)"
             />
         </div>
 
         <div
-            v-if='showFormFooter'
-            class='modal-footer'
+            v-if="showFormFooter"
+            class="modal-footer"
         >
-            <div v-if='basemap.id'>
+            <div v-if="basemap.id">
                 <TablerDelete
-                    label='Delete Basemap / Overlay'
-                    @delete='deleteBasemap'
+                    label="Delete Basemap / Overlay"
+                    @delete="deleteBasemap"
                 />
             </div>
 
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <a
-                    class='cursor-pointer btn btn-primary'
-                    @click='create'
+                    class="cursor-pointer btn btn-primary"
+                    @click="create"
                 >Save Basemap / Overlay</a>
             </div>
         </div>

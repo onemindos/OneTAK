@@ -1,25 +1,25 @@
 <template>
     <TablerModal>
-        <div class='modal-status bg-yellow' />
+        <div class="modal-status bg-yellow" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header'>
+        <div class="modal-header">
             <div
-                class='modal-title'
-                v-text='pathid'
+                class="modal-title"
+                v-text="pathid"
             />
         </div>
 
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <div
             v-else
-            class='modal-body row'
+            class="modal-body row"
         >
-            <pre v-text='path.path' />
+            <pre v-text="path.path" />
         </div>
     </TablerModal>
 </template>

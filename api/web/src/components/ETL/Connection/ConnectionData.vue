@@ -1,98 +1,98 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
+        <div class="card-header d-flex">
             Data Syncs
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Sync'
-                    @click='router.push(`/connection/${props.connection.id}/data/new`)'
+                    title="Create Sync"
+                    @click="router.push(`/connection/${props.connection.id}/data/new`)"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Refresh'
-                    @click='listData'
+                    title="Refresh"
+                    @click="listData"
                 >
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 60px'>
-            <div class='col-12 px-2 py-2'>
+        <div style="min-height: 20vh; margin-bottom: 60px">
+            <div class="col-12 px-2 py-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
             <TablerAlert
-                v-if='error'
-                title='ETL Server Error'
-                :err='error'
-                :compact='true'
+                v-if="error"
+                title="ETL Server Error"
+                :err="error"
+                :compact="true"
             />
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                label='No Data Syncs'
+                v-else-if="!list.items.length"
+                :create="false"
+                label="No Data Syncs"
             />
             <div
                 v-else
-                class='table-resposive'
+                class="table-resposive"
             >
-                <table class='table card-table table-vcenter datatable table-hover'>
+                <table class="table card-table table-vcenter datatable table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody class='table-tbody'>
+                    <tbody class="table-tbody">
                         <tr
-                            v-for='data of list.items'
-                            :key='data.id'
-                            class='cursor-pointer'
-                            @click='router.push(`/connection/${props.connection.id}/data/${data.id}`)'
+                            v-for="data of list.items"
+                            :key="data.id"
+                            class="cursor-pointer"
+                            @click="router.push(`/connection/${props.connection.id}/data/${data.id}`)"
                         >
                             <td>
-                                <div class='d-flex align-items-center'>
+                                <div class="d-flex align-items-center">
                                     <IconDatabase
-                                        :size='32'
-                                        stroke='1'
-                                        class='me-2'
+                                        :size="32"
+                                        stroke="1"
+                                        class="me-2"
                                     />
                                     <div
-                                        class='user-select-none'
-                                        v-text='data.name'
+                                        class="user-select-none"
+                                        v-text="data.name"
                                     />
-                                    <div class='ms-auto'>
+                                    <div class="ms-auto">
                                         <span
-                                            v-if='data.mission_sync'
-                                            title='Mission Sync On'
+                                            v-if="data.mission_sync"
+                                            title="Mission Sync On"
                                         >
                                             <IconAccessPoint
-                                                :size='32'
-                                                stroke='1'
-                                                class='cursor-pointer text-green'
+                                                :size="32"
+                                                stroke="1"
+                                                class="cursor-pointer text-green"
                                             />
                                         </span>
                                         <span
                                             v-else
-                                            title='Mission Sync Off'
+                                            title="Mission Sync Off"
                                         >
                                             <IconAccessPointOff
-                                                :size='32'
-                                                stroke='1'
-                                                class='cursor-pointer text-red'
+                                                :size="32"
+                                                stroke="1"
+                                                class="cursor-pointer text-red"
                                             />
                                         </span>
                                     </div>
@@ -105,13 +105,13 @@
         </div>
 
         <div
-            class='position-absolute bottom-0 w-100'
-            style='height: 60px;'
+            class="position-absolute bottom-0 w-100"
+            style="height: 60px;"
         >
             <TableFooter
-                :limit='paging.limit'
-                :total='list.total'
-                @page='paging.page = $event'
+                :limit="paging.limit"
+                :total="list.total"
+                @page="paging.page = $event"
             />
         </div>
     </div>

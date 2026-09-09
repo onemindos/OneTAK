@@ -1,87 +1,87 @@
 <template>
     <FloatingPane
-        :uid='uid'
-        class='video-container'
+        :uid="uid"
+        class="video-container"
         @close='emit("close")'
     >
         <template #header>
             <StatusDot
-                v-if='metadata'
+                v-if="metadata"
                 :status='metadata.active ? "success" : "unknown"'
-                :dark='true'
+                :dark="true"
                 :title='metadata.active ? "Streaming" : "Unknown"'
-                :size='24'
+                :size="24"
             />
 
             <VideoLeaseSourceType
-                v-if='metadata && metadata.source_type'
-                :source-type='metadata.source_type'
-                :size='24'
+                v-if="metadata && metadata.source_type"
+                :source-type="metadata.source_type"
+                :size="24"
             />
 
             <div
-                class='mx-2'
-                style='max-width: calc(100% - 100px);'
+                class="mx-2"
+                style="max-width: calc(100% - 100px);"
             >
                 <div
-                    class='text-sm text-truncate'
-                    v-text='title'
+                    class="text-sm text-truncate"
+                    v-text="title"
                 />
                 <div
-                    v-if='metadata && metadata.source_model'
-                    class='subheader'
-                    v-text='metadata.source_model'
+                    v-if="metadata && metadata.source_model"
+                    class="subheader"
+                    v-text="metadata.source_model"
                 />
             </div>
         </template>
 
         <template #actions>
             <span
-                v-if='metadata'
-                class='watchers-info'
+                v-if="metadata"
+                class="watchers-info"
             >
                 <IconUsersGroup
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
-                <span v-text='metadata.watchers + 1' />
+                <span v-text="metadata.watchers + 1" />
                 <span
-                    class='ms-1 watcher-text'
+                    class="ms-1 watcher-text"
                     v-text='metadata.watchers + 1 > 1 ? "Watchers" : "Watcher"'
                 />
             </span>
 
-            <template v-if='!isNativePlatform()'>
+            <template v-if="!isNativePlatform()">
                 <TablerIconButton
-                    v-if='!pushing'
-                    title='Push to Video Wall'
-                    @click='pushToWall'
+                    v-if="!pushing"
+                    title="Push to Video Wall"
+                    @click="pushToWall"
                 >
                     <IconCast
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerLoading
                     v-else
-                    :inline='true'
-                    desc='Pushing'
+                    :inline="true"
+                    desc="Pushing"
                 />
             </template>
         </template>
 
-        <div class='h-100 w-100 d-flex flex-column'>
+        <div class="h-100 w-100 d-flex flex-column">
             <TablerAlert
-                v-if='pushError'
-                class='w-100 mb-0'
-                title='Video Wall Error'
-                :compact='true'
-                :err='pushError'
+                v-if="pushError"
+                class="w-100 mb-0"
+                title="Video Wall Error"
+                :compact="true"
+                :err="pushError"
             />
             <VideoPlayer
-                class='flex-grow-1'
-                :url='video.config.url'
-                @metadata='metadata = $event'
+                class="flex-grow-1"
+                :url="video.config.url"
+                @metadata="metadata = $event"
             />
         </div>
     </FloatingPane>

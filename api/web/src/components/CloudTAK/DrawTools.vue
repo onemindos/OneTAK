@@ -2,68 +2,68 @@
     <TablerDropdown>
         <template #default>
             <TablerIconButton
-                title='Geometry Editing'
-                class='mx-2 cloudtak-hover'
-                :hover='false'
+                title="Geometry Editing"
+                class="mx-2 cloudtak-hover"
+                :hover="false"
             >
                 <IconPencilPlus
-                    :size='40'
-                    stroke='1'
+                    :size="40"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
         <template #dropdown>
             <div
-                style='min-width: 300px;'
+                style="min-width: 300px;"
             >
-                <div class='d-flex align-items-center px-3 py-2 border-bottom'>
-                    <h3 class='m-0 fw-bold'>
+                <div class="d-flex align-items-center px-3 py-2 border-bottom">
+                    <h3 class="m-0 fw-bold">
                         Drawing Tools
                     </h3>
-                    <div class='ms-auto btn-list'>
+                    <div class="ms-auto btn-list">
                         <TablerIconButton
-                            title='Search Tools'
-                            @click.stop='toggleSearch'
+                            title="Search Tools"
+                            @click.stop="toggleSearch"
                         >
                             <IconSearch
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
                 <div
-                    v-if='searchVisible'
-                    class='px-3 py-2'
+                    v-if="searchVisible"
+                    class="px-3 py-2"
                 >
                     <TablerInput
-                        v-model='search'
-                        placeholder='Search...'
-                        icon='search'
-                        :autofocus='true'
-                        class='mb-0'
+                        v-model="search"
+                        placeholder="Search..."
+                        icon="search"
+                        :autofocus="true"
+                        class="mb-0"
                         @click.stop
                     />
                 </div>
-                <div class='px-2 py-2'>
+                <div class="px-2 py-2">
                     <div
-                        v-for='tool in filteredDrawTools'
-                        :key='tool.key'
-                        class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none'
-                        @click='tool.action()'
+                        v-for="tool in filteredDrawTools"
+                        :key="tool.key"
+                        class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none"
+                        @click="tool.action()"
                     >
                         <component
-                            :is='tool.icon'
-                            :size='25'
-                            stroke='1'
+                            :is="tool.icon"
+                            :size="25"
+                            stroke="1"
                         />
-                        <span class='ps-2'>{{ tool.label }}</span>
+                        <span class="ps-2">{{ tool.label }}</span>
                     </div>
                     <TablerNone
-                        v-if='!filteredDrawTools.length'
-                        :compact='true'
-                        :create='false'
-                        label='No Tools'
+                        v-if="!filteredDrawTools.length"
+                        :compact="true"
+                        :create="false"
+                        label="No Tools"
                     />
                 </div>
             </div>
@@ -71,28 +71,28 @@
     </TablerDropdown>
 
     <CoordInput
-        v-if='modal === ModalInputType.POINT'
-        @close='modal = ModalInputType.NONE'
+        v-if="modal === ModalInputType.POINT"
+        @close="modal = ModalInputType.NONE"
     />
 
     <RangeRingsInput
-        v-if='modal === ModalInputType.RANGE_RINGS'
-        @close='modal = ModalInputType.NONE'
+        v-if="modal === ModalInputType.RANGE_RINGS"
+        @close="modal = ModalInputType.NONE"
     />
 
     <RangeInput
-        v-if='modal === ModalInputType.RANGE'
-        @close='modal = ModalInputType.NONE'
+        v-if="modal === ModalInputType.RANGE"
+        @close="modal = ModalInputType.NONE"
     />
 
     <GeoJSONInput
-        v-if='modal === ModalInputType.IMPORT'
-        @close='modal = ModalInputType.NONE'
+        v-if="modal === ModalInputType.IMPORT"
+        @close="modal = ModalInputType.NONE"
     />
 
     <CreateCoreEvent
-        v-if='modal === ModalInputType.EVENT'
-        @close='modal = ModalInputType.NONE'
+        v-if="modal === ModalInputType.EVENT"
+        @close="modal = ModalInputType.NONE"
     />
 </template>
 

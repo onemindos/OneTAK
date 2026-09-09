@@ -1,15 +1,15 @@
 <template>
     <div
-        class='h-full w-full cloudtak-page'
-        style='overflow: auto;'
+        class="h-full w-full cloudtak-page"
+        style="overflow: auto;"
     >
-        <NavHeader title='Connections' />
+        <NavHeader title="Connections" />
 
-        <div class='page-wrapper'>
-            <div class='page-header d-print-none'>
-                <div class='container-xl'>
-                    <div class='row g-2 align-items-center'>
-                        <div class='col d-flex text-white'>
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col d-flex text-white">
                             <TablerBreadCrumb />
                         </div>
                     </div>
@@ -18,180 +18,180 @@
         </div>
 
         <TablerLoading
-            v-if='!data || !connection'
-            class='text-white'
-            desc='Loading Data'
+            v-if="!data || !connection"
+            class="text-white"
+            desc="Loading Data"
         />
         <div
             v-else
-            class='page-body'
+            class="page-body"
         >
-            <div class='container-xl'>
-                <div class='row row-deck row-cards'>
-                    <div class='col-lg-12'>
-                        <div class='card'>
-                            <div class='card-header'>
-                                <ConnectionStatus :connection='connection' />
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <ConnectionStatus :connection="connection" />
 
                                 <a
-                                    class='card-title cursor-pointer mx-2'
-                                    @click='router.push(`/connection/${connection.id}`)'
-                                    v-text='connection.name'
+                                    class="card-title cursor-pointer mx-2"
+                                    @click="router.push(`/connection/${connection.id}`)"
+                                    v-text="connection.name"
                                 />
 
-                                <span class='mx-1'>-</span>
+                                <span class="mx-1">-</span>
 
                                 <div
-                                    class='card-title mx-1'
-                                    v-text='data.name'
+                                    class="card-title mx-1"
+                                    v-text="data.name"
                                 />
 
-                                <div class='ms-auto'>
-                                    <div class='btn-list'>
+                                <div class="ms-auto">
+                                    <div class="btn-list">
                                         <span
-                                            v-if='data.mission_sync'
-                                            title='Mission Sync On'
+                                            v-if="data.mission_sync"
+                                            title="Mission Sync On"
                                         >
                                             <IconAccessPoint
-                                                :size='32'
-                                                stroke='1'
-                                                class='text-green'
+                                                :size="32"
+                                                stroke="1"
+                                                class="text-green"
                                             />
                                         </span>
                                         <span
                                             v-else
-                                            title='Mission Sync Off'
+                                            title="Mission Sync Off"
                                         >
                                             <IconAccessPointOff
-                                                :size='32'
-                                                stroke='1'
-                                                class='text-red'
+                                                :size="32"
+                                                stroke="1"
+                                                class="text-red"
                                             />
                                         </span>
 
                                         <TablerIconButton
-                                            title='Edit'
-                                            @click='router.push(`/connection/${route.params.connectionid}/data/${data.id}/edit`)'
+                                            title="Edit"
+                                            @click="router.push(`/connection/${route.params.connectionid}/data/${data.id}/edit`)"
                                         >
                                             <IconSettings
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
                                     </div>
                                 </div>
                             </div>
                             <TablerMarkdown
-                                class='card-body'
-                                :markdown='data.description'
+                                class="card-body"
+                                :markdown="data.description"
                             />
 
                             <div
-                                v-if='mission_error'
-                                class='card-body bg-red-lt'
+                                v-if="mission_error"
+                                class="card-body bg-red-lt"
                             >
-                                <div class='header'>
+                                <div class="header">
                                     TAK Server Sync Error
                                 </div>
 
-                                <div class='datagrid'>
-                                    <div class='datagrid-item'>
-                                        <div class='datagrid-title'>
+                                <div class="datagrid">
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">
                                             Status
                                         </div>
                                         <div
-                                            class='datagrid-content'
-                                            v-text='mission_error.status'
+                                            class="datagrid-content"
+                                            v-text="mission_error.status"
                                         />
                                     </div>
-                                    <div class='datagrid-item'>
-                                        <div class='datagrid-title'>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">
                                             Code
                                         </div>
                                         <div
-                                            class='datagrid-content'
-                                            v-text='mission_error.code'
+                                            class="datagrid-content"
+                                            v-text="mission_error.code"
                                         />
                                     </div>
-                                    <div class='datagrid-item'>
-                                        <div class='datagrid-title'>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">
                                             Message
                                         </div>
                                         <div
-                                            class='datagrid-content'
-                                            v-text='mission_error.message'
+                                            class="datagrid-content"
+                                            v-text="mission_error.message"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class='card-footer d-flex align-items-center'>
+                            <div class="card-footer d-flex align-items-center">
                                 <div>
-                                    Last updated <span v-text='timeDiff(data.updated)' />
+                                    Last updated <span v-text="timeDiff(data.updated)" />
                                 </div>
-                                <div class='ms-auto'> 
+                                <div class="ms-auto"> 
                                     <InitialAuthor :email='data.username || "Unknown"' />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class='col-lg-12'>
-                        <div class='card'>
-                            <div class='row g-0'>
-                                <div class='col-12 col-md-3 border-end'>
-                                    <div class='card-body'>
-                                        <h4 class='subheader'>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-12 col-md-3 border-end">
+                                    <div class="card-body">
+                                        <h4 class="subheader">
                                             Data Sections
                                         </h4>
                                         <div
-                                            role='menu'
-                                            class='list-group list-group-transparent'
+                                            role="menu"
+                                            class="list-group list-group-transparent"
                                         >
                                             <span
-                                                tabindex='0'
-                                                role='menuitem'
-                                                class='list-group-item list-group-item-action d-flex align-items-center user-select-none'
+                                                tabindex="0"
+                                                role="menuitem"
+                                                class="list-group-item list-group-item-action d-flex align-items-center user-select-none"
                                                 :class='{
                                                     "active": route.name === "data-groups",
                                                     "cursor-pointer": route.name !== "data-groups"
                                                 }'
-                                                @click='router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/groups`)'
+                                                @click="router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/groups`)"
                                             ><IconAffiliate
-                                                :size='32'
-                                                stroke='1'
-                                            /><span class='mx-3'>Channels</span></span>
+                                                :size="32"
+                                                stroke="1"
+                                            /><span class="mx-3">Channels</span></span>
                                             <span
-                                                tabindex='0'
-                                                role='menuitem'
-                                                class='list-group-item list-group-item-action d-flex align-items-center user-select-none'
+                                                tabindex="0"
+                                                role="menuitem"
+                                                class="list-group-item list-group-item-action d-flex align-items-center user-select-none"
                                                 :class='{
                                                     "active": route.name === "data-files",
                                                     "cursor-pointer": route.name !== "data-files"
                                                 }'
-                                                @click='router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/files`)'
+                                                @click="router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/files`)"
                                             ><IconFiles
-                                                :size='32'
-                                                stroke='1'
-                                            /><span class='mx-3'>Files</span></span>
+                                                :size="32"
+                                                stroke="1"
+                                            /><span class="mx-3">Files</span></span>
                                             <span
-                                                tabindex='0'
-                                                role='menuitem'
-                                                class='list-group-item list-group-item-action d-flex align-items-center user-select-none'
+                                                tabindex="0"
+                                                role="menuitem"
+                                                class="list-group-item list-group-item-action d-flex align-items-center user-select-none"
                                                 :class='{
                                                     "active": route.name === "data-layer",
                                                     "cursor-pointer": route.name !== "data-layer"
                                                 }'
-                                                @click='router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/layer`)'
+                                                @click="router.push(`/connection/${route.params.connectionid}/data/${route.params.dataid}/layer`)"
                                             ><IconBuildingBroadcastTower
-                                                :size='32'
-                                                stroke='1'
-                                            /><span class='mx-3'>Layers</span></span>
+                                                :size="32"
+                                                stroke="1"
+                                            /><span class="mx-3">Layers</span></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class='col-12 col-md-9 position-relative'>
+                                <div class="col-12 col-md-9 position-relative">
                                     <router-view
-                                        :data='data'
+                                        :data="data"
                                     />
                                 </div>
                             </div>

@@ -1,42 +1,42 @@
 <template>
     <TablerModal>
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-status bg-yellow' />
-        <div class='modal-header'>
-            <span class='modal-title'>Edit Link</span>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-header">
+            <span class="modal-title">Edit Link</span>
         </div>
-        <div class='modal-body py-4'>
+        <div class="modal-body py-4">
             <HandleForm
-                v-model='link.remarks'
-                label='Link Name'
-                rows=''
-                :schema='props.schema'
-                class='py-1'
+                v-model="link.remarks"
+                label="Link Name"
+                rows=""
+                :schema="props.schema"
+                class="py-1"
             />
             <HandleForm
-                v-model='link.url'
-                label='Link URL'
-                rows=''
-                :schema='props.schema'
-                class='py-1'
+                v-model="link.url"
+                label="Link URL"
+                rows=""
+                :schema="props.schema"
+                class="py-1"
             />
 
             <button
-                v-if='props.edit'
-                class='btn btn-primary w-100 mt-4'
-                @click='done'
+                v-if="props.edit"
+                class="btn btn-primary w-100 mt-4"
+                @click="done"
             >
                 Update
             </button>
             <button
                 v-else
-                class='btn btn-primary w-100 mt-4'
-                @click='done'
+                class="btn btn-primary w-100 mt-4"
+                @click="done"
             >
                 Create
             </button>

@@ -1,6 +1,6 @@
 import { h } from 'vue';
 import type { App } from 'vue';
-import type { PluginAPI, PluginInstance } from '../../plugin';
+import type { PluginAPI, PluginInstance } from '../../../plugin';
 import MenuTemplate from './lib/MenuTemplate.vue';
 import AIPanel from './lib/AIPanel.vue';
 import AIBottomBar from './lib/AIBottomBar.vue';

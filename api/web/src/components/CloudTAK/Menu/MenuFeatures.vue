@@ -1,126 +1,126 @@
 <template>
     <MenuTemplate
-        name='Saved Features'
+        name="Saved Features"
     >
         <template #buttons>
             <TablerDropdown>
                 <TablerIconButton
-                    title='Export'
+                    title="Export"
                 >
                     <IconDownload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <template #dropdown>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click.stop.prevent='download("geojson")'
                     >
                         <IconFile
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>GeoJSON</span>
+                        <span class="mx-2">GeoJSON</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click.stop.prevent='download("kml")'
                     >
                         <IconFile
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>KML</span>
+                        <span class="mx-2">KML</span>
                     </div>
                 </template>
             </TablerDropdown>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh(true)'
+                :loading="loading"
+                @click="refresh(true)"
             />
 
             <TablerDropdown>
                 <TablerIconButton
-                    title='More Options'
+                    title="More Options"
                 >
                     <IconDotsVertical
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <template #dropdown>
                     <div
-                        style='min-width: 200px;'
+                        style="min-width: 200px;"
                     >
                         <TablerDelete
-                            displaytype='menu'
-                            class='cloudtak-hover'
-                            label='Delete All Features'
+                            displaytype="menu"
+                            class="cloudtak-hover"
+                            label="Delete All Features"
                             @click.stop
-                            @delete='deleteFeatures'
+                            @delete="deleteFeatures"
                         />
                     </div>
                 </template>
             </TablerDropdown>
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='query.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    :active-filters='activeFilterCount'
+                    v-model="query.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    :active-filters="activeFilterCount"
                 >
                     <template #sort-icon>
                         <component
-                            :is='sortTypeIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortTypeIcon"
+                            :size="20"
+                            stroke="1"
                         />
                         <component
-                            :is='sortDirectionIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortDirectionIcon"
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                     <template #filters>
-                        <div class='d-flex flex-column'>
-                            <div class='d-flex align-items-center justify-content-between px-3 py-2'>
-                                <strong class='small text-uppercase text-white-50'>Filters</strong>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between px-3 py-2">
+                                <strong class="small text-uppercase text-white-50">Filters</strong>
                                 <button
-                                    v-if='activeFilterCount > 0'
-                                    type='button'
-                                    class='btn btn-link btn-sm p-0'
-                                    @click='clearGeometryFilters'
+                                    v-if="activeFilterCount > 0"
+                                    type="button"
+                                    class="btn btn-link btn-sm p-0"
+                                    @click="clearGeometryFilters"
                                 >
                                     Clear
                                 </button>
                             </div>
-                            <div class='px-3 pb-2 d-flex flex-column gap-2'>
+                            <div class="px-3 pb-2 d-flex flex-column gap-2">
                                 <div>
-                                    <div class='small text-uppercase text-white-50 mb-1'>
+                                    <div class="small text-uppercase text-white-50 mb-1">
                                         Geometry
                                     </div>
                                     <label
-                                        v-for='opt in geometryFilterOptions'
-                                        :key='opt.value'
-                                        class='form-check mb-1'
+                                        v-for="opt in geometryFilterOptions"
+                                        :key="opt.value"
+                                        class="form-check mb-1"
                                     >
                                         <input
-                                            class='form-check-input'
-                                            type='checkbox'
-                                            :checked='geometryTypes.includes(opt.value)'
-                                            @change='toggleGeometryType(opt.value)'
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            :checked="geometryTypes.includes(opt.value)"
+                                            @change="toggleGeometryType(opt.value)"
                                         >
-                                        <span class='form-check-label d-flex align-items-center gap-1'>
+                                        <span class="form-check-label d-flex align-items-center gap-1">
                                             <component
-                                                :is='opt.icon'
-                                                :size='14'
-                                                stroke='1'
+                                                :is="opt.icon"
+                                                :size="14"
+                                                stroke="1"
                                             />
                                             {{ opt.label }}
                                         </span>
@@ -132,75 +132,75 @@
                 </SearchSortFilter>
             </div>
 
-            <div class='my-2 d-flex align-items-center justify-content-between'>
-                <PathBreadcrumb v-model:collection='collectionPath' />
+            <div class="my-2 d-flex align-items-center justify-content-between">
+                <PathBreadcrumb v-model:collection="collectionPath" />
                 <TablerIconButton
-                    title='Create Folder'
-                    @click='folderModal.shown = true'
+                    title="Create Folder"
+                    @click="folderModal.shown = true"
                 >
                     <IconFolderPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
 
             <TablerLoading
-                v-if='loading'
-                v-model='query.filter'
-                desc='Loading Features'
+                v-if="loading"
+                v-model="query.filter"
+                desc="Loading Features"
             />
             <template v-else>
                 <div
                     v-if='currentPath === "/"'
-                    class='pb-2'
+                    class="pb-2"
                 >
                     <StandardItem
-                        class='d-flex align-items-center px-3 py-3 user-select-none'
+                        class="d-flex align-items-center px-3 py-3 user-select-none"
                         @click='router.push("/menu/features/deleted")'
                     >
                         <IconTrash
-                            :size='20'
-                            stroke='1'
-                            class='me-2'
+                            :size="20"
+                            stroke="1"
+                            class="me-2"
                         /> Recently Deleted
                     </StandardItem>
                 </div>
 
                 <TablerNone
-                    v-if='currentItems.size === 0 && currentFolders.length === 0'
-                    :create='false'
+                    v-if="currentItems.size === 0 && currentFolders.length === 0"
+                    :create="false"
                     :label='currentPath === "/" ? "No Archived Features" : "Folder is empty"'
                 />
 
                 <template v-else>
                     <PathBrowser
-                        v-if='currentFolders.length'
-                        :nodes='currentFolders'
-                        :visibility-toggle='true'
-                        :is-node-hidden='isFolderHidden'
-                        @navigate='navigateToFolder'
-                        @delete='deletePath'
-                        @rename='openEditModal'
-                        @folder-drop='onFolderDrop'
-                        @toggle-visibility='toggleFolderVisibility'
+                        v-if="currentFolders.length"
+                        :nodes="currentFolders"
+                        :visibility-toggle="true"
+                        :is-node-hidden="isFolderHidden"
+                        @navigate="navigateToFolder"
+                        @delete="deletePath"
+                        @rename="openEditModal"
+                        @folder-drop="onFolderDrop"
+                        @toggle-visibility="toggleFolderVisibility"
                     />
 
                     <div
-                        id='general'
-                        ref='sortableFilesRef'
-                        class='mt-2'
+                        id="general"
+                        ref="sortableFilesRef"
+                        class="mt-2"
                     >
                         <Feature
-                            v-for='cot of sortedItems'
-                            :id='cot.id'
-                            :key='cot.id'
-                            :select='true'
-                            :grip-handle='true'
-                            :delete-button='true'
-                            :info-button='true'
-                            :visibility-toggle='true'
-                            :feature='cot'
+                            v-for="cot of sortedItems"
+                            :id="cot.id"
+                            :key="cot.id"
+                            :select="true"
+                            :grip-handle="true"
+                            :delete-button="true"
+                            :info-button="true"
+                            :visibility-toggle="true"
+                            :feature="cot"
                         />
                     </div>
                 </template>
@@ -208,33 +208,33 @@
         </template>
     </MenuTemplate>
     <TablerModal
-        v-if='folderModal.shown'
+        v-if="folderModal.shown"
     >
-        <div class='modal-status bg-white' />
+        <div class="modal-status bg-white" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='folderModal.shown = false'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="folderModal.shown = false"
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 {{ folderModal.editingNode ? 'Rename Folder' : 'Create Folder' }}
             </div>
         </div>
-        <div class='modal-body'>
+        <div class="modal-body">
             <TablerInput
-                v-model='folderModal.name'
-                label='Folder Name'
-                placeholder='Operations'
-                @submit='submitFolder'
+                v-model="folderModal.name"
+                label="Folder Name"
+                placeholder="Operations"
+                @submit="submitFolder"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <TablerButton
-                class='w-100'
-                variant='primary'
-                @click='submitFolder'
+                class="w-100"
+                variant="primary"
+                @click="submitFolder"
             >
                 {{ folderModal.editingNode ? 'Save' : 'Create' }}
             </TablerButton>

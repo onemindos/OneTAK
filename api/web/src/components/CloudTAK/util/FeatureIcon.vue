@@ -1,75 +1,75 @@
 <template>
     <canvas
-        v-if='supportedIcon'
-        ref='imgCanvas'
-        :width='props.size'
-        :height='props.size'
+        v-if="supportedIcon"
+        ref="imgCanvas"
+        :width="props.size"
+        :height="props.size"
     />
     <!-- Military symbols render without the map (Event Board) via milsymbol -->
     <img
-        v-else-if='standaloneIcon'
-        :src='standaloneIcon'
-        alt='Feature Icon'
-        :width='props.size'
-        :height='props.size'
-        style='object-fit: contain;'
+        v-else-if="standaloneIcon"
+        :src="standaloneIcon"
+        alt="Feature Icon"
+        :width="props.size"
+        :height="props.size"
+        style="object-fit: contain;"
     >
     <!-- Icons are in order of most preferred display => Least-->
     <IconPointFilled
         v-else-if='feature.properties && feature.properties.type === "u-d-p"'
-        :size='props.size'
+        :size="props.size"
         :color='feature.properties["marker-color"]'
     />
     <IconPointFilled
         v-else-if='feature.properties && feature.properties.type === "b-m-p-s-m"'
-        :size='props.size'
+        :size="props.size"
         :color='feature.properties["marker-color"] || "currentColor"'
     />
     <IconCircle
         v-else-if='feature.properties && feature.properties.type === "u-d-c-c"'
-        :size='props.size'
+        :size="props.size"
         :color='feature.properties.stroke || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <IconVideo
         v-else-if='feature.properties && feature.properties.type === "b-m-p-s-p-loc"'
-        :size='props.size'
+        :size="props.size"
         :color='feature.properties.stroke || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <IconRoute
         v-else-if='feature.properties && feature.properties.type === "b-m-r"'
-        :size='props.size'
+        :size="props.size"
         :color='feature.properties.stroke || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <IconLine
         v-else-if='feature.geometry && feature.geometry.type === "LineString"'
-        :size='props.size'
+        :size="props.size"
         :color='(feature.properties && feature.properties.stroke) || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <IconCone
-        v-else-if='feature.properties && feature.properties.sensor'
-        :size='props.size'
+        v-else-if="feature.properties && feature.properties.sensor"
+        :size="props.size"
         :color='feature.properties.stroke || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <IconPolygon
         v-else-if='feature.geometry && feature.geometry.type === "Polygon"'
-        :size='props.size'
+        :size="props.size"
         :color='(feature.properties && feature.properties.fill) || "currentColor"'
-        stroke='1'
+        stroke="1"
     />
     <ContactPuck
-        v-else-if='feature.properties && feature.properties.group'
-        :size='props.size'
-        :team='feature.properties.group.name'
+        v-else-if="feature.properties && feature.properties.group"
+        :size="props.size"
+        :team="feature.properties.group.name"
     />
     <IconMapPin
         v-else
-        :size='props.size'
-        stroke='1'
+        :size="props.size"
+        stroke="1"
     />
 </template>
 

@@ -1,26 +1,26 @@
 <template>
     <div
-        class='d-flex justify-content-center align-items-center'
-        style='width: 36px;'
+        class="d-flex justify-content-center align-items-center"
+        style="width: 36px;"
     >
-        <template v-if='!props.layer.enabled'>
+        <template v-if="!props.layer.enabled">
             <IconPlayerPause
-                :size='32'
-                stroke='1'
+                :size="32"
+                stroke="1"
             />
         </template>
         <template v-else>
             <span
-                class='status-indicator status-indicator-animated'
+                class="status-indicator status-indicator-animated"
                 :class='{
                     "status-green": props.layer.status === "healthy",
                     "status-red": props.layer.status === "alarm",
                     "status-dark": props.layer.status === "unknown",
                 }'
             >
-                <span class='status-indicator-circle' />
-                <span class='status-indicator-circle' />
-                <span class='status-indicator-circle' />
+                <span class="status-indicator-circle" />
+                <span class="status-indicator-circle" />
+                <span class="status-indicator-circle" />
             </span>
         </template>
     </div>

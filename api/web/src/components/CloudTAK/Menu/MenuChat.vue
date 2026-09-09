@@ -1,36 +1,36 @@
 <template>
     <MenuTemplate
-        :name='name'
-        :loading='loading'
-        :scroll='false'
+        :name="name"
+        :loading="loading"
+        :scroll="false"
     >
         <template #buttons>
             <TablerIconButton
-                title='Select Chats'
-                @click='multiselect = !multiselect'
+                title="Select Chats"
+                @click="multiselect = !multiselect"
             >
                 <IconListCheck
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchChats'
+                :loading="loading"
+                @click="fetchChats"
             />
         </template>
         <template #default>
             <GenericChat
-                :chats='chats'
-                :my-u-i-d='id'
-                :loading='loading'
-                :can-send='true'
-                :can-delete='true'
-                :multiselect='multiselect'
-                placeholder='Send Message...'
-                @send='sendMessage'
-                @delete='deleteChats'
-                @at-bottom='onAtBottom'
+                :chats="chats"
+                :my-u-i-d="id"
+                :loading="loading"
+                :can-send="true"
+                :can-delete="true"
+                :multiselect="multiselect"
+                placeholder="Send Message..."
+                @send="sendMessage"
+                @delete="deleteChats"
+                @at-bottom="onAtBottom"
             />
         </template>
     </MenuTemplate>

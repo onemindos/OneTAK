@@ -1,98 +1,98 @@
 <template>
-    <div class='col-12 py-2 g-2'>
-        <TablerLoading v-if='loading' />
+    <div class="col-12 py-2 g-2">
+        <TablerLoading v-if="loading" />
         <template v-else>
-            <div class='row pb-3 g-3 d-flex align-items-center justify-content-center'>
+            <div class="row pb-3 g-3 d-flex align-items-center justify-content-center">
                 <VideoConfigPort
-                    name='API'
-                    :enabled='config.api'
-                    :port='config.apiAddress'
+                    name="API"
+                    :enabled="config.api"
+                    :port="config.apiAddress"
                 />
 
                 <VideoConfigPort
-                    name='Metrics'
-                    :enabled='config.metrics'
-                    :port='config.metricsAddress'
+                    name="Metrics"
+                    :enabled="config.metrics"
+                    :port="config.metricsAddress"
                 />
 
                 <VideoConfigPort
-                    name='Perf'
-                    :enabled='config.pprof'
-                    :port='config.pprofAddress'
+                    name="Perf"
+                    :enabled="config.pprof"
+                    :port="config.pprofAddress"
                 />
 
                 <VideoConfigPort
-                    name='Playback'
-                    :enabled='config.playback'
-                    :port='config.playbackAddress'
+                    name="Playback"
+                    :enabled="config.playback"
+                    :port="config.playbackAddress"
                 />
             </div>
 
-            <div class='row g-3 d-flex align-items-center justify-content-center'>
+            <div class="row g-3 d-flex align-items-center justify-content-center">
                 <VideoConfigPort
-                    name='RTMP'
-                    :enabled='config.rtmp'
-                    :port='config.rtmpAddress'
+                    name="RTMP"
+                    :enabled="config.rtmp"
+                    :port="config.rtmpAddress"
                 />
 
                 <VideoConfigPort
-                    name='RTSP'
-                    :enabled='config.rtsp'
-                    :port='config.rtspAddress'
+                    name="RTSP"
+                    :enabled="config.rtsp"
+                    :port="config.rtspAddress"
                 />
 
                 <VideoConfigPort
-                    name='HLS'
-                    :enabled='config.hls'
-                    :port='config.hlsAddress'
+                    name="HLS"
+                    :enabled="config.hls"
+                    :port="config.hlsAddress"
                 />
 
                 <VideoConfigPort
-                    name='WebRTC'
-                    :enabled='config.webrtc'
-                    :port='config.webrtcAddress'
+                    name="WebRTC"
+                    :enabled="config.webrtc"
+                    :port="config.webrtcAddress"
                 />
 
                 <VideoConfigPort
-                    name='SRT'
-                    :enabled='config.srt'
-                    :port='config.srtAddress'
+                    name="SRT"
+                    :enabled="config.srt"
+                    :port="config.srtAddress"
                 />
             </div>
         </template>
 
-        <div class='row g-0 py-3'>
-            <label class='subheader mx-2'>Server Paths</label>
-            <div class='col-12 border rounded mx-2'>
+        <div class="row g-0 py-3">
+            <label class="subheader mx-2">Server Paths</label>
+            <div class="col-12 border rounded mx-2">
                 <TablerNone
-                    v-if='(service.paths || []).length === 0'
-                    :create='false'
-                    :compact='true'
-                    label='No Server Paths'
+                    v-if="(service.paths || []).length === 0"
+                    :create="false"
+                    :compact="true"
+                    label="No Server Paths"
                 />
                 <template v-else>
                     <div
-                        v-for='path in service.paths'
-                        class='cloudtak-hover px-2 py-2 cursor-pointer d-flex align-items-center'
-                        @click='pathid = path.name'
+                        v-for="path in service.paths"
+                        class="cloudtak-hover px-2 py-2 cursor-pointer d-flex align-items-center"
+                        @click="pathid = path.name"
                     >
                         <StatusDot
                             :title='path.ready ? "Streaming" : "Not Streaming"'
                             :status='path.ready ? "success" : "fail"'
                         />
                         <span
-                            class='mx-2'
-                            v-text='path.name'
+                            class="mx-2"
+                            v-text="path.name"
                         />
 
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <IconUsersGroup
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                             <span
-                                class='mx-2'
-                                v-text='`${path.readers.length} Viewers`'
+                                class="mx-2"
+                                v-text="`${path.readers.length} Viewers`"
                             />
                         </div>
                     </div>
@@ -102,9 +102,9 @@
     </div>
 
     <VideoConfigPath
-        v-if='pathid'
-        :pathid='pathid'
-        @close='pathid = undefined'
+        v-if="pathid"
+        :pathid="pathid"
+        @close="pathid = undefined"
     />
 </template>
 

@@ -1,85 +1,85 @@
 <template>
-    <div class='col-12 d-flex flex-column gap-2'>
-        <template v-if='props.disabled'>
+    <div class="col-12 d-flex flex-column gap-2">
+        <template v-if="props.disabled">
             <div
-                v-for='item in props.items'
-                :key='item.id'
+                v-for="item in props.items"
+                :key="item.id"
             >
                 <slot
-                    name='item'
-                    :item='item'
+                    name="item"
+                    :item="item"
                 />
             </div>
         </template>
         <template v-else>
             <div
-                class='col-12 d-flex py-2 btn-list border-bottom'
+                class="col-12 d-flex py-2 btn-list border-bottom"
                 :class='{
                     "sticky-top cloudtak-header": props.stickyControls
                 }'
                 :style='props.stickyControls ? "z-index: 1;" : undefined'
             >
                 <TablerIconButton
-                    v-if='selected.size < props.items.length'
-                    title='Select All'
-                    @click='props.items.forEach(item => selected.add(item.id))'
+                    v-if="selected.size < props.items.length"
+                    title="Select All"
+                    @click="props.items.forEach(item => selected.add(item.id))"
                 >
                     <IconSelectAll
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    v-if='selected.size > 0'
-                    title='Deselect All'
-                    @click='selected.clear()'
+                    v-if="selected.size > 0"
+                    title="Deselect All"
+                    @click="selected.clear()"
                 >
                     <IconDeselect
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <div
-                    class='ms-auto me-2'
+                    class="ms-auto me-2"
                 >
                     <slot
-                        name='buttons'
-                        :disabled='selected.size === 0'
+                        name="buttons"
+                        :disabled="selected.size === 0"
                     />
                 </div>
             </div>
 
             <template
-                v-for='item in props.items'
-                :key='item.id'
+                v-for="item in props.items"
+                :key="item.id"
             >
                 <div
-                    class='d-flex align-items-center rounded cursor-pointer'
+                    class="d-flex align-items-center rounded cursor-pointer"
                     :class='{
                         "cloudtak-hover": props.hover
                     }'
-                    @click='selected.has(item.id) ? selected.delete(item.id) : selected.add(item.id)'
+                    @click="selected.has(item.id) ? selected.delete(item.id) : selected.add(item.id)"
                 >
                     <div
-                        class='mx-2'
+                        class="mx-2"
                     >
                         <IconCircleFilled
-                            v-if='selected.has(item.id)'
-                            :size='24'
-                            stroke='1'
+                            v-if="selected.has(item.id)"
+                            :size="24"
+                            stroke="1"
                         />
                         <IconCircle
                             v-else
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </div>
 
                     <slot
-                        name='item'
-                        :item='item'
+                        name="item"
+                        :item="item"
                     />
                 </div>
             </template>

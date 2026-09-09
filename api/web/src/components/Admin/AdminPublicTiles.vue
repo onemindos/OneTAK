@@ -1,84 +1,84 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Hosted Tilesets
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
                     :title='uploading ? "Hide Upload" : "Upload Tileset"'
-                    @click='toggleUpload'
+                    @click="toggleUpload"
                 >
                     <IconUpload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <TablerAlert
-            v-if='error'
-            :err='error'
-            @close='error = undefined'
+            v-if="error"
+            :err="error"
+            @close="error = undefined"
         />
 
         <div
-            v-if='uploading'
-            class='card m-3'
+            v-if="uploading"
+            class="card m-3"
         >
             <Upload
-                :url='uploadUrl'
-                mimetype='.pmtiles'
-                label='Upload a .pmtiles file to the hosted tileset directory'
-                @cancel='uploading = false'
-                @done='onUploadDone'
-                @error='error = $event'
+                :url="uploadUrl"
+                mimetype=".pmtiles"
+                label="Upload a .pmtiles file to the hosted tileset directory"
+                @cancel="uploading = false"
+                @done="onUploadDone"
+                @error="error = $event"
             />
         </div>
 
-        <div class='card-body'>
-            <div class='row g-3'>
-                <div class='col-12 col-xl-5'>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-12 col-xl-5">
                     <PublicTilesSelect
-                        :key='tilesetKey'
-                        @select='selected = $event as PublicTile'
+                        :key="tilesetKey"
+                        @select="selected = $event as PublicTile"
                     />
                 </div>
 
-                <div class='col-12 col-xl-7'>
+                <div class="col-12 col-xl-7">
                     <TablerNone
-                        v-if='!selected'
-                        :create='false'
-                        label='Select a Hosted Tileset'
+                        v-if="!selected"
+                        :create="false"
+                        label="Select a Hosted Tileset"
                     />
 
                     <div
                         v-else
-                        class='row g-3'
+                        class="row g-3"
                     >
-                        <div class='col-12'>
-                            <label class='form-label'>Tileset Details</label>
-                            <div class='card'>
-                                <div class='card-body datagrid'>
-                                    <div class='datagrid-item'>
-                                        <div class='datagrid-title'>
+                        <div class="col-12">
+                            <label class="form-label">Tileset Details</label>
+                            <div class="card">
+                                <div class="card-body datagrid">
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">
                                             Name
                                         </div>
-                                        <div class='datagrid-content'>
+                                        <div class="datagrid-content">
                                             {{ selected.name }}
                                         </div>
                                     </div>
-                                    <div class='datagrid-item'>
-                                        <div class='datagrid-title'>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">
                                             TileJSON URL
                                         </div>
-                                        <div class='datagrid-content text-break'>
+                                        <div class="datagrid-content text-break">
                                             <a
-                                                :href='selected.url'
-                                                target='_blank'
-                                                rel='noopener noreferrer'
+                                                :href="selected.url"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                             >{{ selected.url }}</a>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <TileJSONView :overlay='selected' />
+                        <TileJSONView :overlay="selected" />
                     </div>
                 </div>
             </div>

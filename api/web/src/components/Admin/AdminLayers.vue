@@ -1,152 +1,152 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Layer Admin
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Admin Layer'
+                    title="Create Admin Layer"
                     @click='navTo("/connection/0/layer/new", $event)'
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Update Management'
+                    title="Update Management"
                     @click='router.push("/admin/layer/updates")'
                 >
                     <IconListDetails
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Redeploy'
-                    @click='redeploy'
+                    title="Redeploy"
+                    @click="redeploy"
                 >
                     <IconCloudUpload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
-            <div class='row g-0 py-2'>
-                <div class='col-md-9 px-2'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
+            <div class="row g-0 py-2">
+                <div class="col-md-9 px-2">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        placeholder='Filter...'
+                        v-model="paging.filter"
+                        icon="search"
+                        placeholder="Filter..."
                     />
                 </div>
-                <div class='col-md-3 px-2'>
+                <div class="col-md-3 px-2">
                     <TaskSelect
-                        v-model='paging.task'
-                        :tasks='list.tasks'
+                        v-model="paging.task"
+                        :tasks="list.tasks"
                     />
                 </div>
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Layers'
+                v-if="loading"
+                desc="Loading Layers"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Layers'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Layers"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive pb-5'
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody
-                        role='menu'
+                        role="menu"
                     >
                         <tr
-                            v-for='layer in list.items'
-                            :key='layer.id'
-                            class='cursor-pointer'
-                            role='menuitem'
-                            tabindex='0'
-                            @keyup.enter='navTo(`/connection/${layer.connection || 0}/layer/${layer.id}`, $event)'
-                            @click='navTo(`/connection/${layer.connection || 0}/layer/${layer.id}`, $event)'
+                            v-for="layer in list.items"
+                            :key="layer.id"
+                            class="cursor-pointer"
+                            role="menuitem"
+                            tabindex="0"
+                            @keyup.enter="navTo(`/connection/${layer.connection || 0}/layer/${layer.id}`, $event)"
+                            @click="navTo(`/connection/${layer.connection || 0}/layer/${layer.id}`, $event)"
                         >
-                            <template v-for='h in header'>
+                            <template v-for="h in header">
                                 <template v-if='h.display && h.name === "name"'>
                                     <td>
-                                        <div class='d-flex align-items-center'>
-                                            <Status :layer='layer' />
-                                            <div class='mx-2 row'>
+                                        <div class="d-flex align-items-center">
+                                            <Status :layer="layer" />
+                                            <div class="mx-2 row">
                                                 <div
-                                                    class='subheader'
+                                                    class="subheader"
                                                     v-text='layer.parent ? layer.parent.name : "Admin Layer"'
                                                 />
-                                                <div v-text='layer[h.name]' />
+                                                <div v-text="layer[h.name]" />
                                             </div>
                                         </div>
                                     </td>
                                 </template>
                                 <template v-else-if='h.display && h.name === "task"'>
                                     <td>
-                                        <div class='d-flex align-items-center'>
-                                            <div class='row'>
+                                        <div class="d-flex align-items-center">
+                                            <div class="row">
                                                 <span
                                                     v-text='layer.task.replace(/\-v\d+\.\d+\.\d+$/, "")'
                                                 />
                                                 <span
-                                                    class='subheader'
+                                                    class="subheader"
                                                     v-text='layer.task.replace(/.*-(?=v\d+\.\d+\.\d+)/, "")'
                                                 />
                                             </div>
-                                            <div class='mx-2 ms-auto'>
+                                            <div class="mx-2 ms-auto">
                                                 <IconExchange
-                                                    v-if='layer.incoming && layer.outgoing'
-                                                    title='Outgoing/Incoming'
-                                                    size='32'
-                                                    stroke='1'
+                                                    v-if="layer.incoming && layer.outgoing"
+                                                    title="Outgoing/Incoming"
+                                                    size="32"
+                                                    stroke="1"
                                                 />
                                                 <IconStackPop
-                                                    v-else-if='layer.outgoing'
-                                                    title='Outgoing'
-                                                    size='32'
-                                                    stroke='1'
+                                                    v-else-if="layer.outgoing"
+                                                    title="Outgoing"
+                                                    size="32"
+                                                    stroke="1"
                                                 />
                                                 <IconStackPush
-                                                    v-else-if='layer.incoming'
-                                                    title='Incoming'
-                                                    size='32'
-                                                    stroke='1'
+                                                    v-else-if="layer.incoming"
+                                                    title="Incoming"
+                                                    size="32"
+                                                    stroke="1"
                                                 />
                                             </div>
                                         </div>
                                     </td>
                                 </template>
-                                <template v-else-if='h.display'>
+                                <template v-else-if="h.display">
                                     <td>
-                                        <span v-text='layer[h.name]' />
+                                        <span v-text="layer[h.name]" />
                                     </td>
                                 </template>
                             </template>
@@ -155,13 +155,13 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

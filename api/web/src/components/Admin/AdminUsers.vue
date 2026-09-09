@@ -1,89 +1,89 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Users
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                placeholder='Filter...'
-                class='mx-1 my-2'
+                v-model="paging.filter"
+                icon="search"
+                placeholder="Filter..."
+                class="mx-1 my-2"
             />
 
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Users'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Users"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive pb-5'
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody
-                        role='menu'
+                        role="menu"
                     >
                         <tr
-                            v-for='user in list.items'
-                            :key='user.username'
-                            class='cursor-pointer'
-                            role='menuitem'
-                            tabindex='0'
-                            @keyup.enter='stdclick(router, $event, `/admin/user/${user.username}`)'
-                            @click='stdclick(router, $event, `/admin/user/${user.username}`)'
+                            v-for="user in list.items"
+                            :key="user.username"
+                            class="cursor-pointer"
+                            role="menuitem"
+                            tabindex="0"
+                            @keyup.enter="stdclick(router, $event, `/admin/user/${user.username}`)"
+                            @click="stdclick(router, $event, `/admin/user/${user.username}`)"
                         >
-                            <template v-for='h in header'>
-                                <template v-if='h.display'>
+                            <template v-for="h in header">
+                                <template v-if="h.display">
                                     <td>
                                         <div
                                             v-if='h.name === "username"'
-                                            class='d-flex align-items-center'
+                                            class="d-flex align-items-center"
                                         >
                                             <StatusDot
-                                                :dark='true'
+                                                :dark="true"
                                                 :status='user.active ? "Success" : "Unknown"'
                                             />
                                             <span
-                                                class='mx-2'
-                                                v-text='user[h.name]'
+                                                class="mx-2"
+                                                v-text="user[h.name]"
                                             />
                                             <CertificateBadge
-                                                class='ms-auto'
-                                                :certificate='user.certificate'
+                                                class="ms-auto"
+                                                :certificate="user.certificate"
                                             />
                                         </div>
                                         <div
                                             v-else-if='h.name === "last_login"'
                                         >
-                                            <div v-text='timeDiff(user[h.name])' />
+                                            <div v-text="timeDiff(user[h.name])" />
                                             <div
-                                                class='subheader'
-                                                v-text='(user as Partial<User>)[h.name]'
+                                                class="subheader"
+                                                v-text="(user as Partial<User>)[h.name]"
                                             />
                                         </div>
                                         <span
                                             v-else
-                                            v-text='(user as Partial<User>)[h.name]'
+                                            v-text="(user as Partial<User>)[h.name]"
                                         />
                                     </td>
                                 </template>
@@ -93,13 +93,13 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

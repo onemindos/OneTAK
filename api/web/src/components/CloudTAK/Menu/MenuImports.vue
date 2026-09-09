@@ -1,93 +1,93 @@
 <template>
-    <MenuTemplate name='Data Imports'>
+    <MenuTemplate name="Data Imports">
         <template #buttons>
             <TablerIconButton
-                v-if='!loading && !upload'
-                title='New Import'
-                @click='upload = true'
+                v-if="!loading && !upload"
+                title="New Import"
+                @click="upload = true"
             >
                 <IconUpload
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
         <template #default>
             <div
-                v-if='upload'
-                class='py-2'
+                v-if="upload"
+                class="py-2"
             >
                 <Upload
-                    :url='stdurl(`/api/import`)'
-                    method='PUT'
-                    @cancel='upload = false'
-                    @done='uploadComplete($event)'
+                    :url="stdurl(`/api/import`)"
+                    method="PUT"
+                    @cancel="upload = false"
+                    @done="uploadComplete($event)"
                 />
             </div>
 
             <SearchSortFilter
-                v-model='paging.filter'
-                v-model:sort='sort'
-                :sort-options='sortOptions'
-                placeholder='Filter'
+                v-model="paging.filter"
+                v-model:sort="sort"
+                :sort-options="sortOptions"
+                placeholder="Filter"
             >
                 <template #sort-icon>
-                    <template v-if='sort'>
+                    <template v-if="sort">
                         <component
-                            :is='sortTypeIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortTypeIcon"
+                            :size="20"
+                            stroke="1"
                         />
                         <component
-                            :is='sortDirectionIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortDirectionIcon"
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                     <IconArrowsSort
                         v-else
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </template>
             </SearchSortFilter>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                title='Imports Error'
-                :err='error'
+                v-else-if="error"
+                title="Imports Error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Imports'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Imports"
+                :create="false"
             />
             <template v-else>
                 <div
-                    v-for='imported in list.items'
-                    :key='imported.id'
-                    class='col-12 py-1'
+                    v-for="imported in list.items"
+                    :key="imported.id"
+                    class="col-12 py-1"
                 >
                     <StandardItemImport
-                        :imp='imported'
-                        @click='router.push(`/menu/imports/${imported.id}`)'
+                        :imp="imported"
+                        @click="router.push(`/menu/imports/${imported.id}`)"
                     />
                 </div>
             </template>
 
-            <div class='py-2 d-flex'>
-                <div class='ms-auto'>
+            <div class="py-2 d-flex">
+                <div class="ms-auto">
                     <TablerPager
-                        v-if='list.total > paging.limit'
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        v-if="list.total > paging.limit"
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </div>

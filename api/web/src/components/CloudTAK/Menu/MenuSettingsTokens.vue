@@ -1,37 +1,37 @@
 <template>
     <MenuTemplate
-        name='API Tokens'
-        :loading='loading'
-        :none='!tokens.items.length'
+        name="API Tokens"
+        :loading="loading"
+        :none="!tokens.items.length"
     >
         <template #buttons>
             <TablerIconButton
-                title='New Token'
-                @click='token={}'
+                title="New Token"
+                @click="token={}"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetch'
+                :loading="loading"
+                @click="fetch"
             />
         </template>
         <template #default>
-            <div class='col-12 d-flex flex-column gap-2 py-3'>
+            <div class="col-12 d-flex flex-column gap-2 py-3">
                 <StandardItem
-                    v-for='t in tokens.items'
-                    :key='t.id'
-                    @click='token = t'
+                    v-for="t in tokens.items"
+                    :key="t.id"
+                    @click="token = t"
                 >
-                    <div class='d-flex align-items-center px-2 py-2'>
+                    <div class="d-flex align-items-center px-2 py-2">
                         <IconRobot
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <div class='ms-2 flex-grow-1 fw-bold'>
+                        <div class="ms-2 flex-grow-1 fw-bold">
                             {{ t.name }}
                         </div>
                     </div>
@@ -41,10 +41,10 @@
     </MenuTemplate>
 
     <TokenModal
-        v-if='token'
-        :token='token'
-        @close='token = false'
-        @refresh='fetch'
+        v-if="token"
+        :token="token"
+        @close="token = false"
+        @refresh="fetch"
     />
 </template>
 

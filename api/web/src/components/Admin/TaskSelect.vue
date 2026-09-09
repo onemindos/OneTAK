@@ -1,42 +1,42 @@
 <template>
     <TablerDropdown
-        class='task-select w-100'
-        position='bottom-start'
+        class="task-select w-100"
+        position="bottom-start"
     >
         <template #default>
-            <div class='form-select d-flex align-items-center cursor-pointer user-select-none w-100'>
-                <span class='text-truncate flex-fill'>{{ modelValue }}</span>
+            <div class="form-select d-flex align-items-center cursor-pointer user-select-none w-100">
+                <span class="text-truncate flex-fill">{{ modelValue }}</span>
             </div>
         </template>
         <template #dropdown>
-            <div style='min-width: 250px;'>
-                <div class='px-3 py-2 border-bottom'>
+            <div style="min-width: 250px;">
+                <div class="px-3 py-2 border-bottom">
                     <TablerInput
-                        v-model='search'
-                        placeholder='Search Tasks...'
-                        icon='search'
-                        :autofocus='true'
-                        class='mb-0'
+                        v-model="search"
+                        placeholder="Search Tasks..."
+                        icon="search"
+                        :autofocus="true"
+                        class="mb-0"
                         @click.stop
                     />
                 </div>
                 <div
-                    class='overflow-auto px-2 py-2'
-                    style='max-height: 300px;'
+                    class="overflow-auto px-2 py-2"
+                    style="max-height: 300px;"
                 >
                     <div
-                        v-for='task in filteredTasks'
-                        :key='task'
-                        class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none rounded'
+                        v-for="task in filteredTasks"
+                        :key="task"
+                        class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none rounded"
                         :class='{ "fw-bold": task === modelValue }'
-                        @click='select(task)'
-                        v-text='task'
+                        @click="select(task)"
+                        v-text="task"
                     />
                     <TablerNone
-                        v-if='!filteredTasks.length'
-                        :compact='true'
-                        :create='false'
-                        label='No Tasks'
+                        v-if="!filteredTasks.length"
+                        :compact="true"
+                        :create="false"
+                        label="No Tasks"
                     />
                 </div>
             </div>

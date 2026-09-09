@@ -1,18 +1,18 @@
 <template>
-    <div class='prompt-input'>
+    <div class="prompt-input">
         <textarea
-            ref='inputEl'
-            v-model='text'
-            class='prompt-input__textarea'
-            placeholder='Ask Hermes…'
-            rows='2'
-            :disabled='disabled'
-            @keydown.enter.exact.prevent='submit'
+            ref="inputEl"
+            v-model="text"
+            class="prompt-input__textarea"
+            placeholder="Ask Hermes…"
+            rows="2"
+            :disabled="disabled"
+            @keydown.enter.exact.prevent="submit"
         />
         <button
-            class='prompt-input__send'
-            :disabled='disabled || !text.trim()'
-            @click='submit'
+            class="prompt-input__send"
+            :disabled="disabled || !text.trim()"
+            @click="submit"
         >
             ›
         </button>

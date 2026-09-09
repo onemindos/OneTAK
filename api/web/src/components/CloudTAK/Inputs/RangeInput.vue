@@ -1,70 +1,70 @@
 <template>
     <div
-        class='position-absolute end-0 text-white cloudtak-bg card rounded'
-        style='
+        class="position-absolute end-0 text-white cloudtak-bg card rounded"
+        style="
             top: 56px;
             z-index: 1;
             width: 400px;
             border-radius: 0px 6px 0px 0px;
-        '
+        "
     >
-        <div class='card-header d-flex align-items-center'>
-            <div class='card-title'>
+        <div class="card-header d-flex align-items-center">
+            <div class="card-title">
                 <IconCompass
-                    :size='25'
-                    stroke='1'
+                    :size="25"
+                    stroke="1"
                 />
 
-                <span class='ms-2'>Range &amp; Bearing</span>
+                <span class="ms-2">Range &amp; Bearing</span>
             </div>
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <TablerIconButton
-                    title='Close'
+                    title="Close"
                     @click='emit("close")'
                 >
                     <IconX
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div class='mx-2 my-2 row g-2'>
-            <div class='col-12'>
+        <div class="mx-2 my-2 row g-2">
+            <div class="col-12">
                 <TablerInput
-                    v-model='config.name'
-                    label='Name'
-                    @submit='submitPoint'
+                    v-model="config.name"
+                    label="Name"
+                    @submit="submitPoint"
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <Coordinate
-                    v-model='config.coordinates'
-                    :edit='true'
-                    :hover='true'
+                    v-model="config.coordinates"
+                    :edit="true"
+                    :hover="true"
                     :modes='["dd"]'
-                    @submit='submitPoint'
+                    @submit="submitPoint"
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <PropertyBearing
-                    v-model='config.bearing'
-                    :edit='true'
-                    :hover='true'
+                    v-model="config.bearing"
+                    :edit="true"
+                    :hover="true"
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <PropertyDistance
-                    v-model='config.range'
-                    :unit='mapStore.distanceUnit'
-                    :edit='true'
-                    :hover='true'
+                    v-model="config.range"
+                    :unit="mapStore.distanceUnit"
+                    :edit="true"
+                    :hover="true"
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <button
-                    class='btn btn-primary w-100 mt-3'
-                    @click='submitPoint'
+                    class="btn btn-primary w-100 mt-3"
+                    @click="submitPoint"
                 >
                     Save
                 </button>

@@ -1,96 +1,96 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-red' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='d-flex align-items-center'>
+        <div class="modal-header text-body">
+            <div class="d-flex align-items-center">
                 <IconFileImport
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
-                <span class='mx-2'>Import GeoJSON to Editable Features</span>
+                <span class="mx-2">Import GeoJSON to Editable Features</span>
             </div>
         </div>
-        <div class='modal-body text-body'>
-            <TablerLoading v-if='loading' />
+        <div class="modal-body text-body">
+            <TablerLoading v-if="loading" />
             <div
-                v-else-if='!feats.length'
-                class='row mx-2'
+                v-else-if="!feats.length"
+                class="row mx-2"
             >
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerFileInput
                         :model-value='""'
-                        type='file'
-                        accept='.json, .geojson'
-                        label='File'
-                        @change='processUpload($event)'
+                        type="file"
+                        accept=".json, .geojson"
+                        label="File"
+                        @change="processUpload($event)"
                     />
                 </div>
 
-                <div class='col-12 pt-3'>
+                <div class="col-12 pt-3">
                     <TablerInlineAlert
-                        v-if='error'
-                        title='An Error Occurred'
-                        :description='error.message'
+                        v-if="error"
+                        title="An Error Occurred"
+                        :description="error.message"
                     />
                 </div>
 
-                <div class='col-12 pt-3'>
+                <div class="col-12 pt-3">
                     <TablerInlineAlert
-                        title='FYI'
-                        description='Large GeoJSON files should be uploaded via the Imports menu'
+                        title="FYI"
+                        description="Large GeoJSON files should be uploaded via the Imports menu"
                     />
                 </div>
 
-                <div class='col-12 pt-3'>
+                <div class="col-12 pt-3">
                     <TablerButton
-                        class='btn-primary w-100'
-                        :disabled='!file'
-                        @click='uploadGeoJSON'
+                        class="btn-primary w-100"
+                        :disabled="!file"
+                        @click="uploadGeoJSON"
                     >
                         Upload
                     </TablerButton>
                 </div>
             </div>
             <div
-                v-else-if='feats.length'
-                class='row mx-2'
+                v-else-if="feats.length"
+                class="row mx-2"
             >
-                <div class='col-12 pt-3'>
-                    <label class='mx-2 user-select-none'>Features To Import:</label>
+                <div class="col-12 pt-3">
+                    <label class="mx-2 user-select-none">Features To Import:</label>
 
                     <div
-                        v-if='feats.length !== 0'
-                        class='col-12 overflow-auto'
-                        style='
+                        v-if="feats.length !== 0"
+                        class="col-12 overflow-auto"
+                        style="
                             max-height: 40vh;
-                        '
+                        "
                     >
                         <FeatureRow
-                            v-for='feat of feats'
-                            :key='feat.id'
-                            :feature='feat'
-                            :hover='false'
-                            :delete-button='false'
+                            v-for="feat of feats"
+                            :key="feat.id"
+                            :feature="feat"
+                            :hover="false"
+                            :delete-button="false"
                         />
                     </div>
                     <TablerNone
                         v-else
-                        :compact='true'
-                        :create='false'
-                        label='No Features'
+                        :compact="true"
+                        :create="false"
+                        label="No Features"
                     />
                 </div>
 
-                <div class='col-12 pt-3'>
+                <div class="col-12 pt-3">
                     <TablerButton
-                        class='btn-primary w-100'
-                        @click='saveToMap'
+                        class="btn-primary w-100"
+                        @click="saveToMap"
                     >
                         Save To Map
                     </TablerButton>

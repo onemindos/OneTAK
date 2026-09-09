@@ -1,217 +1,217 @@
 <template>
-    <div class='h-full w-full cloudtak-page d-flex flex-column event-board'>
+    <div class="h-full w-full cloudtak-page d-flex flex-column event-board">
         <NavHeader>
             <template #left>
                 <TablerDropdown
-                    v-if='selectedBoard'
-                    :width='170'
+                    v-if="selectedBoard"
+                    :width="170"
                 >
-                    <TablerIconButton title='Board Options'>
+                    <TablerIconButton title="Board Options">
                         <IconDotsVertical
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <template #dropdown>
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                            @click='editBoard = selectedBoard'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                            @click="editBoard = selectedBoard"
                         >
                             <IconPencil
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='mx-2'>Edit Board</span>
+                            <span class="mx-2">Edit Board</span>
                         </div>
                         <div
-                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                            @click='addBoard = true'
+                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                            @click="addBoard = true"
                         >
                             <IconPlus
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='mx-2'>New Board</span>
+                            <span class="mx-2">New Board</span>
                         </div>
                         <TablerDelete
-                            v-if='boards.length > 1'
-                            class='cloudtak-hover event-board-menu-delete'
-                            displaytype='menu'
-                            label='Delete Board'
-                            title='Delete Board'
-                            @delete='deleteBoard(selectedBoard)'
+                            v-if="boards.length > 1"
+                            class="cloudtak-hover event-board-menu-delete"
+                            displaytype="menu"
+                            label="Delete Board"
+                            title="Delete Board"
+                            @delete="deleteBoard(selectedBoard)"
                         />
                     </template>
                 </TablerDropdown>
 
                 <GroupSelectDropdown
-                    v-model='channel'
-                    class='event-board-select'
-                    :active='true'
-                    @channels='onChannels'
+                    v-model="channel"
+                    class="event-board-select"
+                    :active="true"
+                    @channels="onChannels"
                 />
 
                 <BoardSelectDropdown
-                    v-if='channel !== undefined'
-                    ref='boardSelect'
-                    v-model='board'
-                    class='event-board-select'
-                    :channel='channel'
-                    @boards='onBoards'
-                    @error='error = $event'
-                    @update:model-value='onBoardChange'
+                    v-if="channel !== undefined"
+                    ref="boardSelect"
+                    v-model="board"
+                    class="event-board-select"
+                    :channel="channel"
+                    @boards="onBoards"
+                    @error="error = $event"
+                    @update:model-value="onBoardChange"
                 />
             </template>
 
             <TablerIconButton
-                title='Create Event'
-                :disabled='channel === undefined || loading'
-                @click='openCreate'
+                title="Create Event"
+                :disabled="channel === undefined || loading"
+                @click="openCreate"
             >
                 <IconPlus
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                title='Nominate Event'
-                :disabled='!nominatedColumn || loading'
-                @click='openNominate'
+                title="Nominate Event"
+                :disabled="!nominatedColumn || loading"
+                @click="openNominate"
             >
                 <IconStackPush
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                title='Refresh Board'
-                @click='refresh'
+                title="Refresh Board"
+                @click="refresh"
             >
                 <IconRefresh
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <div
-                class='btn-group flex-shrink-0'
-                role='group'
-                aria-label='View Mode'
+                class="btn-group flex-shrink-0"
+                role="group"
+                aria-label="View Mode"
             >
                 <button
-                    type='button'
-                    class='btn btn-icon'
+                    type="button"
+                    class="btn btn-icon"
                     :class='mode === "board" ? "btn-secondary" : "btn-outline-secondary"'
-                    title='Board View'
+                    title="Board View"
                     @click='setMode("board")'
                 >
                     <IconLayoutKanban
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </button>
                 <button
-                    type='button'
-                    class='btn btn-icon'
+                    type="button"
+                    class="btn btn-icon"
                     :class='mode === "list" ? "btn-secondary" : "btn-outline-secondary"'
-                    title='List View'
+                    title="List View"
                     @click='setMode("list")'
                 >
                     <IconList
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </button>
             </div>
         </NavHeader>
 
-        <div class='flex-grow-1 overflow-hidden'>
+        <div class="flex-grow-1 overflow-hidden">
             <div
-                v-if='loading'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-if="loading"
+                class="d-flex align-items-center justify-content-center h-100"
             >
-                <TablerLoading desc='Loading Event Board' />
+                <TablerLoading desc="Loading Event Board" />
             </div>
             <div
-                v-else-if='error'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-else-if="error"
+                class="d-flex align-items-center justify-content-center h-100"
             >
                 <TablerAlert
-                    title='Event Board Error'
-                    :err='error'
+                    title="Event Board Error"
+                    :err="error"
                 />
             </div>
             <div
-                v-else-if='channel === undefined'
-                class='d-flex align-items-center justify-content-center h-100'
+                v-else-if="channel === undefined"
+                class="d-flex align-items-center justify-content-center h-100"
             >
                 <TablerNone
-                    label='Select a Channel to view its Event Board'
-                    :create='false'
+                    label="Select a Channel to view its Event Board"
+                    :create="false"
                 />
             </div>
             <ViewBoard
                 v-else-if='mode === "board"'
-                v-model:columns='columns'
-                :board='board'
-                :channel='channel'
-                @error='error = $event'
-                @refresh='listColumns'
-                @open-event='openEvent'
+                v-model:columns="columns"
+                :board="board"
+                :channel="channel"
+                @error="error = $event"
+                @refresh="listColumns"
+                @open-event="openEvent"
             />
             <ViewList
                 v-else
-                v-model:columns='columns'
-                @error='error = $event'
-                @open-event='openEvent'
+                v-model:columns="columns"
+                @error="error = $event"
+                @open-event="openEvent"
             />
         </div>
 
         <NominateModal
-            v-if='nominate && channel !== undefined'
-            :channel='channel'
-            :placed='placedEvents'
-            @nominate='nominateEvent($event)'
-            @close='nominate = false'
+            v-if="nominate && channel !== undefined"
+            :channel="channel"
+            :placed="placedEvents"
+            @nominate="nominateEvent($event)"
+            @close="nominate = false"
         />
 
         <CreateCoreEvent
-            v-if='createEvent && channel !== undefined'
-            :channel='channel'
-            :navigate='false'
-            @create='onEventCreated($event)'
-            @close='createEvent = false'
+            v-if="createEvent && channel !== undefined"
+            :channel="channel"
+            :navigate="false"
+            @create="onEventCreated($event)"
+            @close="createEvent = false"
         />
 
         <FormWizard
-            v-if='formWizard'
-            :event-id='formWizard.event.id'
-            :event-name='formWizard.event.name'
-            :forms='formWizard.forms'
-            @complete='completeFormWizard'
-            @close='formWizard = undefined'
+            v-if="formWizard"
+            :event-id="formWizard.event.id"
+            :event-name="formWizard.event.name"
+            :forms="formWizard.forms"
+            @complete="completeFormWizard"
+            @close="formWizard = undefined"
         />
 
         <EditBoardModal
-            v-if='editBoard || addBoard'
-            :board='addBoard ? undefined : editBoard'
-            @save='addBoard ? createBoard($event) : saveBoard($event)'
-            @close='editBoard = undefined; addBoard = false'
+            v-if="editBoard || addBoard"
+            :board="addBoard ? undefined : editBoard"
+            @save="addBoard ? createBoard($event) : saveBoard($event)"
+            @close="editBoard = undefined; addBoard = false"
         />
 
         <TablerModal
-            v-if='viewEvent'
-            size='xl'
+            v-if="viewEvent"
+            size="xl"
         >
             <div
-                class='d-flex flex-column overflow-hidden px-2 py-2 event-board-event-modal'
+                class="d-flex flex-column overflow-hidden px-2 py-2 event-board-event-modal"
             >
                 <CoreEventView
-                    :event-id='viewEvent'
-                    @close='closeEvent'
+                    :event-id="viewEvent"
+                    @close="closeEvent"
                 />
             </div>
         </TablerModal>

@@ -1,50 +1,50 @@
 <template>
-    <teleport to='body'>
+    <teleport to="body">
         <div
-            v-if='notification'
-            class='toast-container position-fixed cursor-pointer'
-            :style='`
+            v-if="notification"
+            class="toast-container position-fixed cursor-pointer"
+            :style="`
                 bottom: ${mapStore.toastOffset.y}px;
                 right: ${mapStore.toastOffset.x}px;
-            `'
-            @click='navigateTo'
+            `"
+            @click="navigateTo"
         >
             <div
-                class='toast show'
-                role='alert'
-                aria-live='assertive'
-                aria-atomic='true'
-                data-bs-autohide='false'
+                class="toast show"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                data-bs-autohide="false"
             >
-                <div class='toast-header'>
-                    <span class='me-2'>
+                <div class="toast-header">
+                    <span class="me-2">
                         <NotificationIcon
-                            :type='notification.type'
-                            :size='24'
+                            :type="notification.type"
+                            :size="24"
                         />
                     </span>
                     <strong
-                        class='me-auto'
-                        v-text='notification.name'
+                        class="me-auto"
+                        v-text="notification.name"
                     />
                     <small
-                        v-text='timediff(notification.created)'
+                        v-text="timediff(notification.created)"
                     />
                     <button
-                        type='button'
-                        class='ms-2 btn-close'
-                        title='close'
+                        type="button"
+                        class="ms-2 btn-close"
+                        title="close"
                         @click.stop='emit("close")'
                     />
                 </div>
-                <div class='toast-body'>
+                <div class="toast-body">
                     <span
-                        class='text-truncate d-block'
-                        style='max-width: 220px;'
-                        v-text='notification.body'
+                        class="text-truncate d-block"
+                        style="max-width: 220px;"
+                        v-text="notification.body"
                     />
                 </div>
-                <div class='loading-bar' />
+                <div class="loading-bar" />
             </div>
         </div>
     </teleport>

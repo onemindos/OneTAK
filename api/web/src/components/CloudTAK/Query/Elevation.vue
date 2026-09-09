@@ -1,39 +1,39 @@
 <template>
-    <div class='col-12 row g-0'>
-        <div class='col-12'>
-            <label class='subheader mx-2'>Elevation</label>
+    <div class="col-12 row g-0">
+        <div class="col-12">
+            <label class="subheader mx-2">Elevation</label>
         </div>
         <TablerLoading
-            v-if='loading'
-            desc='Loading elevation...'
+            v-if="loading"
+            desc="Loading elevation..."
         />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
-            v-else-if='elevation'
-            class='col-12 d-flex align-items-center py-2 px-2 rounded'
-            style='border: 1px solid var(--tblr-border-color);'
+            v-else-if="elevation"
+            class="col-12 d-flex align-items-center py-2 px-2 rounded"
+            style="border: 1px solid var(--tblr-border-color);"
         >
             <IconMountain
-                size='32'
-                stroke='1'
+                size="32"
+                stroke="1"
             />
-            <div class='mx-2'>
+            <div class="mx-2">
                 <div
-                    class='h3 mb-0'
-                    v-text='elevation'
+                    class="h3 mb-0"
+                    v-text="elevation"
                 />
             </div>
         </div>
         <div
             v-else
-            class='col-12 d-flex py-2 px-2'
+            class="col-12 d-flex py-2 px-2"
         >
             <div
-                class='mx-2'
-                style='font-size: 20px;'
+                class="mx-2"
+                style="font-size: 20px;"
             >
                 No Elevation Data
             </div>

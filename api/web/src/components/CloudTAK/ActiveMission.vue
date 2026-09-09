@@ -1,140 +1,140 @@
 <template>
     <div
-        class='cloudtak-panel d-flex align-items-center px-2'
-        style='
+        class="cloudtak-panel d-flex align-items-center px-2"
+        style="
             z-index: 1;
             height: 60px;
             max-width: calc(100vw - 16px);
-        '
+        "
     >
-        <template v-if='!mapStore.mission'>
+        <template v-if="!mapStore.mission">
             <div
-                class='cloudtak-hover d-flex align-items-center user-select-none cursor-pointer rounded px-2'
-                style='height: 40px;'
+                class="cloudtak-hover d-flex align-items-center user-select-none cursor-pointer rounded px-2"
+                style="height: 40px;"
                 @click='router.push("/menu/missions")'
             >
                 <IconMap
-                    :size='32'
-                    stroke='1'
-                    class='me-2'
+                    :size="32"
+                    stroke="1"
+                    class="me-2"
                 />
-                <div class='me-2 font-weight-bold'>
+                <div class="me-2 font-weight-bold">
                     No Active Data Sync
                 </div>
             </div>
         </template>
         <template v-else>
             <div
-                class='d-flex align-items-center user-select-none cursor-pointer cloudtak-hover rounded px-2 me-2'
-                style='height: 40px;'
-                @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}`)'
+                class="d-flex align-items-center user-select-none cursor-pointer cloudtak-hover rounded px-2 me-2"
+                style="height: 40px;"
+                @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}`)"
             >
                 <IconAmbulance
-                    :size='32'
-                    stroke='1'
-                    class='me-2'
+                    :size="32"
+                    stroke="1"
+                    class="me-2"
                 />
 
                 <span
-                    class='text-truncate fw-bold'
-                    style='max-width: 200px;'
-                    v-text='mapStore.mission.meta.name'
+                    class="text-truncate fw-bold"
+                    style="max-width: 200px;"
+                    v-text="mapStore.mission.meta.name"
                 />
             </div>
 
             <div
-                class='d-none d-md-block border-start mx-1'
-                style='height: 32px;'
+                class="d-none d-md-block border-start mx-1"
+                style="height: 32px;"
             />
 
-            <div class='d-none d-md-flex gap-1 ms-2'>
+            <div class="d-none d-md-flex gap-1 ms-2">
                 <TablerIconButton
-                    title='Layers'
-                    class='cloudtak-hover'
-                    :hover='false'
-                    @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/layers`)'
+                    title="Layers"
+                    class="cloudtak-hover"
+                    :hover="false"
+                    @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/layers`)"
                 >
                     <IconBoxMultiple
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Changes'
-                    class='cloudtak-hover'
-                    :hover='false'
-                    @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/changes`)'
+                    title="Changes"
+                    class="cloudtak-hover"
+                    :hover="false"
+                    @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/changes`)"
                 >
                     <IconTimeline
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Users'
-                    class='cloudtak-hover'
-                    :hover='false'
-                    @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/users`)'
+                    title="Users"
+                    class="cloudtak-hover"
+                    :hover="false"
+                    @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/users`)"
                 >
                     <IconUsers
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
-                <div class='position-relative'>
+                <div class="position-relative">
                     <TablerIconButton
-                        title='Logs'
-                        class='cloudtak-hover'
-                        :hover='false'
-                        @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/logs`)'
+                        title="Logs"
+                        class="cloudtak-hover"
+                        :hover="false"
+                        @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/logs`)"
                     >
                         <IconArticle
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <span
-                        v-if='unreadLogs && unreadLogs > 0'
-                        class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white fw-bold shadow-sm unread-badge'
-                        style='font-size: 0.75rem; z-index: 10;'
+                        v-if="unreadLogs && unreadLogs > 0"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white fw-bold shadow-sm unread-badge"
+                        style="font-size: 0.75rem; z-index: 10;"
                     >
                         {{ unreadLogs > 99 ? '99+' : unreadLogs }}
                     </span>
                 </div>
 
-                <div class='position-relative'>
+                <div class="position-relative">
                     <TablerIconButton
-                        title='Chats'
-                        class='cloudtak-hover'
-                        :hover='false'
-                        @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/chats`)'
+                        title="Chats"
+                        class="cloudtak-hover"
+                        :hover="false"
+                        @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/chats`)"
                     >
                         <IconMessage
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <span
-                        v-if='unreadChats && unreadChats > 0'
-                        class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white fw-bold shadow-sm unread-badge'
-                        style='font-size: 0.75rem; z-index: 10;'
+                        v-if="unreadChats && unreadChats > 0"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white fw-bold shadow-sm unread-badge"
+                        style="font-size: 0.75rem; z-index: 10;"
                     >
                         {{ unreadChats > 99 ? '99+' : unreadChats }}
                     </span>
                 </div>
 
                 <TablerIconButton
-                    title='Files'
-                    class='cloudtak-hover'
-                    :hover='false'
-                    @click='router.push(`/menu/missions/${mapStore.mission.meta.guid}/contents`)'
+                    title="Files"
+                    class="cloudtak-hover"
+                    :hover="false"
+                    @click="router.push(`/menu/missions/${mapStore.mission.meta.guid}/contents`)"
                 >
                     <IconFiles
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>

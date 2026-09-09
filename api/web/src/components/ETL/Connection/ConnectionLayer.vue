@@ -1,101 +1,101 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h2 class='card-title'>
+        <div class="card-header d-flex">
+            <h2 class="card-title">
                 Layers
             </h2>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Layer'
-                    @click='router.push(`/connection/${route.params.connectionid}/layer/new`)'
+                    title="Create Layer"
+                    @click="router.push(`/connection/${route.params.connectionid}/layer/new`)"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='listLayers'
+                    :loading="loading"
+                    @click="listLayers"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 60px'>
-            <div class='col-12 px-2 py-2'>
+        <div style="min-height: 20vh; margin-bottom: 60px">
+            <div class="col-12 px-2 py-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
             <TablerAlert
-                v-if='error'
-                title='ETL Server Error'
-                :err='error'
+                v-if="error"
+                title="ETL Server Error"
+                :err="error"
             />
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                label='No Layers'
+                v-else-if="!list.items.length"
+                :create="false"
+                label="No Layers"
             />
             <div
                 v-else
-                class='table-resposive'
+                class="table-resposive"
             >
-                <table class='table card-table table-vcenter datatable table-hover'>
+                <table class="table card-table table-vcenter datatable table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody class='table-tbody'>
+                    <tbody class="table-tbody">
                         <tr
-                            v-for='layer of list.items'
-                            :key='layer.id'
-                            class='cursor-pointer'
-                            @click='router.push(`/connection/${route.params.connectionid}/layer/${layer.id}`)'
+                            v-for="layer of list.items"
+                            :key="layer.id"
+                            class="cursor-pointer"
+                            @click="router.push(`/connection/${route.params.connectionid}/layer/${layer.id}`)"
                         >
                             <td>
-                                <div class='d-flex align-items-center'>
-                                    <LayerStatus :layer='layer' /><div
-                                        class='mx-2'
-                                        v-text='layer.name'
+                                <div class="d-flex align-items-center">
+                                    <LayerStatus :layer="layer" /><div
+                                        class="mx-2"
+                                        v-text="layer.name"
                                     />
 
-                                    <div class='ms-auto btn-list'>
+                                    <div class="ms-auto btn-list">
                                         <TablerIconButton
-                                            v-if='layer.incoming && layer.incoming.data'
-                                            title='Pushing to Data Sync'
-                                            @click.stop.prevent='router.push(`/connection/${route.params.connectionid}/data/${layer.incoming.data}`)'
+                                            v-if="layer.incoming && layer.incoming.data"
+                                            title="Pushing to Data Sync"
+                                            @click.stop.prevent="router.push(`/connection/${route.params.connectionid}/data/${layer.incoming.data}`)"
                                         >
                                             <IconDatabase
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
 
                                         <IconExchange
-                                            v-if='layer.incoming && layer.outgoing'
-                                            title='Outgoing/Incoming'
-                                            size='32'
-                                            stroke='1'
+                                            v-if="layer.incoming && layer.outgoing"
+                                            title="Outgoing/Incoming"
+                                            size="32"
+                                            stroke="1"
                                         />
                                         <IconStackPop
-                                            v-else-if='layer.outgoing'
-                                            title='Outgoing'
-                                            size='32'
-                                            stroke='1'
+                                            v-else-if="layer.outgoing"
+                                            title="Outgoing"
+                                            size="32"
+                                            stroke="1"
                                         />
                                         <IconStackPush
-                                            v-else-if='layer.incoming'
-                                            title='Incoming'
-                                            size='32'
-                                            stroke='1'
+                                            v-else-if="layer.incoming"
+                                            title="Incoming"
+                                            size="32"
+                                            stroke="1"
                                         />
                                     </div>
                                 </div>
@@ -106,13 +106,13 @@
             </div>
         </div>
         <div
-            class='position-absolute bottom-0 w-100'
-            style='height: 60px;'
+            class="position-absolute bottom-0 w-100"
+            style="height: 60px;"
         >
             <TableFooter
-                :limit='paging.limit'
-                :total='list.total'
-                @page='paging.page = $event'
+                :limit="paging.limit"
+                :total="list.total"
+                @page="paging.page = $event"
             />
         </div>
     </div>

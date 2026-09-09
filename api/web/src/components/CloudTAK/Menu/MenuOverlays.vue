@@ -1,160 +1,160 @@
 <template>
-    <MenuTemplate name='Overlays'>
+    <MenuTemplate name="Overlays">
         <template #buttons>
             <TablerIconButton
                 :class='{
                     "pe-none": !isDraggable && !canEditOrder,
                     "opacity-50": !isDraggable && !canEditOrder
                 }'
-                :title='reorderButtonTitle'
-                @click='handleReorderToggle'
+                :title="reorderButtonTitle"
+                @click="handleReorderToggle"
             >
                 <IconPencil
-                    v-if='!isDraggable'
-                    :size='32'
-                    stroke='1'
+                    v-if="!isDraggable"
+                    :size="32"
+                    stroke="1"
                 />
                 <IconPencilCheck
                     v-else
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                v-if='!isDraggable'
-                title='Add Overlay'
+                v-if="!isDraggable"
+                title="Add Overlay"
                 @click='router.push("/menu/datas")'
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <template #default>
-            <div class='d-flex flex-column gap-3'>
-                <div class='mt-2 d-flex align-items-center gap-3 flex-wrap'>
+            <div class="d-flex flex-column gap-3">
+                <div class="mt-2 d-flex align-items-center gap-3 flex-wrap">
                     <TablerInput
-                        v-model='overlayFilter'
-                        placeholder='Search overlays...'
-                        icon='search'
-                        class='flex-grow-1'
+                        v-model="overlayFilter"
+                        placeholder="Search overlays..."
+                        icon="search"
+                        class="flex-grow-1"
                     />
                 </div>
 
                 <p
-                    v-if='showDragHint'
-                    class='small mb-0 text-white-50'
+                    v-if="showDragHint"
+                    class="small mb-0 text-white-50"
                 >
                     {{ dragHintCopy }}
                 </p>
 
-                <TablerLoading v-if='loading' />
+                <TablerLoading v-if="loading" />
 
                 <template v-else>
                     <div
-                        v-if='overlayCards.length'
-                        ref='sortableRef'
-                        class='d-flex flex-column gap-3'
+                        v-if="overlayCards.length"
+                        ref="sortableRef"
+                        class="d-flex flex-column gap-3"
                     >
                         <StandardItem
-                            v-for='card in overlayCards'
-                            :id='String(card.overlay.id)'
-                            :key='card.overlay.id'
-                            class='p-3'
+                            v-for="card in overlayCards"
+                            :id="String(card.overlay.id)"
+                            :key="card.overlay.id"
+                            class="p-3"
                             :class='{
                                 "border-primary": isDraggable
                             }'
-                            :hover='!isDraggable && card.overlay.id !== 0 && hasOverlayDetails(card.overlay)'
-                            @click='handleCardClick(card.overlay)'
+                            :hover="!isDraggable && card.overlay.id !== 0 && hasOverlayDetails(card.overlay)"
+                            @click="handleCardClick(card.overlay)"
                         >
                             <div
-                                class='d-flex justify-content-between gap-3'
+                                class="d-flex justify-content-between gap-3"
                             >
                                 <div
-                                    class='d-flex align-items-center gap-2 flex-grow-1 w-100 overflow-hidden'
-                                    :aria-disabled='isDraggable || card.overlay.id === 0'
+                                    class="d-flex align-items-center gap-2 flex-grow-1 w-100 overflow-hidden"
+                                    :aria-disabled="isDraggable || card.overlay.id === 0"
                                 >
                                     <span
-                                        v-if='isDraggable'
-                                        title='Drag to reorder'
+                                        v-if="isDraggable"
+                                        title="Drag to reorder"
                                     >
                                         <IconGripVertical
-                                            class='drag-handle cursor-move text-white-50'
-                                            role='button'
-                                            tabindex='0'
-                                            :size='20'
-                                            stroke='1'
+                                            class="drag-handle cursor-move text-white-50"
+                                            role="button"
+                                            tabindex="0"
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </span>
                                     <span
                                         v-if='card.overlay.type === "raster"'
-                                        class='flex-shrink-0 text-white-50'
-                                        title='Raster'
+                                        class="flex-shrink-0 text-white-50"
+                                        title="Raster"
                                     >
                                         <IconMap
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </span>
                                     <span
                                         v-else-if='card.overlay.type === "raster-dem"'
-                                        class='flex-shrink-0 text-white-50'
-                                        title='Terrain'
+                                        class="flex-shrink-0 text-white-50"
+                                        title="Terrain"
                                     >
                                         <IconMap
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </span>
                                     <span
                                         v-else-if='card.overlay.type === "geojson" && card.overlay.mode === "mission"'
-                                        class='flex-shrink-0 text-white-50'
-                                        title='Data Sync'
+                                        class="flex-shrink-0 text-white-50"
+                                        title="Data Sync"
                                     >
                                         <IconAmbulance
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </span>
                                     <span
                                         v-else
-                                        class='flex-shrink-0 text-white-50'
-                                        title='Vector'
+                                        class="flex-shrink-0 text-white-50"
+                                        title="Vector"
                                     >
                                         <IconVector
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </span>
 
-                                    <div class='flex-grow-1 w-100 overflow-hidden'>
-                                        <div class='d-flex align-items-center gap-2 w-100'>
-                                            <div class='d-flex align-items-center flex-grow-1 w-100'>
+                                    <div class="flex-grow-1 w-100 overflow-hidden">
+                                        <div class="d-flex align-items-center gap-2 w-100">
+                                            <div class="d-flex align-items-center flex-grow-1 w-100">
                                                 <a
                                                     v-if='card.overlay.mode === "mission"'
-                                                    class='fw-semibold text-decoration-underline d-inline-flex align-items-center text-break'
-                                                    @click.stop='router.push(`/menu/missions/${card.overlay.mode_id}`)'
-                                                    v-text='card.overlay.name'
+                                                    class="fw-semibold text-decoration-underline d-inline-flex align-items-center text-break"
+                                                    @click.stop="router.push(`/menu/missions/${card.overlay.mode_id}`)"
+                                                    v-text="card.overlay.name"
                                                 />
                                                 <span
                                                     v-else
-                                                    class='fw-semibold d-inline-flex align-items-center flex-grow-1 text-break'
-                                                    v-text='card.overlay.name'
+                                                    class="fw-semibold d-inline-flex align-items-center flex-grow-1 text-break"
+                                                    v-text="card.overlay.name"
                                                 />
                                             </div>
                                         </div>
                                         <div
-                                            v-if='card.badges.length'
-                                            class='d-flex flex-wrap gap-2 mt-2'
+                                            v-if="card.badges.length"
+                                            class="d-flex flex-wrap gap-2 mt-2"
                                         >
                                             <span
-                                                v-for='badge in card.badges'
-                                                :key='`${card.overlay.id}-${badge.label}`'
-                                                class='badge rounded-pill'
-                                                :class='`text-bg-${badge.variant}`'
+                                                v-for="badge in card.badges"
+                                                :key="`${card.overlay.id}-${badge.label}`"
+                                                class="badge rounded-pill"
+                                                :class="`text-bg-${badge.variant}`"
                                             >
                                                 {{ badge.label }}
                                             </span>
@@ -163,86 +163,86 @@
                                 </div>
 
                                 <div
-                                    style='min-width: 100px;'
-                                    class='d-flex flex-column align-items-end gap-2'
+                                    style="min-width: 100px;"
+                                    class="d-flex flex-column align-items-end gap-2"
                                 >
                                     <span
-                                        class='badge rounded-pill'
-                                        :class='`text-bg-${card.status.variant}`'
+                                        class="badge rounded-pill"
+                                        :class="`text-bg-${card.status.variant}`"
                                         :title='card.status.tooltip || ""'
                                     >
                                         {{ card.status.label }}
                                     </span>
 
-                                    <div class='d-flex align-items-center gap-2 flex-wrap justify-content-end w-100'>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap justify-content-end w-100">
                                         <TablerIconButton
-                                            v-if='card.overlay.hasBounds()'
-                                            title='Zoom To Overlay'
-                                            @click.stop.prevent='card.overlay.zoomTo()'
+                                            v-if="card.overlay.hasBounds()"
+                                            title="Zoom To Overlay"
+                                            @click.stop.prevent="card.overlay.zoomTo()"
                                         >
                                             <IconMaximize
-                                                :size='20'
-                                                stroke='1'
+                                                :size="20"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
 
                                         <TablerIconButton
-                                            v-if='card.visible'
-                                            title='Hide Layer'
-                                            @click.stop.prevent='void updateOverlay(card.overlay, { visible: !card.visible })'
+                                            v-if="card.visible"
+                                            title="Hide Layer"
+                                            @click.stop.prevent="void updateOverlay(card.overlay, { visible: !card.visible })"
                                         >
                                             <IconEye
-                                                :size='20'
-                                                stroke='1'
+                                                :size="20"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
 
                                         <TablerIconButton
                                             v-else
-                                            title='Show Layer'
-                                            @click.stop.prevent='void updateOverlay(card.overlay, { visible: !card.visible })'
+                                            title="Show Layer"
+                                            @click.stop.prevent="void updateOverlay(card.overlay, { visible: !card.visible })"
                                         >
                                             <IconEyeOff
-                                                :size='20'
-                                                stroke='1'
+                                                :size="20"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
 
                                         <TablerDelete
                                             v-if='["mission", "data", "profile", "overlay"].includes(card.overlay.mode)'
-                                            :key='card.overlay.id'
-                                            title='Delete Overlay'
-                                            :size='20'
-                                            role='button'
-                                            tabindex='0'
-                                            displaytype='icon'
-                                            @delete='removeOverlay(card.overlay.id)'
+                                            :key="card.overlay.id"
+                                            title="Delete Overlay"
+                                            :size="20"
+                                            role="button"
+                                            tabindex="0"
+                                            displaytype="icon"
+                                            @delete="removeOverlay(card.overlay.id)"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             <div
-                                v-if='!isDraggable && opened.has(card.overlay.id) && hasOverlayDetails(card.overlay)'
-                                class='mt-3 p-3 rounded-3 border border-white border-opacity-10 bg-black bg-opacity-25'
+                                v-if="!isDraggable && opened.has(card.overlay.id) && hasOverlayDetails(card.overlay)"
+                                class="mt-3 p-3 rounded-3 border border-white border-opacity-10 bg-black bg-opacity-25"
                                 @click.stop
                             >
                                 <div
                                     v-if='card.overlay.type === "raster"'
-                                    class='mb-3'
+                                    class="mb-3"
                                 >
                                     <TablerRange
-                                        :model-value='card.overlay.opacity'
-                                        label='Opacity'
-                                        :min='0'
-                                        :max='1'
-                                        :step='0.1'
-                                        @update:model-value='void updateOverlay(card.overlay, { opacity: $event })'
+                                        :model-value="card.overlay.opacity"
+                                        label="Opacity"
+                                        :min="0"
+                                        :max="1"
+                                        :step="0.1"
+                                        @update:model-value="void updateOverlay(card.overlay, { opacity: $event })"
                                     />
                                 </div>
                                 <TreeVector
                                     v-if='card.overlay.type === "vector"'
-                                    :overlay='card.overlay'
+                                    :overlay="card.overlay"
                                 />
                             </div>
                         </StandardItem>
@@ -250,8 +250,8 @@
 
                     <TablerNone
                         v-else
-                        label='No overlays match your search'
-                        :create='false'
+                        label="No overlays match your search"
+                        :create="false"
                     />
                 </template>
             </div>

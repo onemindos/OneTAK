@@ -1,15 +1,15 @@
 <template>
-    <MenuTemplate name='Settings'>
-        <div class='col-12 d-flex flex-column gap-2 py-3'>
+    <MenuTemplate name="Settings">
+        <div class="col-12 d-flex flex-column gap-2 py-3">
             <StandardItem
                 @click='router.push("/menu/settings/callsign")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconUserCog
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Callsign & Device Preferences
                     </div>
                 </div>
@@ -17,12 +17,12 @@
             <StandardItem
                 @click='router.push("/menu/settings/display")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconAdjustments
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Display Preferences
                     </div>
                 </div>
@@ -30,12 +30,12 @@
             <StandardItem
                 @click='router.push("/menu/settings/permissions")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconLock
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Permissions
                     </div>
                 </div>
@@ -43,12 +43,12 @@
             <StandardItem
                 @click='router.push("/menu/settings/tokens")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconRobot
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         API Tokens
                     </div>
                 </div>
@@ -56,12 +56,12 @@
             <StandardItem
                 @click='router.push("/menu/settings/passkeys")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconFingerprint
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Login Passkeys
                     </div>
                 </div>
@@ -69,12 +69,12 @@
             <StandardItem
                 @click='router.push("/menu/settings/sessions")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconDeviceDesktop
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Login Sessions
                     </div>
                 </div>
@@ -82,25 +82,25 @@
             <StandardItem
                 @click='router.push("/menu/settings/paging")'
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconBell
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Paging Notifications
                     </div>
                 </div>
             </StandardItem>
             <StandardItem
-                @click='refreshApp()'
+                @click="refreshApp()"
             >
-                <div class='d-flex align-items-center px-2 py-2'>
+                <div class="d-flex align-items-center px-2 py-2">
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <div class='ms-2 flex-grow-1 font-weight-bold'>
+                    <div class="ms-2 flex-grow-1 font-weight-bold">
                         Refresh App
                     </div>
                 </div>

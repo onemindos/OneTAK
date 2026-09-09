@@ -1,262 +1,262 @@
 <template>
     <MenuTemplate
-        name='Paging Notifications'
-        :loading='loading'
+        name="Paging Notifications"
+        :loading="loading"
     >
         <template #buttons>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetch'
+                :loading="loading"
+                @click="fetch"
             />
         </template>
         <template #default>
-            <div class='col-12 d-flex flex-column gap-4 py-3'>
+            <div class="col-12 d-flex flex-column gap-4 py-3">
                 <!-- SMS -->
                 <section>
-                    <div class='d-flex align-items-center px-2 mb-2'>
+                    <div class="d-flex align-items-center px-2 mb-2">
                         <IconMessage
-                            :size='20'
-                            stroke='1.5'
-                            class='text-secondary me-2'
+                            :size="20"
+                            stroke="1.5"
+                            class="text-secondary me-2"
                         />
-                        <span class='subheader user-select-none mb-0'>SMS</span>
-                        <div class='ms-auto'>
+                        <span class="subheader user-select-none mb-0">SMS</span>
+                        <div class="ms-auto">
                             <span
-                                v-if='smsDisabled'
-                                class='badge bg-yellow-lt text-yellow'
+                                v-if="smsDisabled"
+                                class="badge bg-yellow-lt text-yellow"
                             >Disabled</span>
                             <TablerIconButton
                                 v-else
-                                title='Add SMS Notification'
+                                title="Add SMS Notification"
                                 @click='openCreate("sms")'
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1.5'
+                                    :size="20"
+                                    stroke="1.5"
                                 />
                             </TablerIconButton>
                         </div>
                     </div>
-                    <div class='d-flex flex-column gap-2'>
+                    <div class="d-flex flex-column gap-2">
                         <StandardItem
-                            v-for='p in smsItems'
-                            :key='p.id'
-                            @click='source = p'
+                            v-for="p in smsItems"
+                            :key="p.id"
+                            @click="source = p"
                         >
-                            <div class='d-flex align-items-center px-3 py-2 gap-3'>
+                            <div class="d-flex align-items-center px-3 py-2 gap-3">
                                 <div
-                                    class='paging-icon flex-shrink-0'
-                                    style='background: rgba(32, 107, 196, 0.15);'
+                                    class="paging-icon flex-shrink-0"
+                                    style="background: rgba(32, 107, 196, 0.15);"
                                 >
                                     <IconMessage
-                                        :size='22'
-                                        stroke='1.5'
-                                        class='text-blue'
+                                        :size="22"
+                                        stroke="1.5"
+                                        class="text-blue"
                                     />
                                 </div>
-                                <div class='flex-grow-1 text-truncate'>
-                                    <div class='fw-bold text-truncate'>
+                                <div class="flex-grow-1 text-truncate">
+                                    <div class="fw-bold text-truncate">
                                         {{ p.value }}
                                     </div>
                                 </div>
-                                <div class='d-flex align-items-center gap-1 flex-shrink-0'>
+                                <div class="d-flex align-items-center gap-1 flex-shrink-0">
                                     <span
-                                        v-if='p.verified'
-                                        class='badge bg-green-lt d-inline-flex align-items-center gap-1'
+                                        v-if="p.verified"
+                                        class="badge bg-green-lt d-inline-flex align-items-center gap-1"
                                     >
                                         <IconCircleCheck
-                                            :size='14'
-                                            stroke='2'
+                                            :size="14"
+                                            stroke="2"
                                         />
                                         Verified
                                     </span>
                                     <span
                                         v-else
-                                        class='badge bg-yellow-lt d-inline-flex align-items-center gap-1'
+                                        class="badge bg-yellow-lt d-inline-flex align-items-center gap-1"
                                     >
                                         <IconAlertCircle
-                                            :size='14'
-                                            stroke='2'
+                                            :size="14"
+                                            stroke="2"
                                         />
                                         Pending
                                     </span>
                                     <span
-                                        v-if='p.enabled'
-                                        class='badge bg-blue-lt'
+                                        v-if="p.enabled"
+                                        class="badge bg-blue-lt"
                                     >Enabled</span>
                                 </div>
                             </div>
                         </StandardItem>
                         <PagingEmptyHint
-                            v-if='!smsItems.length'
-                            label='No SMS numbers configured'
+                            v-if="!smsItems.length"
+                            label="No SMS numbers configured"
                         />
                     </div>
                 </section>
 
                 <!-- Email -->
                 <section>
-                    <div class='d-flex align-items-center px-2 mb-2'>
+                    <div class="d-flex align-items-center px-2 mb-2">
                         <IconMail
-                            :size='20'
-                            stroke='1.5'
-                            class='text-secondary me-2'
+                            :size="20"
+                            stroke="1.5"
+                            class="text-secondary me-2"
                         />
-                        <span class='subheader user-select-none mb-0'>Email</span>
-                        <div class='ms-auto'>
+                        <span class="subheader user-select-none mb-0">Email</span>
+                        <div class="ms-auto">
                             <span
-                                v-if='emailDisabled'
-                                class='badge bg-yellow-lt text-yellow'
+                                v-if="emailDisabled"
+                                class="badge bg-yellow-lt text-yellow"
                             >Disabled</span>
                             <TablerIconButton
                                 v-else
-                                title='Add Email Notification'
+                                title="Add Email Notification"
                                 @click='openCreate("email")'
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1.5'
+                                    :size="20"
+                                    stroke="1.5"
                                 />
                             </TablerIconButton>
                         </div>
                     </div>
-                    <div class='d-flex flex-column gap-2'>
+                    <div class="d-flex flex-column gap-2">
                         <StandardItem
-                            v-for='p in emailItems'
-                            :key='p.id'
-                            @click='source = p'
+                            v-for="p in emailItems"
+                            :key="p.id"
+                            @click="source = p"
                         >
-                            <div class='d-flex align-items-center px-3 py-2 gap-3'>
+                            <div class="d-flex align-items-center px-3 py-2 gap-3">
                                 <div
-                                    class='paging-icon flex-shrink-0'
-                                    style='background: rgba(63, 182, 139, 0.15);'
+                                    class="paging-icon flex-shrink-0"
+                                    style="background: rgba(63, 182, 139, 0.15);"
                                 >
                                     <IconMail
-                                        :size='22'
-                                        stroke='1.5'
-                                        class='text-green'
+                                        :size="22"
+                                        stroke="1.5"
+                                        class="text-green"
                                     />
                                 </div>
-                                <div class='flex-grow-1 text-truncate'>
-                                    <div class='fw-bold text-truncate'>
+                                <div class="flex-grow-1 text-truncate">
+                                    <div class="fw-bold text-truncate">
                                         {{ p.value }}
                                     </div>
                                 </div>
-                                <div class='d-flex align-items-center gap-1 flex-shrink-0'>
+                                <div class="d-flex align-items-center gap-1 flex-shrink-0">
                                     <span
-                                        v-if='p.verified'
-                                        class='badge bg-green-lt d-inline-flex align-items-center gap-1'
+                                        v-if="p.verified"
+                                        class="badge bg-green-lt d-inline-flex align-items-center gap-1"
                                     >
                                         <IconCircleCheck
-                                            :size='14'
-                                            stroke='2'
+                                            :size="14"
+                                            stroke="2"
                                         />
                                         Verified
                                     </span>
                                     <span
                                         v-else
-                                        class='badge bg-yellow-lt d-inline-flex align-items-center gap-1'
+                                        class="badge bg-yellow-lt d-inline-flex align-items-center gap-1"
                                     >
                                         <IconAlertCircle
-                                            :size='14'
-                                            stroke='2'
+                                            :size="14"
+                                            stroke="2"
                                         />
                                         Pending
                                     </span>
                                     <span
-                                        v-if='p.enabled'
-                                        class='badge bg-blue-lt'
+                                        v-if="p.enabled"
+                                        class="badge bg-blue-lt"
                                     >Enabled</span>
                                 </div>
                             </div>
                         </StandardItem>
                         <PagingEmptyHint
-                            v-if='!emailItems.length'
-                            label='No email addresses configured'
+                            v-if="!emailItems.length"
+                            label="No email addresses configured"
                         />
                     </div>
                 </section>
 
                 <!-- Push Notifications -->
                 <section>
-                    <div class='d-flex align-items-center px-2 mb-2'>
+                    <div class="d-flex align-items-center px-2 mb-2">
                         <IconDeviceMobile
-                            :size='20'
-                            stroke='1.5'
-                            class='text-secondary me-2'
+                            :size="20"
+                            stroke="1.5"
+                            class="text-secondary me-2"
                         />
-                        <span class='subheader user-select-none mb-0'>Push Notifications</span>
-                        <div class='ms-auto'>
+                        <span class="subheader user-select-none mb-0">Push Notifications</span>
+                        <div class="ms-auto">
                             <span
-                                v-if='pushDisabled'
-                                class='badge bg-yellow-lt text-yellow'
+                                v-if="pushDisabled"
+                                class="badge bg-yellow-lt text-yellow"
                             >Disabled</span>
                             <template v-else>
                                 <TablerIconButton
-                                    v-if='!pushLoading'
-                                    title='Register This Device'
-                                    @click='registerPush'
+                                    v-if="!pushLoading"
+                                    title="Register This Device"
+                                    @click="registerPush"
                                 >
                                     <IconPlus
-                                        :size='20'
-                                        stroke='1.5'
+                                        :size="20"
+                                        stroke="1.5"
                                     />
                                 </TablerIconButton>
                                 <div
                                     v-else
-                                    class='spinner-border spinner-border-sm text-secondary'
-                                    role='status'
+                                    class="spinner-border spinner-border-sm text-secondary"
+                                    role="status"
                                 />
                             </template>
                         </div>
                     </div>
                     <TablerAlert
-                        v-if='pushErr'
-                        class='mb-2'
-                        :err='pushErr'
+                        v-if="pushErr"
+                        class="mb-2"
+                        :err="pushErr"
                     />
-                    <div class='d-flex flex-column gap-2'>
+                    <div class="d-flex flex-column gap-2">
                         <StandardItem
-                            v-for='p in pushItems'
-                            :key='p.id'
-                            :hover='false'
+                            v-for="p in pushItems"
+                            :key="p.id"
+                            :hover="false"
                         >
-                            <div class='d-flex align-items-center px-3 py-2 gap-3'>
+                            <div class="d-flex align-items-center px-3 py-2 gap-3">
                                 <div
-                                    class='paging-icon flex-shrink-0'
-                                    style='background: rgba(174, 62, 201, 0.15);'
+                                    class="paging-icon flex-shrink-0"
+                                    style="background: rgba(174, 62, 201, 0.15);"
                                 >
                                     <IconDeviceMobile
-                                        :size='22'
-                                        stroke='1.5'
-                                        class='text-purple'
+                                        :size="22"
+                                        stroke="1.5"
+                                        class="text-purple"
                                     />
                                 </div>
-                                <div class='flex-grow-1 text-truncate'>
-                                    <div class='fw-bold text-truncate'>
+                                <div class="flex-grow-1 text-truncate">
+                                    <div class="fw-bold text-truncate">
                                         {{ p.value || 'Registered Device' }}
                                     </div>
-                                    <div class='text-secondary small'>
+                                    <div class="text-secondary small">
                                         Registered {{ new Date(p.created).toLocaleString() }}
                                     </div>
                                 </div>
-                                <label class='form-check form-switch m-0'>
+                                <label class="form-check form-switch m-0">
                                     <input
-                                        class='form-check-input'
-                                        type='checkbox'
-                                        :checked='p.enabled'
-                                        @change='togglePush(p)'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        :checked="p.enabled"
+                                        @change="togglePush(p)"
                                     >
                                 </label>
                                 <TablerDelete
-                                    displaytype='icon'
-                                    @delete='deletePush(p)'
+                                    displaytype="icon"
+                                    @delete="deletePush(p)"
                                 />
                             </div>
                         </StandardItem>
                         <PagingEmptyHint
-                            v-if='!pushItems.length'
-                            label='No devices registered. Tap the + button to register this device.'
+                            v-if="!pushItems.length"
+                            label="No devices registered. Tap the + button to register this device."
                         />
                     </div>
                 </section>
@@ -265,10 +265,10 @@
     </MenuTemplate>
 
     <PagingModal
-        v-if='source !== false'
-        :source='source'
-        @close='source = false'
-        @refresh='fetch'
+        v-if="source !== false"
+        :source="source"
+        @close="source = false"
+        @refresh="fetch"
     />
 </template>
 

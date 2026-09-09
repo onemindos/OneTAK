@@ -1,53 +1,53 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 TAK Server COT Injectors
             </h3>
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='New Injector'
-                    @click='injector = true'
+                    title="New Injector"
+                    @click="injector = true"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
             v-else
-            class='card-body row'
+            class="card-body row"
         >
             <TablerNone
-                v-if='list.items.length === 0'
-                label='No Injectors'
-                :create='false'
+                v-if="list.items.length === 0"
+                label="No Injectors"
+                :create="false"
             />
             <template v-else>
-                <template v-for='i in list.items'>
+                <template v-for="i in list.items">
                     <div
-                        class='col-12 cloudtak-hover px-2 py-2 rounded cursor-pointer'
-                        @click='injector = i'
+                        class="col-12 cloudtak-hover px-2 py-2 rounded cursor-pointer"
+                        @click="injector = i"
                     >
                         <div
-                            class='subheader'
-                            v-text='i.uid'
+                            class="subheader"
+                            v-text="i.uid"
                         />
                         <pre
-                            class='pre'
-                            v-text='i.toInject'
+                            class="pre"
+                            v-text="i.toInject"
                         />
                     </div>
                 </template>
@@ -56,9 +56,9 @@
     </div>
 
     <ServerInjectorModal
-        v-if='injector'
-        :injector='injector'
-        @close='fetchList'
+        v-if="injector"
+        :injector="injector"
+        @close="fetchList"
     />
 </template>
 

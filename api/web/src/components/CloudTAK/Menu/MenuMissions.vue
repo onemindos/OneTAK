@@ -1,27 +1,27 @@
 <template>
     <MenuTemplate
-        name='Data Syncs'
+        name="Data Syncs"
     >
         <template #buttons>
             <TablerIconButton
-                title='Create Sync'
-                @click='create = true'
+                title="Create Sync"
+                @click="create = true"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
                 :loading='tab === "available" ? loading : subscribedLoading'
-                @click='refresh'
+                @click="refresh"
             />
         </template>
         <template #default>
-            <div class='d-flex flex-column'>
+            <div class="d-flex flex-column">
                 <TablerPillGroup
-                    v-model='tab'
-                    class='pt-2'
+                    v-model="tab"
+                    class="pt-2"
                     :options='[
                         { value: "subscribed", label: "Subscribed" },
                         { value: "available", label: "Available" },
@@ -29,97 +29,97 @@
                 />
 
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    class='pt-2'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    class="pt-2"
                     :sort-options='tab === "available" ? sortOptions : []'
-                    :active-filters='activeFilterCount'
-                    placeholder='Filter data syncs'
+                    :active-filters="activeFilterCount"
+                    placeholder="Filter data syncs"
                 >
                     <template #sort-icon>
-                        <template v-if='sort'>
+                        <template v-if="sort">
                             <component
-                                :is='sortTypeIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortTypeIcon"
+                                :size="20"
+                                stroke="1"
                             />
                             <component
-                                :is='sortDirectionIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortDirectionIcon"
+                                :size="20"
+                                stroke="1"
                             />
                         </template>
                         <IconArrowsSort
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                     <template #filters>
-                        <div class='d-flex flex-column'>
-                            <div class='d-flex align-items-center justify-content-between px-3 py-2'>
-                                <strong class='small text-uppercase text-white-50'>Filters</strong>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between px-3 py-2">
+                                <strong class="small text-uppercase text-white-50">Filters</strong>
                                 <button
-                                    v-if='activeFilterCount > 0'
-                                    type='button'
-                                    class='btn btn-link btn-sm p-0'
-                                    @click='clearFilters'
+                                    v-if="activeFilterCount > 0"
+                                    type="button"
+                                    class="btn btn-link btn-sm p-0"
+                                    @click="clearFilters"
                                 >
                                     Clear
                                 </button>
                             </div>
-                            <div class='px-3 pb-2 d-flex flex-column gap-2'>
+                            <div class="px-3 pb-2 d-flex flex-column gap-2">
                                 <div>
-                                    <div class='small text-uppercase text-white-50 mb-1'>
+                                    <div class="small text-uppercase text-white-50 mb-1">
                                         Channels
                                     </div>
                                     <div
-                                        v-if='!availableChannels.length'
-                                        class='small text-secondary'
+                                        v-if="!availableChannels.length"
+                                        class="small text-secondary"
                                     >
                                         No channels available
                                     </div>
                                     <label
-                                        v-for='channel in availableChannels'
+                                        v-for="channel in availableChannels"
                                         :key='"channel-" + channel'
-                                        class='form-check mb-1'
+                                        class="form-check mb-1"
                                     >
                                         <input
-                                            class='form-check-input'
-                                            type='checkbox'
-                                            :checked='selectedChannels.includes(channel)'
-                                            @change='toggleChannel(channel)'
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            :checked="selectedChannels.includes(channel)"
+                                            @change="toggleChannel(channel)"
                                         >
                                         <span
-                                            class='form-check-label'
-                                            v-text='channel'
+                                            class="form-check-label"
+                                            v-text="channel"
                                         />
                                     </label>
                                 </div>
                                 <div>
-                                    <div class='small text-uppercase text-white-50 mb-1'>
+                                    <div class="small text-uppercase text-white-50 mb-1">
                                         Keywords
                                     </div>
                                     <div
-                                        v-if='!availableKeywords.length'
-                                        class='small text-secondary'
+                                        v-if="!availableKeywords.length"
+                                        class="small text-secondary"
                                     >
                                         No keywords available
                                     </div>
                                     <label
-                                        v-for='keyword in availableKeywords'
+                                        v-for="keyword in availableKeywords"
                                         :key='"keyword-" + keyword'
-                                        class='form-check mb-1'
+                                        class="form-check mb-1"
                                     >
                                         <input
-                                            class='form-check-input'
-                                            type='checkbox'
-                                            :checked='selectedKeywords.includes(keyword)'
-                                            @change='toggleKeyword(keyword)'
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            :checked="selectedKeywords.includes(keyword)"
+                                            @change="toggleKeyword(keyword)"
                                         >
                                         <span
-                                            class='form-check-label'
-                                            v-text='keyword'
+                                            class="form-check-label"
+                                            v-text="keyword"
                                         />
                                     </label>
                                 </div>
@@ -130,104 +130,104 @@
 
                 <ChannelInfo />
 
-                <EmptyInfo v-if='mapStore.hasNoChannels' />
+                <EmptyInfo v-if="mapStore.hasNoChannels" />
 
                 <template v-if='tab === "available"'>
                     <TablerAlert
-                        v-if='error'
-                        :err='error'
+                        v-if="error"
+                        :err="error"
                     />
                     <template v-else>
                         <TablerNone
-                            v-if='!loading && !filteredList.length'
-                            :create='false'
-                            label='No data syncs match your filter'
+                            v-if="!loading && !filteredList.length"
+                            :create="false"
+                            label="No data syncs match your filter"
                         />
-                        <TablerLoading v-if='loading' />
+                        <TablerLoading v-if="loading" />
                         <div
-                            v-if='filteredList.length && !loading'
-                            class='d-flex flex-column gap-3'
+                            v-if="filteredList.length && !loading"
+                            class="d-flex flex-column gap-3"
                         >
                             <PendingInvites
-                                v-model:invites='invites'
-                                @open-mission='openMission($event, false)'
-                                @error='error = $event'
+                                v-model:invites="invites"
+                                @open-mission="openMission($event, false)"
+                                @error="error = $event"
                             />
 
                             <StandardItem
-                                v-for='(mission, mission_it) in filteredList'
-                                :key='mission_it'
-                                class='d-flex flex-row gap-3 position-relative'
-                                @click='openMission(mission, false)'
+                                v-for="(mission, mission_it) in filteredList"
+                                :key="mission_it"
+                                class="d-flex flex-row gap-3 position-relative"
+                                @click="openMission(mission, false)"
                             >
-                                <div class='icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 ms-2 mt-2'>
+                                <div class="icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 ms-2 mt-2">
                                     <IconLock
-                                        v-if='mission.passwordProtected'
-                                        :size='24'
-                                        stroke='1'
+                                        v-if="mission.passwordProtected"
+                                        :size="24"
+                                        stroke="1"
                                     />
                                     <IconLockOpen
                                         v-else
-                                        :size='24'
-                                        stroke='1'
+                                        :size="24"
+                                        stroke="1"
                                     />
                                 </div>
 
-                                <div class='flex-grow-1 d-flex flex-column gap-2 py-2'>
-                                    <div class='d-flex flex-wrap align-items-center gap-2'>
+                                <div class="flex-grow-1 d-flex flex-column gap-2 py-2">
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
                                         <span
-                                            class='fw-semibold text-break'
-                                            v-text='mission.name'
+                                            class="fw-semibold text-break"
+                                            v-text="mission.name"
                                         />
                                     </div>
 
-                                    <Keywords :keywords='missionKeywords(mission)' />
+                                    <Keywords :keywords="missionKeywords(mission)" />
 
                                     <div
                                         v-if='typeof missionPasswords[mission.guid] === "string"'
-                                        class='d-flex flex-column mx-2 flex-lg-row align-items-start gap-2'
+                                        class="d-flex flex-column mx-2 flex-lg-row align-items-start gap-2"
                                     >
                                         <TablerInput
-                                            v-model='missionPasswords[mission.guid]'
-                                            type='password'
-                                            autocomplete='new-password'
-                                            placeholder='Password'
-                                            :error='errors[mission.guid]'
-                                            class='flex-grow-1 w-100'
-                                            @keyup.enter='openMission(mission, true)'
+                                            v-model="missionPasswords[mission.guid]"
+                                            type="password"
+                                            autocomplete="new-password"
+                                            placeholder="Password"
+                                            :error="errors[mission.guid]"
+                                            class="flex-grow-1 w-100"
+                                            @keyup.enter="openMission(mission, true)"
                                         />
 
                                         <button
-                                            class='btn btn-primary px-3'
-                                            type='button'
-                                            @click.stop='openMission(mission, true)'
+                                            class="btn btn-primary px-3"
+                                            type="button"
+                                            @click.stop="openMission(mission, true)"
                                         >
                                             Unlock
                                         </button>
                                     </div>
                                     <div
                                         v-else
-                                        class='text-secondary small d-flex flex-wrap align-items-center gap-2'
+                                        class="text-secondary small d-flex flex-wrap align-items-center gap-2"
                                     >
                                         <span
                                             v-text='mission.createTime.replace(/T.*/, "")'
                                         />
-                                        <span class='text-white-50'>•</span>
+                                        <span class="text-white-50">•</span>
                                         <span
                                             v-text='mission.contents.length + " Items"'
                                         />
                                     </div>
                                 </div>
 
-                                <div class='d-flex align-items-center gap-2 pe-2'>
+                                <div class="d-flex align-items-center gap-2 pe-2">
                                     <span
-                                        v-if='subscribed.has(mission.guid)'
-                                        title='Subscribed'
+                                        v-if="subscribed.has(mission.guid)"
+                                        title="Subscribed"
                                     >
                                         <IconAccessPoint
-                                            class='text-success'
-                                            :size='32'
-                                            stroke='1'
+                                            class="text-success"
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </span>
                                 </div>
@@ -238,40 +238,40 @@
 
                 <template v-else>
                     <TablerAlert
-                        v-if='subscribedError'
-                        :err='subscribedError'
+                        v-if="subscribedError"
+                        :err="subscribedError"
                     />
                     <template v-else>
                         <TablerNone
-                            v-if='!filteredList.length'
-                            :create='false'
-                            label='No subscribed data syncs'
+                            v-if="!filteredList.length"
+                            :create="false"
+                            label="No subscribed data syncs"
                         />
                         <div
-                            v-if='filteredList.length'
-                            class='d-flex flex-column gap-3'
+                            v-if="filteredList.length"
+                            class="d-flex flex-column gap-3"
                         >
                             <StandardItem
-                                v-for='(mission, mission_it) in filteredList'
-                                :key='mission_it'
-                                class='d-flex flex-row gap-3 position-relative'
-                                @click='openMission(mission, false)'
+                                v-for="(mission, mission_it) in filteredList"
+                                :key="mission_it"
+                                class="d-flex flex-row gap-3 position-relative"
+                                @click="openMission(mission, false)"
                             >
-                                <div class='flex-grow-1 d-flex flex-column gap-2 py-2 ps-2'>
-                                    <div class='d-flex flex-wrap align-items-center gap-2'>
+                                <div class="flex-grow-1 d-flex flex-column gap-2 py-2 ps-2">
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
                                         <span
-                                            class='fw-semibold text-break'
-                                            v-text='mission.name'
+                                            class="fw-semibold text-break"
+                                            v-text="mission.name"
                                         />
                                     </div>
 
-                                    <Keywords :keywords='missionKeywords(mission)' />
+                                    <Keywords :keywords="missionKeywords(mission)" />
 
-                                    <div class='text-secondary small d-flex flex-wrap align-items-center gap-2'>
+                                    <div class="text-secondary small d-flex flex-wrap align-items-center gap-2">
                                         <span
                                             v-text='mission.createTime.replace(/T.*/, "")'
                                         />
-                                        <span class='text-white-50'>•</span>
+                                        <span class="text-white-50">•</span>
                                         <span
                                             v-text='mission.contents.length + " Items"'
                                         />
@@ -279,13 +279,13 @@
                                 </div>
 
                                 <div
-                                    class='d-flex align-items-center gap-2 pe-2'
-                                    title='Subscribed'
+                                    class="d-flex align-items-center gap-2 pe-2"
+                                    title="Subscribed"
                                 >
                                     <IconAccessPoint
-                                        class='text-success'
-                                        :size='32'
-                                        stroke='1'
+                                        class="text-success"
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </div>
                             </StandardItem>
@@ -297,20 +297,20 @@
     </MenuTemplate>
 
     <TablerModal
-        v-if='create'
-        size='xl'
-        @keyup.esc='create = false'
+        v-if="create"
+        size="xl"
+        @keyup.esc="create = false"
     >
-        <div class='modal-status bg-red' />
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='create = false'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="create = false"
         />
         <MissionCreate
-            @mission='router.push(`/menu/missions/${$event.guid}`)'
-            @close='create = false'
+            @mission="router.push(`/menu/missions/${$event.guid}`)"
+            @close="create = false"
         />
     </TablerModal>
 </template>

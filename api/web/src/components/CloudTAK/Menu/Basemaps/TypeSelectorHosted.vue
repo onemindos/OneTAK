@@ -1,55 +1,55 @@
 <template>
-    <div class='row row-cards'>
+    <div class="row row-cards">
         <TypeSelectorSelected
-            type='hosted'
+            type="hosted"
             @change-type='emit("change-type")'
         />
 
-        <div class='col-12'>
-            <TablerLoading v-if='loading.config' />
+        <div class="col-12">
+            <TablerLoading v-if="loading.config" />
             <template v-else>
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter tilesets'
-                    class='mb-3'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter tilesets"
+                    class="mb-3"
                 />
 
                 <TablerLoading
-                    v-if='loading.list'
-                    :inline='true'
-                    desc='Loading Tilesets'
+                    v-if="loading.list"
+                    :inline="true"
+                    desc="Loading Tilesets"
                 />
                 <TablerNone
-                    v-else-if='!list.items.length'
-                    :create='false'
-                    label='No Hosted Tilesets'
+                    v-else-if="!list.items.length"
+                    :create="false"
+                    label="No Hosted Tilesets"
                 />
                 <template v-else>
-                    <div class='d-flex flex-column gap-2'>
+                    <div class="d-flex flex-column gap-2">
                         <StandardItem
-                            v-for='tile in list.items'
-                            :key='tile.name'
-                            class='d-flex align-items-center gap-3 px-3 py-2'
+                            v-for="tile in list.items"
+                            :key="tile.name"
+                            class="d-flex align-items-center gap-3 px-3 py-2"
                             :class='{ "bg-blue": selected === tile.name }'
-                            @click='select(tile)'
+                            @click="select(tile)"
                         >
                             <IconDatabase
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
-                            <span class='fw-semibold'>{{ displayName(tile.name) }}</span>
+                            <span class="fw-semibold">{{ displayName(tile.name) }}</span>
                         </StandardItem>
                     </div>
 
-                    <div class='d-flex mt-2'>
-                        <div class='ms-auto'>
+                    <div class="d-flex mt-2">
+                        <div class="ms-auto">
                             <TablerPager
-                                v-if='list.total > paging.limit'
-                                :page='paging.page'
-                                :total='list.total'
-                                :limit='paging.limit'
-                                @page='paging.page = $event'
+                                v-if="list.total > paging.limit"
+                                :page="paging.page"
+                                :total="list.total"
+                                :limit="paging.limit"
+                                @page="paging.page = $event"
                             />
                         </div>
                     </div>

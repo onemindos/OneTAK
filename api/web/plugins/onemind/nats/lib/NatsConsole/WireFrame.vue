@@ -1,63 +1,63 @@
 <template>
     <div
-        class='wire-frame'
-        :class='{ expanded: isExpanded }'
-        @click='isExpanded = !isExpanded'
+        class="wire-frame"
+        :class="{ expanded: isExpanded }"
+        @click="isExpanded = !isExpanded"
     >
         <!-- ── Summary row ──────────────────────────────────────────────────── -->
-        <div class='wf-row'>
+        <div class="wf-row">
             <!-- Badge -->
             <span
-                class='wf-badge'
-                :style='{ color: BADGE_STYLE[badge].color, background: BADGE_STYLE[badge].bg }'
+                class="wf-badge"
+                :style="{ color: BADGE_STYLE[badge].color, background: BADGE_STYLE[badge].bg }"
             >{{ badge }}</span>
 
             <!-- Subject -->
             <span
-                class='wf-subject'
-                :title='frame.subject'
+                class="wf-subject"
+                :title="frame.subject"
             >{{ frame.subject }}</span>
 
             <!-- Size -->
-            <span class='wf-size'>{{ formatSize(frame.size) }}</span>
+            <span class="wf-size">{{ formatSize(frame.size) }}</span>
 
             <!-- Timestamp -->
-            <span class='wf-ts'>{{ formatTs(frame.ts) }}</span>
+            <span class="wf-ts">{{ formatTs(frame.ts) }}</span>
 
             <!-- Expand indicator -->
             <ChevronDown
-                class='wf-chevron'
-                :class='{ rotated: isExpanded }'
-                :size='11'
+                class="wf-chevron"
+                :class="{ rotated: isExpanded }"
+                :size="11"
             />
         </div>
 
         <!-- ── Expanded: payload ────────────────────────────────────────────── -->
         <div
-            v-if='isExpanded'
-            class='wf-payload'
+            v-if="isExpanded"
+            class="wf-payload"
         >
             <!-- Reply-to -->
             <div
-                v-if='frame.replyTo'
-                class='wf-meta'
+                v-if="frame.replyTo"
+                class="wf-meta"
             >
-                <span class='wf-meta-label'>reply-to</span>
-                <span class='wf-meta-val'>{{ frame.replyTo }}</span>
+                <span class="wf-meta-label">reply-to</span>
+                <span class="wf-meta-val">{{ frame.replyTo }}</span>
             </div>
             <!-- Headers -->
-            <template v-if='frame.headers && Object.keys(frame.headers).length'>
+            <template v-if="frame.headers && Object.keys(frame.headers).length">
                 <div
-                    v-for='(vals, key) in frame.headers'
-                    :key='key'
-                    class='wf-meta'
+                    v-for="(vals, key) in frame.headers"
+                    :key="key"
+                    class="wf-meta"
                 >
-                    <span class='wf-meta-label'>{{ key }}</span>
-                    <span class='wf-meta-val'>{{ vals.join(', ') }}</span>
+                    <span class="wf-meta-label">{{ key }}</span>
+                    <span class="wf-meta-val">{{ vals.join(', ') }}</span>
                 </div>
             </template>
             <!-- Payload -->
-            <pre class='wf-pre'>{{ prettyData }}</pre>
+            <pre class="wf-pre">{{ prettyData }}</pre>
         </div>
     </div>
 </template>

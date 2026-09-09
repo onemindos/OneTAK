@@ -1,108 +1,108 @@
 <template>
-    <div class='col-12 row g-0'>
-        <div class='col-12 d-flex align-items-center'>
-            <label class='subheader mx-2'>Sun Phase</label>
+    <div class="col-12 row g-0">
+        <div class="col-12 d-flex align-items-center">
+            <label class="subheader mx-2">Sun Phase</label>
             <span
-                v-if='sun'
-                class='subheader ms-auto me-2'
-                :title='timeZone'
-                v-text='timeZoneLabel'
+                v-if="sun"
+                class="subheader ms-auto me-2"
+                :title="timeZone"
+                v-text="timeZoneLabel"
             />
         </div>
         <TablerLoading
-            v-if='loading'
-            desc='Loading sun data...'
+            v-if="loading"
+            desc="Loading sun data..."
         />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
-            v-else-if='sun'
-            class='col-12 px-2 py-2 rounded'
-            style='border: 1px solid var(--tblr-border-color);'
+            v-else-if="sun"
+            class="col-12 px-2 py-2 rounded"
+            style="border: 1px solid var(--tblr-border-color);"
         >
             <template
-                v-for='event in timeline'
-                :key='event.time'
+                v-for="event in timeline"
+                :key="event.time"
             >
                 <div
                     v-if='event.name === "Nadir"'
-                    class='d-flex align-items-center mb-2'
+                    class="d-flex align-items-center mb-2"
                 >
                     <div
-                        class='text-muted small text-end'
-                        style='width: 60px;'
+                        class="text-muted small text-end"
+                        style="width: 60px;"
                     >
                         Prev Night
                     </div>
-                    <div class='mx-3 d-flex flex-column align-items-center'>
+                    <div class="mx-3 d-flex flex-column align-items-center">
                         <IconMoonStars
-                            :size='24'
-                            stroke='1'
-                            class='text-muted'
+                            :size="24"
+                            stroke="1"
+                            class="text-muted"
                         />
                     </div>
                     <div>
-                        <div v-text='prevMoon.phase' />
+                        <div v-text="prevMoon.phase" />
                         <div
-                            class='small text-muted'
+                            class="small text-muted"
                             v-text='prevMoon.illumination + "% Illuminated"'
                         />
                     </div>
                 </div>
 
-                <div class='d-flex align-items-center mb-2'>
+                <div class="d-flex align-items-center mb-2">
                     <template v-if='event.type === "now"'>
-                        <div class='w-100 d-flex align-items-center text-red'>
-                            <div class='flex-grow-1 border-top border-red' />
-                            <span class='mx-2 small font-weight-bold'>Current Time</span>
-                            <div class='flex-grow-1 border-top border-red' />
+                        <div class="w-100 d-flex align-items-center text-red">
+                            <div class="flex-grow-1 border-top border-red" />
+                            <span class="mx-2 small font-weight-bold">Current Time</span>
+                            <div class="flex-grow-1 border-top border-red" />
                         </div>
                     </template>
                     <template v-else>
                         <div
-                            class='text-muted small text-end'
-                            style='width: 60px;'
-                            v-text='formatTime(event.time)'
+                            class="text-muted small text-end"
+                            style="width: 60px;"
+                            v-text="formatTime(event.time)"
                         />
-                        <div class='mx-3 d-flex flex-column align-items-center'>
+                        <div class="mx-3 d-flex flex-column align-items-center">
                             <component
-                                :is='event.icon'
-                                :size='24'
-                                stroke='1'
-                                :class='event.color'
+                                :is="event.icon"
+                                :size="24"
+                                stroke="1"
+                                :class="event.color"
                             />
                         </div>
                         <div>
-                            <div v-text='event.name' />
+                            <div v-text="event.name" />
                             <div
-                                class='small text-muted'
-                                v-text='fromNow(event.time)'
+                                class="small text-muted"
+                                v-text="fromNow(event.time)"
                             />
                         </div>
                     </template>
                 </div>
             </template>
 
-            <div class='d-flex align-items-center border-top pt-2 mt-2'>
+            <div class="d-flex align-items-center border-top pt-2 mt-2">
                 <div
-                    class='text-muted small text-end'
-                    style='width: 60px;'
+                    class="text-muted small text-end"
+                    style="width: 60px;"
                 >
                     Moon
                 </div>
-                <div class='mx-3 d-flex flex-column align-items-center'>
+                <div class="mx-3 d-flex flex-column align-items-center">
                     <IconMoonStars
-                        :size='24'
-                        stroke='1'
-                        class='text-muted'
+                        :size="24"
+                        stroke="1"
+                        class="text-muted"
                     />
                 </div>
                 <div>
-                    <div v-text='moon.phase' />
+                    <div v-text="moon.phase" />
                     <div
-                        class='small text-muted'
+                        class="small text-muted"
                         v-text='moon.illumination + "% Illuminated"'
                     />
                 </div>

@@ -1,30 +1,30 @@
 <template>
-    <TablerLoading v-if='loading' />
+    <TablerLoading v-if="loading" />
     <TablerAlert
-        v-else-if='err'
-        :err='err'
+        v-else-if="err"
+        :err="err"
     />
     <template v-else>
         <TablerNone
-            v-if='!list.items.length'
-            label='No Login Sessions'
-            :create='false'
+            v-if="!list.items.length"
+            label="No Login Sessions"
+            :create="false"
         />
         <div
             v-else
-            class='col-12 d-flex flex-column gap-2 py-3'
+            class="col-12 d-flex flex-column gap-2 py-3"
         >
             <StandardItemProfileSession
-                v-for='session in list.items'
-                :key='session.id'
-                :session='session'
+                v-for="session in list.items"
+                :key="session.id"
+                :session="session"
             />
         </div>
         <TableFooter
-            :limit='paging.limit'
-            :total='list.total'
-            :page='paging.page'
-            @page='paging.page = $event'
+            :limit="paging.limit"
+            :total="list.total"
+            :page="paging.page"
+            @page="paging.page = $event"
         />
     </template>
 </template>

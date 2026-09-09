@@ -1,88 +1,88 @@
 <template>
     <div>
-        <div class='card-header'>
+        <div class="card-header">
             <h1
-                class='card-title'
+                class="card-title"
             />
 
-            <h1 class='card-title d-flex align-items-center'>
+            <h1 class="card-title d-flex align-items-center">
                 <TablerIconButton
-                    title='Back to List'
-                    @click='router.push(`/admin/templates`)'
+                    title="Back to List"
+                    @click="router.push(`/admin/templates`)"
                 >
                     <IconCircleArrowLeft
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <span
-                    class='ms-2'
+                    class="ms-2"
                     v-text='route.params.template === "new" ? "New Template": template.name'
                 />
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
                     v-if='route.params.template !== "new" && disabled'
-                    displaytype='icon'
-                    @delete='deleteTemplate'
+                    displaytype="icon"
+                    @delete="deleteTemplate"
                 />
                 <TablerIconButton
-                    v-if='disabled'
-                    title='Edit Template'
-                    @click='disabled = false'
+                    v-if="disabled"
+                    title="Edit Template"
+                    @click="disabled = false"
                 >
                     <IconPencil
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div class='card-body'>
+        <div class="card-body">
             <TablerLoading
-                v-if='loading'
-                desc='Loading Template'
+                v-if="loading"
+                desc="Loading Template"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
-            <template v-else-if='!disabled'>
-                <div class='row g-2'>
-                    <div class='col-12'>
+            <template v-else-if="!disabled">
+                <div class="row g-2">
+                    <div class="col-12">
                         <TablerInput
-                            v-model='template.name'
-                            label='Name'
+                            v-model="template.name"
+                            label="Name"
                         />
                     </div>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerInput
-                            v-model='template.description'
-                            label='Description'
+                            v-model="template.description"
+                            label="Description"
                         />
                     </div>
-                    <div class='col-12'>
-                        <label class='form-label mx-2'>Default Keywords</label>
+                    <div class="col-12">
+                        <label class="form-label mx-2">Default Keywords</label>
                         <Keywords
-                            :keywords='template.keywords'
-                            :relevant='[]'
-                            placeholder='Default Keywords'
-                            @update:keywords='template.keywords = $event'
+                            :keywords="template.keywords"
+                            :relevant="[]"
+                            placeholder="Default Keywords"
+                            @update:keywords="template.keywords = $event"
                         />
                     </div>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerUploadLogo
-                            v-model='template.icon'
-                            label='Template Logo'
+                            v-model="template.icon"
+                            label="Template Logo"
                         />
                     </div>
-                    <div class='col-12 d-flex'>
-                        <div class='ms-auto'>
+                    <div class="col-12 d-flex">
+                        <div class="ms-auto">
                             <button
-                                class='btn btn-primary'
-                                @click='saveTemplate'
+                                class="btn btn-primary"
+                                @click="saveTemplate"
                             >
                                 Save
                             </button>
@@ -91,74 +91,74 @@
                 </div>
             </template>
             <template v-else>
-                <div class='d-flex'>
+                <div class="d-flex">
                     <div
-                        v-if='template.icon'
-                        class='me-4'
+                        v-if="template.icon"
+                        class="me-4"
                     >
                         <img
-                            :src='template.icon'
-                            class='rounded border p-2 bg-white shadow-sm'
-                            style='width: 128px; height: 128px; object-fit: contain;'
+                            :src="template.icon"
+                            class="rounded border p-2 bg-white shadow-sm"
+                            style="width: 128px; height: 128px; object-fit: contain;"
                         >
                     </div>
-                    <div class='flex-fill'>
-                        <label class='form-label'>Description</label>
-                        <div class='text-muted'>
+                    <div class="flex-fill">
+                        <label class="form-label">Description</label>
+                        <div class="text-muted">
                             {{ template.description || 'No description provided.' }}
                         </div>
 
-                        <div class='col-12 mt-1'>
-                            <label class='form-label'>Default Keywords</label>
+                        <div class="col-12 mt-1">
+                            <label class="form-label">Default Keywords</label>
                             <Keywords
-                                :keywords='template.keywords'
+                                :keywords="template.keywords"
                             />
                         </div>
                     </div>
                 </div>
 
-                <div class='mt-3'>
-                    <div class='d-flex align-items-center mb-2'>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center mb-2">
                         <div
-                            class='btn-group btn-group-sm'
-                            role='group'
+                            class="btn-group btn-group-sm"
+                            role="group"
                         >
                             <button
-                                type='button'
-                                class='btn'
+                                type="button"
+                                class="btn"
                                 :class='tab === "logs" ? "btn-secondary" : "btn-outline-secondary"'
                                 @click='tab = "logs"'
                             >
                                 Logs
                             </button>
                             <button
-                                type='button'
-                                class='btn'
+                                type="button"
+                                class="btn"
                                 :class='tab === "palettes" ? "btn-secondary" : "btn-outline-secondary"'
                                 @click='tab = "palettes"'
                             >
                                 Palettes
                             </button>
                         </div>
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <TablerIconButton
                                 v-if='tab === "logs"'
-                                title='Create Log'
-                                @click='router.push(`/admin/template/${route.params.template}/log/new`)'
+                                title="Create Log"
+                                @click="router.push(`/admin/template/${route.params.template}/log/new`)"
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <TablerIconButton
                                 v-else
-                                title='Create Palette Feature'
-                                @click='createPalette'
+                                title="Create Palette Feature"
+                                @click="createPalette"
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
@@ -166,16 +166,16 @@
 
                     <template v-if='tab === "logs"'>
                         <TablerNone
-                            v-if='!template.logs || !template.logs.length'
-                            label='No Mission Template Logs'
-                            :create='false'
+                            v-if="!template.logs || !template.logs.length"
+                            label="No Mission Template Logs"
+                            :create="false"
                         />
                         <div
                             v-else
-                            class='card'
+                            class="card"
                         >
-                            <div class='table-responsive'>
-                                <table class='table table-vcenter card-table table-hover'>
+                            <div class="table-responsive">
+                                <table class="table table-vcenter card-table table-hover">
                                     <thead>
                                         <tr>
                                             <th />
@@ -186,32 +186,32 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            v-for='log in template.logs'
-                                            :key='log.id'
-                                            class='cursor-pointer'
-                                            tabindex='0'
-                                            @keyup.enter='stdclick(router, $event, `/admin/template/${route.params.template}/log/${log.id}`)'
-                                            @click='stdclick(router, $event, `/admin/template/${route.params.template}/log/${log.id}`)'
+                                            v-for="log in template.logs"
+                                            :key="log.id"
+                                            class="cursor-pointer"
+                                            tabindex="0"
+                                            @keyup.enter="stdclick(router, $event, `/admin/template/${route.params.template}/log/${log.id}`)"
+                                            @click="stdclick(router, $event, `/admin/template/${route.params.template}/log/${log.id}`)"
                                         >
-                                            <td class='w-1'>
+                                            <td class="w-1">
                                                 <div
-                                                    class='d-flex justify-content-center align-items-center'
-                                                    style='width: 32px; height: 32px;'
+                                                    class="d-flex justify-content-center align-items-center"
+                                                    style="width: 32px; height: 32px;"
                                                 >
                                                     <img
-                                                        v-if='log.icon'
-                                                        :src='log.icon'
-                                                        style='max-width: 100%; max-height: 100%; object-fit: contain;'
-                                                        alt='Log Icon'
+                                                        v-if="log.icon"
+                                                        :src="log.icon"
+                                                        style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                                        alt="Log Icon"
                                                     >
                                                 </div>
                                             </td>
-                                            <td v-text='log.name' />
+                                            <td v-text="log.name" />
                                             <td>
-                                                <Keywords :keywords='log.keywords' />
+                                                <Keywords :keywords="log.keywords" />
                                             </td>
                                             <td>
-                                                <TablerEpoch :date='log.created' />
+                                                <TablerEpoch :date="log.created" />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -222,24 +222,24 @@
 
                     <template v-else>
                         <TablerLoading
-                            v-if='paletteLoading'
-                            desc='Loading Palette Features'
+                            v-if="paletteLoading"
+                            desc="Loading Palette Features"
                         />
                         <TablerAlert
-                            v-else-if='paletteError'
-                            :err='paletteError'
+                            v-else-if="paletteError"
+                            :err="paletteError"
                         />
                         <TablerNone
-                            v-else-if='!palettes.items.length'
-                            label='No Palette Features'
-                            :create='false'
+                            v-else-if="!palettes.items.length"
+                            label="No Palette Features"
+                            :create="false"
                         />
                         <div
                             v-else
-                            class='card'
+                            class="card"
                         >
-                            <div class='table-responsive'>
-                                <table class='table table-vcenter card-table table-hover'>
+                            <div class="table-responsive">
+                                <table class="table table-vcenter card-table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -249,17 +249,17 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            v-for='p in palettes.items'
-                                            :key='p.uuid'
-                                            class='cursor-pointer'
-                                            tabindex='0'
-                                            @keyup.enter='stdclick(router, $event, `/admin/template/${route.params.template}/palette/${p.uuid}`)'
-                                            @click='stdclick(router, $event, `/admin/template/${route.params.template}/palette/${p.uuid}`)'
+                                            v-for="p in palettes.items"
+                                            :key="p.uuid"
+                                            class="cursor-pointer"
+                                            tabindex="0"
+                                            @keyup.enter="stdclick(router, $event, `/admin/template/${route.params.template}/palette/${p.uuid}`)"
+                                            @click="stdclick(router, $event, `/admin/template/${route.params.template}/palette/${p.uuid}`)"
                                         >
-                                            <td v-text='p.name' />
-                                            <td v-text='p.type' />
+                                            <td v-text="p.name" />
+                                            <td v-text="p.type" />
                                             <td>
-                                                <TablerEpoch :date='p.created' />
+                                                <TablerEpoch :date="p.created" />
                                             </td>
                                         </tr>
                                     </tbody>

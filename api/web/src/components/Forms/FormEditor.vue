@@ -1,70 +1,70 @@
 <template>
     <div>
         <TablerLoading
-            v-if='loading'
-            desc='Loading Form'
+            v-if="loading"
+            desc="Loading Form"
         />
         <template v-else>
-            <div class='row g-2'>
-                <div class='col-12'>
+            <div class="row g-2">
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.name'
-                        label='Name'
-                        :required='true'
+                        v-model="config.name"
+                        label="Name"
+                        :required="true"
                     />
                 </div>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.description'
-                        label='Description'
-                        :rows='3'
+                        v-model="config.description"
+                        label="Description"
+                        :rows="3"
                     />
                 </div>
-                <div class='col-12'>
-                    <label class='form-label'>Share to Channels</label>
+                <div class="col-12">
+                    <label class="form-label">Share to Channels</label>
                     <div
-                        class='overflow-auto'
-                        style='max-height: 250px;'
+                        class="overflow-auto"
+                        style="max-height: 250px;"
                     >
                         <GroupSelect
-                            v-model='config.channels'
-                            :active='true'
+                            v-model="config.channels"
+                            :active="true"
                         />
                     </div>
-                    <div class='form-hint mt-1'>
+                    <div class="form-hint mt-1">
                         A Form can only be attached to Boards of the Channels it is shared with
                     </div>
                 </div>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerSchemaBuilder
-                        v-model='config.schema'
-                        title='Form Schema'
+                        v-model="config.schema"
+                        title="Form Schema"
                     />
                 </div>
             </div>
 
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
 
-            <div class='d-flex mt-3'>
+            <div class="d-flex mt-3">
                 <button
-                    class='btn btn-secondary'
-                    :disabled='saving'
+                    class="btn btn-secondary"
+                    :disabled="saving"
                     @click='emit("cancel")'
                 >
                     Cancel
                 </button>
                 <button
-                    class='btn btn-primary ms-auto'
-                    :disabled='saving || !config.name.trim()'
-                    @click='save'
+                    class="btn btn-primary ms-auto"
+                    :disabled="saving || !config.name.trim()"
+                    @click="save"
                 >
                     <TablerLoading
-                        v-if='saving'
-                        :compact='true'
-                        desc=''
+                        v-if="saving"
+                        :compact="true"
+                        desc=""
                     />
                     <span
                         v-else

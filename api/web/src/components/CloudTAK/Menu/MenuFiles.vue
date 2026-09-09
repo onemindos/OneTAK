@@ -1,107 +1,107 @@
 <template>
-    <MenuTemplate name='Uploaded Files'>
+    <MenuTemplate name="Uploaded Files">
         <template #buttons>
             <TablerIconButton
-                v-if='!loading && !upload'
-                title='File Upload'
-                @click='upload = true'
+                v-if="!loading && !upload"
+                title="File Upload"
+                @click="upload = true"
             >
                 <IconUpload
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
         <template #default>
             <div
-                v-if='upload'
-                class='py-2'
+                v-if="upload"
+                class="py-2"
             >
                 <Upload
-                    :url='stdurl(`/api/import`)'
-                    method='PUT'
+                    :url="stdurl(`/api/import`)"
+                    method="PUT"
                     size-warning
-                    @cancel='upload = false'
-                    @done='uploadComplete($event)'
+                    @cancel="upload = false"
+                    @done="uploadComplete($event)"
                 />
             </div>
 
-            <div class='col-12 pt-2'>
+            <div class="col-12 pt-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
-            <div class='col-12 pt-2 d-flex align-items-center justify-content-between'>
-                <PathBreadcrumb v-model:collection='collectionPath' />
+            <div class="col-12 pt-2 d-flex align-items-center justify-content-between">
+                <PathBreadcrumb v-model:collection="collectionPath" />
                 <TablerIconButton
-                    title='Create Folder'
-                    @click='folderModal.shown = true'
+                    title="Create Folder"
+                    @click="folderModal.shown = true"
                 >
                     <IconFolderPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
 
             <TablerLoading
-                v-if='loading'
+                v-if="loading"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!currentFolders.length && !currentFiles.length'
+                v-else-if="!currentFolders.length && !currentFiles.length"
                 :label='currentPath === "/" ? "No Uploaded Files" : "Folder is empty"'
-                :create='false'
+                :create="false"
             />
             <template v-else>
                 <PathBrowser
-                    v-if='currentFolders.length'
-                    :nodes='currentFolders'
-                    @navigate='navigateToFolder'
-                    @delete='deletePath'
-                    @rename='openEditModal'
+                    v-if="currentFolders.length"
+                    :nodes="currentFolders"
+                    @navigate="navigateToFolder"
+                    @delete="deletePath"
+                    @rename="openEditModal"
                 />
 
-                <div class='mt-2 d-flex flex-column gap-2'>
+                <div class="mt-2 d-flex flex-column gap-2">
                     <FileRow
-                        v-for='asset in currentFiles'
-                        :key='asset.id'
-                        :asset='asset'
-                        :current-username='currentUsername'
-                        :overlay-urls='overlayUrls'
-                        :rename='rename'
-                        @create-overlay='createOverlay'
-                        @download='downloadAsset'
-                        @share-mission='shareToMission = $event'
-                        @share-package='shareToPackage = $event'
-                        @share-channel='shareToChannel = $event'
-                        @rename='rename = { id: $event.id, name: $event.name, loading: false }'
-                        @rename-change='rename && (rename.name = $event)'
-                        @rename-submit='renameAsset'
-                        @rename-cancel='rename = undefined'
-                        @delete='deleteAsset'
-                        @move='openMoveModal($event)'
+                        v-for="asset in currentFiles"
+                        :key="asset.id"
+                        :asset="asset"
+                        :current-username="currentUsername"
+                        :overlay-urls="overlayUrls"
+                        :rename="rename"
+                        @create-overlay="createOverlay"
+                        @download="downloadAsset"
+                        @share-mission="shareToMission = $event"
+                        @share-package="shareToPackage = $event"
+                        @share-channel="shareToChannel = $event"
+                        @rename="rename = { id: $event.id, name: $event.name, loading: false }"
+                        @rename-change="rename && (rename.name = $event)"
+                        @rename-submit="renameAsset"
+                        @rename-cancel="rename = undefined"
+                        @delete="deleteAsset"
+                        @move="openMoveModal($event)"
                     />
                 </div>
 
-                <div class='col-12 d-flex justify-content-center pt-3'>
+                <div class="col-12 d-flex justify-content-center pt-3">
                     <TablerPager
-                        v-if='list.total > paging.limit'
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        v-if="list.total > paging.limit"
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </template>
@@ -109,54 +109,54 @@
     </MenuTemplate>
 
     <ShareToMission
-        v-if='shareToMission'
+        v-if="shareToMission"
         :assets='[{
             type: "profile",
             id: shareToMission.id,
             name: shareToMission.name
         }]'
-        @close='shareToMission = undefined'
+        @close="shareToMission = undefined"
     />
 
     <ShareToPackage
-        v-if='shareToPackage'
-        :name='shareToPackage.name'
+        v-if="shareToPackage"
+        :name="shareToPackage.name"
         :assets='[{
             type: "profile",
             id: shareToPackage.id,
             name: shareToPackage.name
         }]'
-        @close='shareToPackage = undefined'
+        @close="shareToPackage = undefined"
     />
 
     <TablerModal
-        v-if='folderModal.shown'
+        v-if="folderModal.shown"
     >
-        <div class='modal-status bg-white' />
+        <div class="modal-status bg-white" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='folderModal.shown = false'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="folderModal.shown = false"
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 {{ folderModal.editingNode ? 'Rename Folder' : 'Create Folder' }}
             </div>
         </div>
-        <div class='modal-body'>
+        <div class="modal-body">
             <TablerInput
-                v-model='folderModal.name'
-                label='Folder Name'
-                placeholder='Documents'
-                @submit='submitFolder'
+                v-model="folderModal.name"
+                label="Folder Name"
+                placeholder="Documents"
+                @submit="submitFolder"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <TablerButton
-                class='w-100'
-                variant='primary'
-                @click='submitFolder'
+                class="w-100"
+                variant="primary"
+                @click="submitFolder"
             >
                 {{ folderModal.editingNode ? 'Save' : 'Create' }}
             </TablerButton>
@@ -164,53 +164,53 @@
     </TablerModal>
 
     <TablerModal
-        v-if='moveModal.shown'
+        v-if="moveModal.shown"
     >
-        <div class='modal-status bg-white' />
+        <div class="modal-status bg-white" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='moveModal.shown = false'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="moveModal.shown = false"
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 Move File to Folder
             </div>
         </div>
-        <div class='modal-body'>
+        <div class="modal-body">
             <div
-                class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
+                class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
                 @click='moveToPath("/")'
             >
                 <IconFolder
-                    :size='20'
-                    stroke='1'
-                    class='me-2'
+                    :size="20"
+                    stroke="1"
+                    class="me-2"
                 />
                 <span>/ (Root)</span>
             </div>
             <div
-                v-for='p in allPaths'
-                :key='p'
-                class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                @click='moveToPath(p)'
+                v-for="p in allPaths"
+                :key="p"
+                class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                @click="moveToPath(p)"
             >
                 <IconFolder
-                    :size='20'
-                    stroke='1'
-                    class='me-2'
+                    :size="20"
+                    stroke="1"
+                    class="me-2"
                 />
-                <span v-text='p' />
+                <span v-text="p" />
             </div>
         </div>
     </TablerModal>
 
     <GroupSelectModal
-        v-if='shareToChannel'
-        :model-value='shareToChannel.channels'
-        @close='shareToChannel = undefined'
-        @submit='saveChannels'
+        v-if="shareToChannel"
+        :model-value="shareToChannel.channels"
+        @close="shareToChannel = undefined"
+        @submit="saveChannels"
     />
 </template>
 

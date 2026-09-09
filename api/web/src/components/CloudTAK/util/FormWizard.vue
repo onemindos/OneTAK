@@ -1,85 +1,85 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title d-flex align-items-center gap-2'>
+        <div class="modal-header text-body">
+            <div class="modal-title d-flex align-items-center gap-2">
                 <IconForms
-                    :size='24'
-                    stroke='1.5'
+                    :size="24"
+                    stroke="1.5"
                 />
                 Complete Required Forms
             </div>
             <div
-                v-if='props.forms.length > 1'
-                class='ms-auto text-secondary'
-                v-text='`Form ${step + 1} of ${props.forms.length}`'
+                v-if="props.forms.length > 1"
+                class="ms-auto text-secondary"
+                v-text="`Form ${step + 1} of ${props.forms.length}`"
             />
         </div>
-        <div class='modal-body text-body'>
-            <div class='mb-3'>
+        <div class="modal-body text-body">
+            <div class="mb-3">
                 <div
-                    class='fw-bold'
-                    v-text='current.name'
+                    class="fw-bold"
+                    v-text="current.name"
                 />
                 <div
-                    v-if='current.description'
-                    class='text-secondary'
-                    v-text='current.description'
+                    v-if="current.description"
+                    class="text-secondary"
+                    v-text="current.description"
                 />
                 <div
-                    v-if='props.eventName'
-                    class='form-hint mt-1'
+                    v-if="props.eventName"
+                    class="form-hint mt-1"
                 >
-                    Submitted for <span v-text='props.eventName' />
+                    Submitted for <span v-text="props.eventName" />
                 </div>
             </div>
 
             <div
-                v-if='props.forms.length > 1'
-                class='progress mb-3 form-wizard-progress'
+                v-if="props.forms.length > 1"
+                class="progress mb-3 form-wizard-progress"
             >
                 <div
-                    class='progress-bar'
-                    role='progressbar'
-                    :style='{ width: `${(step / props.forms.length) * 100}%` }'
+                    class="progress-bar"
+                    role="progressbar"
+                    :style="{ width: `${(step / props.forms.length) * 100}%` }"
                 />
             </div>
 
             <TablerSchema
-                :key='current.id'
-                v-model='data'
-                :schema='currentSchema'
-                :disabled='submitting'
+                :key="current.id"
+                v-model="data"
+                :schema="currentSchema"
+                :disabled="submitting"
             />
 
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
 
-            <div class='d-flex mt-3'>
+            <div class="d-flex mt-3">
                 <button
-                    class='btn btn-secondary'
-                    :disabled='submitting'
+                    class="btn btn-secondary"
+                    :disabled="submitting"
                     @click='emit("close")'
                 >
                     Cancel
                 </button>
                 <button
-                    class='btn btn-primary ms-auto'
-                    :disabled='submitting'
-                    @click='submit'
+                    class="btn btn-primary ms-auto"
+                    :disabled="submitting"
+                    @click="submit"
                 >
                     <TablerLoading
-                        v-if='submitting'
-                        :compact='true'
-                        desc=''
+                        v-if="submitting"
+                        :compact="true"
+                        desc=""
                     />
                     <span
                         v-else

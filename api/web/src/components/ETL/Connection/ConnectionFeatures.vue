@@ -1,38 +1,38 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h3 class='card-title'>
+        <div class="card-header d-flex">
+            <h3 class="card-title">
                 Connection Features
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
-                    v-if='!error && !loading && list.items.length'
-                    displaytype='icon'
-                    title='Delete All Features'
-                    @delete='deleteAll'
+                    v-if="!error && !loading && list.items.length"
+                    displaytype="icon"
+                    title="Delete All Features"
+                    @delete="deleteAll"
                 />
                 <TablerRefreshButton
-                    title='Refresh'
-                    :loading='loading'
-                    @click='fetchList'
+                    title="Refresh"
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
 
-        <div class='col-12 px-2 py-2'>
+        <div class="col-12 px-2 py-2">
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                placeholder='Filter Callsign'
+                v-model="paging.filter"
+                icon="search"
+                placeholder="Filter Callsign"
             />
         </div>
 
         <div
-            v-if='!error && !loading && list.items.length'
-            class='table-responsive'
+            v-if="!error && !loading && list.items.length"
+            class="table-responsive"
         >
-            <table class='table table-hover table-vcenter card-table'>
+            <table class="table table-hover table-vcenter card-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -43,48 +43,48 @@
                 </thead>
                 <tbody>
                     <template
-                        v-for='feature in list.items'
-                        :key='feature.id'
+                        v-for="feature in list.items"
+                        :key="feature.id"
                     >
                         <tr
-                            class='cursor-pointer'
-                            @click='selected = selected?.id === feature.id ? null : feature'
+                            class="cursor-pointer"
+                            @click="selected = selected?.id === feature.id ? null : feature"
                         >
                             <td>
-                                <div class='d-flex align-items-center'>
+                                <div class="d-flex align-items-center">
                                     <IconMapPin
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                     <span
-                                        class='mx-2'
-                                        v-text='feature.id'
+                                        class="mx-2"
+                                        v-text="feature.id"
                                     />
                                 </div>
                             </td>
-                            <td v-text='feature.properties?.callsign' />
-                            <td v-text='feature.path' />
+                            <td v-text="feature.properties?.callsign" />
+                            <td v-text="feature.path" />
                             <td>
                                 <span v-text='Object.keys(feature.properties || {}).length + " properties"' />
                             </td>
-                            <td class='d-flex align-items-center'>
-                                <div class='ms-auto btn-list'>
+                            <td class="d-flex align-items-center">
+                                <div class="ms-auto btn-list">
                                     <TablerDelete
-                                        displaytype='icon'
-                                        title='Delete Feature'
-                                        @delete='deleteFeature(feature)'
+                                        displaytype="icon"
+                                        title="Delete Feature"
+                                        @delete="deleteFeature(feature)"
                                     />
                                 </div>
                             </td>
                         </tr>
-                        <tr v-if='selected?.id === feature.id'>
+                        <tr v-if="selected?.id === feature.id">
                             <td
-                                colspan='5'
-                                style='max-width: 0; overflow-x: auto;'
+                                colspan="5"
+                                style="max-width: 0; overflow-x: auto;"
                             >
                                 <CopyField
-                                    mode='pre'
-                                    :model-value='JSON.stringify(feature, null, 4)'
+                                    mode="pre"
+                                    :model-value="JSON.stringify(feature, null, 4)"
                                 />
                             </td>
                         </tr>
@@ -94,32 +94,32 @@
         </div>
         <div
             v-else
-            class='card-body'
+            class="card-body"
         >
-            <template v-if='error'>
+            <template v-if="error">
                 <TablerAlert
-                    title='Feature Error'
-                    :err='error'
-                    :compact='true'
+                    title="Feature Error"
+                    :err="error"
+                    :compact="true"
                 />
             </template>
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                :compact='true'
+                v-else-if="!list.items.length"
+                :create="false"
+                :compact="true"
             />
         </div>
 
         <div
-            v-if='!error && !loading && list.items.length'
-            class='card-footer'
+            v-if="!error && !loading && list.items.length"
+            class="card-footer"
         >
             <TablerPager
-                :page='paging.page'
-                :total='list.total'
-                :limit='paging.limit'
-                @page='paging.page = $event'
+                :page="paging.page"
+                :total="list.total"
+                :limit="paging.limit"
+                @page="paging.page = $event"
             />
         </div>
     </div>

@@ -1,61 +1,61 @@
 <template>
     <div>
-        <div class='sticky-top py-2 cloudtak-header'>
+        <div class="sticky-top py-2 cloudtak-header">
             <TablerInput
-                v-model='filter'
-                icon='search'
-                placeholder='Filter Channels...'
+                v-model="filter"
+                icon="search"
+                placeholder="Filter Channels..."
             />
         </div>
 
         <div
-            v-if='props.limit'
-            class='alert alert-info mt-2'
-            role='alert'
+            v-if="props.limit"
+            class="alert alert-info mt-2"
+            role="alert"
         >
-            <div class='d-flex align-items-center'>
-                <IconInfoCircle /><span class='mx-1'>Select up to&nbsp;<span v-text='props.limit' />&nbsp;Channel<span v-text='props.limit > 1 ? "s" : ""' /></span>
+            <div class="d-flex align-items-center">
+                <IconInfoCircle /><span class="mx-1">Select up to&nbsp;<span v-text="props.limit" />&nbsp;Channel<span v-text='props.limit > 1 ? "s" : ""' /></span>
             </div>
         </div>
 
-        <EmptyInfo v-if='mapStore.hasNoChannels' />
+        <EmptyInfo v-if="mapStore.hasNoChannels" />
 
         <TablerLoading
-            v-if='loading'
-            desc='Loading Channels'
+            v-if="loading"
+            desc="Loading Channels"
         />
         <TablerNone
-            v-else-if='!filtered.length'
-            :compact='true'
-            label='No Groups'
-            :create='false'
+            v-else-if="!filtered.length"
+            :compact="true"
+            label="No Groups"
+            :create="false"
         />
         <template v-else>
             <div
-                style='max-height: 20vh;'
-                class='my-2 mx-2 overflow-auto'
+                style="max-height: 20vh;"
+                class="my-2 mx-2 overflow-auto"
             >
                 <div
-                    v-for='group in filtered'
-                    :key='`${group.name}-${group.direction}`'
-                    class='col-12 cursor-pointer'
-                    @click='updateGroup(group)'
+                    v-for="group in filtered"
+                    :key="`${group.name}-${group.direction}`"
+                    class="col-12 cursor-pointer"
+                    @click="updateGroup(group)"
                 >
                     <IconCircleFilled
-                        v-if='selected.has(group.name)'
-                        :size='32'
-                        stroke='1'
-                        class='cursor-pointer'
+                        v-if="selected.has(group.name)"
+                        :size="32"
+                        stroke="1"
+                        class="cursor-pointer"
                     />
                     <IconCircle
                         v-else
-                        :size='32'
-                        troke='1'
-                        class='cursor-pointer'
+                        :size="32"
+                        troke="1"
+                        class="cursor-pointer"
                     />
                     <span
-                        class='mx-2'
-                        v-text='group.name'
+                        class="mx-2"
+                        v-text="group.name"
                     />
                 </div>
             </div>

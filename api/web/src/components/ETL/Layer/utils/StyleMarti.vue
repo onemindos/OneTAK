@@ -1,41 +1,41 @@
 <template>
-    <div class='col-12'>
-        <div class='col-12 d-flex align-items-center py-2'>
-            <label class='user-select-none subheader'>
+    <div class="col-12">
+        <div class="col-12 d-flex align-items-center py-2">
+            <label class="user-select-none subheader">
                 <IconArchive
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 /> Archive CoT
             </label>
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <div
-                    class='btn-group btn-group-sm'
-                    role='group'
+                    class="btn-group btn-group-sm"
+                    role="group"
                 >
                     <button
-                        type='button'
-                        class='btn'
+                        type="button"
+                        class="btn"
                         :class='marti.archive === undefined ? "btn-secondary" : "btn-outline-secondary"'
-                        :disabled='props.disabled'
-                        @click='marti.archive = undefined'
+                        :disabled="props.disabled"
+                        @click="marti.archive = undefined"
                     >
                         Default
                     </button>
                     <button
-                        type='button'
-                        class='btn'
+                        type="button"
+                        class="btn"
                         :class='marti.archive === true ? "btn-secondary" : "btn-outline-secondary"'
-                        :disabled='props.disabled'
-                        @click='marti.archive = true'
+                        :disabled="props.disabled"
+                        @click="marti.archive = true"
                     >
                         On
                     </button>
                     <button
-                        type='button'
-                        class='btn'
+                        type="button"
+                        class="btn"
                         :class='marti.archive === false ? "btn-secondary" : "btn-outline-secondary"'
-                        :disabled='props.disabled'
-                        @click='marti.archive = false'
+                        :disabled="props.disabled"
+                        @click="marti.archive = false"
                     >
                         Off
                     </button>
@@ -43,78 +43,78 @@
             </div>
         </div>
 
-        <div class='col-12 d-flex align-items-center py-2'>
-            <label class='user-select-none subheader'>
+        <div class="col-12 d-flex align-items-center py-2">
+            <label class="user-select-none subheader">
                 <IconSend
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 /> Routing Destinations
             </label>
             <div
-                v-if='!props.disabled'
-                class='ms-auto btn-list'
+                v-if="!props.disabled"
+                class="ms-auto btn-list"
             >
                 <TablerIconButton
-                    title='Add Destination'
-                    @click='addDest'
+                    title="Add Destination"
+                    @click="addDest"
                 >
                     <IconPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <TablerNone
-            v-if='!dests.length'
-            :create='false'
-            :compact='true'
-            label='No Routing Destinations'
+            v-if="!dests.length"
+            :create="false"
+            :compact="true"
+            label="No Routing Destinations"
         />
         <div
-            v-for='(dest, it) in dests'
-            :key='it'
-            class='d-flex align-items-start gap-2 mb-2'
+            v-for="(dest, it) in dests"
+            :key="it"
+            class="d-flex align-items-start gap-2 mb-2"
         >
-            <div style='width: 140px; flex-shrink: 0;'>
+            <div style="width: 140px; flex-shrink: 0;">
                 <TablerEnum
-                    v-model='dest.type'
-                    :disabled='props.disabled'
+                    v-model="dest.type"
+                    :disabled="props.disabled"
                     :options='["group", "mission", "uid", "callsign"]'
-                    @update:model-value='format'
+                    @update:model-value="format"
                 />
             </div>
-            <div class='flex-grow-1'>
+            <div class="flex-grow-1">
                 <div
                     v-if='dest.type === "group"'
-                    style='max-height: 20vh; overflow-y: auto;'
+                    style="max-height: 20vh; overflow-y: auto;"
                 >
                     <GroupSelect
-                        :model-value='dest.value ? [dest.value] : []'
-                        :limit='1'
-                        :disabled='props.disabled'
-                        :connection='props.connection'
+                        :model-value="dest.value ? [dest.value] : []"
+                        :limit="1"
+                        :disabled="props.disabled"
+                        :connection="props.connection"
                         @update:model-value='dest.value = $event[0] ?? ""; format()'
                     />
                 </div>
                 <TablerInput
                     v-else
-                    v-model='dest.value'
-                    placeholder='Value'
-                    :disabled='props.disabled'
-                    @update:model-value='format'
+                    v-model="dest.value"
+                    placeholder="Value"
+                    :disabled="props.disabled"
+                    @update:model-value="format"
                 />
             </div>
             <button
-                v-if='!props.disabled'
-                type='button'
-                class='btn btn-outline-danger flex-shrink-0'
-                @click='removeDest(it)'
+                v-if="!props.disabled"
+                type="button"
+                class="btn btn-outline-danger flex-shrink-0"
+                @click="removeDest(it)"
             >
                 <IconTrash
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
             </button>
         </div>

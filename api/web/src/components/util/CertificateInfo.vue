@@ -1,32 +1,32 @@
 <template>
-    <div class='datagrid-item'>
-        <div class='datagrid-title'>
+    <div class="datagrid-item">
+        <div class="datagrid-title">
             Certificate Valid From
         </div>
         <div
-            class='datagrid-content'
+            class="datagrid-content"
             v-text='certificate?.validFrom || "Unknown"'
         />
     </div>
-    <div class='datagrid-item'>
-        <div class='datagrid-title'>
+    <div class="datagrid-item">
+        <div class="datagrid-title">
             Certificate Valid To
         </div>
-        <div class='datagrid-content d-flex align-items-center gap-2'>
+        <div class="datagrid-content d-flex align-items-center gap-2">
             <div v-text='certificate?.validTo || "Unknown"' />
             <CertificateBadge
-                class='ms-auto'
-                :certificate='certificate'
-                expired-label='Expired Certificate'
+                class="ms-auto"
+                :certificate="certificate"
+                expired-label="Expired Certificate"
             />
         </div>
     </div>
-    <div class='datagrid-item'>
-        <div class='datagrid-title'>
+    <div class="datagrid-item">
+        <div class="datagrid-title">
             Certificate Subject
         </div>
         <div
-            class='datagrid-content'
+            class="datagrid-content"
             v-text='certificate?.subject || "Unknown"'
         />
     </div>

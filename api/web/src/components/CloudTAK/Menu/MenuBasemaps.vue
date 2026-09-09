@@ -1,97 +1,97 @@
 <template>
-    <MenuTemplate name='Basemaps'>
+    <MenuTemplate name="Basemaps">
         <template #buttons>
             <TablerIconButton
-                title='Create Basemap'
-                @click='editModal = {}'
+                title="Create Basemap"
+                @click="editModal = {}"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
 
         <template #default>
             <div
-                v-if='!share'
-                class='col-12 py-2 d-flex flex-column gap-2'
+                v-if="!share"
+                class="col-12 py-2 d-flex flex-column gap-2"
             >
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    placeholder="Filter"
                 >
                     <template #sort-icon>
                         <component
-                            :is='sortTypeIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortTypeIcon"
+                            :size="20"
+                            stroke="1"
                         />
                         <component
-                            :is='sortDirectionIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortDirectionIcon"
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                 </SearchSortFilter>
 
                 <div
-                    v-if='paging.collection'
-                    class='d-flex align-items-center gap-2'
+                    v-if="paging.collection"
+                    class="d-flex align-items-center gap-2"
                 >
-                    <PathBreadcrumb v-model:collection='paging.collection' />
+                    <PathBreadcrumb v-model:collection="paging.collection" />
                 </div>
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <Share
-                v-else-if='share'
-                style='height: 70vh'
-                :basemaps='share'
-                @done='share = undefined'
-                @close='share = undefined'
+                v-else-if="share"
+                style="height: 70vh"
+                :basemaps="share"
+                @done="share = undefined"
+                @close="share = undefined"
             />
             <TablerNone
-                v-else-if='!list.items.length && !list.collections.length'
-                label='No Basemaps'
-                @create='editModal = {}'
+                v-else-if="!list.items.length && !list.collections.length"
+                label="No Basemaps"
+                @create="editModal = {}"
             />
             <template v-else>
                 <div
-                    v-if='favs.length && !paging.collection'
-                    class='col-12 px-2 pt-3'
+                    v-if="favs.length && !paging.collection"
+                    class="col-12 px-2 pt-3"
                 >
-                    <div class='row g-2'>
+                    <div class="row g-2">
                         <div
-                            v-for='fav in favs'
-                            :key='fav.id'
-                            class='col-4'
+                            v-for="fav in favs"
+                            :key="fav.id"
+                            class="col-4"
                         >
                             <div
-                                class='basemap-fav cursor-pointer rounded overflow-hidden position-relative'
+                                class="basemap-fav cursor-pointer rounded overflow-hidden position-relative"
                                 :class='{ "basemap-fav--active": isCurrentBasemap(fav.id) }'
-                                role='button'
-                                tabindex='0'
-                                :title='fav.name'
-                                @click='setFavBasemap(fav)'
-                                @keyup.enter='setFavBasemap(fav)'
+                                role="button"
+                                tabindex="0"
+                                :title="fav.name"
+                                @click="setFavBasemap(fav)"
+                                @keyup.enter="setFavBasemap(fav)"
                             >
                                 <img
-                                    :src='favImage(fav.image)'
-                                    :alt='fav.name'
-                                    class='basemap-fav-image'
+                                    :src="favImage(fav.image)"
+                                    :alt="fav.name"
+                                    class="basemap-fav-image"
                                 >
-                                <div class='basemap-fav-name px-1 text-truncate'>
+                                <div class="basemap-fav-name px-1 text-truncate">
                                     {{ fav.name }}
                                 </div>
                             </div>
@@ -99,82 +99,82 @@
                     </div>
                 </div>
 
-                <div class='col-12 d-flex flex-column gap-2 py-3'>
+                <div class="col-12 d-flex flex-column gap-2 py-3">
                     <StandardItemFolder
-                        v-for='collection in list.collections'
-                        :key='collection.name'
-                        :name='collection.name'
-                        @click='setCollection(collection.name)'
+                        v-for="collection in list.collections"
+                        :key="collection.name"
+                        :name="collection.name"
+                        @click="setCollection(collection.name)"
                     />
 
                     <StandardItemBasemap
-                        v-for='basemap in list.items'
-                        :key='basemap.id'
-                        :basemap='basemap'
+                        v-for="basemap in list.items"
+                        :key="basemap.id"
+                        :basemap="basemap"
                         :class='{ "bg-blue text-white": isCurrentBasemap(basemap.id) }'
-                        @click='setBasemap(basemap)'
+                        @click="setBasemap(basemap)"
                     >
                         <template #actions>
                             <TablerDropdown>
                                 <TablerIconButton
-                                    title='More Options'
+                                    title="More Options"
                                 >
                                     <IconDotsVertical
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
 
                                 <template #dropdown>
-                                    <div class='col-12'>
+                                    <div class="col-12">
                                         <div
-                                            v-if='(!basemap.username && isSystemAdmin) || basemap.username'
-                                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                                            title='Edit Basemap'
-                                            @click.stop.prevent='editModal = basemap'
+                                            v-if="(!basemap.username && isSystemAdmin) || basemap.username"
+                                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                                            title="Edit Basemap"
+                                            @click.stop.prevent="editModal = basemap"
                                         >
                                             <IconSettings
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
-                                            <span class='mx-2'>Edit Basemap</span>
+                                            <span class="mx-2">Edit Basemap</span>
                                         </div>
                                         <div
                                             :class='[
                                                 "col-12 d-flex align-items-center px-2 py-2",
                                                 basemapOverlayExists(basemap) ? "opacity-50 pe-none" : "cursor-pointer cloudtak-hover"
                                             ]'
-                                            :aria-disabled='basemapOverlayExists(basemap)'
+                                            :aria-disabled="basemapOverlayExists(basemap)"
                                             :title='basemapOverlayExists(basemap) ? "Overlay already added" : "Add Overlay"'
-                                            @click.stop.prevent='!basemapOverlayExists(basemap) && addOverlay(basemap)'
+                                            @click.stop.prevent="!basemapOverlayExists(basemap) && addOverlay(basemap)"
                                         >
                                             <IconBoxMultiple
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
-                                            <span class='mx-2'>{{ basemapOverlayExists(basemap) ? "Overlay already added" : "Add as Overlay" }}</span>
+                                            <span class="mx-2">{{ basemapOverlayExists(basemap) ? "Overlay already added" : "Add as Overlay" }}</span>
                                         </div>
                                         <div
-                                            v-if='basemap.sharing_enabled'
-                                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                                            @click.stop.prevent='download(basemap)'
+                                            v-if="basemap.sharing_enabled"
+                                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                                            @click.stop.prevent="download(basemap)"
                                         >
                                             <IconDownload
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
-                                            <span class='mx-2'>Download XML</span>
+                                            <span class="mx-2">Download XML</span>
                                         </div>
                                         <div
-                                            v-if='basemap.sharing_enabled'
-                                            class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                                            @click.stop.prevent='basemap.sharing_enabled ? share = [basemap.id] : null'
+                                            v-if="basemap.sharing_enabled"
+                                            class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                                            @click.stop.prevent="basemap.sharing_enabled ? share = [basemap.id] : null"
                                         >
                                             <IconShare2
-                                                :size='32'
-                                                stroke='1'
+                                                :size="32"
+                                                stroke="1"
                                             />
-                                            <span class='mx-2'>Share</span>
+                                            <span class="mx-2">Share</span>
                                         </div>
                                     </div>
                                 </template>
@@ -183,14 +183,14 @@
                     </StandardItemBasemap>
                 </div>
 
-                <div class='col-lg-12 d-flex'>
-                    <div class='ms-auto'>
+                <div class="col-lg-12 d-flex">
+                    <div class="ms-auto">
                         <TablerPager
-                            v-if='list.total > paging.limit'
-                            :page='paging.page'
-                            :total='list.total'
-                            :limit='paging.limit'
-                            @page='paging.page = $event'
+                            v-if="list.total > paging.limit"
+                            :page="paging.page"
+                            :total="list.total"
+                            :limit="paging.limit"
+                            @page="paging.page = $event"
                         />
                     </div>
                 </div>
@@ -199,10 +199,10 @@
     </MenuTemplate>
 
     <BasemapEditModal
-        v-if='editModal'
-        size='xl'
-        :basemap='editModal'
-        @close='editModal = false'
+        v-if="editModal"
+        size="xl"
+        :basemap="editModal"
+        @close="editModal = false"
     />
 </template>
 

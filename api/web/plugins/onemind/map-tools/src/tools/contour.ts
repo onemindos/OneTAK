@@ -28,7 +28,7 @@ export async function mountContours(map: Map, config: ContourConfig): Promise<vo
     await unmountContours(map);
 
     const mlcontour = await import('maplibre-contour');
-    const DemSource = mlcontour.default ?? mlcontour.DemSource ?? mlcontour;
+    const { DemSource } = mlcontour.default;
 
     const demSource = new DemSource({
         url:      config.demUrl,
@@ -37,8 +37,7 @@ export async function mountContours(map: Map, config: ContourConfig): Promise<vo
         worker:   true,
     });
 
-    demSource.setupMaplibre(map);
-    demSourceInstance = demSource;
+    demSource.setupMaplibre(map as unknown as Parameters<typeof demSource.setupMaplibre>[0]);
 
     map.addSource('onemind-contour-lines', {
         type:  'vector',
@@ -88,5 +87,4 @@ export async function unmountContours(map: Map): Promise<void> {
         if (map.getLayer(id)) map.removeLayer(id);
     }
     if (map.getSource('onemind-contour-lines')) map.removeSource('onemind-contour-lines');
-    demSourceInstance = null;
 }

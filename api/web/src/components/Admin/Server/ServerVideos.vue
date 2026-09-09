@@ -1,41 +1,41 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 TAK Server Videos
             </h3>
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerRefreshButton
-                        :loading='loading'
-                        @click='fetchList'
+                        :loading="loading"
+                        @click="fetchList"
                     />
                 </div>
             </div>
         </div>
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
             v-else
-            class='card-body row'
+            class="card-body row"
         >
             <TablerNone
-                v-if='list.videoConnections.length === 0'
-                label='No Videos'
-                :create='false'
+                v-if="list.videoConnections.length === 0"
+                label="No Videos"
+                :create="false"
             />
             <template v-else>
-                <template v-for='video in list.videoConnections'>
-                    <div class='col-12 cloudtak-hover d-flex align-items-center px-2 py-2 rounded'>
-                        <div class='row'>
-                            <div class='col-12'>
-                                <span v-text='video.alias' />
+                <template v-for="video in list.videoConnections">
+                    <div class="col-12 cloudtak-hover d-flex align-items-center px-2 py-2 rounded">
+                        <div class="row">
+                            <div class="col-12">
+                                <span v-text="video.alias" />
                             </div>
                         </div>
-                        <div class='ms-auto' />
+                        <div class="ms-auto" />
                     </div>
                 </template>
             </template>

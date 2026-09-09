@@ -1,70 +1,70 @@
 <template>
-    <MenuTemplate name='COT Debugger'>
+    <MenuTemplate name="COT Debugger">
         <template #default>
-            <div class='my-2 mx-2 d-flex align-items-center'>
+            <div class="my-2 mx-2 d-flex align-items-center">
                 <TablerInput
-                    v-model='uid'
-                    icon='search'
-                    class='pe-2'
-                    style='
+                    v-model="uid"
+                    icon="search"
+                    class="pe-2"
+                    style="
                         width: calc(100% - 52px);
-                    '
-                    placeholder='COT UID'
+                    "
+                    placeholder="COT UID"
                 />
                 <button
-                    class='btn btn-primary'
-                    style='height: 35px;'
-                    @click='fetchHistory'
+                    class="btn btn-primary"
+                    style="height: 35px;"
+                    @click="fetchHistory"
                 >
                     <IconSearch
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </button>
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                title='Historic Features Error'
-                :err='error'
+                v-else-if="error"
+                title="Historic Features Error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!history.features.length'
-                label='No Features'
-                :create='false'
+                v-else-if="!history.features.length"
+                label="No Features"
+                :create="false"
             />
             <template v-else>
                 <div
-                    v-for='(feature, fit) in history.features'
-                    key='fit'
+                    v-for="(feature, fit) in history.features"
+                    key="fit"
                 >
                     <div
-                        class='row cloudtak-hover px-2 py-2 cursor-pointer user-select-none'
-                        @click='opened.has(fit) ? opened.delete(fit) : opened.add(fit)'
+                        class="row cloudtak-hover px-2 py-2 cursor-pointer user-select-none"
+                        @click="opened.has(fit) ? opened.delete(fit) : opened.add(fit)"
                     >
                         <div
-                            class='col-12'
-                            v-text='feature.properties.callsign'
+                            class="col-12"
+                            v-text="feature.properties.callsign"
                         />
                         <div
-                            class='col-md-6 col-12 subheader'
-                            v-text='feature.properties.time'
+                            class="col-md-6 col-12 subheader"
+                            v-text="feature.properties.time"
                         />
                         <div
-                            class='col-md-6 col-12 subheader d-flex align-items-center'
+                            class="col-md-6 col-12 subheader d-flex align-items-center"
                         >
                             <div
-                                class='ms-auto'
-                                v-text='timeDiff(feature.properties.time)'
+                                class="ms-auto"
+                                v-text="timeDiff(feature.properties.time)"
                             />
                         </div>
                     </div>
 
-                    <div v-if='opened.has(fit)'>
+                    <div v-if="opened.has(fit)">
                         <CopyField
-                            mode='pre'
-                            :model-value='JSON.stringify(feature, null, 4)'
+                            mode="pre"
+                            :model-value="JSON.stringify(feature, null, 4)"
                         />
                     </div>
                 </div>

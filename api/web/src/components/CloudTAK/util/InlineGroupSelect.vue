@@ -1,84 +1,84 @@
 <template>
-    <div :class='containerClass'>
+    <div :class="containerClass">
         <TablerBorder
             :class='["cloudtak-accent", borderClass]'
-            :background='background'
-            :shadow='shadow'
-            :fill-height='fillHeight'
-            :gap='gap'
+            :background="background"
+            :shadow="shadow"
+            :fill-height="fillHeight"
+            :gap="gap"
         >
             <template #label>
-                <small :class='labelClass'>{{ label }}</small>
+                <small :class="labelClass">{{ label }}</small>
             </template>
             <template
-                v-if='editable && !editing'
+                v-if="editable && !editing"
                 #tools
             >
                 <TablerIconButton
-                    :title='editTitle'
+                    :title="editTitle"
                     @click.stop.prevent='emit("edit")'
                 >
                     <IconPencil
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </template>
             <template
-                v-else-if='editing'
+                v-else-if="editing"
                 #tools
             >
-                <div class='d-flex gap-1'>
+                <div class="d-flex gap-1">
                     <TablerIconButton
-                        :disabled='saving'
-                        color='rgba(var(--tblr-primary-rgb), 0.14)'
-                        :title='saving ? savingLabel : saveLabel'
-                        @click.stop='commitDraft'
+                        :disabled="saving"
+                        color="rgba(var(--tblr-primary-rgb), 0.14)"
+                        :title="saving ? savingLabel : saveLabel"
+                        @click.stop="commitDraft"
                     >
                         <IconDeviceFloppy
-                            color='rgb(var(--tblr-primary-rgb))'
-                            stroke='1'
+                            color="rgb(var(--tblr-primary-rgb))"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        :disabled='saving'
-                        title='Cancel'
-                        @click.stop='revertDraft'
+                        :disabled="saving"
+                        title="Cancel"
+                        @click.stop="revertDraft"
                     >
-                        <IconX stroke='1' />
+                        <IconX stroke="1" />
                     </TablerIconButton>
                 </div>
             </template>
 
-            <template v-if='editing'>
+            <template v-if="editing">
                 <GroupSelect
-                    :model-value='draftValue'
-                    :active='active'
-                    :direction='direction'
-                    :limit='limit'
-                    @update:model-value='draftValue = $event'
+                    :model-value="draftValue"
+                    :active="active"
+                    :direction="direction"
+                    :limit="limit"
+                    @update:model-value="draftValue = $event"
                 />
             </template>
 
             <template v-else>
                 <div
-                    v-if='value.length'
-                    class='d-flex flex-wrap gap-2'
+                    v-if="value.length"
+                    class="d-flex flex-wrap gap-2"
                 >
                     <TablerBadge
-                        v-for='group of value'
-                        :key='group'
-                        :class='badgeClass'
-                        :background-color='badgeBackgroundColor'
-                        :border-color='badgeBorderColor'
-                        :text-color='badgeTextColor'
+                        v-for="group of value"
+                        :key="group"
+                        :class="badgeClass"
+                        :background-color="badgeBackgroundColor"
+                        :border-color="badgeBorderColor"
+                        :text-color="badgeTextColor"
                     >
                         {{ group }}
                     </TablerBadge>
                 </div>
                 <p
                     v-else
-                    :class='emptyClass'
+                    :class="emptyClass"
                 >
                     {{ emptyLabel }}
                 </p>

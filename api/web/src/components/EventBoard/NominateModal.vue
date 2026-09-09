@@ -1,48 +1,48 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 Nominate Event
             </div>
         </div>
-        <div class='modal-body text-body'>
+        <div class="modal-body text-body">
             <!-- The filter stays mounted through an error so the user can
                  retry by typing instead of reopening the modal -->
             <TablerInput
-                v-model='filter'
-                placeholder='Filter Events'
-                class='mb-2'
+                v-model="filter"
+                placeholder="Filter Events"
+                class="mb-2"
             />
 
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
             <TablerLoading
-                v-else-if='loading'
-                desc='Loading Events'
+                v-else-if="loading"
+                desc="Loading Events"
             />
             <TablerNone
-                v-else-if='available.length === 0'
-                label='No Events shared with this Channel available to Nominate'
-                :create='false'
+                v-else-if="available.length === 0"
+                label="No Events shared with this Channel available to Nominate"
+                :create="false"
             />
             <div
                 v-else
-                class='d-flex flex-column gap-2 overflow-auto'
-                style='max-height: 50vh;'
+                class="d-flex flex-column gap-2 overflow-auto"
+                style="max-height: 50vh;"
             >
                 <StandardCoreEvent
-                    v-for='event in available'
-                    :key='event.id'
-                    :event='event'
+                    v-for="event in available"
+                    :key="event.id"
+                    :event="event"
                     @click='emit("nominate", event); emit("close")'
                 />
             </div>

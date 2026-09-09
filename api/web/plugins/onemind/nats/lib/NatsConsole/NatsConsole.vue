@@ -1,36 +1,36 @@
 <template>
-    <div class='nats-console'>
+    <div class="nats-console">
         <!-- ── Section bar ────────────────────────────────────────────────────── -->
-        <div class='nc-sections'>
+        <div class="nc-sections">
             <button
-                v-for='s in SECTIONS'
-                :key='s.id'
-                class='nc-section'
-                :class='{ active: activeSection === s.id }'
-                @click='activeSection = s.id'
+                v-for="s in SECTIONS"
+                :key="s.id"
+                class="nc-section"
+                :class="{ active: activeSection === s.id }"
+                @click="activeSection = s.id"
             >
                 <component
-                    :is='s.icon'
-                    :size='11'
+                    :is="s.icon"
+                    :size="11"
                 />
                 {{ s.label }}
             </button>
-            <div class='nc-sections-spacer' />
+            <div class="nc-sections-spacer" />
             <div
-                class='nc-status'
-                :class='status'
+                class="nc-status"
+                :class="status"
             >
-                <div class='nc-status-dot' />
+                <div class="nc-status-dot" />
                 <span>{{ statusLabel }}</span>
                 <span
-                    v-if='rtt'
-                    class='nc-rtt'
+                    v-if="rtt"
+                    class="nc-rtt"
                 >{{ rtt }}ms</span>
             </div>
         </div>
 
         <!-- ── Section content ──────────────────────────────────────────────── -->
-        <div class='nc-body'>
+        <div class="nc-body">
             <OverviewSection v-if='activeSection === "overview"' />
             <AgentsSection v-if='activeSection === "agents"' />
             <FleetSection v-if='activeSection === "fleet"' />
@@ -46,22 +46,22 @@
 
             <!-- Bus: inner tab bar + content -->
             <template v-if='activeSection === "bus"'>
-                <div class='nc-tabs'>
+                <div class="nc-tabs">
                     <button
-                        v-for='tab in TABS'
-                        :key='tab.id'
-                        class='nc-tab'
-                        :class='{ active: activeTab === tab.id }'
-                        @click='activeTab = tab.id'
+                        v-for="tab in TABS"
+                        :key="tab.id"
+                        class="nc-tab"
+                        :class="{ active: activeTab === tab.id }"
+                        @click="activeTab = tab.id"
                     >
                         <component
-                            :is='tab.icon'
-                            :size='12'
+                            :is="tab.icon"
+                            :size="12"
                         />
                         {{ tab.label }}
                     </button>
                 </div>
-                <div class='nc-tab-body'>
+                <div class="nc-tab-body">
                     <WireTab v-if='activeTab === "wire"' />
                     <SecurityTab v-if='activeTab === "security"' />
                     <TopologyTab v-if='activeTab === "topology"' />

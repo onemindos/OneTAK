@@ -1,10 +1,10 @@
 <template>
     <TablerInput
-        :model-value='modelValue'
-        :label='label'
-        :placeholder='placeholder'
-        :disabled='disabled'
-        :error='error_str'
+        :model-value="modelValue"
+        :label="label"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :error="error_str"
         @update:model-value='emit("update:modelValue", $event)'
     >
         <template #default>

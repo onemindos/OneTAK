@@ -1,72 +1,72 @@
 <template>
     <MenuTemplate
-        name='Routes'
+        name="Routes"
     >
         <template #buttons>
             <TablerIconButton
-                v-if='routeCreation'
-                title='New Route'
+                v-if="routeCreation"
+                title="New Route"
                 @click='router.push("/menu/routes/new")'
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh(true)'
+                :loading="loading"
+                @click="refresh(true)"
             />
         </template>
         <template #default>
-            <div class='my-2'>
-                <SearchSortFilter v-model='query.filter' />
+            <div class="my-2">
+                <SearchSortFilter v-model="query.filter" />
             </div>
             <TablerLoading
-                v-if='loading'
-                v-model='query.filter'
-                desc='Loading Features'
+                v-if="loading"
+                v-model="query.filter"
+                desc="Loading Features"
             />
             <TablerNone
-                v-else-if='routes.size === 0'
-                :create='false'
-                label='No Routes'
+                v-else-if="routes.size === 0"
+                :create="false"
+                label="No Routes"
             />
             <template v-else>
-                <div class='col-12 d-flex flex-column gap-2 py-3'>
+                <div class="col-12 d-flex flex-column gap-2 py-3">
                     <StandardItem
-                        v-for='cot of routes.values()'
-                        :key='cot.id'
-                        class='d-flex align-items-center gap-3 p-2'
-                        @click='clickRoute(cot)'
+                        v-for="cot of routes.values()"
+                        :key="cot.id"
+                        class="d-flex align-items-center gap-3 p-2"
+                        @click="clickRoute(cot)"
                     >
                         <div
-                            class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                            style='width: 3rem; height: 3rem; min-width: 3rem;'
+                            class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                            style="width: 3rem; height: 3rem; min-width: 3rem;"
                         >
                             <IconRoute
-                                :size='24'
+                                :size="24"
                                 :color='cot.properties["stroke"] || "currentColor"'
-                                stroke='1'
+                                stroke="1"
                             />
                         </div>
 
-                        <div class='d-flex flex-column'>
-                            <div class='fw-bold'>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold">
                                 {{ cot.properties.callsign }}
                             </div>
                             <div
                                 v-if='cot.geometry.type === "LineString"'
-                                class='text-secondary small'
+                                class="text-secondary small"
                             >
                                 {{ Math.round(cot.length() * 1000) / 1000 + " km" }}
                             </div>
                         </div>
 
-                        <div class='d-flex btn-list ms-auto'>
+                        <div class="d-flex btn-list ms-auto">
                             <TablerDelete
-                                displaytype='icon'
-                                @delete='deleteRoute(cot.id)'
+                                displaytype="icon"
+                                @delete="deleteRoute(cot.id)"
                             />
                         </div>
                     </StandardItem>

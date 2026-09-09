@@ -1,70 +1,70 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Media Server'
+        v-model="isOpen"
+        label="Media Server"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerInput
                             v-model='config["media::url"]'
-                            :disabled='!edit'
+                            :disabled="!edit"
                             :error='validateURL(config["media::url"])'
-                            label='CloudTAK Hosted MediaMTX Service URL'
+                            label="CloudTAK Hosted MediaMTX Service URL"
                         />
                     </div>
-                    <div class='col-lg-12 mt-3'>
-                        <div class='d-flex align-items-center justify-content-between mb-2'>
-                            <label class='form-label mb-0'>Trusted Proxy Sources</label>
+                    <div class="col-lg-12 mt-3">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <label class="form-label mb-0">Trusted Proxy Sources</label>
 
                             <TablerIconButton
-                                v-if='edit'
-                                title='Add Source'
-                                @click='addProxyAllowEntry()'
+                                v-if="edit"
+                                title="Add Source"
+                                @click="addProxyAllowEntry()"
                             >
                                 <IconPlus
-                                    color='rgb(var(--tblr-primary-rgb))'
-                                    stroke='1'
+                                    color="rgb(var(--tblr-primary-rgb))"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
-                        <p class='text-secondary'>
+                        <p class="text-secondary">
                             Hostnames or origins (scheme + host + optional port) of video proxy sources on private
                             networks that should bypass SSRF protection when creating a video lease proxy.
                         </p>
@@ -72,25 +72,25 @@
                         <template v-if='config["media::proxy::allow"].length'>
                             <div
                                 v-for='(host, index) in config["media::proxy::allow"]'
-                                :key='index'
-                                class='d-flex gap-2 align-items-center mb-2'
+                                :key="index"
+                                class="d-flex gap-2 align-items-center mb-2"
                             >
-                                <div class='flex-grow-1'>
+                                <div class="flex-grow-1">
                                     <TablerInput
                                         v-model='config["media::proxy::allow"][index]'
-                                        :disabled='!edit'
-                                        placeholder='camera.internal or http://10.0.0.5:8554'
+                                        :disabled="!edit"
+                                        placeholder="camera.internal or http://10.0.0.5:8554"
                                     />
                                 </div>
 
                                 <TablerIconButton
-                                    v-if='edit'
-                                    title='Remove Source'
-                                    @click='removeProxyAllowEntry(index)'
+                                    v-if="edit"
+                                    title="Remove Source"
+                                    @click="removeProxyAllowEntry(index)"
                                 >
                                     <IconTrash
-                                        color='rgb(var(--tblr-danger-rgb))'
-                                        stroke='1'
+                                        color="rgb(var(--tblr-danger-rgb))"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -98,8 +98,8 @@
 
                         <TablerNone
                             v-else
-                            label='No trusted proxy sources configured'
-                            :create='false'
+                            label="No trusted proxy sources configured"
+                            :create="false"
                         />
                     </div>
                 </div>

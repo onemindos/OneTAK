@@ -1,65 +1,65 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='COTAK OAuth Provider'
+        v-model="isOpen"
+        label="COTAK OAuth Provider"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`provider::url`]'
-                            label='Provider URL'
-                            :disabled='!edit'
+                            v-model="config[`provider::url`]"
+                            label="Provider URL"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`provider::secret`]'
-                            label='Provider Secret'
-                            :disabled='!edit'
+                            v-model="config[`provider::secret`]"
+                            label="Provider Secret"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`provider::client`]'
-                            label='Provider Client'
-                            :disabled='!edit'
+                            v-model="config[`provider::client`]"
+                            label="Provider Client"
+                            :disabled="!edit"
                         />
                     </div>
                 </div>

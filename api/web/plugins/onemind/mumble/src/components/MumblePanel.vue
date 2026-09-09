@@ -1,33 +1,33 @@
 <template>
-    <div class='mumble-panel'>
-        <div class='mumble-panel__header'>
-            <span class='mumble-panel__title'>Mumble</span>
+    <div class="mumble-panel">
+        <div class="mumble-panel__header">
+            <span class="mumble-panel__title">Mumble</span>
             <span
-                class='mumble-panel__status'
-                :class='`mumble-panel__status--${store.connectionState}`'
+                class="mumble-panel__status"
+                :class="`mumble-panel__status--${store.connectionState}`"
             >
                 {{ store.connectionState }}
             </span>
         </div>
 
-        <div class='mumble-panel__body'>
+        <div class="mumble-panel__body">
             <ChannelTree />
         </div>
 
         <div
-            v-if='store.activeSpeakers.length'
-            class='mumble-panel__speaking'
+            v-if="store.activeSpeakers.length"
+            class="mumble-panel__speaking"
         >
             <span
-                v-for='u in store.activeSpeakers'
-                :key='u.session'
-                class='mumble-panel__speaker'
+                v-for="u in store.activeSpeakers"
+                :key="u.session"
+                class="mumble-panel__speaker"
             >
                 🔊 {{ u.name }}
             </span>
         </div>
 
-        <PttButton class='mumble-panel__ptt' />
+        <PttButton class="mumble-panel__ptt" />
     </div>
 </template>
 

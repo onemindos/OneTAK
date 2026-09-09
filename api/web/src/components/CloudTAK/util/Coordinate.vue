@@ -1,42 +1,42 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <IconLabel
-            :size='18'
-            stroke='1'
-            color='#6b7990'
-            class='ms-2 me-1'
+            :size="18"
+            stroke="1"
+            color="#6b7990"
+            class="ms-2 me-1"
         />
         <label
-            class='subheader user-select-none'
-            v-text='label'
+            class="subheader user-select-none"
+            v-text="label"
         />
-        <div class='mx-2'>
+        <div class="mx-2">
             <CopyField
-                :model-value='inMode'
-                :edit='edit'
-                :hover='hover'
-                :validate='validateInput'
-                :size='24'
-                @submit='submitCoordinate($event)'
-                @update:model-value='coordinateEntry($event)'
+                :model-value="inMode"
+                :edit="edit"
+                :hover="hover"
+                :validate="validateInput"
+                :size="24"
+                @submit="submitCoordinate($event)"
+                @update:model-value="coordinateEntry($event)"
             />
-            <template v-if='availableModes.length'>
+            <template v-if="availableModes.length">
                 <div
-                    role='menu'
-                    class='mx-2'
+                    role="menu"
+                    class="mx-2"
                 >
                     <span
-                        v-for='mode in availableModes'
-                        :key='mode.value'
-                        :title='mode.title'
-                        role='menuitem'
-                        tabindex='0'
-                        class='my-1 px-2 user-select-none'
+                        v-for="mode in availableModes"
+                        :key="mode.value"
+                        :title="mode.title"
+                        role="menuitem"
+                        tabindex="0"
+                        class="my-1 px-2 user-select-none"
                         :class='{
                             "cloudtak-accent rounded-bottom text-blue": config.mode === mode.value,
                             "cursor-pointer": config.mode !== mode.value,
                         }'
-                        @click='config.mode = mode.value'
+                        @click="config.mode = mode.value"
                     >{{ mode.label }}</span>
                 </div>
             </template>

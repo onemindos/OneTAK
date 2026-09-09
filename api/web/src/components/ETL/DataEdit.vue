@@ -1,15 +1,15 @@
 <template>
     <div
-        class='h-full w-full cloudtak-page'
-        style='overflow: auto;'
+        class="h-full w-full cloudtak-page"
+        style="overflow: auto;"
     >
-        <NavHeader title='Connections' />
+        <NavHeader title="Connections" />
 
-        <div class='page-wrapper'>
-            <div class='page-header d-print-none'>
-                <div class='container-xl'>
-                    <div class='row g-2 align-items-center'>
-                        <div class='col d-flex text-white'>
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col d-flex text-white">
                             <TablerBreadCrumb />
                         </div>
                     </div>
@@ -18,93 +18,93 @@
         </div>
 
         <TablerLoading
-            v-if='loading.data'
-            class='text-white'
-            desc='Loading Data'
+            v-if="loading.data"
+            class="text-white"
+            desc="Loading Data"
         />
         <div
             v-else
-            class='page-body'
+            class="page-body"
         >
-            <div class='container-xl'>
-                <div class='row row-deck row-cards'>
-                    <div class='col-lg-12'>
-                        <div class='card'>
-                            <div class='card-header'>
-                                <h3 class='card-title'>
-                                    Data <span v-text='data.id' />
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Data <span v-text="data.id" />
                                 </h3>
                             </div>
-                            <div class='card-body'>
-                                <div class='row row-cards'>
-                                    <div class='col-md-12'>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="col-md-12">
                                         <TablerInput
-                                            v-model='data.name'
-                                            label='Data Name'
-                                            description='The human readable name of the Data Layer'
-                                            :disabled='route.params.dataid'
-                                            :error='errors.name'
+                                            v-model="data.name"
+                                            label="Data Name"
+                                            description="The human readable name of the Data Layer"
+                                            :disabled="route.params.dataid"
+                                            :error="errors.name"
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <GroupSelect
-                                            v-model='data.mission_groups'
-                                            :connection='Number(route.params.connectionid)'
+                                            v-model="data.mission_groups"
+                                            :connection="Number(route.params.connectionid)"
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <TablerEnum
-                                            v-model='data.mission_role'
-                                            label='Mission Default Role'
-                                            :disabled='route.params.dataid || data.mission_diff'
-                                            description='The Default role assigned to subscribers to the mission'
+                                            v-model="data.mission_role"
+                                            label="Mission Default Role"
+                                            :disabled="route.params.dataid || data.mission_diff"
+                                            description="The Default role assigned to subscribers to the mission"
                                             :options='["MISSION_OWNER", "MISSION_SUBSCRIBER", "MISSION_READONLY_SUBSCRIBER"]'
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <TablerToggle
-                                            v-model='data.mission_sync'
-                                            label='Mission Sync'
-                                            description='If Enabled, Assets will be uploaded to the Mission'
+                                            v-model="data.mission_sync"
+                                            label="Mission Sync"
+                                            description="If Enabled, Assets will be uploaded to the Mission"
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <TablerToggle
-                                            v-model='data.mission_diff'
-                                            label='Mission Layer Diff'
-                                            description='
+                                            v-model="data.mission_diff"
+                                            label="Mission Layer Diff"
+                                            description="
                                                 If Enabled only a single layer will be allowed to be associated with the data sync
                                                 and CoTs submitted will be diff against existing CoTs, with CoTs not in each new
                                                 FeatureSet being removed from the Mission Sync
-                                            '
+                                            "
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <TablerInput
-                                            v-model='data.description'
-                                            label='Data Description'
-                                            description='The human readable description of the Data Layer'
-                                            :rows='6'
-                                            :error='errors.description'
+                                            v-model="data.description"
+                                            label="Data Description"
+                                            description="The human readable description of the Data Layer"
+                                            :rows="6"
+                                            :error="errors.description"
                                         />
                                     </div>
-                                    <div class='d-flex'>
-                                        <div v-if='route.params.dataid'>
+                                    <div class="d-flex">
+                                        <div v-if="route.params.dataid">
                                             <TablerDelete
-                                                label='Delete Data'
-                                                @delete='deleteData'
+                                                label="Delete Data"
+                                                @delete="deleteData"
                                             />
                                         </div>
-                                        <div class='ms-auto'>
+                                        <div class="ms-auto">
                                             <a
-                                                v-if='route.params.dataid'
-                                                class='cursor-pointer btn btn-primary'
-                                                @click='create'
+                                                v-if="route.params.dataid"
+                                                class="cursor-pointer btn btn-primary"
+                                                @click="create"
                                             >Update Data</a>
                                             <a
                                                 v-else
-                                                class='cursor-pointer btn btn-primary'
-                                                @click='create'
+                                                class="cursor-pointer btn btn-primary"
+                                                @click="create"
                                             >Create Data</a>
                                         </div>
                                     </div>

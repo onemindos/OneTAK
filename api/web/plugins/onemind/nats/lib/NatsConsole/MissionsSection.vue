@@ -1,184 +1,184 @@
 <template>
-    <div class='ms'>
+    <div class="ms">
         <!-- Header -->
-        <div class='ms-header'>
-            <span class='ms-title'>Missions</span>
-            <div class='ms-badges'>
+        <div class="ms-header">
+            <span class="ms-title">Missions</span>
+            <div class="ms-badges">
                 <span
-                    v-if='activeCount > 0'
-                    class='ms-badge active'
+                    v-if="activeCount > 0"
+                    class="ms-badge active"
                 >{{ activeCount }} active</span>
                 <span
-                    v-if='plannedCount > 0'
-                    class='ms-badge planned'
+                    v-if="plannedCount > 0"
+                    class="ms-badge planned"
                 >{{ plannedCount }} planned</span>
                 <span
-                    v-if='missions.size === 0'
-                    class='ms-muted'
+                    v-if="missions.size === 0"
+                    class="ms-muted"
                 >Listening on ent.mission.&gt; …</span>
             </div>
-            <span class='ms-muted ms-mono ms-ml'>{{ missions.size }} total</span>
+            <span class="ms-muted ms-mono ms-ml">{{ missions.size }} total</span>
             <button
-                class='ms-new-btn'
-                @click='showCreate = true'
+                class="ms-new-btn"
+                @click="showCreate = true"
             >
-                <Plus :size='12' /> New
+                <Plus :size="12" /> New
             </button>
         </div>
 
-        <div class='ms-body'>
+        <div class="ms-body">
             <!-- Left: list -->
-            <div class='ms-list-panel'>
-                <div class='ms-filter-tabs'>
+            <div class="ms-list-panel">
+                <div class="ms-filter-tabs">
                     <button
-                        v-for='f in FILTERS'
-                        :key='f.value'
-                        class='ms-filter-tab'
-                        :class='{ active: filter === f.value }'
-                        @click='filter = f.value'
+                        v-for="f in FILTERS"
+                        :key="f.value"
+                        class="ms-filter-tab"
+                        :class="{ active: filter === f.value }"
+                        @click="filter = f.value"
                     >
                         {{ f.label }}
                     </button>
                 </div>
 
-                <div class='ms-list'>
+                <div class="ms-list">
                     <div
-                        v-if='filteredList.length === 0'
-                        class='ms-empty'
+                        v-if="filteredList.length === 0"
+                        class="ms-empty"
                     >
-                        <span class='ms-muted'>No missions{{ filter !== "all" ? ` with status "${filter}"` : "" }}</span>
+                        <span class="ms-muted">No missions{{ filter !== "all" ? ` with status "${filter}"` : "" }}</span>
                     </div>
                     <button
-                        v-for='m in filteredList'
-                        :key='m.id'
-                        class='ms-mission-card'
-                        :class='{ selected: selectedId === m.id }'
-                        @click='selectedId = selectedId === m.id ? null : m.id'
+                        v-for="m in filteredList"
+                        :key="m.id"
+                        class="ms-mission-card"
+                        :class="{ selected: selectedId === m.id }"
+                        @click="selectedId = selectedId === m.id ? null : m.id"
                     >
-                        <div class='ms-card-top'>
-                            <span class='ms-mission-name'>{{ m.name }}</span>
+                        <div class="ms-card-top">
+                            <span class="ms-mission-name">{{ m.name }}</span>
                             <span
-                                class='ms-status-dot'
-                                :class='m.status'
+                                class="ms-status-dot"
+                                :class="m.status"
                             />
                         </div>
-                        <div class='ms-card-obj ms-muted'>
+                        <div class="ms-card-obj ms-muted">
                             {{ m.objective }}
                         </div>
-                        <div class='ms-card-meta'>
+                        <div class="ms-card-meta">
                             <span
-                                class='ms-priority'
-                                :class='m.priority'
+                                class="ms-priority"
+                                :class="m.priority"
                             >{{ m.priority }}</span>
-                            <span class='ms-muted ms-mono'>{{ m.tasks.length }} task{{ m.tasks.length !== 1 ? "s" : "" }}</span>
-                            <span class='ms-muted ms-mono ms-ml'>{{ relTime(m.createdAt) }}</span>
+                            <span class="ms-muted ms-mono">{{ m.tasks.length }} task{{ m.tasks.length !== 1 ? "s" : "" }}</span>
+                            <span class="ms-muted ms-mono ms-ml">{{ relTime(m.createdAt) }}</span>
                         </div>
                     </button>
                 </div>
             </div>
 
             <!-- Right: detail -->
-            <div class='ms-detail'>
-                <template v-if='selectedMission'>
-                    <div class='ms-detail-hd'>
+            <div class="ms-detail">
+                <template v-if="selectedMission">
+                    <div class="ms-detail-hd">
                         <div>
-                            <div class='ms-detail-name'>
+                            <div class="ms-detail-name">
                                 {{ selectedMission.name }}
                             </div>
-                            <div class='ms-muted'>
+                            <div class="ms-muted">
                                 {{ selectedMission.objective }}
                             </div>
                         </div>
                         <span
-                            class='ms-status-pill'
-                            :class='selectedMission.status'
+                            class="ms-status-pill"
+                            :class="selectedMission.status"
                         >{{ selectedMission.status }}</span>
                     </div>
-                    <div class='ms-detail-body'>
-                        <div class='ms-section'>
-                            <div class='ms-section-title'>
+                    <div class="ms-detail-body">
+                        <div class="ms-section">
+                            <div class="ms-section-title">
                                 Details
                             </div>
-                            <div class='ms-kv-grid'>
-                                <div class='ms-kv'>
-                                    <span class='ms-muted'>Priority</span><span
-                                        class='ms-priority'
-                                        :class='selectedMission.priority'
+                            <div class="ms-kv-grid">
+                                <div class="ms-kv">
+                                    <span class="ms-muted">Priority</span><span
+                                        class="ms-priority"
+                                        :class="selectedMission.priority"
                                     >{{ selectedMission.priority }}</span>
                                 </div>
-                                <div class='ms-kv'>
-                                    <span class='ms-muted'>Created</span><span class='ms-mono'>{{ relTime(selectedMission.createdAt) }}</span>
+                                <div class="ms-kv">
+                                    <span class="ms-muted">Created</span><span class="ms-mono">{{ relTime(selectedMission.createdAt) }}</span>
                                 </div>
                                 <div
-                                    v-if='selectedMission.startedAt'
-                                    class='ms-kv'
+                                    v-if="selectedMission.startedAt"
+                                    class="ms-kv"
                                 >
-                                    <span class='ms-muted'>Started</span><span class='ms-mono'>{{ relTime(selectedMission.startedAt) }}</span>
+                                    <span class="ms-muted">Started</span><span class="ms-mono">{{ relTime(selectedMission.startedAt) }}</span>
                                 </div>
                                 <div
-                                    v-if='selectedMission.completedAt'
-                                    class='ms-kv'
+                                    v-if="selectedMission.completedAt"
+                                    class="ms-kv"
                                 >
-                                    <span class='ms-muted'>Completed</span><span class='ms-mono'>{{ relTime(selectedMission.completedAt) }}</span>
+                                    <span class="ms-muted">Completed</span><span class="ms-mono">{{ relTime(selectedMission.completedAt) }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div
-                            v-if='selectedMission.actors.length > 0'
-                            class='ms-section'
+                            v-if="selectedMission.actors.length > 0"
+                            class="ms-section"
                         >
-                            <div class='ms-section-title'>
+                            <div class="ms-section-title">
                                 Actors
                             </div>
-                            <div class='ms-actors'>
+                            <div class="ms-actors">
                                 <span
-                                    v-for='a in selectedMission.actors'
-                                    :key='a'
-                                    class='ms-actor'
+                                    v-for="a in selectedMission.actors"
+                                    :key="a"
+                                    class="ms-actor"
                                 >{{ a }}</span>
                             </div>
                         </div>
 
                         <div
-                            v-if='selectedMission.tasks.length > 0'
-                            class='ms-section'
+                            v-if="selectedMission.tasks.length > 0"
+                            class="ms-section"
                         >
-                            <div class='ms-section-title'>
+                            <div class="ms-section-title">
                                 Tasks ({{ selectedMission.tasks.length }})
                             </div>
-                            <div class='ms-task-list'>
+                            <div class="ms-task-list">
                                 <div
-                                    v-for='t in selectedMission.tasks'
-                                    :key='t.id'
-                                    class='ms-task-row'
+                                    v-for="t in selectedMission.tasks"
+                                    :key="t.id"
+                                    class="ms-task-row"
                                 >
                                     <div
-                                        class='ms-task-dot'
-                                        :class='t.status'
+                                        class="ms-task-dot"
+                                        :class="t.status"
                                     />
-                                    <span class='ms-task-name'>{{ t.name }}</span>
+                                    <span class="ms-task-name">{{ t.name }}</span>
                                     <span
-                                        v-if='t.assignedTo'
-                                        class='ms-muted ms-mono'
+                                        v-if="t.assignedTo"
+                                        class="ms-muted ms-mono"
                                     >{{ t.assignedTo }}</span>
-                                    <span class='ms-task-status ms-muted'>{{ t.status }}</span>
+                                    <span class="ms-task-status ms-muted">{{ t.status }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div
-                            v-if='selectedMission.tags.length > 0'
-                            class='ms-section'
+                            v-if="selectedMission.tags.length > 0"
+                            class="ms-section"
                         >
-                            <div class='ms-section-title'>
+                            <div class="ms-section-title">
                                 Tags
                             </div>
-                            <div class='ms-tags'>
+                            <div class="ms-tags">
                                 <span
-                                    v-for='tag in selectedMission.tags'
-                                    :key='tag'
-                                    class='ms-tag'
+                                    v-for="tag in selectedMission.tags"
+                                    :key="tag"
+                                    class="ms-tag"
                                 >{{ tag }}</span>
                             </div>
                         </div>
@@ -186,68 +186,68 @@
                 </template>
                 <div
                     v-else
-                    class='ms-detail-empty'
+                    class="ms-detail-empty"
                 >
-                    <span class='ms-empty-icon'>🎯</span>
-                    <span class='ms-muted'>Select a mission to view details</span>
+                    <span class="ms-empty-icon">🎯</span>
+                    <span class="ms-muted">Select a mission to view details</span>
                 </div>
             </div>
         </div>
 
         <!-- Create modal -->
         <div
-            v-if='showCreate'
-            class='ms-modal-overlay'
-            @click.self='showCreate = false'
+            v-if="showCreate"
+            class="ms-modal-overlay"
+            @click.self="showCreate = false"
         >
-            <div class='ms-modal'>
-                <div class='ms-modal-hd'>
-                    <span class='ms-modal-title'>New Mission</span>
+            <div class="ms-modal">
+                <div class="ms-modal-hd">
+                    <span class="ms-modal-title">New Mission</span>
                     <button
-                        class='ms-modal-close'
-                        @click='showCreate = false'
+                        class="ms-modal-close"
+                        @click="showCreate = false"
                     >
-                        <X :size='14' />
+                        <X :size="14" />
                     </button>
                 </div>
-                <div class='ms-modal-body'>
-                    <label class='ms-field-lbl'>Name</label>
+                <div class="ms-modal-body">
+                    <label class="ms-field-lbl">Name</label>
                     <input
-                        v-model='newMission.name'
-                        class='ms-input'
-                        placeholder='Mission name'
+                        v-model="newMission.name"
+                        class="ms-input"
+                        placeholder="Mission name"
                     >
-                    <label class='ms-field-lbl'>Objective</label>
+                    <label class="ms-field-lbl">Objective</label>
                     <textarea
-                        v-model='newMission.objective'
-                        class='ms-input ms-textarea'
-                        placeholder='Mission objective'
-                        rows='2'
+                        v-model="newMission.objective"
+                        class="ms-input ms-textarea"
+                        placeholder="Mission objective"
+                        rows="2"
                     />
-                    <label class='ms-field-lbl'>Priority</label>
-                    <div class='ms-priority-row'>
+                    <label class="ms-field-lbl">Priority</label>
+                    <div class="ms-priority-row">
                         <button
-                            v-for='p in PRIORITIES'
-                            :key='p'
-                            class='ms-priority-btn'
-                            :class='[p, { active: newMission.priority === p }]'
-                            @click='newMission.priority = p'
+                            v-for="p in PRIORITIES"
+                            :key="p"
+                            class="ms-priority-btn"
+                            :class="[p, { active: newMission.priority === p }]"
+                            @click="newMission.priority = p"
                         >
                             {{ p }}
                         </button>
                     </div>
                 </div>
-                <div class='ms-modal-footer'>
+                <div class="ms-modal-footer">
                     <button
-                        class='ms-cancel-btn'
-                        @click='showCreate = false'
+                        class="ms-cancel-btn"
+                        @click="showCreate = false"
                     >
                         Cancel
                     </button>
                     <button
-                        class='ms-submit-btn'
-                        :disabled='!newMission.name.trim()'
-                        @click='createMission'
+                        class="ms-submit-btn"
+                        :disabled="!newMission.name.trim()"
+                        @click="createMission"
                     >
                         Create
                     </button>

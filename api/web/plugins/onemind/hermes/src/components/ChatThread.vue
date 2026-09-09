@@ -1,16 +1,16 @@
 <template>
     <div
-        ref='threadEl'
-        class='chat-thread'
+        ref="threadEl"
+        class="chat-thread"
     >
         <MessageBubble
-            v-for='msg in store.messages'
-            :key='msg.id'
-            :message='msg'
+            v-for="msg in store.messages"
+            :key="msg.id"
+            :message="msg"
         />
         <div
-            v-if='store.streaming'
-            class='chat-thread__typing'
+            v-if="store.streaming"
+            class="chat-thread__typing"
         >
             <span>▋</span>
         </div>

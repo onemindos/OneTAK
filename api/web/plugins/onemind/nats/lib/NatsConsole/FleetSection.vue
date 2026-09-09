@@ -1,221 +1,221 @@
 <template>
-    <div class='fl'>
+    <div class="fl">
         <!-- Stats strip -->
-        <div class='fl-stats'>
+        <div class="fl-stats">
             <div
-                v-for='s in stats'
-                :key='s.label'
-                class='fl-stat'
+                v-for="s in stats"
+                :key="s.label"
+                class="fl-stat"
             >
-                <span class='fl-stat-val'>{{ s.value }}</span>
-                <span class='fl-stat-lbl'>{{ s.label }}</span>
+                <span class="fl-stat-val">{{ s.value }}</span>
+                <span class="fl-stat-lbl">{{ s.label }}</span>
             </div>
         </div>
 
-        <div class='fl-body'>
+        <div class="fl-body">
             <!-- Roster -->
-            <div class='fl-roster'>
+            <div class="fl-roster">
                 <!-- Type filter -->
-                <div class='fl-filters'>
+                <div class="fl-filters">
                     <button
-                        v-for='f in TYPE_FILTERS'
-                        :key='f'
-                        class='fl-filter'
-                        :class='{ active: typeFilter === f }'
-                        @click='typeFilter = f'
+                        v-for="f in TYPE_FILTERS"
+                        :key="f"
+                        class="fl-filter"
+                        :class="{ active: typeFilter === f }"
+                        @click="typeFilter = f"
                     >
                         {{ f === "all" ? "All" : f }}
                     </button>
                 </div>
 
                 <div
-                    v-if='filteredNodes.length === 0'
-                    class='fl-empty'
+                    v-if="filteredNodes.length === 0"
+                    class="fl-empty"
                 >
-                    <span class='fl-empty-icon'>📡</span>
-                    <span class='fl-muted'>{{ nodeList.length === 0 ? "Listening on ent.drone.> ent.node.>" : "No nodes match filter" }}</span>
+                    <span class="fl-empty-icon">📡</span>
+                    <span class="fl-muted">{{ nodeList.length === 0 ? "Listening on ent.drone.> ent.node.>" : "No nodes match filter" }}</span>
                 </div>
                 <button
-                    v-for='node in filteredNodes'
-                    :key='node.id'
-                    class='fl-node-card'
-                    :class='{ selected: selectedId === node.id }'
-                    @click='selectedId = selectedId === node.id ? null : node.id'
+                    v-for="node in filteredNodes"
+                    :key="node.id"
+                    class="fl-node-card"
+                    :class="{ selected: selectedId === node.id }"
+                    @click="selectedId = selectedId === node.id ? null : node.id"
                 >
-                    <div class='fl-node-row'>
+                    <div class="fl-node-row">
                         <div
-                            class='fl-type-badge'
-                            :class='node.type'
+                            class="fl-type-badge"
+                            :class="node.type"
                         >
                             {{ nodeInitials(node.type) }}
                         </div>
-                        <div class='fl-node-info'>
-                            <div class='fl-node-name'>
+                        <div class="fl-node-info">
+                            <div class="fl-node-name">
                                 {{ node.name }}
                             </div>
-                            <div class='fl-node-sub fl-muted'>
+                            <div class="fl-node-sub fl-muted">
                                 {{ node.id }}
                             </div>
                         </div>
-                        <div class='fl-node-right'>
+                        <div class="fl-node-right">
                             <div
-                                class='fl-status-dot'
-                                :class='node.status'
+                                class="fl-status-dot"
+                                :class="node.status"
                             />
                             <span
-                                v-if='node.battery != null'
-                                class='fl-battery fl-muted'
+                                v-if="node.battery != null"
+                                class="fl-battery fl-muted"
                             >{{ node.battery }}%</span>
                         </div>
                     </div>
                     <div
-                        v-if='node.capabilities.length > 0'
-                        class='fl-caps'
+                        v-if="node.capabilities.length > 0"
+                        class="fl-caps"
                     >
                         <span
-                            v-for='c in node.capabilities.slice(0,3)'
-                            :key='c'
-                            class='fl-cap'
+                            v-for="c in node.capabilities.slice(0,3)"
+                            :key="c"
+                            class="fl-cap"
                         >{{ c }}</span>
                         <span
-                            v-if='node.capabilities.length > 3'
-                            class='fl-cap muted'
+                            v-if="node.capabilities.length > 3"
+                            class="fl-cap muted"
                         >+{{ node.capabilities.length - 3 }}</span>
                     </div>
                 </button>
             </div>
 
             <!-- Node detail -->
-            <div class='fl-detail'>
-                <template v-if='selectedNode'>
-                    <div class='fl-detail-hd'>
+            <div class="fl-detail">
+                <template v-if="selectedNode">
+                    <div class="fl-detail-hd">
                         <div
-                            class='fl-type-badge lg'
-                            :class='selectedNode.type'
+                            class="fl-type-badge lg"
+                            :class="selectedNode.type"
                         >
                             {{ nodeInitials(selectedNode.type) }}
                         </div>
                         <div>
-                            <div class='fl-detail-name'>
+                            <div class="fl-detail-name">
                                 {{ selectedNode.name }}
                             </div>
-                            <div class='fl-muted'>
+                            <div class="fl-muted">
                                 {{ selectedNode.id }}
                             </div>
                         </div>
                         <div
-                            class='fl-status-pill'
-                            :class='selectedNode.status'
+                            class="fl-status-pill"
+                            :class="selectedNode.status"
                         >
                             {{ selectedNode.status }}
                         </div>
                     </div>
 
-                    <div class='fl-detail-body'>
+                    <div class="fl-detail-body">
                         <!-- Location -->
                         <div
-                            v-if='selectedNode.lat != null'
-                            class='fl-section'
+                            v-if="selectedNode.lat != null"
+                            class="fl-section"
                         >
-                            <div class='fl-section-title'>
+                            <div class="fl-section-title">
                                 Location
                             </div>
-                            <div class='fl-kv-grid'>
-                                <div class='fl-kv'>
-                                    <span class='fl-muted'>Lat</span><span class='fl-mono'>{{ selectedNode.lat.toFixed(5) }}</span>
+                            <div class="fl-kv-grid">
+                                <div class="fl-kv">
+                                    <span class="fl-muted">Lat</span><span class="fl-mono">{{ selectedNode.lat.toFixed(5) }}</span>
                                 </div>
-                                <div class='fl-kv'>
-                                    <span class='fl-muted'>Lng</span><span class='fl-mono'>{{ selectedNode.lng?.toFixed(5) }}</span>
-                                </div>
-                                <div
-                                    v-if='selectedNode.alt != null'
-                                    class='fl-kv'
-                                >
-                                    <span class='fl-muted'>Alt</span><span class='fl-mono'>{{ selectedNode.alt.toFixed(1) }}m</span>
+                                <div class="fl-kv">
+                                    <span class="fl-muted">Lng</span><span class="fl-mono">{{ selectedNode.lng?.toFixed(5) }}</span>
                                 </div>
                                 <div
-                                    v-if='selectedNode.heading != null'
-                                    class='fl-kv'
+                                    v-if="selectedNode.alt != null"
+                                    class="fl-kv"
                                 >
-                                    <span class='fl-muted'>Hdg</span><span class='fl-mono'>{{ selectedNode.heading.toFixed(0) }}°</span>
+                                    <span class="fl-muted">Alt</span><span class="fl-mono">{{ selectedNode.alt.toFixed(1) }}m</span>
+                                </div>
+                                <div
+                                    v-if="selectedNode.heading != null"
+                                    class="fl-kv"
+                                >
+                                    <span class="fl-muted">Hdg</span><span class="fl-mono">{{ selectedNode.heading.toFixed(0) }}°</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Battery -->
                         <div
-                            v-if='selectedNode.battery != null'
-                            class='fl-section'
+                            v-if="selectedNode.battery != null"
+                            class="fl-section"
                         >
-                            <div class='fl-section-title'>
+                            <div class="fl-section-title">
                                 Battery
                             </div>
-                            <div class='fl-batt-row'>
-                                <div class='fl-batt-bar'>
+                            <div class="fl-batt-row">
+                                <div class="fl-batt-bar">
                                     <div
-                                        class='fl-batt-fill'
-                                        :class='battClass(selectedNode.battery)'
+                                        class="fl-batt-fill"
+                                        :class="battClass(selectedNode.battery)"
                                         :style='{ width: selectedNode.battery + "%" }'
                                     />
                                 </div>
-                                <span class='fl-mono'>{{ selectedNode.battery }}%</span>
+                                <span class="fl-mono">{{ selectedNode.battery }}%</span>
                             </div>
                         </div>
 
                         <!-- Telemetry -->
                         <div
-                            v-if='latestTelemetry.size > 0'
-                            class='fl-section'
+                            v-if="latestTelemetry.size > 0"
+                            class="fl-section"
                         >
-                            <div class='fl-section-title'>
+                            <div class="fl-section-title">
                                 Telemetry
                             </div>
-                            <div class='fl-kv-grid'>
+                            <div class="fl-kv-grid">
                                 <div
-                                    v-for='[k, v] in latestTelemetry'
-                                    :key='k'
-                                    class='fl-kv'
+                                    v-for="[k, v] in latestTelemetry"
+                                    :key="k"
+                                    class="fl-kv"
                                 >
-                                    <span class='fl-muted'>{{ k }}</span>
-                                    <span class='fl-mono'>{{ v.toFixed(2) }}</span>
+                                    <span class="fl-muted">{{ k }}</span>
+                                    <span class="fl-mono">{{ v.toFixed(2) }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Capabilities -->
                         <div
-                            v-if='selectedNode.capabilities.length > 0'
-                            class='fl-section'
+                            v-if="selectedNode.capabilities.length > 0"
+                            class="fl-section"
                         >
-                            <div class='fl-section-title'>
+                            <div class="fl-section-title">
                                 Capabilities
                             </div>
-                            <div class='fl-caps-wrap'>
+                            <div class="fl-caps-wrap">
                                 <span
-                                    v-for='c in selectedNode.capabilities'
-                                    :key='c'
-                                    class='fl-cap'
+                                    v-for="c in selectedNode.capabilities"
+                                    :key="c"
+                                    class="fl-cap"
                                 >{{ c }}</span>
                             </div>
                         </div>
 
                         <!-- Meta -->
-                        <div class='fl-section'>
-                            <div class='fl-section-title'>
+                        <div class="fl-section">
+                            <div class="fl-section-title">
                                 Info
                             </div>
-                            <div class='fl-kv-grid'>
-                                <div class='fl-kv'>
-                                    <span class='fl-muted'>Type</span><span class='fl-mono'>{{ selectedNode.type }}</span>
+                            <div class="fl-kv-grid">
+                                <div class="fl-kv">
+                                    <span class="fl-muted">Type</span><span class="fl-mono">{{ selectedNode.type }}</span>
                                 </div>
                                 <div
-                                    v-if='selectedNode.firmware'
-                                    class='fl-kv'
+                                    v-if="selectedNode.firmware"
+                                    class="fl-kv"
                                 >
-                                    <span class='fl-muted'>Firmware</span><span class='fl-mono'>{{ selectedNode.firmware }}</span>
+                                    <span class="fl-muted">Firmware</span><span class="fl-mono">{{ selectedNode.firmware }}</span>
                                 </div>
-                                <div class='fl-kv'>
-                                    <span class='fl-muted'>Last seen</span><span class='fl-mono'>{{ relTime(selectedNode.lastSeen) }}</span>
+                                <div class="fl-kv">
+                                    <span class="fl-muted">Last seen</span><span class="fl-mono">{{ relTime(selectedNode.lastSeen) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -223,10 +223,10 @@
                 </template>
                 <div
                     v-else
-                    class='fl-detail-empty'
+                    class="fl-detail-empty"
                 >
-                    <span class='fl-empty-icon'>🛰️</span>
-                    <span class='fl-muted'>Select a node to view details</span>
+                    <span class="fl-empty-icon">🛰️</span>
+                    <span class="fl-muted">Select a node to view details</span>
                 </div>
             </div>
         </div>

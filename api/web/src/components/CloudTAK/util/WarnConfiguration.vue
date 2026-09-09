@@ -1,27 +1,27 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-red' />
-        <div class='modal-header'>
-            <div class='d-flex align-items-center'>
+    <TablerModal size="lg">
+        <div class="modal-status bg-red" />
+        <div class="modal-header">
+            <div class="d-flex align-items-center">
                 <IconInfoSquare
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
-                <span class='mx-2'>Welcome to CloudTAK</span>
+                <span class="mx-2">Welcome to CloudTAK</span>
             </div>
         </div>
-        <div class='modal-body'>
+        <div class="modal-body">
             <SettingsCallsign
-                mode='emit'
-                :force-callsign='true'
-                @update='handleUpdate'
+                mode="emit"
+                :force-callsign="true"
+                @update="handleUpdate"
             />
         </div>
-        <div class='modal-footer'>
-            <div class='ms-auto'>
+        <div class="modal-footer">
+            <div class="ms-auto">
                 <button
-                    class='btn btn-primary'
-                    :disabled='!callsignSaved'
+                    class="btn btn-primary"
+                    :disabled="!callsignSaved"
                     @click='emit("close")'
                 >
                     Done

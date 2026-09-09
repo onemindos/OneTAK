@@ -1,130 +1,130 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title d-flex align-items-center gap-2'>
+        <div class="modal-header text-body">
+            <div class="modal-title d-flex align-items-center gap-2">
                 <TablerIconButton
                     v-if='mode === "editor"'
-                    title='Back to Forms'
+                    title="Back to Forms"
                     @click='mode = "list"'
                 >
                     <IconCircleArrowLeft
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <IconForms
                     v-else
-                    :size='24'
-                    stroke='1.5'
+                    :size="24"
+                    stroke="1.5"
                 />
-                <span v-text='title' />
+                <span v-text="title" />
             </div>
             <div
                 v-if='mode === "list"'
-                class='ms-auto btn-list'
+                class="ms-auto btn-list"
             >
                 <TablerIconButton
-                    title='New Form'
-                    @click='openCreate'
+                    title="New Form"
+                    @click="openCreate"
                 >
                     <IconPlus
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Refresh Forms'
-                    @click='listForms'
+                    title="Refresh Forms"
+                    @click="listForms"
                 >
                     <IconRefresh
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div class='modal-body text-body form-manager-body'>
+        <div class="modal-body text-body form-manager-body">
             <FormEditor
                 v-if='mode === "editor"'
-                :form='editForm'
-                :channel='props.channel'
-                @saved='onSaved'
+                :form="editForm"
+                :channel="props.channel"
+                @saved="onSaved"
                 @cancel='mode = "list"'
             />
             <template v-else>
                 <TablerInput
-                    v-model='search'
-                    placeholder='Search...'
-                    icon='search'
-                    class='mb-2'
+                    v-model="search"
+                    placeholder="Search..."
+                    icon="search"
+                    class="mb-2"
                 />
 
                 <TablerLoading
-                    v-if='loading'
-                    desc='Loading Forms'
+                    v-if="loading"
+                    desc="Loading Forms"
                 />
                 <TablerAlert
-                    v-else-if='error'
-                    :err='error'
+                    v-else-if="error"
+                    :err="error"
                 />
                 <template v-else>
                     <div
-                        v-if='filtered.length'
-                        class='rounded border'
+                        v-if="filtered.length"
+                        class="rounded border"
                     >
                         <div
-                            v-for='form of filtered'
-                            :key='form.id'
-                            class='d-flex align-items-center gap-2 px-2 py-2 form-manager-row'
+                            v-for="form of filtered"
+                            :key="form.id"
+                            class="d-flex align-items-center gap-2 px-2 py-2 form-manager-row"
                         >
                             <IconForms
-                                :size='18'
-                                stroke='1.5'
-                                class='flex-shrink-0 text-secondary'
+                                :size="18"
+                                stroke="1.5"
+                                class="flex-shrink-0 text-secondary"
                             />
                             <div
-                                class='flex-grow-1'
-                                style='min-width: 0;'
+                                class="flex-grow-1"
+                                style="min-width: 0;"
                             >
                                 <div
-                                    class='text-truncate'
-                                    v-text='form.name'
+                                    class="text-truncate"
+                                    v-text="form.name"
                                 />
                                 <div
-                                    v-if='form.description'
-                                    class='small text-secondary text-truncate'
-                                    v-text='form.description'
+                                    v-if="form.description"
+                                    class="small text-secondary text-truncate"
+                                    v-text="form.description"
                                 />
                             </div>
                             <TablerIconButton
-                                title='Edit Form'
-                                @click='openEdit(form)'
+                                title="Edit Form"
+                                @click="openEdit(form)"
                             >
                                 <IconPencil
-                                    :size='18'
-                                    stroke='1'
+                                    :size="18"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <TablerDelete
-                                displaytype='icon'
-                                :size='18'
-                                label='Delete Form'
-                                title='Delete Form'
-                                @delete='deleteForm(form)'
+                                displaytype="icon"
+                                :size="18"
+                                label="Delete Form"
+                                title="Delete Form"
+                                @delete="deleteForm(form)"
                             />
                         </div>
                     </div>
                     <TablerNone
                         v-else
-                        :compact='true'
-                        :create='false'
+                        :compact="true"
+                        :create="false"
                         :label='forms.length ? "No Matching Forms" : "No Forms"'
                     />
                 </template>

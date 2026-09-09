@@ -1,280 +1,280 @@
 <template>
     <MenuTemplate
-        :scroll='false'
-        :loading='loading'
-        :standalone='!embedded'
-        :back='!embedded'
+        :scroll="false"
+        :loading="loading"
+        :standalone="!embedded"
+        :back="!embedded"
     >
         <template
-            v-if='event'
+            v-if="event"
             #header
         >
-            <div class='flex-shrink-0'>
+            <div class="flex-shrink-0">
                 <FeatureIcon
-                    :key='event.type'
-                    :size='32'
-                    :feature='iconFeature'
+                    :key="event.type"
+                    :size="32"
+                    :feature="iconFeature"
                 />
             </div>
             <div
-                class='flex-grow-1 mx-2'
-                style='min-width: 0'
+                class="flex-grow-1 mx-2"
+                style="min-width: 0"
             >
                 <CopyField
-                    :model-value='event.name'
-                    :edit='is_editable'
-                    :minheight='44'
-                    :hover='is_editable'
-                    @submit='patch({ name: String($event) })'
+                    :model-value="event.name"
+                    :edit="is_editable"
+                    :minheight="44"
+                    :hover="is_editable"
+                    @submit="patch({ name: String($event) })"
                 />
             </div>
         </template>
 
         <template
-            v-if='embedded'
+            v-if="embedded"
             #buttons
         >
             <TablerIconButton
-                title='Close'
+                title="Close"
                 @click='emit("close")'
             >
                 <IconCircleX
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <TablerAlert
-            v-if='error'
-            :err='error'
+            v-if="error"
+            :err="error"
         />
         <TablerNone
-            v-else-if='!event && !loading'
-            :create='false'
-            label='No Event'
+            v-else-if="!event && !loading"
+            :create="false"
+            label="No Event"
         />
         <div
-            v-else-if='event'
-            :key='eventKey'
-            class='d-flex flex-column h-100'
-            style='min-height: 0;'
+            v-else-if="event"
+            :key="eventKey"
+            class="d-flex flex-column h-100"
+            style="min-height: 0;"
         >
-            <div class='col-12 border-bottom cloudtak-header flex-shrink-0 d-flex align-items-center flex-nowrap gap-0 px-1 py-1'>
-                <div class='btn-list d-flex flex-nowrap align-items-center gap-0 mb-0'>
+            <div class="col-12 border-bottom cloudtak-header flex-shrink-0 d-flex align-items-center flex-nowrap gap-0 px-1 py-1">
+                <div class="btn-list d-flex flex-nowrap align-items-center gap-0 mb-0">
                     <TablerIconButton
-                        v-if='hasMap'
-                        title='Zoom To'
-                        @click='flyTo'
+                        v-if="hasMap"
+                        title="Zoom To"
+                        @click="flyTo"
                     >
                         <IconZoomPan
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        v-if='is_editable && hasMap'
-                        title='Edit'
-                        @click='editGeometry'
+                        v-if="is_editable && hasMap"
+                        title="Edit"
+                        @click="editGeometry"
                     >
                         <IconPencil
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        v-if='event.links.length'
-                        title='Open Primary Link'
-                        @click='openLink(event.links[0].url)'
+                        v-if="event.links.length"
+                        title="Open Primary Link"
+                        @click="openLink(event.links[0].url)"
                     >
                         <IconExternalLink
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
-                <div class='ms-auto btn-list d-flex flex-nowrap align-items-center gap-0 mb-0'>
+                <div class="ms-auto btn-list d-flex flex-nowrap align-items-center gap-0 mb-0">
                     <!-- Only the creator can change who is allowed to edit -->
                     <TablerIconButton
-                        v-if='is_creator'
+                        v-if="is_creator"
                         :title='event.editable ? "Disable Editing by Others" : "Allow Editing by Others"'
-                        @click='patch({ editable: !event.editable })'
+                        @click="patch({ editable: !event.editable })"
                     >
                         <IconLockOpen
-                            v-if='event.editable'
-                            :size='actionIconSize'
-                            stroke='1'
+                            v-if="event.editable"
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                         <IconLock
                             v-else
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerDelete
-                        v-if='is_creator'
-                        displaytype='icon'
-                        @delete='deleteEvent'
+                        v-if="is_creator"
+                        displaytype="icon"
+                        @delete="deleteEvent"
                     />
                 </div>
             </div>
 
             <div
-                v-if='saveError'
-                class='col-12 flex-shrink-0 px-2 pt-2'
+                v-if="saveError"
+                class="col-12 flex-shrink-0 px-2 pt-2"
             >
                 <TablerInlineAlert
-                    severity='danger'
-                    title='Change Not Saved'
-                    :description='saveError.message'
+                    severity="danger"
+                    title="Change Not Saved"
+                    :description="saveError.message"
                 />
             </div>
 
             <div
-                class='overflow-auto overflow-x-hidden core-event-properties flex-grow-1'
-                style='min-height: 0;'
+                class="overflow-auto overflow-x-hidden core-event-properties flex-grow-1"
+                style="min-height: 0;"
             >
-                <div class='row g-0'>
-                    <div class='pt-2 col-12 px-2'>
+                <div class="row g-0">
+                    <div class="pt-2 col-12 px-2">
                         <PropertyType
-                            :key='event.id'
-                            :edit='is_editable'
-                            :model-value='event.type'
-                            @update:model-value='patch({ type: String($event) })'
+                            :key="event.id"
+                            :edit="is_editable"
+                            :model-value="event.type"
+                            @update:model-value="patch({ type: String($event) })"
                         />
                     </div>
 
-                    <div class='col-12 pt-2'>
+                    <div class="col-12 pt-2">
                         <Coordinate
-                            :key='eventKey'
-                            label='Location'
-                            :edit='is_editable'
-                            :hover='is_editable'
-                            :model-value='event.geometry.coordinates'
-                            @update:model-value='updateCoordinates($event as number[])'
+                            :key="eventKey"
+                            label="Location"
+                            :edit="is_editable"
+                            :hover="is_editable"
+                            :model-value="event.geometry.coordinates"
+                            @update:model-value="updateCoordinates($event as number[])"
                         />
                     </div>
 
-                    <div class='col-12 pt-2'>
+                    <div class="col-12 pt-2">
                         <PropertyCoreEventPriority
-                            :model-value='event.priority'
-                            :active='event.active'
-                            :ended='event.ended'
-                            :edit='is_editable'
+                            :model-value="event.priority"
+                            :active="event.active"
+                            :ended="event.ended"
+                            :edit="is_editable"
                             @update:model-value='patch({ priority: $event as CoreEvent["priority"] })'
-                            @update:active='patch({ active: $event })'
+                            @update:active="patch({ active: $event })"
                         />
                     </div>
 
-                    <div class='col-12 pt-2'>
+                    <div class="col-12 pt-2">
                         <PropertyCoreEventLocation
-                            :model-value='event.location'
-                            :edit='is_editable'
-                            @update:model-value='patch({ location: $event })'
+                            :model-value="event.location"
+                            :edit="is_editable"
+                            @update:model-value="patch({ location: $event })"
                         />
                     </div>
 
-                    <div class='col-12 pt-2'>
+                    <div class="col-12 pt-2">
                         <PropertyCoreEventExternalId
-                            :model-value='event.external_id'
-                            :edit='is_editable'
-                            @update:model-value='patch({ external_id: $event })'
+                            :model-value="event.external_id"
+                            :edit="is_editable"
+                            @update:model-value="patch({ external_id: $event })"
                         />
                     </div>
                 </div>
 
                 <PropertyEmail
-                    v-if='event.username'
-                    :key='event.id'
-                    :email='event.username'
+                    v-if="event.username"
+                    :key="event.id"
+                    :email="event.username"
                 />
 
                 <PropertyCoreEventMission
-                    :model-value='event.mission_guid'
-                    :edit='is_editable'
-                    :event-name='event.name'
-                    :remarks='event.remarks'
-                    :channels='event.channels'
-                    @update:model-value='patch({ mission_guid: $event })'
+                    :model-value="event.mission_guid"
+                    :edit="is_editable"
+                    :event-name="event.name"
+                    :remarks="event.remarks"
+                    :channels="event.channels"
+                    @update:model-value="patch({ mission_guid: $event })"
                 />
 
-                <div class='col-12'>
+                <div class="col-12">
                     <SlideDownHeader
-                        v-model='remarksExpanded'
-                        label='Remarks'
+                        v-model="remarksExpanded"
+                        label="Remarks"
                     >
                         <template #icon>
                             <IconBlockquote
-                                :size='18'
-                                stroke='1'
-                                color='#6b7990'
-                                class='ms-2 me-1'
+                                :size="18"
+                                stroke="1"
+                                color="#6b7990"
+                                class="ms-2 me-1"
                             />
                         </template>
 
-                        <div class='px-2 pt-2'>
+                        <div class="px-2 pt-2">
                             <CopyField
-                                :model-value='event.remarks'
-                                :rows='10'
-                                :edit='is_editable'
-                                :hover='is_editable'
-                                @submit='patch({ remarks: String($event) })'
+                                :model-value="event.remarks"
+                                :rows="10"
+                                :edit="is_editable"
+                                :hover="is_editable"
+                                @submit="patch({ remarks: String($event) })"
                             />
                         </div>
                     </SlideDownHeader>
                 </div>
 
                 <PropertyCoreEventLinks
-                    :model-value='event.links'
-                    :edit='is_editable'
-                    @update:model-value='patch({ links: $event })'
+                    :model-value="event.links"
+                    :edit="is_editable"
+                    @update:model-value="patch({ links: $event })"
                 />
 
                 <!-- PropertyStyle has no read-only mode so hide it for non-editors -->
                 <PropertyStyle
-                    v-if='is_editable'
-                    geometry='Point'
-                    :model-value='styleProperties'
-                    @update:model-value='updateStyle($event)'
+                    v-if="is_editable"
+                    geometry="Point"
+                    :model-value="styleProperties"
+                    @update:model-value="updateStyle($event)"
                 />
 
                 <PropertyCoreEventChannels
-                    :model-value='event.channels'
-                    :boards='event.boards'
-                    :edit='is_creator'
-                    @update:model-value='patch({ channels: $event })'
-                    @nominate='nominate($event)'
+                    :model-value="event.channels"
+                    :boards="event.boards"
+                    :edit="is_creator"
+                    @update:model-value="patch({ channels: $event })"
+                    @nominate="nominate($event)"
                 />
 
                 <PropertyCoreEventForms
-                    :event='event.id'
-                    :refresh='formsRefresh'
+                    :event="event.id"
+                    :refresh="formsRefresh"
                 />
 
                 <PropertyCoreEventMetadata
-                    :model-value='event.metadata'
-                    :edit='is_editable'
-                    @update:model-value='patch({ metadata: $event })'
+                    :model-value="event.metadata"
+                    :edit="is_editable"
+                    @update:model-value="patch({ metadata: $event })"
                 />
 
                 <PropertyCoreEventTimes
-                    :created='event.created'
-                    :updated='event.updated'
-                    :ended='event.ended'
+                    :created="event.created"
+                    :updated="event.updated"
+                    :ended="event.ended"
                 />
             </div>
         </div>
 
         <FormWizard
-            v-if='formWizard && event'
-            :event-id='event.id'
-            :event-name='event.name'
-            :forms='formWizard.forms'
-            @complete='completeFormWizard'
-            @close='formWizard = undefined; formsRefresh += 1'
+            v-if="formWizard && event"
+            :event-id="event.id"
+            :event-name="event.name"
+            :forms="formWizard.forms"
+            @complete="completeFormWizard"
+            @close="formWizard = undefined; formsRefresh += 1"
         />
     </MenuTemplate>
 </template>

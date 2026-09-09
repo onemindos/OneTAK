@@ -1,66 +1,66 @@
 <template>
     <StandardItem @click='$emit("click")'>
-        <div class='d-flex align-items-start gap-3 px-3 py-2'>
+        <div class="d-flex align-items-start gap-3 px-3 py-2">
             <div
-                v-if='icon'
-                class='icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 mt-1 flex-shrink-0'
-                style='width: 36px; height: 36px;'
+                v-if="icon"
+                class="icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 mt-1 flex-shrink-0"
+                style="width: 36px; height: 36px;"
             >
                 <IconCalendarEvent
-                    :size='18'
-                    stroke='1.5'
-                    :class='priorityClass'
+                    :size="18"
+                    stroke="1.5"
+                    :class="priorityClass"
                 />
             </div>
 
-            <div class='flex-grow-1 overflow-hidden'>
-                <div class='d-flex align-items-center gap-2'>
+            <div class="flex-grow-1 overflow-hidden">
+                <div class="d-flex align-items-center gap-2">
                     <StatusDot
                         :status='event.ended ? "Unknown" : "Success"'
                         :title='event.ended ? "Ended" : "Active"'
                     />
-                    <span class='fw-semibold text-truncate flex-grow-1'>{{ event.name }}</span>
+                    <span class="fw-semibold text-truncate flex-grow-1">{{ event.name }}</span>
                     <span
                         v-if='event.priority !== "none"'
-                        class='badge flex-shrink-0 text-uppercase'
-                        :class='priorityBadgeClass'
+                        class="badge flex-shrink-0 text-uppercase"
+                        :class="priorityBadgeClass"
                     >{{ event.priority }}</span>
                 </div>
-                <div class='d-flex align-items-center gap-2 mt-1'>
+                <div class="d-flex align-items-center gap-2 mt-1">
                     <img
-                        v-if='typeIcon'
-                        :src='typeIcon'
-                        alt='Event Type'
-                        class='flex-shrink-0'
-                        style='width: 40px; height: 40px; object-fit: contain;'
+                        v-if="typeIcon"
+                        :src="typeIcon"
+                        alt="Event Type"
+                        class="flex-shrink-0"
+                        style="width: 40px; height: 40px; object-fit: contain;"
                     >
-                    <div class='flex-grow-1 overflow-hidden'>
+                    <div class="flex-grow-1 overflow-hidden">
                         <div
-                            v-if='event.location'
-                            class='small d-flex align-items-center'
-                            style='opacity: 0.85;'
+                            v-if="event.location"
+                            class="small d-flex align-items-center"
+                            style="opacity: 0.85;"
                         >
                             <IconMapPin
-                                :size='14'
-                                stroke='1.5'
-                                class='me-1 flex-shrink-0'
+                                :size="14"
+                                stroke="1.5"
+                                class="me-1 flex-shrink-0"
                             />
                             <span
-                                class='text-truncate'
-                                v-text='event.location'
+                                class="text-truncate"
+                                v-text="event.location"
                             />
                         </div>
-                        <div class='text-muted small d-flex align-items-center'>
+                        <div class="text-muted small d-flex align-items-center">
                             <IconClock
-                                :size='14'
-                                stroke='1.5'
-                                class='me-1 flex-shrink-0'
+                                :size="14"
+                                stroke="1.5"
+                                class="me-1 flex-shrink-0"
                             />
                             {{ new Date(event.created).toLocaleString() }}
                         </div>
-                        <div class='text-muted small text-truncate'>
+                        <div class="text-muted small text-truncate">
                             {{ creator }}
-                            <template v-if='event.ended'>
+                            <template v-if="event.ended">
                                 &middot; Ended {{ new Date(event.ended).toLocaleString() }}
                             </template>
                         </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <slot name='actions' />
+            <slot name="actions" />
         </div>
     </StandardItem>
 </template>

@@ -1,58 +1,58 @@
 <template>
-    <div class='conn-root'>
-        <div class='conn-toolbar'>
+    <div class="conn-root">
+        <div class="conn-toolbar">
             <Link2
-                :size='14'
-                class='conn-icon'
+                :size="14"
+                class="conn-icon"
             />
-            <span class='conn-title'>Connections</span>
-            <div class='conn-input-wrap'>
+            <span class="conn-title">Connections</span>
+            <div class="conn-input-wrap">
                 <Search
-                    :size='12'
-                    class='conn-search-icon'
+                    :size="12"
+                    class="conn-search-icon"
                 />
                 <input
-                    v-model='filter'
-                    class='conn-search'
-                    placeholder='filter by name, IP, account…'
+                    v-model="filter"
+                    class="conn-search"
+                    placeholder="filter by name, IP, account…"
                 >
             </div>
-            <div class='conn-spacer' />
-            <span class='conn-count'>{{ filtered.length }} / {{ connections.length }}</span>
+            <div class="conn-spacer" />
+            <span class="conn-count">{{ filtered.length }} / {{ connections.length }}</span>
             <button
-                class='conn-btn'
-                :disabled='loading'
-                @click='refresh'
+                class="conn-btn"
+                :disabled="loading"
+                @click="refresh"
             >
                 <RefreshCw
-                    :size='12'
-                    :class='{ spin: loading }'
+                    :size="12"
+                    :class="{ spin: loading }"
                 />
             </button>
         </div>
 
         <div
-            v-if='error'
-            class='conn-error'
+            v-if="error"
+            class="conn-error"
         >
-            <AlertCircle :size='13' /> {{ error }}
+            <AlertCircle :size="13" /> {{ error }}
         </div>
 
         <div
-            v-if='!nc'
-            class='conn-empty'
+            v-if="!nc"
+            class="conn-empty"
         >
             <Link2
-                :size='28'
-                style='opacity:0.3'
+                :size="28"
+                style="opacity:0.3"
             /><p>Not connected to NATS.</p>
         </div>
 
         <div
             v-else
-            class='conn-table-wrap'
+            class="conn-table-wrap"
         >
-            <table class='conn-table'>
+            <table class="conn-table">
                 <thead>
                     <tr>
                         <th />
@@ -83,75 +83,75 @@
                 </thead>
                 <tbody>
                     <template
-                        v-for='conn in filtered'
-                        :key='conn.cid'
+                        v-for="conn in filtered"
+                        :key="conn.cid"
                     >
                         <tr
-                            class='conn-row'
-                            :class='{ expanded: expandedCid === conn.cid }'
-                            @click='toggleExpand(conn.cid)'
+                            class="conn-row"
+                            :class="{ expanded: expandedCid === conn.cid }"
+                            @click="toggleExpand(conn.cid)"
                         >
-                            <td class='conn-expand-cell'>
+                            <td class="conn-expand-cell">
                                 <ChevronRight
-                                    :size='11'
-                                    :class='{ rotated: expandedCid === conn.cid }'
+                                    :size="11"
+                                    :class="{ rotated: expandedCid === conn.cid }"
                                 />
                             </td>
-                            <td class='mono'>
+                            <td class="mono">
                                 {{ conn.name || `cid:${conn.cid}` }}
                             </td>
-                            <td class='mono muted'>
+                            <td class="mono muted">
                                 {{ conn.ip }}:{{ conn.port }}
                             </td>
-                            <td class='muted'>
+                            <td class="muted">
                                 {{ conn.account }}
                             </td>
-                            <td class='mono'>
+                            <td class="mono">
                                 {{ conn.subscriptions }}
                             </td>
-                            <td class='mono'>
+                            <td class="mono">
                                 {{ formatNum(conn.msgsIn) }}
                             </td>
-                            <td class='mono'>
+                            <td class="mono">
                                 {{ formatNum(conn.msgsOut) }}
                             </td>
-                            <td class='mono'>
+                            <td class="mono">
                                 {{ formatBytes(conn.bytesIn + conn.bytesOut) }}
                             </td>
-                            <td><span class='conn-badge'>{{ conn.lang }}</span></td>
-                            <td class='mono muted'>
+                            <td><span class="conn-badge">{{ conn.lang }}</span></td>
+                            <td class="mono muted">
                                 {{ conn.rtt ?? '—' }}
                             </td>
                         </tr>
                         <tr
-                            v-if='expandedCid === conn.cid'
-                            class='conn-detail-row'
+                            v-if="expandedCid === conn.cid"
+                            class="conn-detail-row"
                         >
-                            <td colspan='10'>
-                                <div class='conn-detail'>
-                                    <div class='conn-detail-meta'>
+                            <td colspan="10">
+                                <div class="conn-detail">
+                                    <div class="conn-detail-meta">
                                         <span>version: <b>{{ conn.version }}</b></span>
                                         <span>uptime: <b>{{ conn.uptime ?? '—' }}</b></span>
                                         <span>subscriptions: <b>{{ conn.subscriptions }}</b></span>
                                     </div>
                                     <div
-                                        v-if='conn.subs?.length'
-                                        class='conn-subs'
+                                        v-if="conn.subs?.length"
+                                        class="conn-subs"
                                     >
-                                        <span class='conn-subs-label'>Subscriptions:</span>
+                                        <span class="conn-subs-label">Subscriptions:</span>
                                         <code
-                                            v-for='s in conn.subs'
-                                            :key='s'
+                                            v-for="s in conn.subs"
+                                            :key="s"
                                         >{{ s }}</code>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                     </template>
-                    <tr v-if='!filtered.length && !loading'>
+                    <tr v-if="!filtered.length && !loading">
                         <td
-                            colspan='10'
-                            class='conn-empty-row'
+                            colspan="10"
+                            class="conn-empty-row"
                         >
                             No connections match filter.
                         </td>

@@ -1,174 +1,174 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Links'
+            v-model="expanded"
+            label="Links"
         >
             <template #icon>
                 <IconLink
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <TablerIconButton
-                    v-if='props.edit'
-                    title='Add Link'
-                    class='me-2'
-                    @click.stop='addLink'
+                    v-if="props.edit"
+                    title="Add Link"
+                    class="me-2"
+                    @click.stop="addLink"
                 >
                     <IconPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerBadge
-                    class='me-2'
-                    background-color='rgba(59, 130, 246, 0.15)'
-                    border-color='rgba(59, 130, 246, 0.4)'
-                    text-color='#3b82f6'
+                    class="me-2"
+                    background-color="rgba(59, 130, 246, 0.15)"
+                    border-color="rgba(59, 130, 246, 0.4)"
+                    text-color="#3b82f6"
                 >
                     {{ props.modelValue.length }}
                 </TablerBadge>
             </template>
 
-            <div class='overflow-hidden mb-2'>
-                <div class='rounded mx-2 mt-2 px-2 py-2'>
+            <div class="overflow-hidden mb-2">
+                <div class="rounded mx-2 mt-2 px-2 py-2">
                     <TablerNone
-                        v-if='!props.modelValue.length && !creating'
-                        label='No Links'
-                        :compact='true'
-                        :create='false'
+                        v-if="!props.modelValue.length && !creating"
+                        label="No Links"
+                        :compact="true"
+                        :create="false"
                     />
 
                     <div
-                        v-for='(link, index) of props.modelValue'
-                        :key='index'
-                        class='rounded mb-2 px-2 py-2'
+                        v-for="(link, index) of props.modelValue"
+                        :key="index"
+                        class="rounded mb-2 px-2 py-2"
                         :class='{ "cloudtak-hover-fill": editing !== index }'
                     >
-                        <template v-if='editing === index'>
-                            <div class='d-flex align-items-center mb-2'>
-                                <div class='subheader user-select-none'>
+                        <template v-if="editing === index">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="subheader user-select-none">
                                     Link
                                 </div>
-                                <div class='ms-auto d-flex align-items-center flex-nowrap'>
+                                <div class="ms-auto d-flex align-items-center flex-nowrap">
                                     <TablerIconButton
-                                        title='Save Link'
-                                        @click='saveLink(index)'
+                                        title="Save Link"
+                                        @click="saveLink(index)"
                                     >
                                         <IconCheck
-                                            :size='18'
-                                            stroke='1'
+                                            :size="18"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                     <TablerIconButton
-                                        title='Remove Link'
-                                        @click='removeLink(index)'
+                                        title="Remove Link"
+                                        @click="removeLink(index)"
                                     >
                                         <IconTrash
-                                            :size='18'
-                                            stroke='1'
+                                            :size="18"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                 </div>
                             </div>
 
                             <TablerInput
-                                v-model='draft.name'
-                                label='Name'
-                                placeholder='Incident Report'
-                                class='pb-2'
+                                v-model="draft.name"
+                                label="Name"
+                                placeholder="Incident Report"
+                                class="pb-2"
                             />
 
                             <TablerInput
-                                v-model='draft.url'
-                                label='URL'
-                                placeholder='https://example.com'
+                                v-model="draft.url"
+                                label="URL"
+                                placeholder="https://example.com"
                             />
                         </template>
 
                         <div
                             v-else
-                            class='d-flex align-items-center'
+                            class="d-flex align-items-center"
                         >
                             <a
-                                v-if='link.url'
-                                :href='link.url'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                class='d-flex align-items-center text-reset text-decoration-none flex-fill overflow-hidden'
+                                v-if="link.url"
+                                :href="link.url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="d-flex align-items-center text-reset text-decoration-none flex-fill overflow-hidden"
                             >
                                 <IconExternalLink
-                                    :size='18'
-                                    stroke='1'
-                                    class='me-2 flex-shrink-0'
+                                    :size="18"
+                                    stroke="1"
+                                    class="me-2 flex-shrink-0"
                                 />
-                                <span class='text-truncate'>{{ link.name || link.url }}</span>
+                                <span class="text-truncate">{{ link.name || link.url }}</span>
                             </a>
                             <div
                                 v-else
-                                class='text-muted flex-fill'
+                                class="text-muted flex-fill"
                             >
                                 {{ link.name || 'Untitled Link' }}
                             </div>
 
                             <TablerIconButton
-                                v-if='props.edit'
-                                title='Edit Link'
-                                @click='startEditing(index)'
+                                v-if="props.edit"
+                                title="Edit Link"
+                                @click="startEditing(index)"
                             >
                                 <IconPencil
-                                    :size='18'
-                                    stroke='1'
+                                    :size="18"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
                     </div>
 
                     <div
-                        v-if='creating'
-                        class='rounded mb-2 px-2 py-2'
+                        v-if="creating"
+                        class="rounded mb-2 px-2 py-2"
                     >
-                        <div class='d-flex align-items-center mb-2'>
-                            <div class='subheader user-select-none'>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="subheader user-select-none">
                                 Link
                             </div>
-                            <div class='ms-auto d-flex align-items-center flex-nowrap'>
+                            <div class="ms-auto d-flex align-items-center flex-nowrap">
                                 <TablerIconButton
-                                    title='Save Link'
-                                    @click='saveNewLink'
+                                    title="Save Link"
+                                    @click="saveNewLink"
                                 >
                                     <IconCheck
-                                        :size='18'
-                                        stroke='1'
+                                        :size="18"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                                 <TablerIconButton
-                                    title='Discard Link'
-                                    @click='cancelNewLink'
+                                    title="Discard Link"
+                                    @click="cancelNewLink"
                                 >
                                     <IconTrash
-                                        :size='18'
-                                        stroke='1'
+                                        :size="18"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
 
                         <TablerInput
-                            v-model='draft.name'
-                            label='Name'
-                            placeholder='Incident Report'
-                            class='pb-2'
+                            v-model="draft.name"
+                            label="Name"
+                            placeholder="Incident Report"
+                            class="pb-2"
                         />
 
                         <TablerInput
-                            v-model='draft.url'
-                            label='URL'
-                            placeholder='https://example.com'
+                            v-model="draft.url"
+                            label="URL"
+                            placeholder="https://example.com"
                         />
                     </div>
                 </div>

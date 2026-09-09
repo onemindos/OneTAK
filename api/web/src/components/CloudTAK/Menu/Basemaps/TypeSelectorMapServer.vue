@@ -1,30 +1,30 @@
 <template>
-    <div class='row row-cards'>
-        <template v-if='showImportPrompt'>
+    <div class="row row-cards">
+        <template v-if="showImportPrompt">
             <TypeSelectorSelected
-                type='mapserver'
+                type="mapserver"
                 @change-type='emit("change-type")'
             />
 
-            <div class='col-md-12 mt-3'>
+            <div class="col-md-12 mt-3">
                 <TablerInput
-                    :model-value='props.url'
-                    :label='config.urlLabel'
-                    :placeholder='config.urlPlaceholder'
+                    :model-value="props.url"
+                    :label="config.urlLabel"
+                    :placeholder="config.urlPlaceholder"
                     @update:model-value='emit("update:url", $event)'
                 />
             </div>
-            <div class='col-md-12 mt-3'>
-                <div class='d-flex'>
+            <div class="col-md-12 mt-3">
+                <div class="d-flex">
                     <button
-                        class='cursor-pointer btn btn-secondary'
+                        class="cursor-pointer btn btn-secondary"
                         @click='emit("change-type")'
                     >
                         Cancel
                     </button>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <a
-                            class='cursor-pointer btn btn-primary'
+                            class="cursor-pointer btn btn-primary"
                             @click='emit("fetch")'
                         >Fetch Metadata</a>
                     </div>
@@ -33,26 +33,26 @@
         </template>
         <template v-else>
             <TypeSelectorBase
-                v-bind='props'
-                v-model:editing='editing'
-                type='mapserver'
+                v-bind="props"
+                v-model:editing="editing"
+                type="mapserver"
                 @change-type='emit("change-type")'
                 @update:scope='emit("update:scope", $event)'
                 @update:warn-sharing='emit("update:warnSharing", $event)'
             >
                 <template #advanced>
-                    <div class='col-md-6'>
+                    <div class="col-md-6">
                         <TablerInput
-                            v-model='editing.minzoom'
+                            v-model="editing.minzoom"
                             required
-                            label='MinZoom'
+                            label="MinZoom"
                         />
                     </div>
-                    <div class='col-md-6'>
+                    <div class="col-md-6">
                         <TablerInput
-                            v-model='editing.maxzoom'
+                            v-model="editing.maxzoom"
                             required
-                            label='MaxZoom'
+                            label="MaxZoom"
                         />
                     </div>
                 </template>

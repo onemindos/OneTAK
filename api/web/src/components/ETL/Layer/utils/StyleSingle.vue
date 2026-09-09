@@ -1,635 +1,635 @@
 <template>
-    <div class='row g-2'>
-        <div class='col-12'>
-            <span class='text-muted subheader'>Global Defaults</span>
+    <div class="row g-2">
+        <div class="col-12">
+            <span class="text-muted subheader">Global Defaults</span>
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconLicense
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global ID
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.id'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.id"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.id'
-                v-model='filters.id'
-                placeholder='Global ID Field'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.id"
+                v-model="filters.id"
+                placeholder="Global ID Field"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Callsign
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.callsign'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.callsign"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.callsign'
-                v-model='filters.callsign'
-                placeholder='Global Callsign Field'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.callsign"
+                v-model="filters.callsign"
+                placeholder="Global Callsign Field"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconClock
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Stale
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.stale'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.stale"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.stale'
-                v-model='filters.stale'
-                placeholder='Stale Value (Seconds or ISO Date)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.stale"
+                v-model="filters.stale"
+                placeholder="Stale Value (Seconds or ISO Date)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
             <label
                 v-if='enabled.stale && typeof filters.stale === "number"'
-                class='text-muted small'
-                v-text='humanSeconds(filters.stale)'
+                class="text-muted small"
+                v-text="humanSeconds(filters.stale)"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconEye
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Min Zoom
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.minzoom'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.minzoom"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.minzoom'
-                v-model='filters.minzoom'
-                placeholder='Min Zoom (0-24)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.minzoom"
+                v-model="filters.minzoom"
+                placeholder="Min Zoom (0-24)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconEye
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Max Zoom
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.maxzoom'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.maxzoom"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.maxzoom'
-                v-model='filters.maxzoom'
-                placeholder='Max Zoom (0-24)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.maxzoom"
+                v-model="filters.maxzoom"
+                placeholder="Max Zoom (0-24)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Remarks
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.remarks'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.remarks"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.remarks'
-                v-model='filters.remarks'
-                rows=''
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.remarks"
+                v-model="filters.remarks"
+                rows=""
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Phone
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.phone'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.phone"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='enabled.phone'
-                v-model='filters.phone'
-                placeholder='Global Phone Field'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.phone"
+                v-model="filters.phone"
+                placeholder="Global Phone Field"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconLink
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Links
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.links'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="enabled.links"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <StyleLinks
-                v-if='enabled.links'
-                v-model='filters.links'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="enabled.links"
+                v-model="filters.links"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconServer
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Global Marti
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='enabled.marti'
-                        :disabled='disabled || props.disableMarti'
-                        label='Enabled'
+                        v-model="enabled.marti"
+                        :disabled="disabled || props.disableMarti"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <TablerInlineAlert
-                v-if='props.disableMarti'
-                type='info'
-                class='mt-2'
-                description='Marti routing is unavailable when a Data Sync destination is configured. Use Groups routing via Styles to set routing destinations.'
+                v-if="props.disableMarti"
+                type="info"
+                class="mt-2"
+                description="Marti routing is unavailable when a Data Sync destination is configured. Use Groups routing via Styles to set routing destinations."
             />
             <StyleMarti
-                v-else-if='enabled.marti'
-                v-model='filters.marti'
-                :disabled='disabled'
-                :connection='props.connection'
+                v-else-if="enabled.marti"
+                v-model="filters.marti"
+                :disabled="disabled"
+                :connection="props.connection"
             />
         </div>
 
-        <div class='col-12 mt-2'>
-            <span class='text-muted subheader'>Geometry Overrides</span>
+        <div class="col-12 mt-2">
+            <span class="text-muted subheader">Geometry Overrides</span>
         </div>
 
-        <div class='col-12 d-flex justify-content-center'>
+        <div class="col-12 d-flex justify-content-center">
             <TablerPillGroup
-                v-model='mode'
+                v-model="mode"
                 :options='[
                     { value: "point", label: "Points" },
                     { value: "line", label: "Lines" },
                     { value: "polygon", label: "Polygons" }
                 ]'
-                :rounded='false'
-                :full-width='false'
-                size='default'
-                padding=''
-                name='geom-toolbar'
+                :rounded="false"
+                :full-width="false"
+                size="default"
+                padding=""
+                name="geom-toolbar"
             >
-                <template #option='{ option }'>
+                <template #option="{ option }">
                     <IconPoint
                         v-if='option.value === "point"'
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                     <IconLine
                         v-if='option.value === "line"'
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                     <IconPolygon
                         v-if='option.value === "polygon"'
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                     {{ option.label }}
                 </template>
             </TablerPillGroup>
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconLicense
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> ID Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.id'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.id"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.id'
-                v-model='filters[mode].properties.id'
-                placeholder='ID Override'
-                rows=''
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.id"
+                v-model="filters[mode].properties.id"
+                placeholder="ID Override"
+                rows=""
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Callsign Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.callsign'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.callsign"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.callsign'
-                v-model='filters[mode].properties.callsign'
-                placeholder='Callsign Override'
-                rows=''
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.callsign"
+                v-model="filters[mode].properties.callsign"
+                placeholder="Callsign Override"
+                rows=""
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconClock
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Stale Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.stale'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.stale"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.stale'
-                v-model='filters[mode].properties.stale'
-                placeholder='Stale Value (Seconds or ISO Date)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.stale"
+                v-model="filters[mode].properties.stale"
+                placeholder="Stale Value (Seconds or ISO Date)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
             <label
                 v-if='filters[mode].enabled.stale && typeof filters[mode].properties.stale === "number"'
-                class='text-muted small'
-                v-text='humanSeconds(Number(filters[mode].properties.stale))'
+                class="text-muted small"
+                v-text="humanSeconds(Number(filters[mode].properties.stale))"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconEye
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Min Zoom Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.minzoom'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.minzoom"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.minzoom'
-                v-model='filters[mode].properties.minzoom'
-                placeholder='Min Zoom (0-24)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.minzoom"
+                v-model="filters[mode].properties.minzoom"
+                placeholder="Min Zoom (0-24)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconEye
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Max Zoom Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.maxzoom'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.maxzoom"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.maxzoom'
-                v-model='filters[mode].properties.maxzoom'
-                placeholder='Max Zoom (0-24)'
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.maxzoom"
+                v-model="filters[mode].properties.maxzoom"
+                placeholder="Max Zoom (0-24)"
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Remarks Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.remarks'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.remarks"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.remarks'
-                v-model='filters[mode].properties.remarks'
-                placeholder='Remarks Override'
-                rows=''
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.remarks"
+                v-model="filters[mode].properties.remarks"
+                placeholder="Remarks Override"
+                rows=""
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconBlockquote
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Phone Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.phone'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.phone"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <HandleForm
-                v-if='filters[mode].enabled.phone'
-                v-model='filters[mode].properties.phone'
-                placeholder='Phone Override'
-                rows=''
-                :disabled='disabled'
-                :schema='props.schema'
+                v-if="filters[mode].enabled.phone"
+                v-model="filters[mode].properties.phone"
+                placeholder="Phone Override"
+                rows=""
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
-        <div class='col-12 style-item px-2 py-2'>
-            <div class='d-flex align-items-center'>
-                <label class='user-select-none subheader'>
+        <div class="col-12 style-item px-2 py-2">
+            <div class="d-flex align-items-center">
+                <label class="user-select-none subheader">
                     <IconLink
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     /> Links Override
                 </label>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerToggle
-                        v-model='filters[mode].enabled.links'
-                        :disabled='disabled'
-                        label='Enabled'
+                        v-model="filters[mode].enabled.links"
+                        :disabled="disabled"
+                        label="Enabled"
                     />
                 </div>
             </div>
             <StyleLinks
-                v-if='filters[mode].enabled.links'
-                v-model='filters[mode].properties.links'
+                v-if="filters[mode].enabled.links"
+                v-model="filters[mode].properties.links"
                 :label='""'
-                :disabled='disabled'
-                :schema='props.schema'
+                :disabled="disabled"
+                :schema="props.schema"
             />
         </div>
 
         <template v-if='mode === "point"'>
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconCategory
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Point Type
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
-                            v-model='filters[mode].enabled.type'
-                            :disabled='disabled'
-                            label='Enabled'
+                            v-model="filters[mode].enabled.type"
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <HandleForm
-                    v-if='filters[mode].enabled.type'
-                    v-model='filters[mode].properties.type'
-                    placeholder='Type Override (a-f-G)'
-                    :disabled='disabled'
-                    :schema='props.schema'
+                    v-if="filters[mode].enabled.type"
+                    v-model="filters[mode].properties.type"
+                    placeholder="Type Override (a-f-G)"
+                    :disabled="disabled"
+                    :schema="props.schema"
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconPhoto
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Point Icon
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
-                            v-model='filters[mode].enabled.icon'
-                            :disabled='disabled'
-                            label='Enabled'
+                            v-model="filters[mode].enabled.icon"
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <IconSelect
-                    v-if='filters[mode].enabled.icon'
-                    v-model='filters[mode].properties.icon!'
-                    label=''
-                    :disabled='disabled || !filters[mode].enabled.icon'
+                    v-if="filters[mode].enabled.icon"
+                    v-model="filters[mode].properties.icon!"
+                    label=""
+                    :disabled="disabled || !filters[mode].enabled.icon"
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconPaint
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Point Color
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["marker-color"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerInput
                     v-if='filters[mode].enabled["marker-color"]'
                     v-model='filters[mode].properties["marker-color"]'
-                    type='color'
+                    type="color"
                     :disabled='disabled || !filters[mode].enabled["marker-color"]'
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconGhost
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Point Opacity
                     </label>
                     <span
                         v-if='filters[mode].enabled["marker-opacity"]'
-                        class='mx-2 text-muted small'
+                        class="mx-2 text-muted small"
                         v-text='`(${Math.round((filters[mode].properties["marker-opacity"] ?? 0) * 100)}%)`'
                     />
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["marker-opacity"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerRange
                     v-if='filters[mode].enabled["marker-opacity"]'
                     v-model='filters[mode].properties["marker-opacity"]'
-                    :disabled='disabled'
-                    :min='0'
-                    :max='1'
-                    :step='0.01'
+                    :disabled="disabled"
+                    :min="0"
+                    :max="1"
+                    :step="0.01"
                 />
             </div>
         </template>
 
         <template v-else>
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconPaint
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Line Color
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
-                            v-model='filters[mode].enabled.stroke'
-                            :disabled='disabled'
-                            label='Enabled'
+                            v-model="filters[mode].enabled.stroke"
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerInput
-                    v-if='filters[mode].enabled.stroke'
-                    v-model='filters[mode].properties.stroke'
-                    type='color'
-                    :disabled='disabled || !filters[mode].enabled.stroke'
+                    v-if="filters[mode].enabled.stroke"
+                    v-model="filters[mode].properties.stroke"
+                    type="color"
+                    :disabled="disabled || !filters[mode].enabled.stroke"
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconBorderStyle2
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Line Style
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["stroke-style"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
@@ -641,19 +641,19 @@
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconRuler2
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Line Width
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["stroke-width"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
@@ -661,30 +661,30 @@
                     v-if='filters[mode].enabled["stroke-width"]'
                     v-model='filters[mode].properties["stroke-width"]'
                     :disabled='disabled || !filters[mode].enabled["stroke-width"]'
-                    :min='1'
-                    :max='6'
-                    :step='1'
+                    :min="1"
+                    :max="6"
+                    :step="1"
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconGhost
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Line Opacity
                     </label>
                     <span
                         v-if='filters[mode].enabled["stroke-opacity"]'
-                        class='mx-2 text-muted small'
+                        class="mx-2 text-muted small"
                         v-text='`(${Math.round((filters[mode].properties["stroke-opacity"] ?? 0) * 100)}%)`'
                     />
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["stroke-opacity"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
@@ -692,92 +692,92 @@
                     v-if='filters[mode].enabled["stroke-opacity"]'
                     v-model='filters[mode].properties["stroke-opacity"]'
                     :disabled='disabled || !filters[mode].enabled["stroke-opacity"]'
-                    :min='0'
-                    :max='1'
-                    :step='0.01'
+                    :min="0"
+                    :max="1"
+                    :step="0.01"
                 />
             </div>
         </template>
 
         <template v-if='mode === "line"'>
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconRoute
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Line Type
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
-                            v-model='filters[mode].enabled.type'
-                            :disabled='disabled'
-                            label='Enabled'
+                            v-model="filters[mode].enabled.type"
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerEnum
-                    v-if='filters[mode].enabled.type'
-                    v-model='lineType'
-                    :disabled='disabled || !filters[mode].enabled.type'
-                    :options='Object.keys(lineTypes)'
+                    v-if="filters[mode].enabled.type"
+                    v-model="lineType"
+                    :disabled="disabled || !filters[mode].enabled.type"
+                    :options="Object.keys(lineTypes)"
                 />
             </div>
         </template>
 
         <template v-if='mode === "polygon"'>
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconPaint
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Fill Color
                     </label>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
-                            v-model='filters[mode].enabled.fill'
-                            :disabled='disabled'
-                            label='Enabled'
+                            v-model="filters[mode].enabled.fill"
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerInput
-                    v-if='filters[mode].enabled.fill'
-                    v-model='filters[mode].properties.fill'
-                    type='color'
-                    :disabled='disabled || !filters[mode].enabled.fill'
+                    v-if="filters[mode].enabled.fill"
+                    v-model="filters[mode].properties.fill"
+                    type="color"
+                    :disabled="disabled || !filters[mode].enabled.fill"
                 />
             </div>
 
-            <div class='col-12 style-item px-2 py-2'>
-                <div class='d-flex align-items-center'>
-                    <label class='user-select-none subheader'>
+            <div class="col-12 style-item px-2 py-2">
+                <div class="d-flex align-items-center">
+                    <label class="user-select-none subheader">
                         <IconGhost
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         /> Fill Opacity
                     </label>
                     <span
                         v-if='filters[mode].enabled["fill-opacity"]'
-                        class='mx-2 text-muted small'
+                        class="mx-2 text-muted small"
                         v-text='`(${Math.round((filters[mode].properties["fill-opacity"] ?? 0) * 100)}%)`'
                     />
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerToggle
                             v-model='filters[mode].enabled["fill-opacity"]'
-                            :disabled='disabled'
-                            label='Enabled'
+                            :disabled="disabled"
+                            label="Enabled"
                         />
                     </div>
                 </div>
                 <TablerRange
                     v-if='filters[mode].enabled["fill-opacity"]'
                     v-model='filters[mode].properties["fill-opacity"]'
-                    :disabled='disabled'
-                    :min='0'
-                    :max='1'
-                    :step='0.01'
+                    :disabled="disabled"
+                    :min="0"
+                    :max="1"
+                    :step="0.01"
                 />
             </div>
         </template>

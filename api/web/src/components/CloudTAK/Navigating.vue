@@ -1,27 +1,27 @@
 <template>
     <div
-        class='cloudtak-navigating cloudtak-panel user-select-none'
+        class="cloudtak-navigating cloudtak-panel user-select-none"
     >
-        <div class='d-flex align-items-center px-3 py-2 gap-2'>
+        <div class="d-flex align-items-center px-3 py-2 gap-2">
             <IconRoute
-                :size='28'
-                stroke='1.5'
-                class='flex-shrink-0'
+                :size="28"
+                stroke="1.5"
+                class="flex-shrink-0"
             />
 
             <div
-                class='flex-grow-1'
-                style='min-width: 0;'
+                class="flex-grow-1"
+                style="min-width: 0;"
             >
-                <div class='d-flex align-items-center gap-2'>
+                <div class="d-flex align-items-center gap-2">
                     <span
-                        class='fw-bold text-truncate'
+                        class="fw-bold text-truncate"
                         v-text='mapStore.navigation.callsign || "Route"'
                     />
                 </div>
-                <div class='small text-secondary'>
-                    <template v-if='state'>
-                        <span v-text='`${remainingDisplay} to destination`' />
+                <div class="small text-secondary">
+                    <template v-if="state">
+                        <span v-text="`${remainingDisplay} to destination`" />
                     </template>
                     <template v-else>
                         Acquiring location…
@@ -30,62 +30,62 @@
             </div>
 
             <div
-                class='d-flex flex-column align-items-end px-2'
-                style='min-width: 70px;'
+                class="d-flex flex-column align-items-end px-2"
+                style="min-width: 70px;"
             >
                 <span
-                    class='fw-bold'
-                    style='font-size: 1.1rem; line-height: 1.1;'
-                    v-text='speedDisplay'
+                    class="fw-bold"
+                    style="font-size: 1.1rem; line-height: 1.1;"
+                    v-text="speedDisplay"
                 />
                 <span
-                    class='text-secondary'
-                    style='font-size: 0.7rem;'
-                    v-text='speedUnitLabel'
+                    class="text-secondary"
+                    style="font-size: 0.7rem;"
+                    v-text="speedUnitLabel"
                 />
             </div>
 
             <div
-                class='d-none d-sm-flex flex-column align-items-end px-2'
-                style='min-width: 70px;'
+                class="d-none d-sm-flex flex-column align-items-end px-2"
+                style="min-width: 70px;"
             >
                 <span
-                    class='fw-bold'
-                    style='font-size: 1.1rem; line-height: 1.1;'
-                    v-text='etaDisplay'
+                    class="fw-bold"
+                    style="font-size: 1.1rem; line-height: 1.1;"
+                    v-text="etaDisplay"
                 />
                 <span
-                    class='text-secondary'
-                    style='font-size: 0.7rem;'
+                    class="text-secondary"
+                    style="font-size: 0.7rem;"
                 >ETA</span>
             </div>
 
-            <div class='d-flex align-items-center gap-1 flex-shrink-0'>
+            <div class="d-flex align-items-center gap-1 flex-shrink-0">
                 <TablerIconButton
-                    title='Zoom to Route'
-                    @click='zoomToRoute'
+                    title="Zoom to Route"
+                    @click="zoomToRoute"
                 >
                     <IconZoomPan
-                        :size='24'
-                        stroke='1.5'
+                        :size="24"
+                        stroke="1.5"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Reverse Direction'
-                    @click='mapStore.reverseNavigation()'
+                    title="Reverse Direction"
+                    @click="mapStore.reverseNavigation()"
                 >
                     <IconArrowsExchange
-                        :size='24'
-                        stroke='1.5'
+                        :size="24"
+                        stroke="1.5"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='End Navigation'
-                    @click='mapStore.stopNavigation()'
+                    title="End Navigation"
+                    @click="mapStore.stopNavigation()"
                 >
                     <IconX
-                        :size='24'
-                        stroke='1.5'
+                        :size="24"
+                        stroke="1.5"
                     />
                 </TablerIconButton>
             </div>

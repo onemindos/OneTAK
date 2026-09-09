@@ -1,35 +1,35 @@
 <template>
-    <div class='card-header px-1 pb-1 pt-2'>
+    <div class="card-header px-1 pb-1 pt-2">
         Style Editor
-        <div class='ms-auto btn-list'>
+        <div class="ms-auto btn-list">
             <template v-if='mode === "visual"'>
                 <TablerIconButton
-                    title='New Layer'
-                    @click='newLayer'
+                    title="New Layer"
+                    @click="newLayer"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Code View'
+                    title="Code View"
                     @click='mode = "code"'
                 >
                     <IconCode
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </template>
             <TablerIconButton
                 v-if='mode === "code"'
-                title='Visual View'
+                title="Visual View"
                 @click='mode = "visual"'
             >
                 <IconEye
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </div>
@@ -37,125 +37,125 @@
 
     <template v-if='mode === "code"'>
         <ObjectInput
-            v-model='styles'
-            placeholder='GL JS Style JSON'
-            :rows='30'
+            v-model="styles"
+            placeholder="GL JS Style JSON"
+            :rows="30"
         />
     </template>
     <template v-else>
         <TablerNone
-            v-if='!styles.length'
-            :create='false'
+            v-if="!styles.length"
+            :create="false"
         />
         <div
-            v-for='(l, l_it) of styles'
+            v-for="(l, l_it) of styles"
             v-else
-            :key='l.id'
+            :key="l.id"
         >
             <div
-                class='cloudtak-hover cursor-pointer'
-                @click='open.has(l.id) ? open.delete(l.id) : open.add(l.id)'
+                class="cloudtak-hover cursor-pointer"
+                @click="open.has(l.id) ? open.delete(l.id) : open.add(l.id)"
             >
-                <div class='px-3 py-2 d-flex align-items-center'>
+                <div class="px-3 py-2 d-flex align-items-center">
                     <IconPaint
                         v-if='l.type === "fill"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconLine
                         v-else-if='l.type === "line"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconAbc
                         v-else-if='l.type === "symbol"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconCircle
                         v-else-if='l.type === "circle"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconFlame
                         v-else-if='l.type === "heatmap"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconCube
                         v-else-if='l.type === "fill-extrusion"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconPhoto
                         v-else-if='l.type === "raster"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconMountain
                         v-else-if='l.type === "hillshade"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconBackground
                         v-else-if='l.type === "background"'
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                     <IconQuestionMark
                         v-else
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
 
                     <span
-                        class='user-select-none mx-2'
-                        v-text='l.id || l.name'
+                        class="user-select-none mx-2"
+                        v-text="l.id || l.name"
                     />
 
                     <div
-                        v-if='open.has(l.id)'
-                        class='ms-auto btn-list'
+                        v-if="open.has(l.id)"
+                        class="ms-auto btn-list"
                         @click.stop.prevent
                     >
                         <TablerIconButton
-                            v-if='!code.has(l.id)'
-                            title='Code View'
-                            @click='code.add(l.id)'
+                            v-if="!code.has(l.id)"
+                            title="Code View"
+                            @click="code.add(l.id)"
                         >
                             <IconCode
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                         <TablerIconButton
                             v-else
-                            title='Visual View'
-                            @click='code.delete(l.id)'
+                            title="Visual View"
+                            @click="code.delete(l.id)"
                         >
                             <IconEye
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
 
                         <TablerDelete
-                            title='Remove Layer'
-                            displaytype='icon'
-                            @delete='removeLayer(l, l_it)'
+                            title="Remove Layer"
+                            displaytype="icon"
+                            @delete="removeLayer(l, l_it)"
                         />
                     </div>
                 </div>
             </div>
-            <div v-if='open.has(l.id)'>
-                <template v-if='code.has(l.id)'>
-                    <ObjectInput v-model='styles[l_it]' />
+            <div v-if="open.has(l.id)">
+                <template v-if="code.has(l.id)">
+                    <ObjectInput v-model="styles[l_it]" />
                 </template>
                 <StyleLayer
                     v-else
-                    :layer='l'
-                    :advanced='advanced'
-                    :update-map='false'
+                    :layer="l"
+                    :advanced="advanced"
+                    :update-map="false"
                 />
             </div>
         </div>

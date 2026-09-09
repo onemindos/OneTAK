@@ -1,72 +1,72 @@
 <template>
-    <StandardItem class='px-3 py-2'>
+    <StandardItem class="px-3 py-2">
         <TablerSlidedown
-            :click-anywhere-expand='true'
-            :click-anywhere-collapse='true'
-            :arrow='false'
-            :border='false'
+            :click-anywhere-expand="true"
+            :click-anywhere-collapse="true"
+            :arrow="false"
+            :border="false"
         >
             <template #default>
                 <div
-                    class='d-flex align-items-center overflow-hidden'
-                    role='menuitem'
-                    tabindex='0'
+                    class="d-flex align-items-center overflow-hidden"
+                    role="menuitem"
+                    tabindex="0"
                 >
-                    <div class='col-auto'>
+                    <div class="col-auto">
                         <TablerIconButton
-                            class='flex-shrink-0'
-                            :title='overlayButtonTitle(asset)'
-                            :disabled='!canCreateOverlay(asset)'
+                            class="flex-shrink-0"
+                            :title="overlayButtonTitle(asset)"
+                            :disabled="!canCreateOverlay(asset)"
                             @click.stop.prevent='canCreateOverlay(asset) && emit("create-overlay", asset)'
                         >
                             <IconMapPlus
-                                v-if='assetSupportsOverlay(asset)'
-                                :size='32'
-                                stroke='1'
+                                v-if="assetSupportsOverlay(asset)"
+                                :size="32"
+                                stroke="1"
                             />
                             <IconMapOff
                                 v-else
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
-                    <div class='flex-grow-1 min-width-0 overflow-hidden'>
+                    <div class="flex-grow-1 min-width-0 overflow-hidden">
                         <div
-                            class='col-12 px-2 user-select-none overflow-hidden'
+                            class="col-12 px-2 user-select-none overflow-hidden"
                         >
                             <span
-                                class='d-block text-truncate'
-                                :title='asset.name'
-                                v-text='asset.name'
+                                class="d-block text-truncate"
+                                :title="asset.name"
+                                v-text="asset.name"
                             />
                         </div>
-                        <div class='col-12 subheader d-flex align-items-center gap-2 px-2 min-width-0'>
-                            <span class='mx-2 user-select-none'>
-                                <TablerBytes :bytes='asset.size' /> - <TablerEpoch :date='asset.updated' />
+                        <div class="col-12 subheader d-flex align-items-center gap-2 px-2 min-width-0">
+                            <span class="mx-2 user-select-none">
+                                <TablerBytes :bytes="asset.size" /> - <TablerEpoch :date="asset.updated" />
                             </span>
                             <button
-                                v-if='hasSharedChannels(asset) && !isSharedAsset(asset)'
-                                type='button'
-                                class='menu-files-row__shared-badge-btn ms-auto flex-shrink-0 p-0 border-0 bg-transparent'
-                                title='Share to Channel'
+                                v-if="hasSharedChannels(asset) && !isSharedAsset(asset)"
+                                type="button"
+                                class="menu-files-row__shared-badge-btn ms-auto flex-shrink-0 p-0 border-0 bg-transparent"
+                                title="Share to Channel"
                                 @click.stop.prevent='emit("share-channel", asset)'
                             >
                                 <TablerBadge
-                                    class='small menu-files-row__shared-badge'
-                                    background-color='rgba(255, 171, 0, 0.15)'
-                                    border-color='rgba(255, 171, 0, 0.35)'
-                                    text-color='#c98500'
+                                    class="small menu-files-row__shared-badge"
+                                    background-color="rgba(255, 171, 0, 0.15)"
+                                    border-color="rgba(255, 171, 0, 0.35)"
+                                    text-color="#c98500"
                                 >
                                     Shared
                                 </TablerBadge>
                             </button>
                             <TablerBadge
-                                v-else-if='isSharedAsset(asset) || hasSharedChannels(asset)'
-                                class='small ms-auto flex-shrink-0 menu-files-row__shared-badge'
-                                background-color='rgba(255, 171, 0, 0.15)'
-                                border-color='rgba(255, 171, 0, 0.35)'
-                                text-color='#c98500'
+                                v-else-if="isSharedAsset(asset) || hasSharedChannels(asset)"
+                                class="small ms-auto flex-shrink-0 menu-files-row__shared-badge"
+                                background-color="rgba(255, 171, 0, 0.15)"
+                                border-color="rgba(255, 171, 0, 0.35)"
+                                text-color="#c98500"
                                 :title='isSharedAsset(asset) ? "Shared file from another user" : "Shared to channel"'
                             >
                                 Shared
@@ -77,149 +77,149 @@
             </template>
             <template #expanded>
                 <div
-                    v-if='isSharedAsset(asset)'
-                    class='rounded col-12 d-flex align-items-center px-2 py-2 user-select-none text-secondary'
+                    v-if="isSharedAsset(asset)"
+                    class="rounded col-12 d-flex align-items-center px-2 py-2 user-select-none text-secondary"
                 >
                     <IconBroadcast
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <span class='mx-2'>Shared from {{ asset.username }}. Owner-only actions are unavailable.</span>
+                    <span class="mx-2">Shared from {{ asset.username }}. Owner-only actions are unavailable.</span>
                 </div>
 
                 <div
-                    v-if='assetSupportsOverlay(asset)'
+                    v-if="assetSupportsOverlay(asset)"
                     :class='[
                         "rounded col-12 d-flex align-items-center px-2 py-2 user-select-none",
                         canCreateOverlay(asset) ? "cursor-pointer cloudtak-hover" : "opacity-50 pe-none"
                     ]'
-                    role='menuitem'
-                    :tabindex='canCreateOverlay(asset) ? 0 : -1'
-                    :aria-disabled='!canCreateOverlay(asset)'
+                    role="menuitem"
+                    :tabindex="canCreateOverlay(asset) ? 0 : -1"
+                    :aria-disabled="!canCreateOverlay(asset)"
                     @click.stop.prevent='canCreateOverlay(asset) && emit("create-overlay", asset)'
                     @keyup.enter='canCreateOverlay(asset) && emit("create-overlay", asset)'
                 >
                     <IconMapPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <span class='mx-2'>{{ canCreateOverlay(asset) ? "Add to Map as Overlay" : "Overlay already added" }}</span>
+                    <span class="mx-2">{{ canCreateOverlay(asset) ? "Add to Map as Overlay" : "Overlay already added" }}</span>
                 </div>
                 <div
-                    v-else-if='!isSharedAsset(asset)'
-                    role='menuitem'
-                    class='rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
+                    v-else-if="!isSharedAsset(asset)"
+                    role="menuitem"
+                    class="rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
                 >
                     <IconMapOff
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <span class='mx-2'>Cannot Add to Map - Unsupported Format</span>
+                    <span class="mx-2">Cannot Add to Map - Unsupported Format</span>
                 </div>
 
-                <template v-if='!isSharedAsset(asset)'>
+                <template v-if="!isSharedAsset(asset)">
                     <TablerDropdown>
                         <template #default>
                             <div
-                                class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
+                                class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
                             >
                                 <IconDownload
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
-                                <span class='mx-2'>Download</span>
+                                <span class="mx-2">Download</span>
                             </div>
                         </template>
                         <template #dropdown>
                             <div
-                                class='cursor-pointer cloudtak-hover d-flex align-items-center px-3 py-2 user-select-none'
-                                role='menuitem'
-                                tabindex='0'
+                                class="cursor-pointer cloudtak-hover d-flex align-items-center px-3 py-2 user-select-none"
+                                role="menuitem"
+                                tabindex="0"
                                 @click.stop.prevent='emit("download", asset, "original")'
                                 @keyup.enter='emit("download", asset, "original")'
                             >
                                 <IconFile
-                                    :size='24'
-                                    stroke='1'
+                                    :size="24"
+                                    stroke="1"
                                 />
-                                <span class='mx-2'>{{ asset.name }}</span>
+                                <span class="mx-2">{{ asset.name }}</span>
                             </div>
                             <div
-                                v-if='assetSupportsOverlay(asset)'
-                                class='cursor-pointer cloudtak-hover d-flex align-items-center px-3 py-2 user-select-none'
-                                role='menuitem'
-                                tabindex='0'
+                                v-if="assetSupportsOverlay(asset)"
+                                class="cursor-pointer cloudtak-hover d-flex align-items-center px-3 py-2 user-select-none"
+                                role="menuitem"
+                                tabindex="0"
                                 @click.stop.prevent='emit("download", asset, "pmtiles")'
                                 @keyup.enter='emit("download", asset, "pmtiles")'
                             >
                                 <IconMap
-                                    :size='24'
-                                    stroke='1'
+                                    :size="24"
+                                    stroke="1"
                                 />
-                                <span class='mx-2'>{{ pmtilesName(asset) }}</span>
+                                <span class="mx-2">{{ pmtilesName(asset) }}</span>
                             </div>
                         </template>
                     </TablerDropdown>
                     <div
-                        class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                        role='menuitem'
-                        tabindex='0'
+                        class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                        role="menuitem"
+                        tabindex="0"
                         @click.stop.prevent='emit("share-mission", asset)'
                         @keyup.enter='emit("share-mission", asset)'
                     >
                         <IconAmbulance
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Add to Data Sync</span>
+                        <span class="mx-2">Add to Data Sync</span>
                     </div>
                     <div
-                        class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                        role='menuitem'
-                        tabindex='0'
+                        class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                        role="menuitem"
+                        tabindex="0"
                         @click.stop.prevent='emit("share-package", asset)'
                         @keyup.enter='emit("share-package", asset)'
                     >
                         <IconPackage
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Create Data Package</span>
+                        <span class="mx-2">Create Data Package</span>
                     </div>
                     <div
-                        class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                        role='menuitem'
-                        tabindex='0'
+                        class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                        role="menuitem"
+                        tabindex="0"
                         @click.stop.prevent='emit("share-channel", asset)'
                         @keyup.enter='emit("share-channel", asset)'
                     >
                         <IconBroadcast
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Share to Channel</span>
+                        <span class="mx-2">Share to Channel</span>
                     </div>
 
                     <div
-                        class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                        role='menuitem'
-                        tabindex='0'
+                        class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                        role="menuitem"
+                        tabindex="0"
                         @click.stop.prevent='emit("rename", asset)'
                         @keyup.enter='emit("rename", asset)'
                     >
                         <IconCursorText
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Rename File</span>
+                        <span class="mx-2">Rename File</span>
                     </div>
 
-                    <div v-if='rename && rename.id === asset.id'>
+                    <div v-if="rename && rename.id === asset.id">
                         <TablerInput
-                            :model-value='rename.name'
-                            class='m-2'
-                            :placeholder='asset.name'
-                            :autofocus='true'
+                            :model-value="rename.name"
+                            class="m-2"
+                            :placeholder="asset.name"
+                            :autofocus="true"
                             @update:model-value='emit("rename-change", String($event || ""))'
                             @blur='emit("rename-cancel")'
                             @keyup.enter='emit("rename-submit")'
@@ -227,23 +227,23 @@
                     </div>
 
                     <div
-                        class='cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none'
-                        role='menuitem'
-                        tabindex='0'
+                        class="cursor-pointer rounded col-12 cloudtak-hover d-flex align-items-center px-2 py-2 user-select-none"
+                        role="menuitem"
+                        tabindex="0"
                         @click.stop.prevent='emit("move", asset)'
                         @keyup.enter='emit("move", asset)'
                     >
                         <IconFolderSymlink
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Move to Folder</span>
+                        <span class="mx-2">Move to Folder</span>
                     </div>
 
                     <TablerDelete
-                        displaytype='menu'
-                        class='cloudtak-hover rounded'
-                        label='Delete File'
+                        displaytype="menu"
+                        class="cloudtak-hover rounded"
+                        label="Delete File"
                         @delete='emit("delete", asset)'
                     />
                 </template>

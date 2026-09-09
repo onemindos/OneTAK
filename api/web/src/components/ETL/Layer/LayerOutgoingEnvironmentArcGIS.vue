@@ -1,131 +1,131 @@
 <template>
-    <div class='row g-2 mx-2 my-2'>
-        <div class='col-12 mb-3'>
+    <div class="row g-2 mx-2 my-2">
+        <div class="col-12 mb-3">
             <TablerPillGroup
-                v-model='type'
+                v-model="type"
                 :options='[
                     { value: "agol", label: "ArcGIS Online" },
                     { value: "portal", label: "ArcGIS Enterprise Portal" }
                 ]'
-                :disabled='disabled'
-                :rounded='false'
-                size='default'
-                padding=''
-                name='esri-type'
+                :disabled="disabled"
+                :rounded="false"
+                size="default"
+                padding=""
+                name="esri-type"
             />
         </div>
         <template v-if='type === "agol"'>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerInput
-                    v-model='environment.ARCGIS_PORTAL'
-                    label='ArcGIS Portal URL (Example: https://example.com/portal/sharing/rest)'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_PORTAL"
+                    label="ArcGIS Portal URL (Example: https://example.com/portal/sharing/rest)"
+                    :disabled="disabled"
                 />
             </div>
             <div
-                v-if='environment.ARCGIS_URL'
-                class='col-12'
+                v-if="environment.ARCGIS_URL"
+                class="col-12"
             >
                 <TablerInput
-                    v-model='environment.ARCGIS_URL'
-                    label='ArcGIS Layer URL'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_URL"
+                    label="ArcGIS Layer URL"
+                    :disabled="disabled"
                 />
             </div>
-            <div class='col-12 col-md-6 mt-3'>
+            <div class="col-12 col-md-6 mt-3">
                 <TablerInput
-                    v-model='environment.ARCGIS_USERNAME'
-                    label='ArcGIS Username'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_USERNAME"
+                    label="ArcGIS Username"
+                    :disabled="disabled"
                 />
             </div>
-            <div class='col-12 col-md-6 mt-3'>
+            <div class="col-12 col-md-6 mt-3">
                 <TablerInput
-                    v-model='environment.ARCGIS_PASSWORD'
-                    type='password'
-                    autocomplete='new-password'
-                    label='ArcGIS Password'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_PASSWORD"
+                    type="password"
+                    autocomplete="new-password"
+                    label="ArcGIS Password"
+                    :disabled="disabled"
                 />
             </div>
         </template>
         <template v-else-if='type === "portal"'>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerInput
-                    v-model='environment.ARCGIS_PORTAL'
-                    label='ArcGIS Portal URL (Example: https://example.com/portal/sharing/rest)'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_PORTAL"
+                    label="ArcGIS Portal URL (Example: https://example.com/portal/sharing/rest)"
+                    :disabled="disabled"
                 />
             </div>
 
             <div
-                v-if='environment.ARCGIS_URL'
-                class='col-12'
+                v-if="environment.ARCGIS_URL"
+                class="col-12"
             >
                 <TablerInput
-                    v-model='environment.ARCGIS_URL'
-                    label='ArcGIS Layer URL'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_URL"
+                    label="ArcGIS Layer URL"
+                    :disabled="disabled"
                 />
             </div>
-            <div class='col-12 col-md-6 mt-3'>
+            <div class="col-12 col-md-6 mt-3">
                 <TablerInput
-                    v-model='environment.ARCGIS_USERNAME'
-                    label='ArcGIS Username'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_USERNAME"
+                    label="ArcGIS Username"
+                    :disabled="disabled"
                 />
             </div>
-            <div class='col-12 col-md-6 mt-3'>
+            <div class="col-12 col-md-6 mt-3">
                 <TablerInput
-                    v-model='environment.ARCGIS_PASSWORD'
-                    type='password'
-                    autocomplete='new-password'
-                    label='ArcGIS Password'
-                    :disabled='disabled'
+                    v-model="environment.ARCGIS_PASSWORD"
+                    type="password"
+                    autocomplete="new-password"
+                    label="ArcGIS Password"
+                    :disabled="disabled"
                 />
             </div>
         </template>
 
-        <div class='col-12 pb-4'>
+        <div class="col-12 pb-4">
             <TablerToggle
-                v-model='environment.PRESERVE_HISTORY'
-                label='Preserve History'
-                description='If enabled, new features will be appended to existing features (Insert) in the layer instead of replacing them (Upsert)'
-                :disabled='disabled'
+                v-model="environment.PRESERVE_HISTORY"
+                label="Preserve History"
+                description="If enabled, new features will be appended to existing features (Insert) in the layer instead of replacing them (Upsert)"
+                :disabled="disabled"
             />
         </div>
 
-        <div class='col-12 pb-4'>
-            <div class='d-flex justify-content-center'>
-                <div class='btn-list'>
+        <div class="col-12 pb-4">
+            <div class="d-flex justify-content-center">
+                <div class="btn-list">
                     <TablerPillGroup
-                        v-model='mode'
+                        v-model="mode"
                         :options='[
                             { value: "points", label: "Points" },
                             { value: "lines", label: "Lines" },
                             { value: "polys", label: "Polygons" }
                         ]'
-                        :rounded='false'
-                        :full-width='false'
-                        size='default'
-                        padding=''
-                        name='geom-toolbar'
+                        :rounded="false"
+                        :full-width="false"
+                        size="default"
+                        padding=""
+                        name="geom-toolbar"
                     >
-                        <template #option='{ option }'>
+                        <template #option="{ option }">
                             <IconPoint
                                 v-if='option.value === "points"'
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                             <IconLine
                                 v-if='option.value === "lines"'
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                             <IconPolygon
                                 v-if='option.value === "polys"'
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                             {{ option.label }}
                         </template>
@@ -134,20 +134,20 @@
             </div>
 
             <TablerInput
-                v-model='environment[`ARCGIS_${mode.toUpperCase()}_URL`]'
-                :label='`ArcGIS ${mode} Layer URL`'
-                :disabled='disabled'
+                v-model="environment[`ARCGIS_${mode.toUpperCase()}_URL`]"
+                :label="`ArcGIS ${mode} Layer URL`"
+                :disabled="disabled"
             />
         </div>
 
-        <div class='col-md-12 mt-3'>
-            <template v-if='!esriView'>
-                <div class='d-flex'>
-                    <div class='ms-auto'>
+        <div class="col-md-12 mt-3">
+            <template v-if="!esriView">
+                <div class="d-flex">
+                    <div class="ms-auto">
                         <button
-                            class='cursor-pointer btn btn-secondary'
-                            :disabled='!environment.ARCGIS_PORTAL || !environment.ARCGIS_USERNAME || !environment.ARCGIS_PASSWORD'
-                            @click='esriView = true'
+                            class="cursor-pointer btn btn-secondary"
+                            :disabled="!environment.ARCGIS_PORTAL || !environment.ARCGIS_USERNAME || !environment.ARCGIS_PASSWORD"
+                            @click="esriView = true"
                         >
                             Connect
                         </button>
@@ -156,16 +156,16 @@
             </template>
             <template v-else>
                 <EsriPortal
-                    :key='mode'
-                    :disabled='disabled'
-                    :url='environment.ARCGIS_PORTAL'
-                    :readonly='disabled'
-                    :pane='false'
-                    :username='environment.ARCGIS_USERNAME'
-                    :password='environment.ARCGIS_PASSWORD'
+                    :key="mode"
+                    :disabled="disabled"
+                    :url="environment.ARCGIS_PORTAL"
+                    :readonly="disabled"
+                    :pane="false"
+                    :username="environment.ARCGIS_USERNAME"
+                    :password="environment.ARCGIS_PASSWORD"
                     :layer='String(environment[`ARCGIS_${mode.toUpperCase()}_URL`] ?? "")'
-                    @layer='environment[`ARCGIS_${mode.toUpperCase()}_URL`] = $event'
-                    @close='esriView = false'
+                    @layer="environment[`ARCGIS_${mode.toUpperCase()}_URL`] = $event"
+                    @close="esriView = false"
                 />
             </template>
         </div>

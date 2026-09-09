@@ -1,89 +1,89 @@
 <template>
-    <div class='d-flex align-items-center px-3 py-2 border-bottom nav-header'>
+    <div class="d-flex align-items-center px-3 py-2 border-bottom nav-header">
         <img
-            class='nav-header-logo me-2 cursor-pointer'
-            :src='headerLogo'
-            alt='CloudTAK Logo'
-            title='CloudTAK Home'
-            draggable='false'
-            @click='home'
+            class="nav-header-logo me-2 cursor-pointer"
+            :src="headerLogo"
+            alt="CloudTAK Logo"
+            title="CloudTAK Home"
+            draggable="false"
+            @click="home"
         >
         <div
-            v-if='!$slots.left'
-            class='fs-3 fw-bold user-select-none'
-            v-text='title'
+            v-if="!$slots.left"
+            class="fs-3 fw-bold user-select-none"
+            v-text="title"
         />
         <div
             v-else
-            class='d-flex align-items-center gap-2'
+            class="d-flex align-items-center gap-2"
         >
-            <slot name='left' />
+            <slot name="left" />
         </div>
 
-        <div class='d-flex align-items-center gap-2 ms-auto'>
+        <div class="d-flex align-items-center gap-2 ms-auto">
             <slot />
 
             <TablerDropdown
-                v-if='appStore.user'
-                :width='170'
+                v-if="appStore.user"
+                :width="170"
             >
-                <TablerIconButton title='Profile'>
+                <TablerIconButton title="Profile">
                     <IconUser
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <template #dropdown>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click='external("/")'
                     >
                         <IconMap
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Map</span>
+                        <span class="mx-2">Map</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click='external("/connection")'
                     >
                         <IconNetwork
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Connections</span>
+                        <span class="mx-2">Connections</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click='external("/admin")'
                     >
                         <IconSettings
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Admin</span>
+                        <span class="mx-2">Admin</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
                         @click='external("/docs")'
                     >
                         <IconCode
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Docs</span>
+                        <span class="mx-2">Docs</span>
                     </div>
                     <div
-                        class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                        @click='appStore.logout'
+                        class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                        @click="appStore.logout"
                     >
                         <IconLogout
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>Logout</span>
+                        <span class="mx-2">Logout</span>
                     </div>
                 </template>
             </TablerDropdown>

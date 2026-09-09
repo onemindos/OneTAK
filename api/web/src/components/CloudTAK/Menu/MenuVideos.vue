@@ -1,160 +1,160 @@
 <template>
     <MenuTemplate
-        name='Videos'
-        :loading='loading.main'
+        name="Videos"
+        :loading="loading.main"
     >
         <template #buttons>
             <TablerIconButton
-                title='Publish Video Stream'
-                @click='router.push(`/menu/videos/remote/new`)'
+                title="Publish Video Stream"
+                @click="router.push(`/menu/videos/remote/new`)"
             >
                 <IconVideoPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                title='Get Lease'
-                @click='lease={}'
+                title="Get Lease"
+                @click="lease={}"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <template v-if='mode === "lease"'>
                 <TablerRefreshButton
-                    :loading='loading.main'
-                    @click='fetchLeases'
+                    :loading="loading.main"
+                    @click="fetchLeases"
                 />
             </template>
             <template v-else>
                 <TablerRefreshButton
-                    :loading='loading.main'
-                    @click='fetchConnections'
+                    :loading="loading.main"
+                    @click="fetchConnections"
                 />
             </template>
         </template>
         <template #default>
             <TablerPillGroup
-                v-model='mode'
+                v-model="mode"
                 :options='[
                     { value: "connections", label: "Streams" },
                     { value: "lease", label: "Leases" }
                 ]'
             >
-                <template #option='{ option }'>
+                <template #option="{ option }">
                     <span
                         v-if='option.value === "connections"'
-                        title='Video Connections'
+                        title="Video Connections"
                     >
                         <IconVideo
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </span>
                     <span
                         v-else
-                        title='Video Leases'
+                        title="Video Leases"
                     >
                         <IconServer2
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </span>
-                    <span class='ms-2'>{{ option.label }}</span>
+                    <span class="ms-2">{{ option.label }}</span>
                 </template>
             </TablerPillGroup>
 
             <template v-if='mode === "connections"'>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='connectionFilter'
-                        icon='search'
-                        placeholder='Stream Search'
+                        v-model="connectionFilter"
+                        icon="search"
+                        placeholder="Stream Search"
                     />
                 </div>
 
-                <EmptyInfo v-if='mapStore.hasNoChannels' />
+                <EmptyInfo v-if="mapStore.hasNoChannels" />
 
                 <TablerLoading
-                    v-if='loading.connections'
+                    v-if="loading.connections"
                 />
                 <TablerNone
-                    v-else-if='!filteredVideos.size && !filteredConnections.length'
-                    label='No Video Connections'
-                    :create='false'
+                    v-else-if="!filteredVideos.size && !filteredConnections.length"
+                    label="No Video Connections"
+                    :create="false"
                 />
                 <TablerAlert
-                    v-else-if='error'
-                    :err='error'
+                    v-else-if="error"
+                    :err="error"
                 />
                 <div
                     v-else
-                    class='col-12 d-flex flex-column gap-2 py-3'
+                    class="col-12 d-flex flex-column gap-2 py-3"
                 >
                     <StandardItem
-                        v-for='connection in filteredConnections'
-                        :key='connection.uuid'
-                        class='d-flex align-items-center gap-3 p-2'
-                        @click='floatStore.addConnection(connection)'
+                        v-for="connection in filteredConnections"
+                        :key="connection.uuid"
+                        class="d-flex align-items-center gap-3 p-2"
+                        @click="floatStore.addConnection(connection)"
                     >
                         <div
-                            class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                            style='width: 3rem; height: 3rem; min-width: 3rem;'
+                            class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                            style="width: 3rem; height: 3rem; min-width: 3rem;"
                         >
                             <IconVideo
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </div>
 
-                        <div class='d-flex flex-column'>
-                            <div class='fw-bold'>
-                                <span v-if='connection.alias'>{{ connection.alias }}</span>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold">
+                                <span v-if="connection.alias">{{ connection.alias }}</span>
                                 <span
                                     v-else
-                                    class='fst-italic text-secondary'
+                                    class="fst-italic text-secondary"
                                 >Unnamed</span>
                             </div>
                         </div>
 
-                        <div class='d-flex btn-list ms-auto'>
+                        <div class="d-flex btn-list ms-auto">
                             <TablerIconButton
-                                title='Edit Lease'
-                                @click.stop='router.push(`/menu/videos/remote/${connection.uuid}`)'
+                                title="Edit Lease"
+                                @click.stop="router.push(`/menu/videos/remote/${connection.uuid}`)"
                             >
                                 <IconPencil
-                                    :size='24'
-                                    stroke='1'
+                                    :size="24"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
                     </StandardItem>
                     <StandardItem
-                        v-for='video in filteredVideos'
-                        :key='video.id'
-                        class='d-flex align-items-center gap-3 p-2 cursor-pointer'
-                        @click='router.push(`/cot/${video.id}`)'
+                        v-for="video in filteredVideos"
+                        :key="video.id"
+                        class="d-flex align-items-center gap-3 p-2 cursor-pointer"
+                        @click="router.push(`/cot/${video.id}`)"
                     >
                         <div
-                            class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                            style='width: 3rem; height: 3rem; min-width: 3rem;'
+                            class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                            style="width: 3rem; height: 3rem; min-width: 3rem;"
                         >
                             <IconVideo
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </div>
 
-                        <div class='d-flex flex-column'>
-                            <div class='fw-bold'>
-                                <span v-if='video.properties.callsign || video.properties.name'>{{ video.properties.callsign || video.properties.name }}</span>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold">
+                                <span v-if="video.properties.callsign || video.properties.name">{{ video.properties.callsign || video.properties.name }}</span>
                                 <span
                                     v-else
-                                    class='fst-italic text-secondary'
+                                    class="fst-italic text-secondary"
                                 >Unnamed</span>
                             </div>
                         </div>
@@ -162,78 +162,78 @@
                 </div>
             </template>
             <template v-else-if='mode === "lease"'>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='leasePaging.filter'
-                        icon='search'
-                        placeholder='Lease Search'
+                        v-model="leasePaging.filter"
+                        icon="search"
+                        placeholder="Lease Search"
                     />
                 </div>
                 <TablerLoading
-                    v-if='loading.leases'
+                    v-if="loading.leases"
                 />
                 <TablerNone
-                    v-else-if='leases.total === 0'
-                    label='No Video Leases'
-                    :create='false'
+                    v-else-if="leases.total === 0"
+                    label="No Video Leases"
+                    :create="false"
                 />
                 <TablerAlert
-                    v-else-if='error'
-                    :err='error'
+                    v-else-if="error"
+                    :err="error"
                 />
                 <div
                     v-else
-                    class='col-12 d-flex flex-column gap-2 py-3'
+                    class="col-12 d-flex flex-column gap-2 py-3"
                 >
                     <StandardItem
-                        v-for='l in leases.items'
-                        :key='l.id'
-                        class='d-flex align-items-center gap-3 p-2 cursor-pointer'
-                        @click='lease = l'
+                        v-for="l in leases.items"
+                        :key="l.id"
+                        class="d-flex align-items-center gap-3 p-2 cursor-pointer"
+                        @click="lease = l"
                     >
                         <div
-                            class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                            style='width: 3rem; height: 3rem; min-width: 3rem;'
+                            class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                            style="width: 3rem; height: 3rem; min-width: 3rem;"
                         >
                             <component
-                                :is='getLeaseIcon(l.source_type)'
-                                :size='24'
-                                stroke='1'
+                                :is="getLeaseIcon(l.source_type)"
+                                :size="24"
+                                stroke="1"
                             />
                         </div>
 
-                        <div class='d-flex flex-column'>
-                            <div class='fw-bold'>
-                                <span v-if='l.name'>{{ l.name }}</span>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold">
+                                <span v-if="l.name">{{ l.name }}</span>
                                 <span
                                     v-else
-                                    class='fst-italic text-secondary'
+                                    class="fst-italic text-secondary"
                                 >Unnamed</span>
                             </div>
                             <div
-                                v-if='getLeaseDescription(l)'
-                                class='text-secondary small'
-                                :class='getLeaseDescriptionClass(l)'
+                                v-if="getLeaseDescription(l)"
+                                class="text-secondary small"
+                                :class="getLeaseDescriptionClass(l)"
                             >
                                 {{ getLeaseDescription(l) }}
                             </div>
                         </div>
 
-                        <div class='d-flex btn-list ms-auto'>
+                        <div class="d-flex btn-list ms-auto">
                             <TablerDelete
-                                displaytype='icon'
-                                @delete='deleteLease(l)'
+                                displaytype="icon"
+                                @delete="deleteLease(l)"
                             />
                         </div>
                     </StandardItem>
                 </div>
-                <div class='col-12 d-flex justify-content-center pt-3'>
+                <div class="col-12 d-flex justify-content-center pt-3">
                     <TablerPager
-                        v-if='leases.total > leasePaging.limit'
-                        :page='leasePaging.page'
-                        :total='leases.total'
-                        :limit='leasePaging.limit'
-                        @page='leasePaging.page = $event'
+                        v-if="leases.total > leasePaging.limit"
+                        :page="leasePaging.page"
+                        :total="leases.total"
+                        :limit="leasePaging.limit"
+                        @page="leasePaging.page = $event"
                     />
                 </div>
             </template>
@@ -241,11 +241,11 @@
     </MenuTemplate>
 
     <VideoLeaseModal
-        v-if='lease'
-        :lease='lease'
-        :is-system-admin='isSystemAdmin'
-        @close='lease = false'
-        @refresh='fetchLeases'
+        v-if="lease"
+        :lease="lease"
+        :is-system-admin="isSystemAdmin"
+        @close="lease = false"
+        @refresh="fetchLeases"
     />
 </template>
 

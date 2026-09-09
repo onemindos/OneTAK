@@ -1,58 +1,58 @@
 <template>
     <MenuTemplate
-        name='New Route'
+        name="New Route"
     >
         <template #default>
             <TablerLoading
-                v-if='loading || !config'
-                desc='Loading'
+                v-if="loading || !config"
+                desc="Loading"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <template v-else>
-                <div class='my-2'>
+                <div class="my-2">
                     <TablerEnum
-                        v-if='config.providers.length'
-                        v-model='routePlan.provider'
-                        label='Routing Provider'
-                        :options='config.providers.map(p => p.name)'
+                        v-if="config.providers.length"
+                        v-model="routePlan.provider"
+                        label="Routing Provider"
+                        :options="config.providers.map(p => p.name)"
                     />
                 </div>
-                <div class='my-2'>
+                <div class="my-2">
                     <SearchBox
-                        label='Start Location'
-                        placeholder='Start Location'
-                        :autofocus='true'
-                        :location-picker='true'
-                        @select='routePlan.start = $event || null'
+                        label="Start Location"
+                        placeholder="Start Location"
+                        :autofocus="true"
+                        :location-picker="true"
+                        @select="routePlan.start = $event || null"
                     />
                 </div>
-                <div class='my-2'>
+                <div class="my-2">
                     <SearchBox
-                        label='End Location'
-                        placeholder='End Location'
-                        :autofocus='false'
-                        :location-picker='true'
-                        :initial-value='endInitialValue'
-                        @select='routePlan.end = $event || null'
+                        label="End Location"
+                        placeholder="End Location"
+                        :autofocus="false"
+                        :location-picker="true"
+                        :initial-value="endInitialValue"
+                        @select="routePlan.end = $event || null"
                     />
                 </div>
 
-                <div class='my-2'>
+                <div class="my-2">
                     <TablerEnum
-                        v-if='modes.length > 0'
-                        v-model='routePlan.travelMode'
-                        label='Travel Mode'
-                        :options='modes.map(m => m.name)'
+                        v-if="modes.length > 0"
+                        v-model="routePlan.travelMode"
+                        label="Travel Mode"
+                        :options="modes.map(m => m.name)"
                     />
                 </div>
-                <div class='my-3'>
+                <div class="my-3">
                     <button
-                        :disabled='!routePlan.start || !routePlan.end'
-                        class='btn btn-primary w-100'
-                        @click='generateRoute'
+                        :disabled="!routePlan.start || !routePlan.end"
+                        class="btn btn-primary w-100"
+                        @click="generateRoute"
                     >
                         Generate Route
                     </button>

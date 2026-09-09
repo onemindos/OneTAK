@@ -1,119 +1,119 @@
 <template>
-    <TablerLoading v-if='loading' />
+    <TablerLoading v-if="loading" />
     <TablerAlert
-        v-else-if='error'
-        :err='error'
+        v-else-if="error"
+        :err="error"
     />
     <div
         v-else
-        class='d-flex flex-column h-100 overflow-hidden'
+        class="d-flex flex-column h-100 overflow-hidden"
     >
         <div
-            v-if='canDelete && multiselect && chats.length'
-            class='d-flex align-items-center border-bottom px-2 py-1 gap-2'
+            v-if="canDelete && multiselect && chats.length"
+            class="d-flex align-items-center border-bottom px-2 py-1 gap-2"
         >
             <TablerDelete
-                :disabled='selected.size === 0'
-                displaytype='icon'
-                @delete='emitDelete'
+                :disabled="selected.size === 0"
+                displaytype="icon"
+                @delete="emitDelete"
             />
-            <span class='small text-muted'>{{ selected.size }} selected</span>
+            <span class="small text-muted">{{ selected.size }} selected</span>
             <button
-                class='btn btn-sm btn-link ms-auto p-0'
-                @click='selected.clear()'
+                class="btn btn-sm btn-link ms-auto p-0"
+                @click="selected.clear()"
             >
                 Clear
             </button>
         </div>
 
         <div
-            ref='scrollContainer'
-            class='flex-grow-1 position-relative'
-            style='min-height: 0; overflow-y: auto;'
-            @scroll='onScroll'
+            ref="scrollContainer"
+            class="flex-grow-1 position-relative"
+            style="min-height: 0; overflow-y: auto;"
+            @scroll="onScroll"
         >
             <TablerNone
-                v-if='!chats.length'
-                :create='false'
-                label='No Chat Messages'
+                v-if="!chats.length"
+                :create="false"
+                label="No Chat Messages"
             />
             <div
-                v-for='chat in chats'
-                :key='chat.id'
-                class='w-100 d-flex my-2 px-2'
+                v-for="chat in chats"
+                :key="chat.id"
+                class="w-100 d-flex my-2 px-2"
                 :class='{ "cursor-pointer": canDelete && multiselect }'
-                @click='canDelete && multiselect ? toggleSelect(chat.id) : undefined'
+                @click="canDelete && multiselect ? toggleSelect(chat.id) : undefined"
             >
                 <div
-                    v-if='canDelete && multiselect'
-                    class='d-flex align-items-center me-2'
+                    v-if="canDelete && multiselect"
+                    class="d-flex align-items-center me-2"
                 >
                     <input
-                        type='checkbox'
-                        :checked='selected.has(chat.id)'
-                        class='form-check-input mt-0'
-                        @click.stop='toggleSelect(chat.id)'
+                        type="checkbox"
+                        :checked="selected.has(chat.id)"
+                        class="form-check-input mt-0"
+                        @click.stop="toggleSelect(chat.id)"
                     >
                 </div>
 
                 <div
-                    v-if='chat.sender_uid !== myUID'
-                    class='bg-blue text-white px-2 py-2 rounded'
-                    style='max-width: 80%;'
+                    v-if="chat.sender_uid !== myUID"
+                    class="bg-blue text-white px-2 py-2 rounded"
+                    style="max-width: 80%;"
                 >
-                    <div class='fw-bold small mb-1'>
+                    <div class="fw-bold small mb-1">
                         <span v-text='chat.sender || "Unknown"' />
                     </div>
-                    <div v-text='chat.message' />
+                    <div v-text="chat.message" />
                     <div
-                        class='text-end'
-                        style='font-size: 0.75rem; opacity: 0.75;'
-                        v-text='formatTime(chat.created)'
+                        class="text-end"
+                        style="font-size: 0.75rem; opacity: 0.75;"
+                        v-text="formatTime(chat.created)"
                     />
                 </div>
                 <div
                     v-else
-                    class='ms-auto cloudtak-accent px-2 py-2 rounded'
-                    style='max-width: 80%;'
+                    class="ms-auto cloudtak-accent px-2 py-2 rounded"
+                    style="max-width: 80%;"
                 >
-                    <div v-text='chat.message' />
+                    <div v-text="chat.message" />
                     <div
-                        class='d-flex align-items-center justify-content-end'
-                        style='font-size: 0.75rem; opacity: 0.75;'
+                        class="d-flex align-items-center justify-content-end"
+                        style="font-size: 0.75rem; opacity: 0.75;"
                     >
-                        <span v-text='formatTime(chat.created)' />
+                        <span v-text="formatTime(chat.created)" />
                         <span
-                            v-if='chat.status'
-                            :title='statusLabel(chat.status)'
-                            class='ms-1 d-flex align-items-center'
-                            :aria-label='statusLabel(chat.status)'
+                            v-if="chat.status"
+                            :title="statusLabel(chat.status)"
+                            class="ms-1 d-flex align-items-center"
+                            :aria-label="statusLabel(chat.status)"
                         >
                             <IconClock
-                                v-if='chat.status === ChatStatus.Sending || chat.status === ChatStatus.Pending'
-                                :size='14'
-                                stroke='2'
+                                v-if="chat.status === ChatStatus.Sending || chat.status === ChatStatus.Pending"
+                                :size="14"
+                                stroke="2"
                             />
                             <IconAlertTriangle
-                                v-else-if='chat.status === ChatStatus.Failed'
-                                :size='14'
-                                stroke='2'
-                                class='text-red'
+                                v-else-if="chat.status === ChatStatus.Failed"
+                                :size="14"
+                                stroke="2"
+                                class="text-red"
                             />
                             <IconCheck
-                                v-else-if='chat.status === ChatStatus.Sent'
-                                :size='14'
-                                stroke='2'
+                                v-else-if="chat.status === ChatStatus.Sent"
+                                :size="14"
+                                stroke="2"
                             />
                             <IconChecks
-                                v-else-if='chat.status === ChatStatus.Delivered'
-                                :size='14'
-                                stroke='2'
+                                v-else-if="chat.status === ChatStatus.Delivered"
+                                :size="14"
+                                stroke="2"
                             />
                             <IconChecks
-                                v-else-if='chat.status === ChatStatus.Read'
-                                :size='14'
-                                stroke='2'
-                                class='text-azure'
+                                v-else-if="chat.status === ChatStatus.Read"
+                                :size="14"
+                                stroke="2"
+                                class="text-azure"
                             />
                         </span>
                     </div>
@@ -122,36 +122,36 @@
         </div>
 
         <div
-            v-if='canSend'
-            class='flex-shrink-0 border-top position-relative pt-1'
+            v-if="canSend"
+            class="flex-shrink-0 border-top position-relative pt-1"
         >
             <button
-                v-if='chats.length && !atBottom'
-                class='btn btn-primary rounded-circle position-absolute start-50 p-1 scroll-bottom-btn'
-                style='z-index: 10; top: -56px; width: 44px; height: 44px;'
-                title='Scroll to bottom'
-                @click='scrollToBottom'
+                v-if="chats.length && !atBottom"
+                class="btn btn-primary rounded-circle position-absolute start-50 p-1 scroll-bottom-btn"
+                style="z-index: 10; top: -56px; width: 44px; height: 44px;"
+                title="Scroll to bottom"
+                @click="scrollToBottom"
             >
                 <IconArrowDown
-                    :size='24'
-                    stroke='2.5'
+                    :size="24"
+                    stroke="2.5"
                 />
             </button>
-            <div class='d-flex align-items-center mx-2 mb-2 mt-1'>
-                <div class='flex-grow-1 me-2'>
+            <div class="d-flex align-items-center mx-2 mb-2 mt-1">
+                <div class="flex-grow-1 me-2">
                     <TablerInput
-                        v-model='message'
-                        :placeholder='placeholder'
-                        @keyup.enter='sendMessage'
+                        v-model="message"
+                        :placeholder="placeholder"
+                        @keyup.enter="sendMessage"
                     />
                 </div>
                 <TablerIconButton
-                    title='Send Message'
-                    @click='sendMessage'
+                    title="Send Message"
+                    @click="sendMessage"
                 >
                     <IconSend
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>

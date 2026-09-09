@@ -1,99 +1,99 @@
 <template>
-    <div class='security-root'>
-        <div class='sec-toolbar'>
+    <div class="security-root">
+        <div class="sec-toolbar">
             <Shield
-                :size='14'
-                class='sec-icon'
+                :size="14"
+                class="sec-icon"
             />
-            <span class='sec-title'>Security</span>
-            <span class='sec-subtitle'>$SYS audit log</span>
-            <div class='sec-spacer' />
-            <span class='sec-count'>{{ events.length }} events</span>
+            <span class="sec-title">Security</span>
+            <span class="sec-subtitle">$SYS audit log</span>
+            <div class="sec-spacer" />
+            <span class="sec-count">{{ events.length }} events</span>
             <button
-                class='sec-btn'
-                title='Export JSON'
-                @click='exportEvents'
+                class="sec-btn"
+                title="Export JSON"
+                @click="exportEvents"
             >
-                <Download :size='13' />
+                <Download :size="13" />
             </button>
             <button
-                class='sec-btn'
-                title='Clear'
-                @click='clear'
+                class="sec-btn"
+                title="Clear"
+                @click="clear"
             >
-                <Trash2 :size='13' />
+                <Trash2 :size="13" />
             </button>
         </div>
 
         <!-- Stats strip -->
         <div
-            v-if='nc'
-            class='sec-stats'
+            v-if="nc"
+            class="sec-stats"
         >
             <div
-                class='sec-stat'
-                :class='{ alert: authCount > 0 }'
+                class="sec-stat"
+                :class="{ alert: authCount > 0 }"
             >
                 <UserX
-                    :size='13'
+                    :size="13"
                     :style='{ color: authCount > 0 ? "#f85149" : "rgba(255,255,255,0.3)" }'
                 />
                 <div>
                     <div
-                        class='sec-stat-val'
+                        class="sec-stat-val"
                         :style='{ color: authCount > 0 ? "#f85149" : "#e6edf3" }'
                     >
                         {{ authCount }}
                     </div>
-                    <div class='sec-stat-label'>
+                    <div class="sec-stat-label">
                         Auth Failures
                     </div>
                 </div>
             </div>
-            <div class='sec-stat'>
+            <div class="sec-stat">
                 <LogIn
-                    :size='13'
-                    style='color:#22c55e'
+                    :size="13"
+                    style="color:#22c55e"
                 />
                 <div>
                     <div
-                        class='sec-stat-val'
-                        style='color:#22c55e'
+                        class="sec-stat-val"
+                        style="color:#22c55e"
                     >
                         {{ connectCount }}
                     </div>
-                    <div class='sec-stat-label'>
+                    <div class="sec-stat-label">
                         Connects
                     </div>
                 </div>
             </div>
-            <div class='sec-stat'>
+            <div class="sec-stat">
                 <LogOut
-                    :size='13'
-                    style='color:#f59e0b'
+                    :size="13"
+                    style="color:#f59e0b"
                 />
                 <div>
                     <div
-                        class='sec-stat-val'
-                        style='color:#f59e0b'
+                        class="sec-stat-val"
+                        style="color:#f59e0b"
                     >
                         {{ disconnectCount }}
                     </div>
-                    <div class='sec-stat-label'>
+                    <div class="sec-stat-label">
                         Disconnects
                     </div>
                 </div>
             </div>
-            <div class='sec-stat'>
+            <div class="sec-stat">
                 <Activity
-                    :size='13'
-                    style='color:rgba(255,255,255,0.3)'
+                    :size="13"
+                    style="color:rgba(255,255,255,0.3)"
                 />
                 <div>
-                    <div class='sec-stat-val'>
+                    <div class="sec-stat-val">
                         {{ events.length }}
                     </div>
-                    <div class='sec-stat-label'>
+                    <div class="sec-stat-label">
                         Total Events
                     </div>
                 </div>
@@ -101,52 +101,52 @@
         </div>
 
         <div
-            v-if='!nc'
-            class='sec-empty'
+            v-if="!nc"
+            class="sec-empty"
         >
             <Shield
-                :size='28'
-                style='opacity:0.3'
+                :size="28"
+                style="opacity:0.3"
             />
             <p>Not connected to NATS.</p>
         </div>
 
         <div
             v-else
-            class='sec-events'
+            class="sec-events"
         >
             <div
-                v-for='ev in events'
-                :key='ev.id'
-                class='sec-event'
-                :class='ev.type'
+                v-for="ev in events"
+                :key="ev.id"
+                class="sec-event"
+                :class="ev.type"
             >
                 <span
-                    class='sec-ev-badge'
-                    :class='ev.type'
+                    class="sec-ev-badge"
+                    :class="ev.type"
                 >{{ ev.type.replace('_',' ').toUpperCase() }}</span>
-                <span class='sec-ev-ts'>{{ formatTs(ev.ts) }}</span>
+                <span class="sec-ev-ts">{{ formatTs(ev.ts) }}</span>
                 <span
-                    class='sec-ev-client'
-                    :title='ev.clientId'
+                    class="sec-ev-client"
+                    :title="ev.clientId"
                 >{{ ev.clientId ?? '—' }}</span>
                 <span
-                    v-if='ev.account'
-                    class='sec-ev-account'
-                    :title='ev.account'
+                    v-if="ev.account"
+                    class="sec-ev-account"
+                    :title="ev.account"
                 >{{ ev.account }}</span>
                 <span
-                    class='sec-ev-subject'
-                    :title='ev.subject'
+                    class="sec-ev-subject"
+                    :title="ev.subject"
                 >{{ ev.subject }}</span>
                 <span
-                    class='sec-ev-detail'
-                    :title='ev.detail'
+                    class="sec-ev-detail"
+                    :title="ev.detail"
                 >{{ ev.detail }}</span>
             </div>
             <div
-                v-if='!events.length'
-                class='sec-empty-inline'
+                v-if="!events.length"
+                class="sec-empty-inline"
             >
                 Listening on $SYS… no events yet.
             </div>

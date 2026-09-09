@@ -1,61 +1,61 @@
 <template>
     <div
-        class='rounded cloudtak-hover h-100 d-flex align-items-center justify-content-center flex-shrink-0'
-        style='width: 40px; min-width: 40px;'
+        class="rounded cloudtak-hover h-100 d-flex align-items-center justify-content-center flex-shrink-0"
+        style="width: 40px; min-width: 40px;"
     >
         <TablerIconButton
-            v-if='mapStore.location === LocationState.Live'
-            :title='locationTooltip'
-            :hover='false'
+            v-if="mapStore.location === LocationState.Live"
+            :title="locationTooltip"
+            :hover="false"
             @click='$emit("set-location")'
         >
             <IconLocation
-                style='margin: 5px 8px'
-                :size='20'
-                stroke='1'
-                :color='locationColor'
+                style="margin: 5px 8px"
+                :size="20"
+                stroke="1"
+                :color="locationColor"
             />
         </TablerIconButton>
         <TablerIconButton
-            v-else-if='mapStore.location === LocationState.Preset'
-            :title='locationTooltip'
-            :hover='false'
+            v-else-if="mapStore.location === LocationState.Preset"
+            :title="locationTooltip"
+            :hover="false"
             @click='$emit("set-location")'
         >
             <IconLocationPin
-                title='Manual Location - Click to enable GPS'
-                style='margin: 5px 8px'
-                :size='20'
-                stroke='1'
+                title="Manual Location - Click to enable GPS"
+                style="margin: 5px 8px"
+                :size="20"
+                stroke="1"
             />
         </TablerIconButton>
         <TablerIconButton
             v-else
-            title='Set Your Location Button'
-            :hover='false'
+            title="Set Your Location Button"
+            :hover="false"
             @click='$emit("set-location")'
         >
             <IconLocationOff
-                title='Set Your Location Button (No Location currently set)'
-                style='margin: 5px 8px'
-                :size='20'
-                stroke='1'
+                title="Set Your Location Button (No Location currently set)"
+                style="margin: 5px 8px"
+                :size="20"
+                stroke="1"
             />
         </TablerIconButton>
     </div>
     <div
-        title='Zoom To Location'
-        class='rounded text-truncate px-2 py-2 d-flex flex-column justify-content-center text-white user-select-none cursor-pointer cloudtak-hover h-100 flex-shrink-1'
-        style='min-width: 0; max-width: fit-content;'
+        title="Zoom To Location"
+        class="rounded text-truncate px-2 py-2 d-flex flex-column justify-content-center text-white user-select-none cursor-pointer cloudtak-hover h-100 flex-shrink-1"
+        style="min-width: 0; max-width: fit-content;"
         @click='$emit("to-location")'
     >
         <span
-            class='fw-semibold'
-            style='line-height: 1.2;'
+            class="fw-semibold"
+            style="line-height: 1.2;"
         >{{ mapStore.callsign }}</span>
         <span
-            class='text-white-50'
-            style='font-size: 0.7rem; line-height: 1.2;'
+            class="text-white-50"
+            style="font-size: 0.7rem; line-height: 1.2;"
         >{{ locationStatusText }}</span>
     </div>
 </template>

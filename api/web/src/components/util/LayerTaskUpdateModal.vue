@@ -1,102 +1,102 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-header'>
+    <TablerModal size="lg">
+        <div class="modal-header">
             <IconArrowUp
-                size='24'
-                stroke='1'
+                size="24"
+                stroke="1"
             />
-            <span class='mx-2'>
-                Update Task: v<span v-text='update.from' /> → v<span v-text='update.to' />
+            <span class="mx-2">
+                Update Task: v<span v-text="update.from" /> → v<span v-text="update.to" />
             </span>
             <button
-                type='button'
-                class='btn-close'
-                aria-label='Close'
+                type="button"
+                class="btn-close"
+                aria-label="Close"
                 @click='emit("close")'
             />
         </div>
         <div
-            class='modal-body overflow-auto'
-            style='max-height: 60vh'
+            class="modal-body overflow-auto"
+            style="max-height: 60vh"
         >
             <TablerLoading
-                v-if='loading'
-                desc='Loading Task Permissions'
+                v-if="loading"
+                desc="Loading Task Permissions"
             />
             <TablerAlert
-                v-else-if='error'
-                title='Task Update Error'
-                :err='error'
+                v-else-if="error"
+                title="Task Update Error"
+                :err="error"
             />
             <template v-else>
                 <div
-                    v-if='!next'
-                    class='alert alert-warning'
+                    v-if="!next"
+                    class="alert alert-warning"
                 >
                     The new task version does not publish a Capabilities document - existing Layer permissions will be kept as-is.
                 </div>
                 <TablerNone
-                    v-else-if='!rows.length'
-                    :create='false'
-                    :compact='true'
-                    label='Permissions Requested'
+                    v-else-if="!rows.length"
+                    :create="false"
+                    :compact="true"
+                    label="Permissions Requested"
                 />
                 <table
                     v-else
-                    class='table table-vcenter card-table'
+                    class="table table-vcenter card-table"
                 >
                     <thead>
                         <tr>
                             <th>Permission</th>
-                            <th class='text-center'>
-                                Then (v<span v-text='update.from' />)
+                            <th class="text-center">
+                                Then (v<span v-text="update.from" />)
                             </th>
-                            <th class='text-center'>
-                                Now (v<span v-text='update.to' />)
+                            <th class="text-center">
+                                Now (v<span v-text="update.to" />)
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            v-for='row in rows'
-                            :key='row.resource'
+                            v-for="row in rows"
+                            :key="row.resource"
                             :class='{ "bg-yellow-lt": row.changed }'
                         >
                             <td>
-                                <code v-text='row.resource' />
+                                <code v-text="row.resource" />
                                 <div
-                                    v-if='row.description'
-                                    class='small text-secondary'
-                                    v-text='row.description'
+                                    v-if="row.description"
+                                    class="small text-secondary"
+                                    v-text="row.description"
                                 />
                             </td>
-                            <td class='text-center'>
+                            <td class="text-center">
                                 <span
                                     v-if='row.then === "granted"'
-                                    class='badge bg-green-lt'
+                                    class="badge bg-green-lt"
                                 >Granted</span>
                                 <span
                                     v-else-if='row.then === "denied"'
-                                    class='badge bg-secondary-lt'
+                                    class="badge bg-secondary-lt"
                                 >Not Granted</span>
                                 <span
                                     v-else
-                                    class='text-muted'
+                                    class="text-muted"
                                 >—</span>
                             </td>
-                            <td class='text-center'>
+                            <td class="text-center">
                                 <span
                                     v-if='row.now === "removed"'
-                                    class='badge bg-red-lt'
+                                    class="badge bg-red-lt"
                                 >Removed</span>
                                 <span
                                     v-else-if='row.now === "required"'
-                                    class='badge bg-green-lt'
+                                    class="badge bg-green-lt"
                                 >Required</span>
                                 <TablerToggle
                                     v-else
-                                    v-model='granted[row.resource]'
-                                    label='Grant'
+                                    v-model="granted[row.resource]"
+                                    label="Grant"
                                 />
                             </td>
                         </tr>
@@ -104,23 +104,23 @@
                 </table>
             </template>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                class='btn'
+                class="btn"
                 @click='emit("close")'
             >
                 Cancel
             </button>
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <button
-                    class='btn btn-primary'
-                    :disabled='loading || !!error || saving'
-                    @click='accept'
+                    class="btn btn-primary"
+                    :disabled="loading || !!error || saving"
+                    @click="accept"
                 >
                     <span
-                        v-if='saving'
-                        class='spinner-border spinner-border-sm me-2'
-                        role='status'
+                        v-if="saving"
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
                     />
                     Accept &amp; Update
                 </button>

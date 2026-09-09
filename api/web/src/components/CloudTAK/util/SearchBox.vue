@@ -1,83 +1,83 @@
 <template>
-    <div class='position-relative'>
-        <div class='d-flex align-items-end gap-1'>
+    <div class="position-relative">
+        <div class="d-flex align-items-end gap-1">
             <TablerInput
-                ref='searchBoxRef'
-                v-model='query.filter'
-                :label='props.label'
-                :autofocus='props.autofocus'
-                class='mt-0 flex-grow-1'
-                :placeholder='props.placeholder'
-                icon='search'
-                @focus='selected = false'
+                ref="searchBoxRef"
+                v-model="query.filter"
+                :label="props.label"
+                :autofocus="props.autofocus"
+                class="mt-0 flex-grow-1"
+                :placeholder="props.placeholder"
+                icon="search"
+                @focus="selected = false"
             />
             <TablerIconButton
-                v-if='props.locationPicker'
-                class='location-picker-btn mb-1 d-flex align-items-center justify-content-center flex-shrink-0'
+                v-if="props.locationPicker"
+                class="location-picker-btn mb-1 d-flex align-items-center justify-content-center flex-shrink-0"
                 :color='pickingLocation ? "var(--tblr-primary)" : undefined'
                 :title='pickingLocation ? "Click on map to select location" : "Select location on map"'
-                @click='pickingLocation ? cancelPickingLocation() : startPickingLocation()'
+                @click="pickingLocation ? cancelPickingLocation() : startPickingLocation()"
             >
                 <IconCrosshair
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
             </TablerIconButton>
         </div>
         <div
-            v-if='pickingLocation'
-            class='text-muted small mt-1 px-1'
+            v-if="pickingLocation"
+            class="text-muted small mt-1 px-1"
         >
             Click on the map to select a location
         </div>
 
         <div
-            class='dropdown-menu cloudtak-panel w-100 mt-2 p-2'
+            class="dropdown-menu cloudtak-panel w-100 mt-2 p-2"
             :class='{
                 "show": shown,
             }'
         >
             <TablerNone
-                v-if='!partialLoading && !cots.size && !results.length'
-                :create='false'
+                v-if="!partialLoading && !cots.size && !results.length"
+                :create="false"
             />
             <template v-else>
                 <Feature
-                    v-for='cot of cots'
-                    :key='cot.id'
-                    :delete-button='false'
-                    :feature='cot'
-                    @click='selectFeature(cot)'
+                    v-for="cot of cots"
+                    :key="cot.id"
+                    :delete-button="false"
+                    :feature="cot"
+                    @click="selectFeature(cot)"
                 />
                 <StandardItem
-                    v-for='item of results'
-                    :key='item.magicKey'
-                    class='d-flex flex-row gap-3 mb-2 align-items-center'
-                    @click='fetchSearch(item.text, item.magicKey)'
+                    v-for="item of results"
+                    :key="item.magicKey"
+                    class="d-flex flex-row gap-3 mb-2 align-items-center"
+                    @click="fetchSearch(item.text, item.magicKey)"
                 >
-                    <div class='icon-wrapper ms-2 d-flex align-items-center justify-content-center rounded-circle'>
+                    <div class="icon-wrapper ms-2 d-flex align-items-center justify-content-center rounded-circle">
                         <IconMapPin
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </div>
 
                     <div
-                        class='flex-grow-1 d-flex flex-column gap-1 py-2'
-                        style='min-width: 0'
+                        class="flex-grow-1 d-flex flex-column gap-1 py-2"
+                        style="min-width: 0"
                     >
-                        <div class='d-flex align-items-center gap-2'>
+                        <div class="d-flex align-items-center gap-2">
                             <span
-                                class='fw-semibold text-truncate'
-                                v-text='item.text'
+                                class="fw-semibold text-truncate"
+                                v-text="item.text"
                             />
                         </div>
                     </div>
                 </StandardItem>
 
                 <TablerLoading
-                    v-if='partialLoading'
-                    :compact='true'
+                    v-if="partialLoading"
+                    :compact="true"
                 />
             </template>
         </div>

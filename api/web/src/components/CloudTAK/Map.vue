@@ -1,92 +1,92 @@
 <template>
     <div
-        class='d-flex position-relative'
-        style='height: calc(100vh) !important;'
+        class="d-flex position-relative"
+        style="height: calc(100vh) !important;"
         :style='{
             "--map-side-offset": `${mapSideOffset}px`,
             "--map-compact-menu-size": "60px",
             "--map-bottom-bar-size": "50px"
         }'
-        data-bs-theme-base='neutral'
-        data-bs-theme-primary='blue'
+        data-bs-theme-base="neutral"
+        data-bs-theme-primary="blue"
     >
         <div
-            ref='map'
-            style='width: 100%;'
+            ref="map"
+            style="width: 100%;"
         />
 
         <MapLoading
-            v-if='loading || !mapStore.isMapLoaded'
-            :stage='mapStore.loadingStage'
+            v-if="loading || !mapStore.isMapLoaded"
+            :stage="mapStore.loadingStage"
         />
 
-        <template v-if='mapStore.isMapLoaded && !loading'>
+        <template v-if="mapStore.isMapLoaded && !loading">
             <!-- Scrim tinting the transparent native status bar inset to match
                  the top map controls - collapses to 0 height on web and is
                  omitted on iOS, where the status bar sits fully transparent
                  over the map -->
             <div
-                v-if='!isIOS'
-                class='position-absolute top-0 start-0 end-0'
-                style='
+                v-if="!isIOS"
+                class="position-absolute top-0 start-0 end-0"
+                style="
                     z-index: 5;
                     height: var(--status-bar-height, 0px);
                     background-color: rgba(0, 0, 0, 0.5);
                     pointer-events: none;
-                '
+                "
             />
 
             <WarnConfiguration
-                v-if='warnConfiguration'
-                @close='warnConfiguration = false'
+                v-if="warnConfiguration"
+                @close="warnConfiguration = false"
             />
             <WarnChannels
-                v-else-if='warnChannels'
-                @close='warnChannels = false'
+                v-else-if="warnChannels"
+                @close="warnChannels = false"
             />
 
             <DrawOverlay
-                v-if='mapStore.draw.mode !== DrawToolMode.STATIC'
+                v-if="mapStore.draw.mode !== DrawToolMode.STATIC"
             />
 
             <GeoJSONInput
-                v-if='mapStore.toImport.length'
-                :features='mapStore.toImport'
-                @close='mapStore.toImport = []'
-                @done='mapStore.toImport = []'
+                v-if="mapStore.toImport.length"
+                :features="mapStore.toImport"
+                @close="mapStore.toImport = []"
+                @done="mapStore.toImport = []"
             />
 
             <GenericBottomPane v-if='mode === "SetLocation"'>
                 <div
-                    class='card cloudtak-panel user-select-none'
+                    class="card cloudtak-panel user-select-none"
                 >
-                    <div class='card-header'>
-                        <div class='col-8'>
+                    <div class="card-header">
+                        <div class="col-8">
                             <IconLocationPin
-                                class='me-2'
-                                :size='20'
+                                class="me-2"
+                                :size="20"
                             />
                             <span>Click on the map to {{ mapStore.location === LocationState.Preset ? 'update' : 'set' }} your location</span>
                         </div>
-                        <div class='col-4 d-flex align-items-center'>
-                            <div class='ms-auto btn-list'>
+                        <div class="col-4 d-flex align-items-center">
+                            <div class="ms-auto btn-list">
                                 <button
-                                    class='btn btn-sm use-gps-btn'
-                                    @click='exitManualMode'
+                                    class="btn btn-sm use-gps-btn"
+                                    @click="exitManualMode"
                                 >
                                     <IconLocation
-                                        :size='16'
-                                        class='me-1'
+                                        :size="16"
+                                        class="me-1"
                                     />
                                     Use GPS
                                 </button>
                                 <TablerIconButton
-                                    title='Cancel Manual Location'
-                                    @click='cancelLocationSetting'
+                                    title="Cancel Manual Location"
+                                    @click="cancelLocationSetting"
                                 >
                                     <IconX
-                                        :size='24'
-                                        stroke='1'
+                                        :size="24"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -95,223 +95,223 @@
                 </div>
             </GenericBottomPane>
             <BottomBar
-                :mode='mode'
-                @set-location='setLocation'
-                @to-location='toLocation'
+                :mode="mode"
+                @set-location="setLocation"
+                @to-location="toLocation"
             />
             <div
-                v-if='mapStore.selected.size'
-                class='position-absolute'
-                style='
+                v-if="mapStore.selected.size"
+                class="position-absolute"
+                style="
                     bottom: calc(var(--map-bottom-bar-size, 50px) + 8px);
                     left: 8px;
-                '
+                "
             >
-                <SelectFeats :selected='mapStore.selected' />
+                <SelectFeats :selected="mapStore.selected" />
             </div>
 
             <div
                 v-if='mode === "Default"'
-                class='position-absolute'
-                style='
+                class="position-absolute"
+                style="
                     top: calc(8px + var(--status-bar-height, 0px));
                     left: 8px;
-                '
+                "
             >
                 <ActiveMission />
             </div>
             <div
-                v-if='mapStore.navigation.active'
-                class='position-absolute start-50 translate-middle-x'
-                style='z-index: 2; top: var(--status-bar-height, 0px);'
+                v-if="mapStore.navigation.active"
+                class="position-absolute start-50 translate-middle-x"
+                style="z-index: 2; top: var(--status-bar-height, 0px);"
             >
                 <Navigating />
             </div>
             <div
                 v-if='mode === "Default"'
-                class='position-absolute'
+                class="position-absolute"
                 :class='{ "cloudtak-left-controls--nav": mapStore.navigation.active }'
-                style='
+                style="
                     top: calc(76px + var(--status-bar-height, 0px));
                     left: 8px;
-                '
+                "
             >
-                <div class='cloudtak-ctrl-group cloudtak-panel'>
+                <div class="cloudtak-ctrl-group cloudtak-panel">
                     <div
-                        role='button'
-                        tabindex='0'
-                        title='Search Button'
-                        class='cloudtak-ctrl-btn'
-                        @click='searchBoxShown = !searchBoxShown'
+                        role="button"
+                        tabindex="0"
+                        title="Search Button"
+                        class="cloudtak-ctrl-btn"
+                        @click="searchBoxShown = !searchBoxShown"
                     >
                         <IconSearch
-                            :size='24'
-                            stroke='2'
+                            :size="24"
+                            stroke="2"
                             :color='searchBoxShown ? "#1E90FF" : undefined'
                         />
                     </div>
 
                     <div
-                        role='button'
-                        tabindex='0'
-                        class='cloudtak-ctrl-btn'
+                        role="button"
+                        tabindex="0"
+                        class="cloudtak-ctrl-btn"
                         :title='mapStore.userOrientationMode ? "Orient North" : "Snap to North"'
-                        @click='toggleCompass'
+                        @click="toggleCompass"
                     >
                         <IconCompass
-                            v-if='mapStore.userOrientationMode'
-                            :size='24'
-                            stroke='2'
-                            color='#1E90FF'
+                            v-if="mapStore.userOrientationMode"
+                            :size="24"
+                            stroke="2"
+                            color="#1E90FF"
                         />
                         <template v-else>
                             <IconCircleArrowUp
-                                :alt='`Map Rotated to ${humanBearing}`'
-                                :transform='`rotate(${360 - mapStore.bearing})`'
-                                :size='24'
-                                stroke='2'
+                                :alt="`Map Rotated to ${humanBearing}`"
+                                :transform="`rotate(${360 - mapStore.bearing})`"
+                                :size="24"
+                                stroke="2"
                             />
                             <div
-                                v-if='mapStore.bearing !== 0'
-                                class='text-center cloudtak-ctrl-label'
-                                v-text='humanBearing'
+                                v-if="mapStore.bearing !== 0"
+                                class="text-center cloudtak-ctrl-label"
+                                v-text="humanBearing"
                             />
                         </template>
                     </div>
 
                     <div
-                        v-if='mapStore.pitch !== 0'
-                        role='button'
-                        tabindex='0'
-                        class='cloudtak-ctrl-btn'
-                        title='Snap Flat'
-                        @click='mapStore.map.setPitch(0)'
+                        v-if="mapStore.pitch !== 0"
+                        role="button"
+                        tabindex="0"
+                        class="cloudtak-ctrl-btn"
+                        title="Snap Flat"
+                        @click="mapStore.map.setPitch(0)"
                     >
                         <IconAngle
-                            :alt='`Map Pitch to ${humanPitch}`'
-                            :size='24'
-                            stroke='2'
+                            :alt="`Map Pitch to ${humanPitch}`"
+                            :size="24"
+                            stroke="2"
                         />
                         <div
-                            class='text-center cloudtak-ctrl-label'
-                            v-text='humanPitch'
+                            class="text-center cloudtak-ctrl-label"
+                            v-text="humanPitch"
                         />
                     </div>
 
-                    <template v-if='displayZoom'>
+                    <template v-if="displayZoom">
                         <div
-                            role='button'
-                            tabindex='0'
-                            title='Zoom In Button'
-                            class='cloudtak-ctrl-btn'
-                            @click='mapStore.map.setZoom(mapStore.map.getZoom() + 1);'
+                            role="button"
+                            tabindex="0"
+                            title="Zoom In Button"
+                            class="cloudtak-ctrl-btn"
+                            @click="mapStore.map.setZoom(mapStore.map.getZoom() + 1);"
                         >
                             <IconPlus
-                                :size='24'
-                                stroke='2'
+                                :size="24"
+                                stroke="2"
                             />
                         </div>
                         <div
-                            role='button'
-                            tabindex='0'
-                            title='Zoom Out Button'
-                            class='cloudtak-ctrl-btn'
-                            @click='mapStore.map.setZoom(mapStore.map.getZoom() - 1);'
+                            role="button"
+                            tabindex="0"
+                            title="Zoom Out Button"
+                            class="cloudtak-ctrl-btn"
+                            @click="mapStore.map.setZoom(mapStore.map.getZoom() - 1);"
                         >
                             <IconMinus
-                                :size='24'
-                                stroke='2'
+                                :size="24"
+                                stroke="2"
                             />
                         </div>
                     </template>
 
                     <div
-                        v-if='hasTerrain'
-                        role='button'
-                        tabindex='0'
+                        v-if="hasTerrain"
+                        role="button"
+                        tabindex="0"
                         :title='mapStore.terrainEnabled ? "Disable 3D Terrain" : "Enable 3D Terrain"'
-                        class='cloudtak-ctrl-btn'
-                        @click='mapStore.toggleTerrain()'
+                        class="cloudtak-ctrl-btn"
+                        @click="mapStore.toggleTerrain()"
                     >
                         <IconMountain
-                            :size='24'
-                            stroke='2'
+                            :size="24"
+                            stroke="2"
                             :color='mapStore.terrainEnabled ? "#1E90FF" : undefined'
                         />
                     </div>
 
                     <div
-                        v-if='
+                        v-if="
                             (mapStore.radial.cot && mapStore.locked.length >= 2)
                                 || (!mapStore.radial.cot && mapStore.locked.length >= 1)
-                        '
-                        title='Map is locked to marker - Click to Unlock'
-                        role='button'
-                        tabindex='0'
-                        class='cloudtak-ctrl-btn'
-                        @click='mapStore.locked.splice(0, mapStore.locked.length)'
+                        "
+                        title="Map is locked to marker - Click to Unlock"
+                        role="button"
+                        tabindex="0"
+                        class="cloudtak-ctrl-btn"
+                        @click="mapStore.locked.splice(0, mapStore.locked.length)"
                     >
                         <IconLockAccess
-                            color='red'
-                            :size='24'
-                            stroke='2'
+                            color="red"
+                            :size="24"
+                            stroke="2"
                         />
                     </div>
                 </div>
             </div>
 
             <TablerModal
-                v-if='searchBoxShown'
-                size='lg'
+                v-if="searchBoxShown"
+                size="lg"
             >
-                <div class='modal-header'>
-                    <div class='modal-title'>
+                <div class="modal-header">
+                    <div class="modal-title">
                         Search
                     </div>
                     <button
-                        type='button'
-                        class='btn-close'
-                        aria-label='Close'
-                        @click='searchBoxShown = false'
+                        type="button"
+                        class="btn-close"
+                        aria-label="Close"
+                        @click="searchBoxShown = false"
                     />
                 </div>
-                <div class='modal-body'>
+                <div class="modal-body">
                     <SearchBox
-                        :autofocus='true'
-                        @select='searchBoxShown = false'
+                        :autofocus="true"
+                        @select="searchBoxShown = false"
                     />
                 </div>
             </TablerModal>
 
             <div
                 v-if='mapStore.isMapLoaded && mode === "Default"'
-                class='position-absolute cloudtak-panel d-flex align-items-center px-2'
-                style='
+                class="position-absolute cloudtak-panel d-flex align-items-center px-2"
+                style="
                     z-index: 5;
                     height: 60px;
                     max-width: calc(100vw - 16px);
                     top: calc(8px + var(--status-bar-height, 0px));
                     right: 8px;
-                '
+                "
             >
                 <TablerDropdown>
                     <TablerIconButton
-                        id='map-notifications'
-                        title='Notifications Icon'
-                        class='cloudtak-hover'
+                        id="map-notifications"
+                        title="Notifications Icon"
+                        class="cloudtak-hover"
                         :class='{ "alert-pulse": alertNotifications }'
-                        :hover='false'
+                        :hover="false"
                     >
                         <IconAlertTriangle
-                            v-if='alertNotifications'
-                            :size='40'
-                            stroke='1'
-                            class='text-danger'
+                            v-if="alertNotifications"
+                            :size="40"
+                            stroke="1"
+                            class="text-danger"
                         />
                         <IconBell
                             v-else
-                            :size='40'
-                            stroke='1'
+                            :size="40"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <template #dropdown>
@@ -320,127 +320,127 @@
                 </TablerDropdown>
 
                 <span
-                    v-if='notifications'
-                    class='badge bg-red mb-2'
+                    v-if="notifications"
+                    class="badge bg-red mb-2"
                 />
                 <span
                     v-else
-                    style='width: 10px;'
+                    style="width: 10px;"
                 />
 
                 <DrawTools />
 
                 <div
-                    class='border-start mx-1'
-                    style='height: 32px;'
+                    class="border-start mx-1"
+                    style="height: 32px;"
                 />
 
                 <TablerIconButton
-                    v-if='noMenuShown'
-                    title='Open Menu'
-                    class='ms-1 cloudtak-hover'
-                    :hover='false'
+                    v-if="noMenuShown"
+                    title="Open Menu"
+                    class="ms-1 cloudtak-hover"
+                    :hover="false"
                     @click='router.push("/menu")'
                 >
                     <IconMenu2
-                        :size='40'
-                        stroke='1'
+                        :size="40"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
                     v-else
-                    title='Close Menu'
-                    class='ms-1 cloudtak-hover'
-                    :hover='false'
-                    @click='closeAllMenu'
+                    title="Close Menu"
+                    class="ms-1 cloudtak-hover"
+                    :hover="false"
+                    @click="closeAllMenu"
                 >
                     <IconX
-                        :size='40'
-                        stroke='1'
+                        :size="40"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
 
 
             <MainMenu
-                v-if='
+                v-if="
                     mapStore.isMapLoaded
                         && (
                             (noMenuShown && !isMobileDetected)
                             || (!noMenuShown)
                         )
-                '
-                :compact='noMenuShown'
+                "
+                :compact="noMenuShown"
             />
 
             <div
                 v-if='mapStore.isMapLoaded && isMobileDetected && mode === "Default"'
-                class='position-absolute'
-                style='
+                class="position-absolute"
+                style="
                     z-index: 4;
                     bottom: var(--map-bottom-bar-size, 50px);
                     right: 0;
                     padding: 8px;
-                '
+                "
             >
-                <ServerStatus :size='38' />
+                <ServerStatus :size="38" />
             </div>
 
             <MultipleSelect
-                v-if='mapStore.select.feats.length'
-                @selected='selectFeat($event)'
+                v-if="mapStore.select.feats.length"
+                @selected="selectFeat($event)"
             />
 
             <!-- Keyed on the radial target so repointing at a new feature remounts the component and regenerates its menu items -->
             <RadialMenu
-                v-else-if='mapStore.radial.mode'
+                v-else-if="mapStore.radial.mode"
                 :key='`${mapStore.radial.mode}:${mapStore.radial.cot?.properties?.id ?? ""}`'
-                @close='closeRadial'
-                @click='handleRadial($event)'
+                @close="closeRadial"
+                @click="handleRadial($event)"
             />
 
             <template
-                v-for='float in floatStore.panes.values()'
-                :key='float.uid'
+                v-for="float in floatStore.panes.values()"
+                :key="float.uid"
             >
                 <component
-                    :is='float.component'
-                    :uid='float.uid'
-                    @close='floatStore.panes.delete(float.uid)'
+                    :is="float.component"
+                    :uid="float.uid"
+                    @close="floatStore.panes.delete(float.uid)"
                 />
             </template>
 
             <BufferInput
-                v-if='bufferCotId'
-                :cot-id='bufferCotId'
-                @close='bufferCotId = null'
+                v-if="bufferCotId"
+                :cot-id="bufferCotId"
+                @close="bufferCotId = null"
             />
 
-            <template v-if='upload.shown'>
+            <template v-if="upload.shown">
                 <TablerModal>
-                    <div class='modal-status bg-red' />
+                    <div class="modal-status bg-red" />
                     <button
-                        type='button'
-                        class='btn-close'
-                        aria-label='Close'
-                        @click='upload.shown = false'
+                        type="button"
+                        class="btn-close"
+                        aria-label="Close"
+                        @click="upload.shown = false"
                     />
-                    <div class='modal-body text-body'>
+                    <div class="modal-body text-body">
                         <Upload
                             :url='stdurl("/api/import")'
-                            method='PUT'
-                            :cancel='false'
-                            @cancel='upload.shown = false'
-                            @done='fileUpload($event)'
+                            method="PUT"
+                            :cancel="false"
+                            @cancel="upload.shown = false"
+                            @done="fileUpload($event)"
                         />
                     </div>
                 </TablerModal>
             </template>
 
             <MissionInviteModal
-                v-if='inviteMission'
-                :mission='inviteMission'
-                @close='inviteMission = undefined'
+                v-if="inviteMission"
+                :mission="inviteMission"
+                @close="inviteMission = undefined"
             />
         </template>
     </div>

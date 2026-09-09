@@ -1,5 +1,5 @@
 <template>
-    <MenuTemplate name='Callsign &amp; Device'>
+    <MenuTemplate name="Callsign &amp; Device">
         <div>
             <SettingsCallsign />
         </div>

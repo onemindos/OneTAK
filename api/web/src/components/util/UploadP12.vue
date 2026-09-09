@@ -1,25 +1,25 @@
 <template>
     <TablerModal>
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="close"
         />
-        <div class='modal-status bg-yellow' />
-        <div class='modal-body text-center py-4'>
-            <template v-if='!file'>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-body text-center py-4">
+            <template v-if="!file">
                 <form
-                    id='dropzone-default'
-                    class='dropzone dz-clickable'
-                    action='./'
-                    autocomplete='off'
+                    id="dropzone-default"
+                    class="dropzone dz-clickable"
+                    action="./"
+                    autocomplete="off"
                     novalidate
                 >
-                    <div class='dz-default dz-message'>
+                    <div class="dz-default dz-message">
                         <button
-                            class='dz-button'
-                            type='button'
+                            class="dz-button"
+                            type="button"
                         >
                             Drop .p12 here<br>click to upload
                         </button>
@@ -28,16 +28,16 @@
             </template>
             <template v-else>
                 <TablerInput
-                    v-model='password'
-                    label='P12 Password'
-                    @keyup.enter='extract'
+                    v-model="password"
+                    label="P12 Password"
+                    @keyup.enter="extract"
                 />
 
-                <div class='row mt-3'>
-                    <div class='col'>
+                <div class="row mt-3">
+                    <div class="col">
                         <a
-                            class='cursor-pointer btn w-100'
-                            @click='extract'
+                            class="cursor-pointer btn w-100"
+                            @click="extract"
                         >OK</a>
                     </div>
                 </div>

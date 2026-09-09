@@ -1,72 +1,72 @@
 <template>
-    <div class='col-12'>
-        <label class='subheader mx-2'>Line Length</label>
-        <div class='mx-2'>
+    <div class="col-12">
+        <label class="subheader mx-2">Line Length</label>
+        <div class="mx-2">
             <CopyField
-                v-model='inMode'
-                :size='24'
+                v-model="inMode"
+                :size="24"
             />
             <div
-                class='mx-2'
-                role='menu'
+                class="mx-2"
+                role="menu"
             >
                 <span
-                    title='Feet'
-                    class='my-1 px-2 user-select-none'
+                    title="Feet"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "feet",
                         "cursor-pointer": mode !== "feet",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "feet"'
                     @click='mode = "feet"'
                 >Feet</span>
                 <span
-                    title='Yards'
-                    class='my-1 px-2 user-select-none'
+                    title="Yards"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "yard",
                         "cursor-pointer": mode !== "yard",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "yard"'
                     @click='mode = "yard"'
                 >Yards</span>
                 <span
-                    title='Meters'
-                    class='my-1 px-2 user-select-none'
+                    title="Meters"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "meter",
                         "cursor-pointer": mode !== "meter",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "meter"'
                     @click='mode = "meter"'
                 >Meters</span>
                 <span
-                    title='Kilometers'
-                    class='my-1 px-2 user-select-none'
+                    title="Kilometers"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "kilometer",
                         "cursor-pointer": mode !== "kilometer",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "kilometer"'
                     @click='mode = "kilometer"'
                 >Kilometers</span>
                 <span
-                    title='Miles'
-                    class='my-1 px-2 user-select-none'
+                    title="Miles"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "mile",
                         "cursor-pointer": mode !== "mile",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='mode = "mile"'
                     @click='mode = "mile"'
                 >Miles</span>

@@ -1,45 +1,45 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Channels'
+            v-model="expanded"
+            label="Channels"
         >
             <template #icon>
                 <IconAffiliate
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <TablerIconButton
-                    v-if='props.edit && !editing'
-                    title='Edit Channels'
-                    class='me-2'
-                    @click.stop='startEditing'
+                    v-if="props.edit && !editing"
+                    title="Edit Channels"
+                    class="me-2"
+                    @click.stop="startEditing"
                 >
                     <IconPencil
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    v-else-if='props.edit'
-                    title='Save Channels'
-                    class='me-2'
-                    @click.stop='save'
+                    v-else-if="props.edit"
+                    title="Save Channels"
+                    class="me-2"
+                    @click.stop="save"
                 >
                     <IconCheck
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerBadge
-                    class='me-2'
-                    background-color='rgba(59, 130, 246, 0.15)'
-                    border-color='rgba(59, 130, 246, 0.4)'
-                    text-color='#3b82f6'
+                    class="me-2"
+                    background-color="rgba(59, 130, 246, 0.15)"
+                    border-color="rgba(59, 130, 246, 0.4)"
+                    text-color="#3b82f6"
                 >
                     {{ props.modelValue.length }}
                 </TablerBadge>
@@ -47,89 +47,89 @@
 
             <!-- SlideDownHeader owns the section's surface & bottom padding -
                  rows sit directly on it rather than in a second box -->
-            <div class='px-2 pt-2'>
+            <div class="px-2 pt-2">
                 <TablerLoading
-                    v-if='loading'
-                    :compact='true'
-                    desc='Loading Channels'
+                    v-if="loading"
+                    :compact="true"
+                    desc="Loading Channels"
                 />
                 <div
-                    v-else-if='editing'
-                    class='overflow-auto'
-                    style='max-height: 250px;'
+                    v-else-if="editing"
+                    class="overflow-auto"
+                    style="max-height: 250px;"
                 >
-                    <GroupSelect v-model='selected' />
+                    <GroupSelect v-model="selected" />
                 </div>
                 <template v-else>
                     <TablerNone
-                        v-if='!shared.length'
-                        label='Not shared with any Channels'
-                        :compact='true'
-                        :create='false'
+                        v-if="!shared.length"
+                        label="Not shared with any Channels"
+                        :compact="true"
+                        :create="false"
                     />
 
                     <div
-                        v-for='channel of shared'
-                        :key='channel.bitpos'
-                        class='mb-2'
+                        v-for="channel of shared"
+                        :key="channel.bitpos"
+                        class="mb-2"
                     >
-                        <div class='d-flex align-items-center gap-2 px-2 py-1'>
+                        <div class="d-flex align-items-center gap-2 px-2 py-1">
                             <IconUsersGroup
-                                :size='18'
-                                stroke='1.5'
-                                class='flex-shrink-0 text-secondary'
+                                :size="18"
+                                stroke="1.5"
+                                class="flex-shrink-0 text-secondary"
                             />
                             <span
-                                class='fw-medium text-truncate user-select-none'
-                                :title='channel.name'
-                                v-text='channel.name'
+                                class="fw-medium text-truncate user-select-none"
+                                :title="channel.name"
+                                v-text="channel.name"
                             />
                         </div>
 
                         <!-- Boards the Channel carries & where this Event sits on each -->
                         <div
-                            v-if='channel.boards.length'
-                            class='d-flex flex-column'
+                            v-if="channel.boards.length"
+                            class="d-flex flex-column"
                         >
                             <div
-                                v-for='board of channel.boards'
-                                :key='board.id'
-                                class='d-flex align-items-center gap-2 ps-4 pe-2 py-1 cursor-pointer cloudtak-hover'
-                                role='button'
-                                tabindex='0'
-                                :title='`Open ${board.name} in the Event Board`'
-                                @click='openBoard(board)'
-                                @keydown.enter='openBoard(board)'
+                                v-for="board of channel.boards"
+                                :key="board.id"
+                                class="d-flex align-items-center gap-2 ps-4 pe-2 py-1 cursor-pointer cloudtak-hover"
+                                role="button"
+                                tabindex="0"
+                                :title="`Open ${board.name} in the Event Board`"
+                                @click="openBoard(board)"
+                                @keydown.enter="openBoard(board)"
                             >
                                 <IconLayoutKanban
-                                    :size='18'
-                                    stroke='1.5'
-                                    class='flex-shrink-0 text-secondary'
+                                    :size="18"
+                                    stroke="1.5"
+                                    class="flex-shrink-0 text-secondary"
                                 />
                                 <span
-                                    class='text-truncate'
-                                    style='min-width: 0;'
-                                    v-text='board.name'
+                                    class="text-truncate"
+                                    style="min-width: 0;"
+                                    v-text="board.name"
                                 />
                                 <IconExternalLink
-                                    :size='14'
-                                    stroke='1'
-                                    class='flex-shrink-0 text-secondary cloudtak-hover-hidden'
+                                    :size="14"
+                                    stroke="1"
+                                    class="flex-shrink-0 text-secondary cloudtak-hover-hidden"
                                 />
-                                <div class='ms-auto ps-2 flex-shrink-0'>
+                                <div class="ms-auto ps-2 flex-shrink-0">
                                     <TablerBadge
-                                        v-if='columnOf(board)'
-                                        :background-color='badge(columnOf(board)).background'
-                                        :border-color='badge(columnOf(board)).border'
-                                        :text-color='badge(columnOf(board)).text'
+                                        v-if="columnOf(board)"
+                                        :background-color="badge(columnOf(board)).background"
+                                        :border-color="badge(columnOf(board)).border"
+                                        :text-color="badge(columnOf(board)).text"
                                     >
                                         {{ columnOf(board)?.name }}
                                     </TablerBadge>
                                     <button
                                         v-else
-                                        type='button'
-                                        class='btn btn-success btn-sm py-0'
-                                        :title='`Nominate this Event to ${board.name}`'
+                                        type="button"
+                                        class="btn btn-success btn-sm py-0"
+                                        :title="`Nominate this Event to ${board.name}`"
                                         @click.stop='emit("nominate", board)'
                                         @keydown.enter.stop
                                     >

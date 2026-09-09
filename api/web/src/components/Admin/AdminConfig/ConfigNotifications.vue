@@ -1,146 +1,146 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Notifications'
+        v-model="isOpen"
+        label="Notifications"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
 
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
 
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerToggle
                             v-model='config["notification::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Notifications'
+                            :disabled="!edit"
+                            label="Enable Notifications"
                         />
                     </div>
 
                     <template v-if='config["notification::enabled"]'>
-                        <div class='col-lg-12 mt-2'>
-                            <label class='subheader user-select-none'>SMS</label>
+                        <div class="col-lg-12 mt-2">
+                            <label class="subheader user-select-none">SMS</label>
                         </div>
-                        <div class='col-lg-12'>
+                        <div class="col-lg-12">
                             <TablerToggle
                                 v-model='config["notification::sms::enabled"]'
-                                :disabled='!edit'
-                                label='Enable SMS Notifications'
+                                :disabled="!edit"
+                                label="Enable SMS Notifications"
                             />
                         </div>
                         <div
                             v-if='config["notification::sms::enabled"]'
-                            class='col-lg-12'
+                            class="col-lg-12"
                         >
                             <TablerEnum
                                 v-model='config["notification::sms::service"]'
-                                :disabled='!edit'
-                                label='SMS Service'
+                                :disabled="!edit"
+                                label="SMS Service"
                                 :options='["aws"]'
                             />
                         </div>
 
-                        <div class='col-lg-12 mt-2'>
-                            <label class='subheader user-select-none'>Email</label>
+                        <div class="col-lg-12 mt-2">
+                            <label class="subheader user-select-none">Email</label>
                         </div>
-                        <div class='col-lg-12'>
+                        <div class="col-lg-12">
                             <TablerToggle
                                 v-model='config["notification::email::enabled"]'
-                                :disabled='!edit'
-                                label='Enable Email Notifications'
+                                :disabled="!edit"
+                                label="Enable Email Notifications"
                             />
                         </div>
                         <div
                             v-if='config["notification::email::enabled"]'
-                            class='col-lg-12'
+                            class="col-lg-12"
                         >
                             <TablerEnum
                                 v-model='config["notification::email::service"]'
-                                :disabled='!edit'
-                                label='Email Service'
+                                :disabled="!edit"
+                                label="Email Service"
                                 :options='["aws"]'
                             />
                         </div>
 
-                        <div class='col-lg-12 mt-2'>
-                            <label class='subheader user-select-none'>Push Notifications</label>
+                        <div class="col-lg-12 mt-2">
+                            <label class="subheader user-select-none">Push Notifications</label>
                         </div>
-                        <div class='col-lg-12'>
+                        <div class="col-lg-12">
                             <TablerToggle
                                 v-model='config["notification::push::enabled"]'
-                                :disabled='!edit'
-                                label='Enable Push Notifications'
+                                :disabled="!edit"
+                                label="Enable Push Notifications"
                             />
                         </div>
                         <div
                             v-if='config["notification::push::enabled"]'
-                            class='col-lg-12'
+                            class="col-lg-12"
                         >
                             <TablerEnum
                                 v-model='config["notification::push::service"]'
-                                :disabled='!edit'
-                                label='Push Service'
+                                :disabled="!edit"
+                                label="Push Service"
                                 :options='["firebase"]'
                             />
                         </div>
                         <template v-if='config["notification::push::enabled"] && config["notification::push::service"] === "firebase"'>
-                            <div class='col-lg-6 mt-2'>
+                            <div class="col-lg-6 mt-2">
                                 <TablerInput
                                     v-model='config["notification::push::firebase::project_id"]'
-                                    :disabled='!edit'
-                                    label='Firebase Project ID'
+                                    :disabled="!edit"
+                                    label="Firebase Project ID"
                                 />
                             </div>
-                            <div class='col-lg-6 mt-2'>
+                            <div class="col-lg-6 mt-2">
                                 <TablerInput
                                     v-model='config["notification::push::firebase::client_email"]'
-                                    :disabled='!edit'
-                                    label='Firebase Client Email'
+                                    :disabled="!edit"
+                                    label="Firebase Client Email"
                                 />
                             </div>
-                            <div class='col-lg-12'>
+                            <div class="col-lg-12">
                                 <TablerInput
                                     v-model='config["notification::push::firebase::private_key"]'
-                                    :disabled='!edit'
-                                    :rows='6'
-                                    autocomplete='new-password'
-                                    label='Firebase Private Key'
+                                    :disabled="!edit"
+                                    :rows="6"
+                                    autocomplete="new-password"
+                                    label="Firebase Private Key"
                                 />
-                                <label class='text-secondary user-select-none'>
+                                <label class="text-secondary user-select-none">
                                     Paste the <code>private_key</code> from the Firebase service account JSON (the full PEM block, including the BEGIN/END lines).
                                 </label>
                             </div>

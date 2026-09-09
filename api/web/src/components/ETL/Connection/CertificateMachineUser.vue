@@ -1,20 +1,20 @@
 <template>
-    <div class='card mx-2 px-0'>
-        <TablerLoading v-if='loading.gen' />
+    <div class="card mx-2 px-0">
+        <TablerLoading v-if="loading.gen" />
         <div
-            v-else-if='!connection.certificate'
-            class='card-body'
+            v-else-if="!connection.certificate"
+            class="card-body"
         >
             <div
-                v-for='(sel, it) in selected'
-                class='card my-2'
+                v-for="(sel, it) in selected"
+                class="card my-2"
             >
-                <div class='col-12 d-flex align-items-center px-2 py-2'>
-                    <div v-text='sel.channel.rdn' />
-                    <div class='ms-auto btn-list'>
+                <div class="col-12 d-flex align-items-center px-2 py-2">
+                    <div v-text="sel.channel.rdn" />
+                    <div class="ms-auto btn-list">
                         <TablerEnum
-                            v-model='sel.access'
-                            default='Duplex'
+                            v-model="sel.access"
+                            default="Duplex"
                             :options='[
                                 "Read",
                                 "Write",
@@ -23,70 +23,70 @@
                         />
 
                         <TablerIconButton
-                            title='Remove Channel'
-                            @click='selected.splice(it, 1)'
+                            title="Remove Channel"
+                            @click="selected.splice(it, 1)"
                         >
                             <IconTrash
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
             </div>
-            <div class='col-12 mb-2'>
+            <div class="col-12 mb-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Channels Filter...'
-                    @keyup.enter='generate'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Channels Filter..."
+                    @keyup.enter="generate"
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerLoading
-                    v-if='loading.channels'
-                    desc='Loading Channels'
+                    v-if="loading.channels"
+                    desc="Loading Channels"
                 />
                 <TablerNone
-                    v-else-if='filteredChannels.length === 0'
-                    :compact='true'
-                    :create='false'
-                    label='No Channels'
+                    v-else-if="filteredChannels.length === 0"
+                    :compact="true"
+                    :create="false"
+                    label="No Channels"
                 />
                 <template
-                    v-for='channel in filteredChannels'
+                    v-for="channel in filteredChannels"
                     v-else
                 >
                     <div
-                        class='cloudtak-hover px-2 py-2 cursor-pointer row'
-                        @click='push(channel)'
+                        class="cloudtak-hover px-2 py-2 cursor-pointer row"
+                        @click="push(channel)"
                     >
-                        <div class='col-md-4'>
-                            <span v-text='channel.rdn' />
+                        <div class="col-md-4">
+                            <span v-text="channel.rdn" />
                         </div>
 
                         <div
-                            class='col-md-8'
-                            v-text='channel.description'
+                            class="col-md-8"
+                            v-text="channel.description"
                         />
                     </div>
                 </template>
             </div>
         </div>
-        <div class='card-footer'>
+        <div class="card-footer">
             <button
-                v-if='!connection.certificate'
-                :disabled='loading.gen || !selected.length'
-                class='cursor-pointer btn btn-primary w-100'
-                @click='generate'
+                v-if="!connection.certificate"
+                :disabled="loading.gen || !selected.length"
+                class="cursor-pointer btn btn-primary w-100"
+                @click="generate"
             >
                 Create Machine User
             </button>
             <button
                 v-else
-                class='cursor-pointer btn btn-primary w-100'
-                :disabled='loading.gen'
-                @click='regenerate'
+                class="cursor-pointer btn btn-primary w-100"
+                :disabled="loading.gen"
+                @click="regenerate"
             >
                 Regenerate Certificate
             </button>

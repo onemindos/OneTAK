@@ -1,73 +1,73 @@
 <template>
-    <TablerModal size='xl'>
-        <div class='modal-status bg-yellow' />
+    <TablerModal size="xl">
+        <div class="modal-status bg-yellow" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='$emit("close")'
         />
-        <div class='modal-header'>
+        <div class="modal-header">
             <div
-                class='modal-title'
+                class="modal-title"
                 v-text='token && typeof token === "object" && token.id ? "Edit Token" : "New Token"'
             />
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
-                    v-if='editToken.id'
-                    displaytype='icon'
-                    @delete='deleteToken'
+                    v-if="editToken.id"
+                    displaytype="icon"
+                    @delete="deleteToken"
                 />
             </div>
         </div>
 
-        <div class='modal-body row'>
+        <div class="modal-body row">
             <div
-                v-if='!code'
-                class='col-12'
+                v-if="!code"
+                class="col-12"
             >
                 <TablerInput
-                    v-model='editToken.name'
-                    label='Token Name'
+                    v-model="editToken.name"
+                    label="Token Name"
                 />
                 <div
                     v-if='typeof token === "object" && token.id'
-                    class='form-hint mt-1'
+                    class="form-hint mt-1"
                 >
                     Created by <span v-text='token.username || "an unknown user"' />
                 </div>
 
-                <div class='mt-3'>
-                    <label class='form-label'>Scopes</label>
+                <div class="mt-3">
+                    <label class="form-label">Scopes</label>
                     <TablerLoading
-                        v-if='loading'
-                        :inline='true'
-                        desc='Loading Scopes'
+                        v-if="loading"
+                        :inline="true"
+                        desc="Loading Scopes"
                     />
                     <div
                         v-else
-                        class='row g-2'
+                        class="row g-2"
                     >
                         <div
-                            v-for='scope in scopes'
-                            :key='scope.resource'
-                            class='col-12 col-md-4 d-flex'
+                            v-for="scope in scopes"
+                            :key="scope.resource"
+                            class="col-12 col-md-4 d-flex"
                         >
-                            <div class='card w-100 cloudtak-accent'>
-                                <div class='card-header py-2'>
+                            <div class="card w-100 cloudtak-accent">
+                                <div class="card-header py-2">
                                     <h3
-                                        class='card-title text-capitalize'
-                                        v-text='scope.resource'
+                                        class="card-title text-capitalize"
+                                        v-text="scope.resource"
                                     />
                                 </div>
-                                <div class='card-body py-2'>
+                                <div class="card-body py-2">
                                     <TablerToggle
-                                        v-for='level in scope.scopes'
-                                        :key='level'
-                                        v-model='editToken.permissions[level]'
-                                        :label='level'
-                                        :disabled='level !== `${scope.resource}:*` && editToken.permissions[`${scope.resource}:*`]'
+                                        v-for="level in scope.scopes"
+                                        :key="level"
+                                        v-model="editToken.permissions[level]"
+                                        :label="level"
+                                        :disabled="level !== `${scope.resource}:*` && editToken.permissions[`${scope.resource}:*`]"
                                     />
                                 </div>
                             </div>
@@ -77,22 +77,22 @@
             </div>
             <div
                 v-else
-                class='col-12'
+                class="col-12"
             >
-                <pre v-text='code' />
+                <pre v-text="code" />
             </div>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                v-if='!code'
-                class='btn btn-primary'
-                @click='saveToken'
+                v-if="!code"
+                class="btn btn-primary"
+                @click="saveToken"
             >
                 Save
             </button>
             <button
                 v-else
-                class='btn btn-primary'
+                class="btn btn-primary"
                 @click='$emit("refresh")'
             >
                 Close

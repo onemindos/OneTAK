@@ -1,95 +1,95 @@
 <template>
     <div
-        class='position-relative text-white user-select-none border-start border-white border-opacity-25 px-2 py-1'
-        style='width: clamp(220px, 26vw, 340px); min-width: 220px; max-width: 340px;'
+        class="position-relative text-white user-select-none border-start border-white border-opacity-25 px-2 py-1"
+        style="width: clamp(220px, 26vw, 340px); min-width: 220px; max-width: 340px;"
     >
         <TablerDropdown
-            class='h-100'
-            position='top-end'
-            :width='240'
+            class="h-100"
+            position="top-end"
+            :width="240"
         >
             <template #default>
                 <div
-                    class='px-2 py-2 d-flex flex-column justify-content-center h-100'
+                    class="px-2 py-2 d-flex flex-column justify-content-center h-100"
                     :class='isNative ? "" : "cursor-pointer cloudtak-hover pe-5"'
                 >
                     <span
-                        class='d-block text-uppercase text-white-50'
-                        style='font-size: 0.65rem; line-height: 1.1; letter-spacing: 0.04em;'
+                        class="d-block text-uppercase text-white-50"
+                        style="font-size: 0.65rem; line-height: 1.1; letter-spacing: 0.04em;"
                     >{{ coordSource === 'gps' ? 'GPS Location' : 'Cursor Position' }}</span>
                     <span
-                        class='d-block text-truncate'
-                        style='font-size: 0.85rem; line-height: 1.2; font-variant-numeric: tabular-nums;'
+                        class="d-block text-truncate"
+                        style="font-size: 0.85rem; line-height: 1.2; font-variant-numeric: tabular-nums;"
                     >{{ formattedCoord }}</span>
                 </div>
             </template>
 
             <template #dropdown>
                 <li
-                    v-if='!isNative'
-                    class='px-3 py-2'
+                    v-if="!isNative"
+                    class="px-3 py-2"
                     @click.stop
                 >
                     <TablerPillGroup
-                        :model-value='coordSource'
-                        :options='sourceOptions'
-                        size='sm'
-                        :full-width='true'
-                        :rounded='true'
-                        padding='px-1 py-0'
-                        @update:model-value='coordSource = $event'
+                        :model-value="coordSource"
+                        :options="sourceOptions"
+                        size="sm"
+                        :full-width="true"
+                        :rounded="true"
+                        padding="px-1 py-0"
+                        @update:model-value="coordSource = $event"
                     >
-                        <template #option='{ option }'>
+                        <template #option="{ option }">
                             <IconCursorText
                                 v-if='option.value === "cursor"'
-                                :size='16'
-                                stroke='1'
+                                :size="16"
+                                stroke="1"
                             />
                             <IconCurrentLocation
                                 v-else
-                                :size='16'
-                                stroke='1'
+                                :size="16"
+                                stroke="1"
                             />
-                            <span class='ms-1'>{{ option.label }}</span>
+                            <span class="ms-1">{{ option.label }}</span>
                         </template>
                     </TablerPillGroup>
                 </li>
                 <li
                     v-if='appStore.isMobileDetected && coordSource === "gps" && formattedCoord'
-                    class='px-3 py-2'
-                    @click='Clipboard.write({ string: formattedCoord })'
+                    class="px-3 py-2"
+                    @click="Clipboard.write({ string: formattedCoord })"
                 >
                     <button
-                        type='button'
-                        class='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2'
+                        type="button"
+                        class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
                     >
                         <IconCopy
-                            :size='16'
-                            stroke='1'
+                            :size="16"
+                            stroke="1"
                         />
                         Copy Coordinates
                     </button>
                 </li>
                 <li
-                    v-for='mode in COORD_MODES'
-                    :key='mode.value'
-                    class='tabler-dropdown__item cloudtak-hover cursor-pointer px-3 py-2 text-body'
+                    v-for="mode in COORD_MODES"
+                    :key="mode.value"
+                    class="tabler-dropdown__item cloudtak-hover cursor-pointer px-3 py-2 text-body"
                     :class='{ "tabler-dropdown__item--active": mapStore.coordFormat === mode.value }'
-                    @click='void setCoordFormat(mode.value)'
+                    @click="void setCoordFormat(mode.value)"
                 >
-                    <span class='fw-semibold'>{{ mode.label }}</span>
-                    <span class='text-secondary ms-2 small'>{{ mode.title }}</span>
+                    <span class="fw-semibold">{{ mode.label }}</span>
+                    <span class="text-secondary ms-2 small">{{ mode.title }}</span>
                 </li>
             </template>
         </TablerDropdown>
 
         <CopyButton
             v-if='coordSource === "gps" && !appStore.isMobileDetected'
-            title='Copy Coordinates'
-            :text='formattedCoord'
-            class='position-absolute top-50 end-0 translate-middle-y me-2'
-            :size='24'
-            :stroke='1'
+            title="Copy Coordinates"
+            :text="formattedCoord"
+            class="position-absolute top-50 end-0 translate-middle-y me-2"
+            :size="24"
+            :stroke="1"
         />
     </div>
 </template>

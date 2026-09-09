@@ -1,23 +1,23 @@
 <template>
-    <TablerModal size='xl'>
-        <div class='modal-status bg-red' />
+    <TablerModal size="xl">
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='$emit("close")'
         />
 
-        <div class='modal-header'>
+        <div class="modal-header">
             <div
-                class='strong d-flex align-items-center'
+                class="strong d-flex align-items-center"
                 v-text='iconset.name || "Unnamed"'
             />
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <TablerIconButton
-                    v-if='route.params.iconset'
-                    title='Regenerate Spritesheet'
-                    @click='regen'
+                    v-if="route.params.iconset"
+                    title="Regenerate Spritesheet"
+                    @click="regen"
                 >
                     <IconWand />
                 </TablerIconButton>
@@ -25,23 +25,23 @@
         </div>
 
         <TablerLoading
-            v-if='loading.iconset'
-            desc='Loading Iconset'
+            v-if="loading.iconset"
+            desc="Loading Iconset"
         />
         <div
             v-else
-            class='mx-4 my-4'
+            class="mx-4 my-4"
         >
             <TablerSchema
-                v-model='iconset'
-                :schema='schema'
+                v-model="iconset"
+                :schema="schema"
             />
 
-            <div class='d-flex'>
-                <div class='ms-auto'>
+            <div class="d-flex">
+                <div class="ms-auto">
                     <div
-                        class='btn btn-primary'
-                        @click='submit'
+                        class="btn btn-primary"
+                        @click="submit"
                     >
                         Submit
                     </div>

@@ -1,87 +1,87 @@
 <template>
-    <MenuTemplate name='Channels'>
+    <MenuTemplate name="Channels">
         <template #buttons>
             <TablerIconButton
-                v-if='channels.length && mapStore.hasNoChannels'
-                title='All Channels On'
-                @click='setAllStatus(true)'
+                v-if="channels.length && mapStore.hasNoChannels"
+                title="All Channels On"
+                @click="setAllStatus(true)"
             >
                 <IconEyePlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerIconButton
-                v-if='channels.length && !mapStore.hasNoChannels'
-                title='All Channels Off'
-                @click='setAllStatus(false)'
+                v-if="channels.length && !mapStore.hasNoChannels"
+                title="All Channels Off"
+                @click="setAllStatus(false)"
             >
                 <IconEyeX
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='syncing'
-                @click='refresh'
+                :loading="syncing"
+                @click="refresh"
             />
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    :active-filters='activeFilterCount'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    :active-filters="activeFilterCount"
+                    placeholder="Filter"
                 >
                     <template #sort-icon>
                         <component
-                            :is='sortTypeIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortTypeIcon"
+                            :size="20"
+                            stroke="1"
                         />
                         <component
-                            :is='sortDirectionIcon'
-                            :size='20'
-                            stroke='1'
+                            :is="sortDirectionIcon"
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                     <template #filters>
-                        <div class='d-flex flex-column'>
-                            <div class='d-flex align-items-center justify-content-between px-3 py-2'>
-                                <strong class='small text-uppercase text-white-50'>Filters</strong>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between px-3 py-2">
+                                <strong class="small text-uppercase text-white-50">Filters</strong>
                                 <button
-                                    v-if='activeFilterCount > 0'
-                                    type='button'
-                                    class='btn btn-link btn-sm p-0'
-                                    @click='clearFilters'
+                                    v-if="activeFilterCount > 0"
+                                    type="button"
+                                    class="btn btn-link btn-sm p-0"
+                                    @click="clearFilters"
                                 >
                                     Clear
                                 </button>
                             </div>
-                            <div class='px-3 pb-2 d-flex flex-column gap-2'>
-                                <div class='small text-uppercase text-white-50 mb-1'>
+                            <div class="px-3 pb-2 d-flex flex-column gap-2">
+                                <div class="small text-uppercase text-white-50 mb-1">
                                     Status
                                 </div>
-                                <label class='form-check mb-1'>
+                                <label class="form-check mb-1">
                                     <input
-                                        class='form-check-input'
-                                        type='checkbox'
-                                        :checked='filterActive === true'
-                                        @change='toggleStatusFilter(true)'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        :checked="filterActive === true"
+                                        @change="toggleStatusFilter(true)"
                                     >
-                                    <span class='form-check-label'>Active</span>
+                                    <span class="form-check-label">Active</span>
                                 </label>
-                                <label class='form-check mb-1'>
+                                <label class="form-check mb-1">
                                     <input
-                                        class='form-check-input'
-                                        type='checkbox'
-                                        :checked='filterActive === false'
-                                        @change='toggleStatusFilter(false)'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        :checked="filterActive === false"
+                                        @change="toggleStatusFilter(false)"
                                     >
-                                    <span class='form-check-label'>Inactive</span>
+                                    <span class="form-check-label">Inactive</span>
                                 </label>
                             </div>
                         </div>
@@ -90,70 +90,70 @@
             </div>
 
             <EmptyInfo
-                v-if='mapStore.hasNoChannels'
-                :button='false'
+                v-if="mapStore.hasNoChannels"
+                :button="false"
             />
 
             <TablerNone
-                v-if='!Object.keys(processChannels).length'
-                :create='false'
+                v-if="!Object.keys(processChannels).length"
+                :create="false"
             />
             <div
                 v-else
-                class='col-12 d-flex flex-column gap-2 py-3'
+                class="col-12 d-flex flex-column gap-2 py-3"
             >
                 <StandardItem
-                    v-for='ch in processChannels'
-                    :key='ch.name'
-                    class='d-flex align-items-center gap-3 p-2'
-                    @click='setStatus(ch, !ch.active)'
+                    v-for="ch in processChannels"
+                    :key="ch.name"
+                    class="d-flex align-items-center gap-3 p-2"
+                    @click="setStatus(ch, !ch.active)"
                 >
                     <div
-                        class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                        style='width: 3rem; height: 3rem; min-width: 3rem;'
+                        class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                        style="width: 3rem; height: 3rem; min-width: 3rem;"
                     >
                         <component
-                            :is='ch.active ? IconEye : IconEyeOff'
-                            :size='24'
-                            stroke='1'
+                            :is="ch.active ? IconEye : IconEyeOff"
+                            :size="24"
+                            stroke="1"
                         />
                     </div>
 
-                    <div class='d-flex flex-column'>
-                        <div class='fw-bold'>
+                    <div class="d-flex flex-column">
+                        <div class="fw-bold">
                             {{ ch.name }}
                         </div>
-                        <div class='text-secondary small'>
+                        <div class="text-secondary small">
                             {{ ch.description || "No Description" }}
                         </div>
                     </div>
 
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <span
-                            v-if='ch.direction.length === 2'
-                            title='Bi-Directional'
+                            v-if="ch.direction.length === 2"
+                            title="Bi-Directional"
                         >
                             <IconLocation
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                         <span
                             v-else-if='ch.direction.includes("IN")'
-                            title='Location Sharing'
+                            title="Location Sharing"
                         >
                             <IconLocation
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                         <span
                             v-else-if='ch.direction.includes("OUT")'
-                            title='No Location Sharing'
+                            title="No Location Sharing"
                         >
                             <IconLocationOff
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                     </div>

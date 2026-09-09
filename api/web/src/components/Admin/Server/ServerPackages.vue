@@ -1,62 +1,62 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 TAK Server Data Packages
             </h3>
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerRefreshButton
-                        :loading='loading'
-                        @click='fetchList'
+                        :loading="loading"
+                        @click="fetchList"
                     />
                 </div>
             </div>
         </div>
-        <div class='card-body row'>
-            <div class='col-12'>
+        <div class="card-body row">
+            <div class="col-12">
                 <TablerInput
-                    v-model='filter'
-                    icon='search'
-                    placeholder='Filter...'
+                    v-model="filter"
+                    icon="search"
+                    placeholder="Filter..."
                 />
             </div>
-            <div class='col-12'>
-                <TablerLoading v-if='loading' />
+            <div class="col-12">
+                <TablerLoading v-if="loading" />
                 <TablerAlert
-                    v-else-if='error'
-                    :err='error'
+                    v-else-if="error"
+                    :err="error"
                 />
                 <template v-else>
                     <TablerNone
-                        v-if='list.total === 0'
-                        label='No Packages'
-                        :create='false'
+                        v-if="list.total === 0"
+                        label="No Packages"
+                        :create="false"
                     />
                     <template v-else>
-                        <template v-for='pkg in list.items'>
-                            <div class='col-12 cloudtak-hover d-flex align-items-center px-2 py-2 rounded'>
-                                <div class='row'>
-                                    <div class='col-12'>
-                                        <span v-text='pkg.name' />
+                        <template v-for="pkg in list.items">
+                            <div class="col-12 cloudtak-hover d-flex align-items-center px-2 py-2 rounded">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span v-text="pkg.name" />
                                     </div>
-                                    <div class='col-12 subheader'>
-                                        <span v-text='pkg.created' /> - <span v-text='pkg.username || ""' />
+                                    <div class="col-12 subheader">
+                                        <span v-text="pkg.created" /> - <span v-text='pkg.username || ""' />
                                     </div>
                                 </div>
-                                <div class='ms-auto d-flex align-items-center gap-1'>
+                                <div class="ms-auto d-flex align-items-center gap-1">
                                     <TablerIconButton
-                                        title='Download Package'
-                                        @click='downloadPackage(pkg)'
+                                        title="Download Package"
+                                        @click="downloadPackage(pkg)"
                                     >
                                         <IconDownload
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                     <TablerDelete
-                                        displaytype='icon'
-                                        @delete='deletePackage(pkg)'
+                                        displaytype="icon"
+                                        @delete="deletePackage(pkg)"
                                     />
                                 </div>
                             </div>

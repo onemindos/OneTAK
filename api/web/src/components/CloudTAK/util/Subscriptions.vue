@@ -1,93 +1,93 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <div
-            v-if='!loading'
-            class='col-12 px-2 pb-2 pt-2'
+            v-if="!loading"
+            class="col-12 px-2 pb-2 pt-2"
         >
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                placeholder='Filter'
+                v-model="paging.filter"
+                icon="search"
+                placeholder="Filter"
             />
         </div>
 
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <TablerNone
-            v-else-if='!Object.keys(processChannels).length'
-            :create='false'
+            v-else-if="!Object.keys(processChannels).length"
+            :create="false"
         />
         <template v-else>
             <div
-                v-for='ch in processChannels'
-                :key='ch.name'
-                class='col-lg-12 cloudtak-hover'
+                v-for="ch in processChannels"
+                :key="ch.name"
+                class="col-lg-12 cloudtak-hover"
             >
-                <div class='cloudtak-hover'>
-                    <div class='px-2'>
-                        <div class='col-12 py-2 px-2 d-flex align-items-center'>
+                <div class="cloudtak-hover">
+                    <div class="px-2">
+                        <div class="col-12 py-2 px-2 d-flex align-items-center">
                             <span
-                                v-if='ch.active'
-                                title='User has Channel Enabled'
+                                v-if="ch.active"
+                                title="User has Channel Enabled"
                             >
                                 <IconEye
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </span>
                             <span
                                 v-else
-                                title='User has Channel Disabled'
+                                title="User has Channel Disabled"
                             >
                                 <IconEyeOff
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </span>
                             <span
-                                class='mx-2 cursor-pointer'
-                                title='Show Details'
-                                @click='shown[ch.name] = !shown[ch.name]'
-                                v-text='ch.name'
+                                class="mx-2 cursor-pointer"
+                                title="Show Details"
+                                @click="shown[ch.name] = !shown[ch.name]"
+                                v-text="ch.name"
                             />
 
-                            <div class='ms-auto'>
+                            <div class="ms-auto">
                                 <span
-                                    v-if='ch.direction.length === 2'
-                                    title='Bi-Directional'
+                                    v-if="ch.direction.length === 2"
+                                    title="Bi-Directional"
                                 >
                                     <IconLocation
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                                 <span
                                     v-else-if='ch.direction.includes("IN")'
-                                    title='Location Sharing'
+                                    title="Location Sharing"
                                 >
                                     <IconLocation
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                                 <span
                                     v-else-if='ch.direction.includes("OUT")'
-                                    title='No Location Sharing'
+                                    title="No Location Sharing"
                                 >
                                     <IconLocationOff
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </span>
                             </div>
                         </div>
                         <div
-                            v-if='shown[ch.name]'
-                            class='col-12 pb-2 user-select-none'
-                            style='margin-left: 40px;'
+                            v-if="shown[ch.name]"
+                            class="col-12 pb-2 user-select-none"
+                            style="margin-left: 40px;"
                         >
                             <span v-text='ch.description || "No Description"' />
                         </div>

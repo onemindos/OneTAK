@@ -1,60 +1,60 @@
 <template>
     <div
-        ref='container'
-        class='hb-container'
+        ref="container"
+        class="hb-container"
     >
         <div
-            ref='backdrop'
-            class='hb-backdrop'
-            :style='backdropStyle'
+            ref="backdrop"
+            class="hb-backdrop"
+            :style="backdropStyle"
         >
             <span
-                v-for='(segment, index) in highlightedSegments'
-                :key='index'
-                :style='segment.style'
+                v-for="(segment, index) in highlightedSegments"
+                :key="index"
+                :style="segment.style"
             >{{ segment.text }}</span>
         </div>
         <TablerInput
-            ref='inputComponent'
-            v-model='internalValue'
-            class='hb-input'
-            :label='props.label'
-            :description='props.description'
-            :rows='inputRows'
-            :placeholder='props.placeholder'
-            :disabled='props.disabled'
-            @focus='isFocused = true'
-            @blur='isFocused = false'
-            @update:model-value='handleModelUpdate'
+            ref="inputComponent"
+            v-model="internalValue"
+            class="hb-input"
+            :label="props.label"
+            :description="props.description"
+            :rows="inputRows"
+            :placeholder="props.placeholder"
+            :disabled="props.disabled"
+            @focus="isFocused = true"
+            @blur="isFocused = false"
+            @update:model-value="handleModelUpdate"
         />
         <ul 
-            v-if='showSuggestions && filteredVariables.length' 
-            class='hb-suggestions cloudtak-panel' 
-            :style='{ top: `${suggestionPos.y}px`, left: `${suggestionPos.x}px` }'
+            v-if="showSuggestions && filteredVariables.length" 
+            class="hb-suggestions cloudtak-panel" 
+            :style="{ top: `${suggestionPos.y}px`, left: `${suggestionPos.x}px` }"
         >
             <li 
-                v-for='(opt, i) in filteredVariables' 
-                :key='opt.key'
-                :class='{ active: i === activeIndex }'
-                @mousedown.prevent='selectSuggestion(opt)'
+                v-for="(opt, i) in filteredVariables" 
+                :key="opt.key"
+                :class="{ active: i === activeIndex }"
+                @mousedown.prevent="selectSuggestion(opt)"
             >
-                <span class='var-name'>{{ opt.key }}</span>
+                <span class="var-name">{{ opt.key }}</span>
                 <span
-                    v-if='opt.hasChildren'
-                    class='var-indicator'
+                    v-if="opt.hasChildren"
+                    class="var-indicator"
                 >
                     ❯
                 </span>
             </li>
         </ul>
         <div
-            v-if='isFocused'
-            class='hb-helper form-hint'
+            v-if="isFocused"
+            class="hb-helper form-hint"
         >
             <span>Type:</span>
             <span
                 v-pre
-                class='hb-helper-token'
+                class="hb-helper-token"
             >
                 {{
             </span>

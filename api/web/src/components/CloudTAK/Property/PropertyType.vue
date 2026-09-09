@@ -1,112 +1,112 @@
 <template>
-    <div v-if='config.type'>
-        <template v-if='!props.edit'>
+    <div v-if="config.type">
+        <template v-if="!props.edit">
             <div
-                class='rounded py-2 px-2 text-truncate d-flex align-items-center user-select-none'
-                :class='background'
+                class="rounded py-2 px-2 text-truncate d-flex align-items-center user-select-none"
+                :class="background"
             >
                 <TablerLoading
-                    v-if='typeLoading'
-                    :inline='true'
-                    desc='Loading Feature Type'
+                    v-if="typeLoading"
+                    :inline="true"
+                    desc="Loading Feature Type"
                 />
-                <template v-else-if='typeError'>
+                <template v-else-if="typeError">
                     <div
-                        class='mx-2 text-truncate'
-                        v-text='affiliationLabel'
+                        class="mx-2 text-truncate"
+                        v-text="affiliationLabel"
                     />
 
-                    <span class='text-truncate'>Loading Feature Type Failed</span>
+                    <span class="text-truncate">Loading Feature Type Failed</span>
 
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerIconButton
-                            title='Retry'
-                            @click.stop='fetchType'
+                            title="Retry"
+                            @click.stop="fetchType"
                         >
                             <IconRefresh
-                                :size='16'
-                                stroke='1'
+                                :size="16"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </template>
                 <template v-else>
                     <FeatureIcon
-                        :key='config.type'
-                        :feature='{ properties: { type: config.type } }'
+                        :key="config.type"
+                        :feature="{ properties: { type: config.type } }"
                     />
 
                     <div
-                        class='mx-2 text-truncate'
-                        v-text='meta ? meta.full : config.type'
+                        class="mx-2 text-truncate"
+                        v-text="meta ? meta.full : config.type"
                     />
 
                     <span
-                        v-if='statusIsSet'
-                        :class='statusBadge'
-                        class='ms-auto me-1 text-truncate'
-                        v-text='status'
+                        v-if="statusIsSet"
+                        :class="statusBadge"
+                        class="ms-auto me-1 text-truncate"
+                        v-text="status"
                     />
                 </template>
             </div>
         </template>
         <TablerSlidedown
             v-else
-            :click-anywhere-expand='true'
+            :click-anywhere-expand="true"
         >
             <IconChartGridDots
-                :size='18'
-                stroke='1'
-                color='#6b7990'
-                class='ms-2 me-1'
+                :size="18"
+                stroke="1"
+                color="#6b7990"
+                class="ms-2 me-1"
             />
-            <label class='subheader user-select-none'>Type</label>
-            <div class='mx-2 mt-1'>
+            <label class="subheader user-select-none">Type</label>
+            <div class="mx-2 mt-1">
                 <div
-                    class='rounded py-2 px-2 text-truncate d-flex align-items-center user-select-none'
-                    :class='background'
+                    class="rounded py-2 px-2 text-truncate d-flex align-items-center user-select-none"
+                    :class="background"
                 >
                     <TablerLoading
-                        v-if='typeLoading'
-                        :inline='true'
-                        desc='Loading Feature Type'
+                        v-if="typeLoading"
+                        :inline="true"
+                        desc="Loading Feature Type"
                     />
-                    <template v-else-if='typeError'>
+                    <template v-else-if="typeError">
                         <div
-                            class='mx-2 text-truncate'
-                            v-text='affiliationLabel'
+                            class="mx-2 text-truncate"
+                            v-text="affiliationLabel"
                         />
 
-                        <span class='text-truncate'>Loading Feature Type Failed</span>
+                        <span class="text-truncate">Loading Feature Type Failed</span>
 
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <TablerIconButton
-                                title='Retry'
-                                @click.stop='fetchType'
+                                title="Retry"
+                                @click.stop="fetchType"
                             >
                                 <IconRefresh
-                                    :size='16'
-                                    stroke='1'
+                                    :size="16"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
                     </template>
                     <template v-else>
                         <FeatureIcon
-                            :key='config.type'
-                            :feature='{ properties: { type: config.type } }'
+                            :key="config.type"
+                            :feature="{ properties: { type: config.type } }"
                         />
 
                         <div
-                            class='mx-2 text-truncate'
-                            v-text='meta ? meta.full : config.type'
+                            class="mx-2 text-truncate"
+                            v-text="meta ? meta.full : config.type"
                         />
 
                         <span
-                            v-if='statusIsSet'
-                            :class='statusBadge'
-                            class='ms-auto me-1 text-truncate'
-                            v-text='status'
+                            v-if="statusIsSet"
+                            :class="statusBadge"
+                            class="ms-auto me-1 text-truncate"
+                            v-text="status"
                         />
                     </template>
                 </div>
@@ -114,39 +114,39 @@
 
             <template #expanded>
                 <template v-if='config.type.startsWith("u-") && config.type !== "u-d-p"'>
-                    <div class='mb-2'>
+                    <div class="mb-2">
                         <TablerInlineAlert
-                            title='User Drawn Feature'
-                            description='Cannot be changed'
+                            title="User Drawn Feature"
+                            description="Cannot be changed"
                         />
                     </div>
                 </template>
                 <template v-else>
                     <div
-                        v-if='availableStandards.length > 1'
-                        class='row g-2 mb-2'
+                        v-if="availableStandards.length > 1"
+                        class="row g-2 mb-2"
                     >
-                        <div class='col-12'>
+                        <div class="col-12">
                             <div
-                                class='btn-group w-100'
-                                role='group'
+                                class="btn-group w-100"
+                                role="group"
                             >
                                 <button
-                                    v-for='std of availableStandards'
-                                    :key='std'
-                                    type='button'
-                                    class='btn btn-sm'
+                                    v-for="std of availableStandards"
+                                    :key="std"
+                                    type="button"
+                                    class="btn btn-sm"
                                     :class='{
                                         "btn-primary": standard === std,
                                         "btn-outline-secondary": standard !== std
                                     }'
-                                    @click='standard = std'
-                                    v-text='std'
+                                    @click="standard = std"
+                                    v-text="std"
                                 />
                             </div>
                         </div>
                     </div>
-                    <div class='row g-2'>
+                    <div class="row g-2">
                         <div
                             :class='{
                                 "col-12": standard === "2525B" && !config.type.startsWith("a-"),
@@ -154,86 +154,86 @@
                             }'
                         >
                             <TablerInput
-                                v-model='paging.filter'
-                                icon='search'
-                                placeholder='Filter'
+                                v-model="paging.filter"
+                                icon="search"
+                                placeholder="Filter"
                             />
                         </div>
                         <div
                             v-if='standard === "2525E" || config.type.startsWith("a-")'
-                            class='col-4'
+                            class="col-4"
                         >
                             <TablerEnum
-                                :model-value='StandardAffiliationInverse[config.affiliation]'
-                                :default='StandardAffiliation.Friendly'
-                                :options='Object.keys(StandardAffiliation)'
-                                @update:model-value='updateAffiliation($event)'
+                                :model-value="StandardAffiliationInverse[config.affiliation]"
+                                :default="StandardAffiliation.Friendly"
+                                :options="Object.keys(StandardAffiliation)"
+                                @update:model-value="updateAffiliation($event)"
                             />
                         </div>
                     </div>
 
                     <div
                         v-if='standard === "2525E"'
-                        class='row g-2 mt-1'
+                        class="row g-2 mt-1"
                     >
-                        <div class='col-12'>
-                            <label class='subheader user-select-none'>Status</label>
+                        <div class="col-12">
+                            <label class="subheader user-select-none">Status</label>
                             <TablerEnum
-                                :model-value='status'
-                                :default='statusOptions[0]'
-                                :options='statusOptions'
-                                @update:model-value='updateStatus($event)'
+                                :model-value="status"
+                                :default="statusOptions[0]"
+                                :options="statusOptions"
+                                @update:model-value="updateStatus($event)"
                             />
                         </div>
                     </div>
 
                     <div
-                        class='overflow-y-auto mt-2'
-                        style='max-height: 18rem;'
+                        class="overflow-y-auto mt-2"
+                        style="max-height: 18rem;"
                     >
                         <TablerLoading
-                            v-if='loading'
+                            v-if="loading"
                         />
                         <div
-                            v-else-if='listError'
-                            class='d-flex align-items-center px-2 py-2 user-select-none'
+                            v-else-if="listError"
+                            class="d-flex align-items-center px-2 py-2 user-select-none"
                         >
-                            <span class='text-truncate'>Loading Feature Types Failed</span>
+                            <span class="text-truncate">Loading Feature Types Failed</span>
 
-                            <div class='ms-auto'>
+                            <div class="ms-auto">
                                 <TablerIconButton
-                                    title='Retry'
-                                    @click.stop='fetchList'
+                                    title="Retry"
+                                    @click.stop="fetchList"
                                 >
                                     <IconRefresh
-                                        :size='16'
-                                        stroke='1'
+                                        :size="16"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
                         <template v-else-if='standard === "2525B"'>
                             <TablerNone
-                                v-if='list.total === 0'
-                                label='No Types Found'
-                                :create='false'
+                                v-if="list.total === 0"
+                                label="No Types Found"
+                                :create="false"
                             />
                             <template v-else>
                                 <template
-                                    v-for='item of list.items'
+                                    v-for="item of list.items"
                                 >
                                     <div
-                                        class='d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded'
-                                        @click='updateType(item)'
+                                        class="d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded"
+                                        @click="updateType(item)"
                                     >
                                         <FeatureIcon
-                                            :key='item.cot'
-                                            :feature='{ properties: { icon: item.cot } }'
+                                            :key="item.cot"
+                                            :feature="{ properties: { icon: item.cot } }"
                                         />
 
                                         <div
-                                            class='mx-2'
-                                            v-text='item.full'
+                                            class="mx-2"
+                                            v-text="item.full"
                                         />
                                     </div>
                                 </template>
@@ -241,83 +241,83 @@
                         </template>
                         <template v-else-if='standard === "2525E"'>
                             <!-- Tree browsing: Symbol Set => Entity => Entity Type => Entity Subtype -->
-                            <template v-if='!paging.filter'>
-                                <div class='d-flex align-items-center px-2 py-1 user-select-none'>
+                            <template v-if="!paging.filter">
+                                <div class="d-flex align-items-center px-2 py-1 user-select-none">
                                     <TablerIconButton
-                                        v-if='crumbs.length'
-                                        title='Back'
-                                        @click='popCrumb'
+                                        v-if="crumbs.length"
+                                        title="Back"
+                                        @click="popCrumb"
                                     >
                                         <IconChevronLeft
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
 
                                     <div
-                                        class='mx-2 subheader text-truncate'
-                                        v-text='crumbLabel'
+                                        class="mx-2 subheader text-truncate"
+                                        v-text="crumbLabel"
                                     />
                                 </div>
 
-                                <template v-if='crumbs.length === 0'>
+                                <template v-if="crumbs.length === 0">
                                     <div
-                                        v-for='set of list2525E.symbolsets'
-                                        :key='set.id'
-                                        class='d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded'
-                                        @click='pushCrumb({ id: set.id, name: set.name })'
+                                        v-for="set of list2525E.symbolsets"
+                                        :key="set.id"
+                                        class="d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded"
+                                        @click="pushCrumb({ id: set.id, name: set.name })"
                                     >
                                         <IconFolder
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
 
                                         <div
-                                            class='mx-2 text-truncate'
-                                            v-text='set.name'
+                                            class="mx-2 text-truncate"
+                                            v-text="set.name"
                                         />
 
-                                        <div class='ms-auto'>
+                                        <div class="ms-auto">
                                             <IconChevronRight
-                                                :size='16'
-                                                stroke='1'
+                                                :size="16"
+                                                stroke="1"
                                             />
                                         </div>
                                     </div>
                                 </template>
                                 <template v-else>
                                     <TablerNone
-                                        v-if='list2525E.total === 0'
-                                        label='No Symbols Found'
-                                        :create='false'
+                                        v-if="list2525E.total === 0"
+                                        label="No Symbols Found"
+                                        :create="false"
                                     />
                                     <template v-else>
                                         <div
-                                            v-for='item of list2525E.items'
-                                            :key='item.sidc'
-                                            class='d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded'
-                                            :title='item.remarks'
-                                            @click='updateType2525E(item)'
+                                            v-for="item of list2525E.items"
+                                            :key="item.sidc"
+                                            class="d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded"
+                                            :title="item.remarks"
+                                            @click="updateType2525E(item)"
                                         >
                                             <FeatureIcon
-                                                :key='item.sidc'
-                                                :feature='{ properties: { type: item.sidc } }'
+                                                :key="item.sidc"
+                                                :feature="{ properties: { type: item.sidc } }"
                                             />
 
                                             <div
-                                                class='mx-2 text-truncate'
-                                                v-text='item.title'
+                                                class="mx-2 text-truncate"
+                                                v-text="item.title"
                                             />
 
                                             <TablerIconButton
-                                                v-if='item.children'
-                                                class='ms-auto'
-                                                :title='`${item.children} Subtypes`'
-                                                @click.stop='pushCrumb({ id: entityCode(item), name: item.title })'
+                                                v-if="item.children"
+                                                class="ms-auto"
+                                                :title="`${item.children} Subtypes`"
+                                                @click.stop="pushCrumb({ id: entityCode(item), name: item.title })"
                                             >
                                                 <IconChevronRight
-                                                    :size='16'
-                                                    stroke='1'
+                                                    :size="16"
+                                                    stroke="1"
                                                 />
                                             </TablerIconButton>
                                         </div>
@@ -327,27 +327,27 @@
                             <!-- Filter set: flat search across all Symbol Sets -->
                             <template v-else>
                                 <TablerNone
-                                    v-if='list2525E.total === 0'
-                                    label='No Types Found'
-                                    :create='false'
+                                    v-if="list2525E.total === 0"
+                                    label="No Types Found"
+                                    :create="false"
                                 />
                                 <template v-else>
                                     <template
-                                        v-for='item of list2525E.items'
+                                        v-for="item of list2525E.items"
                                     >
                                         <div
-                                            class='d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded'
-                                            :title='item.remarks'
-                                            @click='updateType2525E(item)'
+                                            class="d-flex align-items-center px-2 py-2 cloudtak-hover cursor-pointer rounded"
+                                            :title="item.remarks"
+                                            @click="updateType2525E(item)"
                                         >
                                             <FeatureIcon
-                                                :key='item.sidc'
-                                                :feature='{ properties: { type: item.sidc } }'
+                                                :key="item.sidc"
+                                                :feature="{ properties: { type: item.sidc } }"
                                             />
 
                                             <div
-                                                class='mx-2'
-                                                v-text='item.name'
+                                                class="mx-2"
+                                                v-text="item.name"
                                             />
                                         </div>
                                     </template>

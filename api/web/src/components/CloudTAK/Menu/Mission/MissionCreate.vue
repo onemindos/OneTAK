@@ -1,113 +1,113 @@
 <template>
-    <div class='col-12'>
-        <div class='modal-header'>
-            <div class='row'>
-                <div class='col-auto'>
+    <div class="col-12">
+        <div class="modal-header">
+            <div class="row">
+                <div class="col-auto">
                     <IconLock
-                        v-if='mission.passwordProtected'
-                        :size='32'
-                        stroke='1'
+                        v-if="mission.passwordProtected"
+                        :size="32"
+                        stroke="1"
                     />
                     <IconLockOpen
                         v-else
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </div>
-                <div class='col-auto row'>
-                    <div class='col-12'>
+                <div class="col-auto row">
+                    <div class="col-12">
                         <span>Create Mission</span>
                     </div>
                 </div>
             </div>
         </div>
         <TablerLoading
-            v-if='loading'
-            desc='Saving Mission'
+            v-if="loading"
+            desc="Saving Mission"
         />
         <template v-else>
-            <div class='modal-body row g-2'>
-                <div class='col-12'>
+            <div class="modal-body row g-2">
+                <div class="col-12">
                     <TablerInput
-                        v-model='mission.name'
-                        :error='missionNameValidity'
-                        label='Name'
+                        v-model="mission.name"
+                        :error="missionNameValidity"
+                        label="Name"
                     />
                 </div>
 
                 <div
-                    v-if='templates.length || templatesLoading'
-                    class='col-12'
+                    v-if="templates.length || templatesLoading"
+                    class="col-12"
                 >
-                    <div class='d-flex align-items-center mb-2'>
-                        <label class='subheader my-0'>Templates</label>
-                        <div class='ms-auto'>
+                    <div class="d-flex align-items-center mb-2">
+                        <label class="subheader my-0">Templates</label>
+                        <div class="ms-auto">
                             <TablerIconButton
-                                v-if='!showSearch'
-                                title='Search Templates'
-                                @click='showSearch = true'
+                                v-if="!showSearch"
+                                title="Search Templates"
+                                @click="showSearch = true"
                             >
                                 <IconSearch
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <TablerIconButton
                                 v-else
-                                title='Close Search'
+                                title="Close Search"
                                 @click='showSearch = false; templatesPaging.filter = "";'
                             >
                                 <IconX
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
                     </div>
 
                     <div
-                        v-if='showSearch'
-                        class='mb-2'
+                        v-if="showSearch"
+                        class="mb-2"
                     >
                         <TablerInput
-                            v-model='templatesPaging.filter'
-                            placeholder='Search Templates...'
-                            :autofocus='true'
+                            v-model="templatesPaging.filter"
+                            placeholder="Search Templates..."
+                            :autofocus="true"
                         />
                     </div>
 
                     <TablerLoading
-                        v-if='templatesLoading'
-                        desc='Loading Templates'
+                        v-if="templatesLoading"
+                        desc="Loading Templates"
                     />
                     <div
-                        v-else-if='templates.length'
-                        class='row g-2'
+                        v-else-if="templates.length"
+                        class="row g-2"
                     >
                         <div
-                            v-for='template in templates'
-                            :key='template.id'
-                            class='col-3'
-                            @click='selectedTemplate = template.id'
+                            v-for="template in templates"
+                            :key="template.id"
+                            class="col-3"
+                            @click="selectedTemplate = template.id"
                         >
                             <div
-                                class='card p-2 text-center cursor-pointer h-100 d-flex flex-column align-items-center justify-content-center'
+                                class="card p-2 text-center cursor-pointer h-100 d-flex flex-column align-items-center justify-content-center"
                                 :class='{ "bg-primary-lt": selectedTemplate === template.id }'
                             >
                                 <img
-                                    v-if='template.icon'
-                                    :src='template.icon'
-                                    class='mb-2'
-                                    style='height: 32px; width: 32px; object-fit: contain;'
+                                    v-if="template.icon"
+                                    :src="template.icon"
+                                    class="mb-2"
+                                    style="height: 32px; width: 32px; object-fit: contain;"
                                     :style='template.icon.includes("image/svg+xml") ? "filter: brightness(0) invert(1);" : ""'
                                 >
                                 <IconLayout
                                     v-else
-                                    :size='32'
-                                    stroke='1'
-                                    class='mb-2'
+                                    :size="32"
+                                    stroke="1"
+                                    class="mb-2"
                                 />
-                                <div class='small lh-1'>
+                                <div class="small lh-1">
                                     {{ template.name }}
                                 </div>
                             </div>
@@ -115,91 +115,91 @@
                     </div>
                     <div
                         v-else
-                        class='text-center fst-italic text-muted'
+                        class="text-center fst-italic text-muted"
                     >
                         No Templates Found
                     </div>
                 </div>
 
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='mission.description'
-                        label='Description'
+                        v-model="mission.description"
+                        label="Description"
                     />
                 </div>
 
-                <div class='col-12'>
-                    <label class='px-2 w-100'>Channels</label>
+                <div class="col-12">
+                    <label class="px-2 w-100">Channels</label>
 
                     <GroupSelect
-                        v-model='mission.groups'
-                        :active='true'
-                        direction='IN'
+                        v-model="mission.groups"
+                        :active="true"
+                        direction="IN"
                     />
                 </div>
 
                 <label
-                    class='subheader mt-3 cursor-pointer'
-                    @click='advanced = !advanced'
+                    class="subheader mt-3 cursor-pointer"
+                    @click="advanced = !advanced"
                 >
                     <IconSquareChevronRight
-                        v-if='!advanced'
-                        :size='32'
-                        stroke='1'
+                        v-if="!advanced"
+                        :size="32"
+                        stroke="1"
                     />
                     <IconChevronDown
                         v-else
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                     Advanced Options
                 </label>
 
                 <div
-                    v-if='advanced'
-                    class='col-12'
+                    v-if="advanced"
+                    class="col-12"
                 >
-                    <div class='row g-2'>
-                        <div class='col-12'>
-                            <label class='px-2 w-100'>Keywords</label>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <label class="px-2 w-100">Keywords</label>
                             <Keywords
-                                placeholder='Enter Keywords'
-                                :keywords='mission.keywords'
-                                :relevant='[]'
-                                @update:keywords='mission.keywords = $event'
+                                placeholder="Enter Keywords"
+                                :keywords="mission.keywords"
+                                :relevant="[]"
+                                @update:keywords="mission.keywords = $event"
                             />
                         </div>
 
-                        <div class='col-12'>
+                        <div class="col-12">
                             <TablerToggle
-                                v-model='mission.passwordProtected'
-                                label='Password Protected'
+                                v-model="mission.passwordProtected"
+                                label="Password Protected"
                             />
                             <TablerInput
-                                v-if='mission.passwordProtected'
-                                v-model='mission.password'
-                                :disabled='!mission.passwordProtected'
-                                type='password'
-                                autocomplete='new-password'
-                                label='Password'
+                                v-if="mission.passwordProtected"
+                                v-model="mission.password"
+                                :disabled="!mission.passwordProtected"
+                                type="password"
+                                autocomplete="new-password"
+                                label="Password"
                             />
                         </div>
 
-                        <div class='col-12'>
+                        <div class="col-12">
                             <TablerEnum
-                                v-model='mission.role'
-                                label='Default Role'
+                                v-model="mission.role"
+                                label="Default Role"
                                 :options='["Read-Only", "Subscriber", "Owner"]'
                             />
                         </div>
                     </div>
                 </div>
 
-                <div class='col-12 d-flex'>
-                    <div class='ms-auto'>
+                <div class="col-12 d-flex">
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='createMission'
+                            class="btn btn-primary"
+                            @click="createMission"
                         >
                             Create Mission
                         </button>

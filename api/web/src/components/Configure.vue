@@ -1,141 +1,141 @@
 <template>
     <div
-        class='page page-center'
-        style='overflow: auto;'
+        class="page page-center"
+        style="overflow: auto;"
     >
-        <div class='container container-normal py-4'>
-            <div class='row align-items-center g-4'>
-                <div class='col-lg'>
-                    <div class='container-tight'>
+        <div class="container container-normal py-4">
+            <div class="row align-items-center g-4">
+                <div class="col-lg">
+                    <div class="container-tight">
                         <div
-                            class='text-center'
-                            style='margin-bottom: 24px;'
+                            class="text-center"
+                            style="margin-bottom: 24px;"
                         >
                             <img
-                                class='d-none d-md-inline'
-                                style='
+                                class="d-none d-md-inline"
+                                style="
                                     height: 150px;
-                                '
-                                src='/CloudTAKLogoText.svg'
-                                alt='CloudTAK System Logo'
+                                "
+                                src="/CloudTAKLogoText.svg"
+                                alt="CloudTAK System Logo"
                             >
                         </div>
-                        <div class='card card-md'>
-                            <div class='card-body'>
-                                <h2 class='h2 text-center mb-4'>
+                        <div class="card card-md">
+                            <div class="card-body">
+                                <h2 class="h2 text-center mb-4">
                                     Initial Server Configuration
                                 </h2>
-                                <TablerLoading v-if='loading' />
+                                <TablerLoading v-if="loading" />
                                 <template v-else>
-                                    <div class='row g-2'>
-                                        <div class='col-12'>
+                                    <div class="row g-2">
+                                        <div class="col-12">
                                             <TablerInput
-                                                v-model='body.name'
-                                                :error='errors.name'
-                                                label='Server Name'
-                                                placeholder='TAK Server Name'
-                                                description='Human Readable name for the server'
-                                                @keyup.enter='updateServer'
+                                                v-model="body.name"
+                                                :error="errors.name"
+                                                label="Server Name"
+                                                placeholder="TAK Server Name"
+                                                description="Human Readable name for the server"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='col-12'>
+                                        <div class="col-12">
                                             <TablerInput
-                                                v-model='helper.hostname'
-                                                label='Server Hostname'
-                                                placeholder='ops.example.com'
-                                                description='Hostname or IP address of the TAK Server'
-                                                :error='errors.hostname'
-                                                @keyup.enter='updateServer'
+                                                v-model="helper.hostname"
+                                                label="Server Hostname"
+                                                placeholder="ops.example.com"
+                                                description="Hostname or IP address of the TAK Server"
+                                                :error="errors.hostname"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='col-md-4 col-12'>
+                                        <div class="col-md-4 col-12">
                                             <TablerInput
-                                                v-model='helper.stream'
-                                                type='number'
-                                                label='CoT Port'
-                                                placeholder='8089'
-                                                description='Streaming COT API - Usually on port 8089'
-                                                @keyup.enter='updateServer'
+                                                v-model="helper.stream"
+                                                type="number"
+                                                label="CoT Port"
+                                                placeholder="8089"
+                                                description="Streaming COT API - Usually on port 8089"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='col-md-4 col-12'>
+                                        <div class="col-md-4 col-12">
                                             <TablerInput
-                                                v-model='helper.api'
-                                                type='number'
-                                                label='Marti Port'
-                                                placeholder='8443'
-                                                description='Marti API - Usually on port 8443'
-                                                @keyup.enter='updateServer'
+                                                v-model="helper.api"
+                                                type="number"
+                                                label="Marti Port"
+                                                placeholder="8443"
+                                                description="Marti API - Usually on port 8443"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='col-md-4 col-12'>
+                                        <div class="col-md-4 col-12">
                                             <TablerInput
-                                                v-model='helper.webtak'
-                                                type='number'
-                                                label='WebTAK'
-                                                placeholder='8446'
-                                                description='WebTAK API - Usually on port 8446'
-                                                :error='errors.url'
-                                                @keyup.enter='updateServer'
+                                                v-model="helper.webtak"
+                                                type="number"
+                                                label="WebTAK"
+                                                placeholder="8446"
+                                                description="WebTAK API - Usually on port 8446"
+                                                :error="errors.url"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
 
-                                        <div class='mb-2'>
-                                            <label class='mx-2'>Admin Certificate</label>
+                                        <div class="mb-2">
+                                            <label class="mx-2">Admin Certificate</label>
                                             <CertificateP12
-                                                v-if='!body.auth || !body.auth.cert || !body.auth.key'
-                                                @certs='body.auth = $event'
+                                                v-if="!body.auth || !body.auth.cert || !body.auth.key"
+                                                @certs="body.auth = $event"
                                             />
 
                                             <template v-else>
-                                                <div class='col-12 d-flex align-items-center'>
+                                                <div class="col-12 d-flex align-items-center">
                                                     <IconCheck
-                                                        :size='40'
-                                                        class='text-green'
+                                                        :size="40"
+                                                        class="text-green"
                                                     />
-                                                    <span class='mx-3'>Certificate Uploaded</span>
+                                                    <span class="mx-3">Certificate Uploaded</span>
 
-                                                    <div class='ms-auto'>
+                                                    <div class="ms-auto">
                                                         <TablerIconButton
-                                                            title='Remove Certificate'
+                                                            title="Remove Certificate"
                                                             @click='body.auth = { cert: "", key: "" };'
                                                         >
                                                             <IconTrash
-                                                                :size='32'
-                                                                stroke='1'
+                                                                :size="32"
+                                                                stroke="1"
                                                             />
                                                         </TablerIconButton>
                                                     </div>
                                                 </div>
                                             </template>
                                         </div>
-                                        <div class='mb-2'>
+                                        <div class="mb-2">
                                             <TablerInput
-                                                v-model='body.username'
-                                                label='Initial Administrator Username'
-                                                description='An existing TAK user to use as an initial CloudTAK System Administrator - The TAK Server must respond with a cert for this username/password combo'
-                                                autocomplete='username'
-                                                :error='errors.username'
-                                                @keyup.enter='updateServer'
+                                                v-model="body.username"
+                                                label="Initial Administrator Username"
+                                                description="An existing TAK user to use as an initial CloudTAK System Administrator - The TAK Server must respond with a cert for this username/password combo"
+                                                autocomplete="username"
+                                                :error="errors.username"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='mb-2'>
+                                        <div class="mb-2">
                                             <TablerInput
-                                                v-model='body.password'
-                                                type='password'
-                                                label='Initial Administrator Password'
-                                                description='An existing TAK user to use as an initial CloudTAK System Administrator - The TAK Server must respond with a cert for this username/password combo'
-                                                autocomplete='new-password'
-                                                :error='errors.password'
-                                                @keyup.enter='updateServer'
+                                                v-model="body.password"
+                                                type="password"
+                                                label="Initial Administrator Password"
+                                                description="An existing TAK user to use as an initial CloudTAK System Administrator - The TAK Server must respond with a cert for this username/password combo"
+                                                autocomplete="new-password"
+                                                :error="errors.password"
+                                                @keyup.enter="updateServer"
                                             />
                                         </div>
-                                        <div class='form-footer'>
+                                        <div class="form-footer">
                                             <button
-                                                type='submit'
-                                                class='btn btn-primary w-100'
-                                                :disabled='!body.auth || !body.auth.key'
-                                                @click='updateServer'
+                                                type="submit"
+                                                class="btn btn-primary w-100"
+                                                :disabled="!body.auth || !body.auth.key"
+                                                @click="updateServer"
                                             >
                                                 Configure Server
                                             </button>

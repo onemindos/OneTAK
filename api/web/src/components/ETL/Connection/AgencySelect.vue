@@ -1,83 +1,83 @@
 <template>
     <div>
-        <div class='d-flex align-items-center'>
-            <label class='mx-1 mb-1'>Connection Agency</label>
+        <div class="d-flex align-items-center">
+            <label class="mx-1 mb-1">Connection Agency</label>
             <div
-                v-if='isSystemAdmin'
-                class='ms-auto'
+                v-if="isSystemAdmin"
+                class="ms-auto"
             >
                 <TablerToggle
-                    v-model='noAgency'
-                    label='System Admin Connection - No Owning Agency'
+                    v-model="noAgency"
+                    label="System Admin Connection - No Owning Agency"
                 />
             </div>
         </div>
-        <div class='card'>
-            <template v-if='noAgency'>
+        <div class="card">
+            <template v-if="noAgency">
                 <TablerNone
-                    :create='false'
-                    :compact='true'
-                    label='No Agency - System Admin Access Only'
+                    :create="false"
+                    :compact="true"
+                    label="No Agency - System Admin Access Only"
                 />
             </template>
             <template v-else>
-                <div class='card-body'>
+                <div class="card-body">
                     <TablerLoading
-                        v-if='loading.main'
-                        :inline='true'
-                        desc='Loading Agencies'
+                        v-if="loading.main"
+                        :inline="true"
+                        desc="Loading Agencies"
                     />
-                    <template v-else-if='selected'>
-                        <div class='col-12 d-flex align-items-center'>
-                            <div v-text='selected.name' />
-                            <div class='ms-auto'>
+                    <template v-else-if="selected">
+                        <div class="col-12 d-flex align-items-center">
+                            <div v-text="selected.name" />
+                            <div class="ms-auto">
                                 <TablerIconButton
-                                    v-if='selected && list.total > 1'
-                                    title='Remove Agency'
-                                    @click='selected = undefined'
+                                    v-if="selected && list.total > 1"
+                                    title="Remove Agency"
+                                    @click="selected = undefined"
                                 >
                                     <IconTrash
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
                     </template>
                     <template v-else>
-                        <div class='col-12 pb-2'>
+                        <div class="col-12 pb-2">
                             <TablerInput
-                                v-model='filter'
-                                icon='search'
-                                placeholder='Agency Filter...'
+                                v-model="filter"
+                                icon="search"
+                                placeholder="Agency Filter..."
                             />
                         </div>
 
                         <TablerLoading
-                            v-if='loading.list'
-                            desc='Loading Agencies'
+                            v-if="loading.list"
+                            desc="Loading Agencies"
                         />
                         <TablerNone
-                            v-else-if='list.total === 0'
-                            :create='false'
-                            :compact='true'
-                            label='No Agencies'
+                            v-else-if="list.total === 0"
+                            :create="false"
+                            :compact="true"
+                            label="No Agencies"
                         />
                         <template v-else>
                             <div
-                                v-for='agency in list.items'
-                                :key='agency.id'
-                                class='cloudtak-hover px-2 py-2 cursor-pointer row rounded col-12'
-                                @click='selected = agency'
+                                v-for="agency in list.items"
+                                :key="agency.id"
+                                class="cloudtak-hover px-2 py-2 cursor-pointer row rounded col-12"
+                                @click="selected = agency"
                             >
-                                <div class='d-flex align-items-center'>
+                                <div class="d-flex align-items-center">
                                     <IconHome
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                     <span
-                                        class='mx-2'
-                                        v-text='agency.name'
+                                        class="mx-2"
+                                        v-text="agency.name"
                                     />
                                 </div>
                             </div>

@@ -1,84 +1,84 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <IconLine
-            :size='18'
-            stroke='1'
-            color='#6b7990'
-            class='ms-2 me-1'
+            :size="18"
+            stroke="1"
+            color="#6b7990"
+            class="ms-2 me-1"
         />
         <label
-            class='subheader user-select-none'
-            v-text='props.label'
+            class="subheader user-select-none"
+            v-text="props.label"
         />
-        <div class='mx-2'>
+        <div class="mx-2">
             <CopyField
-                v-model='config.distance'
-                :edit='props.edit'
-                :hover='props.hover'
-                :size='24'
-                @submit='submitDistance($event)'
+                v-model="config.distance"
+                :edit="props.edit"
+                :hover="props.hover"
+                :size="24"
+                @submit="submitDistance($event)"
             />
             <div
-                class='mx-2'
-                role='menu'
+                class="mx-2"
+                role="menu"
             >
                 <span
-                    title='Feet'
-                    class='my-1 px-2 user-select-none'
+                    title="Feet"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "feet",
                         "cursor-pointer": mode !== "feet",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("feet")'
                     @click='changeMode("feet")'
                 >Feet</span>
                 <span
-                    title='Yards'
-                    class='my-1 px-2 user-select-none'
+                    title="Yards"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "yard",
                         "cursor-pointer": mode !== "yard",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("yard")'
                     @click='changeMode("yard")'
                 >Yards</span>
                 <span
-                    title='Meters'
-                    class='my-1 px-2 user-select-none'
+                    title="Meters"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "meter",
                         "cursor-pointer": mode !== "meter",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("meter")'
                     @click='changeMode("meter")'
                 >Meters</span>
                 <span
-                    title='Kilometers'
-                    class='my-1 px-2 user-select-none'
+                    title="Kilometers"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "kilometer",
                         "cursor-pointer": mode !== "kilometer",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("kilometer")'
                     @click='changeMode("kilometer")'
                 >Kilometers</span>
                 <span
-                    title='Miles'
-                    class='my-1 px-2 user-select-none'
+                    title="Miles"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "mile",
                         "cursor-pointer": mode !== "mile",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("mile")'
                     @click='changeMode("mile")'
                 >Miles</span>

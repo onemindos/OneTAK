@@ -1,60 +1,60 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Core Events'
+        v-model="isOpen"
+        label="Core Events"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
 
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
 
-                <div class='d-flex align-items-center justify-content-between mb-3'>
-                    <p class='text-secondary mb-0'>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <p class="text-secondary mb-0">
                         Configure preconfigured Event Types that users can choose from when creating a new Core Event.
                     </p>
 
                     <TablerIconButton
-                        v-if='edit'
-                        title='Add Event Type'
-                        @click='addType()'
+                        v-if="edit"
+                        title="Add Event Type"
+                        @click="addType()"
                     >
                         <IconPlus
-                            color='rgb(var(--tblr-primary-rgb))'
-                            stroke='1'
+                            color="rgb(var(--tblr-primary-rgb))"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
@@ -62,98 +62,98 @@
                 <template v-if='config["core::event::types"].length'>
                     <div
                         v-for='(eventType, index) in config["core::event::types"]'
-                        :key='index'
-                        class='border rounded p-3 mb-3'
+                        :key="index"
+                        class="border rounded p-3 mb-3"
                     >
-                        <div class='d-flex align-items-center justify-content-between mb-3'>
-                            <h4 class='card-title mb-0'>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="card-title mb-0">
                                 Event Type {{ index + 1 }}
                             </h4>
 
                             <TablerIconButton
-                                v-if='edit'
-                                title='Remove Event Type'
-                                @click='removeType(index)'
+                                v-if="edit"
+                                title="Remove Event Type"
+                                @click="removeType(index)"
                             >
                                 <IconTrash
-                                    color='rgb(var(--tblr-danger-rgb))'
-                                    stroke='1'
+                                    color="rgb(var(--tblr-danger-rgb))"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
 
-                        <div class='row g-3'>
+                        <div class="row g-3">
                             <div
-                                v-if='!edit && eventType.icon'
-                                class='col-lg-3 col-md-4'
+                                v-if="!edit && eventType.icon"
+                                class="col-lg-3 col-md-4"
                             >
-                                <label class='form-label'>Custom Icon</label>
-                                <div class='border rounded d-flex align-items-center justify-content-center p-3 h-100'>
+                                <label class="form-label">Custom Icon</label>
+                                <div class="border rounded d-flex align-items-center justify-content-center p-3 h-100">
                                     <img
-                                        :src='eventType.icon'
-                                        alt='Event Type icon'
-                                        class='img-fluid'
-                                        style='max-height: 120px; object-fit: contain;'
+                                        :src="eventType.icon"
+                                        alt="Event Type icon"
+                                        class="img-fluid"
+                                        style="max-height: 120px; object-fit: contain;"
                                     >
                                 </div>
                             </div>
 
                             <div :class='!edit && eventType.icon ? "col-lg-9 col-md-8" : "col-12"'>
                                 <TablerInput
-                                    v-model='eventType.name'
-                                    :disabled='!edit'
+                                    v-model="eventType.name"
+                                    :disabled="!edit"
                                     :error='edit ? typeNameError(eventType) : ""'
-                                    label='Name'
-                                    placeholder='Wildfire'
+                                    label="Name"
+                                    placeholder="Wildfire"
                                 />
 
-                                <label class='form-label mt-3'>2525E Symbol</label>
-                                <template v-if='eventType.type'>
+                                <label class="form-label mt-3">2525E Symbol</label>
+                                <template v-if="eventType.type">
                                     <div
-                                        class='d-flex align-items-center gap-2 px-3 form-select'
-                                        style='cursor: default;'
+                                        class="d-flex align-items-center gap-2 px-3 form-select"
+                                        style="cursor: default;"
                                     >
                                         <span
-                                            class='flex-grow-1 user-select-none text-truncate font-monospace'
-                                            v-text='symbolLabel(eventType.type)'
+                                            class="flex-grow-1 user-select-none text-truncate font-monospace"
+                                            v-text="symbolLabel(eventType.type)"
                                         />
                                         <IconX
-                                            v-if='edit'
-                                            :size='16'
-                                            stroke='1'
-                                            class='cursor-pointer flex-shrink-0 text-muted'
-                                            @click.stop='clearSymbol(index)'
+                                            v-if="edit"
+                                            :size="16"
+                                            stroke="1"
+                                            class="cursor-pointer flex-shrink-0 text-muted"
+                                            @click.stop="clearSymbol(index)"
                                         />
                                     </div>
                                 </template>
-                                <template v-else-if='edit'>
+                                <template v-else-if="edit">
                                     <TablerInput
-                                        v-model='symbolFilter'
-                                        icon='search'
-                                        placeholder='Search 2525E Symbols...'
-                                        @update:model-value='pickerIndex = index'
+                                        v-model="symbolFilter"
+                                        icon="search"
+                                        placeholder="Search 2525E Symbols..."
+                                        @update:model-value="pickerIndex = index"
                                     />
                                     <TablerLoading
-                                        v-if='symbolLoading'
-                                        :compact='true'
-                                        desc='Loading Symbols'
+                                        v-if="symbolLoading"
+                                        :compact="true"
+                                        desc="Loading Symbols"
                                     />
                                     <TablerNone
-                                        v-else-if='!symbols.length'
-                                        :compact='true'
-                                        :create='false'
-                                        label='No Symbols'
+                                        v-else-if="!symbols.length"
+                                        :compact="true"
+                                        :create="false"
+                                        label="No Symbols"
                                     />
                                     <div
                                         v-else
-                                        class='overflow-auto border rounded'
-                                        style='max-height: 200px;'
+                                        class="overflow-auto border rounded"
+                                        style="max-height: 200px;"
                                     >
                                         <div
-                                            v-for='symbol in symbols'
-                                            :key='symbol.sidc'
-                                            class='px-2 py-1 cloudtak-hover cursor-pointer user-select-none text-truncate'
-                                            @click='selectSymbol(index, symbol)'
+                                            v-for="symbol in symbols"
+                                            :key="symbol.sidc"
+                                            class="px-2 py-1 cloudtak-hover cursor-pointer user-select-none text-truncate"
+                                            @click="selectSymbol(index, symbol)"
                                         >
                                             {{ symbol.name }}
                                         </div>
@@ -161,10 +161,10 @@
                                 </template>
 
                                 <TablerUploadLogo
-                                    v-if='edit'
-                                    v-model='eventType.icon'
-                                    :input-id='`core-event-type-icon-${index}`'
-                                    label='Custom Icon (Optional)'
+                                    v-if="edit"
+                                    v-model="eventType.icon"
+                                    :input-id="`core-event-type-icon-${index}`"
+                                    label="Custom Icon (Optional)"
                                 />
                             </div>
                         </div>
@@ -173,8 +173,8 @@
 
                 <TablerNone
                     v-else
-                    label='No preconfigured Event Types'
-                    :create='false'
+                    label="No preconfigured Event Types"
+                    :create="false"
                 />
             </template>
         </div>

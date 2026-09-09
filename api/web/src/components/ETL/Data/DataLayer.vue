@@ -1,63 +1,63 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h2 class='card-title'>
+        <div class="card-header d-flex">
+            <h2 class="card-title">
                 Layers
             </h2>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Layer'
-                    @click='router.push(
+                    title="Create Layer"
+                    @click="router.push(
                         `/connection/${route.params.connectionid}/data/${route.params.dataid}/layer/new`
-                    )'
+                    )"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='listLayers'
+                    :loading="loading"
+                    @click="listLayers"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 61px'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
             <TablerAlert
-                v-if='err'
-                title='ETL Server Error'
-                :err='err'
+                v-if="err"
+                title="ETL Server Error"
+                :err="err"
             />
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                label='No Layers'
+                v-else-if="!list.items.length"
+                :create="false"
+                label="No Layers"
             />
             <div
                 v-else
-                class='table-resposive'
+                class="table-resposive"
             >
-                <table class='table card-table table-vcenter datatable table-hover'>
+                <table class="table card-table table-vcenter datatable table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody class='table-tbody'>
+                    <tbody class="table-tbody">
                         <tr
-                            v-for='layer of list.items'
-                            :key='layer.id'
-                            class='cursor-pointer'
-                            @click='router.push(`/connection/${route.params.connectionid}/layer/${layer.id}`)'
+                            v-for="layer of list.items"
+                            :key="layer.id"
+                            class="cursor-pointer"
+                            @click="router.push(`/connection/${route.params.connectionid}/layer/${layer.id}`)"
                         >
                             <td>
-                                <div class='d-flex align-items-center'>
-                                    <LayerStatus :layer='layer' /><div
-                                        class='mx-2'
-                                        v-text='layer.name'
+                                <div class="d-flex align-items-center">
+                                    <LayerStatus :layer="layer" /><div
+                                        class="mx-2"
+                                        v-text="layer.name"
                                     />
                                 </div>
                             </td>
@@ -67,13 +67,13 @@
             </div>
         </div>
         <div
-            class='position-absolute bottom-0 w-100'
-            style='height: 61px;'
+            class="position-absolute bottom-0 w-100"
+            style="height: 61px;"
         >
             <TableFooter
-                :limit='paging.limit'
-                :total='list.total'
-                @page='paging.page = $event'
+                :limit="paging.limit"
+                :total="list.total"
+                @page="paging.page = $event"
             />
         </div>
     </div>

@@ -1,80 +1,80 @@
 <template>
     <component
-        :is='compact ? &apos;div&apos; : StandardItem'
-        :class='classes'
-        role='menuitem'
-        tabindex='0'
+        :is="compact ? 'div' : StandardItem"
+        :class="classes"
+        role="menuitem"
+        tabindex="0"
         @click='$emit("select")'
         @keyup.enter='$emit("select")'
     >
         <div
-            v-if='$slots.prefix'
-            class='me-2'
+            v-if="$slots.prefix"
+            class="me-2"
         >
-            <slot name='prefix' />
+            <slot name="prefix" />
         </div>
 
         <div
-            class='menu-item-card__icon-wrapper'
-            :title='tooltip'
+            class="menu-item-card__icon-wrapper"
+            :title="tooltip"
         >
             <component
-                :is='icon'
-                v-if='icon'
-                :size='iconSize'
-                :color='resolvedIconColor'
-                stroke='1'
-                class='menu-item-card__icon'
+                :is="icon"
+                v-if="icon"
+                :size="iconSize"
+                :color="resolvedIconColor"
+                stroke="1"
+                class="menu-item-card__icon"
             />
             <span
                 v-if='layout === "tiles" && badge'
-                class='menu-item-card__badge menu-item-card__badge--tile-icon'
+                class="menu-item-card__badge menu-item-card__badge--tile-icon"
             >{{ badge }}</span>
         </div>
 
         <span
-            v-if='compact && badge'
-            class='menu-item-card__badge menu-item-card__badge--compact'
+            v-if="compact && badge"
+            class="menu-item-card__badge menu-item-card__badge--compact"
         >{{ badge }}</span>
 
-        <template v-if='!compact'>
+        <template v-if="!compact">
             <template v-if='layout === "tiles"'>
-                <div class='menu-item-card__body menu-item-card__body--tile'>
-                    <div class='menu-item-card__label'>
+                <div class="menu-item-card__body menu-item-card__body--tile">
+                    <div class="menu-item-card__label">
                         {{ label }}
                     </div>
                     <div
-                        v-if='description'
-                        class='menu-item-card__description'
-                        :class='descriptionClass'
+                        v-if="description"
+                        class="menu-item-card__description"
+                        :class="descriptionClass"
                     >
                         {{ description }}
                     </div>
                 </div>
             </template>
-            <template v-else-if='compact'>
-                <span class='menu-item-card__label menu-item-card__label--compact'>{{ label }}</span>
+            <template v-else-if="compact">
+                <span class="menu-item-card__label menu-item-card__label--compact">{{ label }}</span>
             </template>
             <template v-else>
-                <div class='menu-item-card__body'>
-                    <div class='menu-item-card__label'>
+                <div class="menu-item-card__body">
+                    <div class="menu-item-card__label">
                         {{ label }}
                     </div>
                     <div
-                        v-if='description'
-                        class='menu-item-card__description'
-                        :class='descriptionClass'
+                        v-if="description"
+                        class="menu-item-card__description"
+                        :class="descriptionClass"
                     >
                         {{ description }}
                     </div>
                 </div>
                 <span
-                    v-if='badge'
-                    class='menu-item-card__badge menu-item-card__badge--admin ms-auto'
+                    v-if="badge"
+                    class="menu-item-card__badge menu-item-card__badge--admin ms-auto"
                 >{{ badge }}</span>
                 <div
-                    v-if='$slots.default'
-                    class='ms-auto'
+                    v-if="$slots.default"
+                    class="ms-auto"
                 >
                     <slot />
                 </div>

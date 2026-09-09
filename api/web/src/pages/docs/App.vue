@@ -1,5 +1,5 @@
 <template>
-    <ApiReference :configuration='configuration' />
+    <ApiReference :configuration="configuration" />
 </template>
 
 <script setup lang='ts'>

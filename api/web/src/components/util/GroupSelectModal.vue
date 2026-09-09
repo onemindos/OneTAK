@@ -1,52 +1,52 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-white' />
-        <div class='position-absolute top-0 end-0 z-2 d-flex align-items-center gap-2 mt-3 me-3'>
+    <TablerModal size="lg">
+        <div class="modal-status bg-white" />
+        <div class="position-absolute top-0 end-0 z-2 d-flex align-items-center gap-2 mt-3 me-3">
             <TablerBadge
-                class='rounded-pill d-inline-flex align-items-center justify-content-center gap-1 px-2 py-1 text-center'
-                background-color='rgba(36, 163, 255, 0.15)'
-                border-color='rgba(36, 163, 255, 0.35)'
-                text-color='#24a3ff'
+                class="rounded-pill d-inline-flex align-items-center justify-content-center gap-1 px-2 py-1 text-center"
+                background-color="rgba(36, 163, 255, 0.15)"
+                border-color="rgba(36, 163, 255, 0.35)"
+                text-color="#24a3ff"
                 :title='`${selectedCount} selected channel${selectedCount === 1 ? "" : "s"}`'
             >
                 <IconChecks
-                    :size='14'
-                    stroke='2'
+                    :size="14"
+                    stroke="2"
                 />
-                <span v-text='selectedCount' />
+                <span v-text="selectedCount" />
             </TablerBadge>
             <button
-                type='button'
-                class='btn-close position-static m-0'
-                aria-label='Close'
+                type="button"
+                class="btn-close position-static m-0"
+                aria-label="Close"
                 @click='emit("close")'
             />
         </div>
-        <div class='modal-header text-body'>
-            <div class='d-flex align-items-center'>
+        <div class="modal-header text-body">
+            <div class="d-flex align-items-center">
                 <IconBroadcast
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
-                <span class='mx-2'>Share to Channels</span>
+                <span class="mx-2">Share to Channels</span>
             </div>
         </div>
         <div
-            class='modal-body overflow-auto'
-            style='max-height: 50vh;'
+            class="modal-body overflow-auto"
+            style="max-height: 50vh;"
         >
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <GroupSelect
                 v-else
-                v-model='selectedNames'
-                :active='true'
+                v-model="selectedNames"
+                :active="true"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <TablerButton
-                class='w-100'
-                variant='primary'
-                @click='submit'
+                class="w-100"
+                variant="primary"
+                @click="submit"
             >
                 Save
             </TablerButton>

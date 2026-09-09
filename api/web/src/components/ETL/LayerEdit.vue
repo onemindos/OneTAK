@@ -1,15 +1,15 @@
 <template>
     <div
-        class='h-full w-full cloudtak-page'
-        style='overflow: auto;'
+        class="h-full w-full cloudtak-page"
+        style="overflow: auto;"
     >
-        <NavHeader title='Connections' />
+        <NavHeader title="Connections" />
 
-        <div class='page-wrapper'>
-            <div class='page-header d-print-none'>
-                <div class='container-xl'>
-                    <div class='row g-2 align-items-center'>
-                        <div class='col d-flex text-white'>
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col d-flex text-white">
                             <TablerBreadCrumb />
                         </div>
                     </div>
@@ -18,53 +18,53 @@
         </div>
 
         <TablerLoading
-            v-if='loading.layer'
-            class='text-white'
-            desc='Loading Layer'
+            v-if="loading.layer"
+            class="text-white"
+            desc="Loading Layer"
         />
         <div
             v-else
-            class='page-body'
+            class="page-body"
         >
-            <div class='container-xl'>
-                <div class='row row-deck row-cards'>
-                    <div class='col-lg-12'>
-                        <div class='card'>
-                            <div class='card-header'>
-                                <h3 class='card-title'>
-                                    Layer <span v-text='layer.id' />
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Layer <span v-text="layer.id" />
                                 </h3>
 
-                                <div class='ms-auto'>
-                                    <div class='d-flex'>
-                                        <div class='btn-list'>
-                                            <div class='d-flex'>
-                                                <span class='px-2'>Protected</span>
-                                                <label class='form-check form-switch'>
+                                <div class="ms-auto">
+                                    <div class="d-flex">
+                                        <div class="btn-list">
+                                            <div class="d-flex">
+                                                <span class="px-2">Protected</span>
+                                                <label class="form-check form-switch">
                                                     <input
-                                                        v-model='layer.protected'
-                                                        class='form-check-input'
-                                                        type='checkbox'
+                                                        v-model="layer.protected"
+                                                        class="form-check-input"
+                                                        type="checkbox"
                                                     >
                                                 </label>
                                             </div>
-                                            <div class='d-flex'>
-                                                <span class='px-2'>Logging</span>
-                                                <label class='form-check form-switch'>
+                                            <div class="d-flex">
+                                                <span class="px-2">Logging</span>
+                                                <label class="form-check form-switch">
                                                     <input
-                                                        v-model='layer.logging'
-                                                        class='form-check-input'
-                                                        type='checkbox'
+                                                        v-model="layer.logging"
+                                                        class="form-check-input"
+                                                        type="checkbox"
                                                     >
                                                 </label>
                                             </div>
-                                            <div class='d-flex'>
-                                                <span class='px-2'>Enabled</span>
-                                                <label class='form-check form-switch'>
+                                            <div class="d-flex">
+                                                <span class="px-2">Enabled</span>
+                                                <label class="form-check form-switch">
                                                     <input
-                                                        v-model='layer.enabled'
-                                                        class='form-check-input'
-                                                        type='checkbox'
+                                                        v-model="layer.enabled"
+                                                        class="form-check-input"
+                                                        type="checkbox"
                                                     >
                                                 </label>
                                             </div>
@@ -72,71 +72,71 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='card-body'>
-                                <div class='row row-cards'>
-                                    <div class='col-md-12'>
+                            <div class="card-body">
+                                <div class="row row-cards">
+                                    <div class="col-md-12">
                                         <TablerInput
-                                            v-model='layer.name'
-                                            label='Layer Name'
-                                            :error='errors.name'
+                                            v-model="layer.name"
+                                            label="Layer Name"
+                                            :error="errors.name"
                                         />
                                     </div>
-                                    <div class='col-md-12'>
+                                    <div class="col-md-12">
                                         <TablerInput
-                                            v-model='layer.description'
-                                            label='Layer Description'
-                                            :rows='6'
-                                            :error='errors.description'
+                                            v-model="layer.description"
+                                            label="Layer Description"
+                                            :rows="6"
+                                            :error="errors.description"
                                         />
                                     </div>
-                                    <template v-if='!route.params.layerid'>
-                                        <LayerTaskSelect v-model='layer.task' />
+                                    <template v-if="!route.params.layerid">
+                                        <LayerTaskSelect v-model="layer.task" />
 
                                         <div
-                                            v-if='loading.capabilities'
-                                            class='col-12'
+                                            v-if="loading.capabilities"
+                                            class="col-12"
                                         >
                                             <TablerLoading
-                                                :inline='true'
-                                                desc='Loading Task Capabilities'
+                                                :inline="true"
+                                                desc="Loading Task Capabilities"
                                             />
                                         </div>
                                         <div
-                                            v-else-if='capabilities'
-                                            class='col-12'
+                                            v-else-if="capabilities"
+                                            class="col-12"
                                         >
                                             <LayerStaticCapabilities
-                                                v-model='settings'
-                                                :capabilities='capabilities'
-                                                :disabled='false'
+                                                v-model="settings"
+                                                :capabilities="capabilities"
+                                                :disabled="false"
                                             />
                                         </div>
                                         <div
-                                            v-else-if='layer.task'
-                                            class='col-12'
+                                            v-else-if="layer.task"
+                                            class="col-12"
                                         >
-                                            <div class='small text-secondary'>
+                                            <div class="small text-secondary">
                                                 This task version does not publish a Capabilities document - deployment and invocation settings can be configured after the Layer is created.
                                             </div>
                                         </div>
                                     </template>
-                                    <div class='col-lg-12 d-flex'>
-                                        <div v-if='route.params.layerid'>
+                                    <div class="col-lg-12 d-flex">
+                                        <div v-if="route.params.layerid">
                                             <TablerDelete
-                                                label='Delete Layer'
-                                                @delete='deleteLayer'
+                                                label="Delete Layer"
+                                                @delete="deleteLayer"
                                             />
                                         </div>
-                                        <div class='ms-auto'>
+                                        <div class="ms-auto">
                                             <a
-                                                v-if='route.params.layerid'
-                                                class='cursor-pointer btn btn-primary'
-                                                @click='create'
+                                                v-if="route.params.layerid"
+                                                class="cursor-pointer btn btn-primary"
+                                                @click="create"
                                             >Update Layer</a>
                                             <a
                                                 v-else
-                                                class='cursor-pointer btn btn-primary'
-                                                @click='create'
+                                                class="cursor-pointer btn btn-primary"
+                                                @click="create"
                                             >Create Layer</a>
                                         </div>
                                     </div>

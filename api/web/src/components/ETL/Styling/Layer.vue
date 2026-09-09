@@ -1,106 +1,106 @@
 <template>
-    <div class='ps-3'>
+    <div class="ps-3">
         <div
-            v-if='advanced || l.filter'
-            class='col-lg-12'
+            v-if="advanced || l.filter"
+            class="col-lg-12"
         >
-            <label class='subheader'>Filter</label>
-            <div class='12'>
+            <label class="subheader">Filter</label>
+            <div class="12">
                 <CopyField
                     :model-value='typeof l.filter === "undefined" ? "" : JSON.stringify(l.filter)'
-                    :edit='!disabled'
-                    :hover='!disabled'
-                    :validate='validateFilter'
-                    @update:model-value='updateFilter($event)'
+                    :edit="!disabled"
+                    :hover="!disabled"
+                    :validate="validateFilter"
+                    @update:model-value="updateFilter($event)"
                 />
             </div>
         </div>
         <div
             v-if='advanced || l["minzoom"] || l["maxzoom"]'
-            class='col-12 row g-0'
+            class="col-12 row g-0"
         >
-            <label class='subheader'>Zoom Limits</label>
+            <label class="subheader">Zoom Limits</label>
 
-            <div class='col-12 col-md-6 pe-md-1'>
+            <div class="col-12 col-md-6 pe-md-1">
                 <CopyField
                     :model-value='typeof l.minzoom === "number" ? l.minzoom : "Not Set"'
-                    :edit='!disabled'
-                    :hover='!disabled'
-                    @update:model-value='l.minzoom = !isNaN(parseInt($event)) ? parseInt($event) : undefined'
+                    :edit="!disabled"
+                    :hover="!disabled"
+                    @update:model-value="l.minzoom = !isNaN(parseInt($event)) ? parseInt($event) : undefined"
                 />
             </div>
-            <div class='col-12 col-md-6 ps-md-1'>
+            <div class="col-12 col-md-6 ps-md-1">
                 <CopyField
                     :model-value='typeof l.maxzoom === "number" ? l.maxzoom : "Not Set"'
-                    :edit='!disabled'
-                    :hover='!disabled'
-                    @update:model-value='l.maxzoom = !isNaN(parseInt($event)) ? parseInt($event) : undefined'
+                    :edit="!disabled"
+                    :hover="!disabled"
+                    @update:model-value="l.maxzoom = !isNaN(parseInt($event)) ? parseInt($event) : undefined"
                 />
             </div>
         </div>
         <div
             v-if='advanced || l["source-layer"]'
-            class='col-12'
+            class="col-12"
         >
-            <label class='subheader'>Source Layer</label>
+            <label class="subheader">Source Layer</label>
             <CopyField
                 :model-value='l["source-layer"] || "None"'
-                :edit='!disabled'
-                :hover='!disabled'
+                :edit="!disabled"
+                :hover="!disabled"
                 @update:model-value='l["source-layer"] = $event ? $event : undefined'
             />
         </div>
-        <div class='col-12'>
-            <label class='subheader'>Layout</label>
+        <div class="col-12">
+            <label class="subheader">Layout</label>
             <div
-                v-if='!l.layout || Object.keys(l.layout).length === 0'
-                class='col-12 d-flex py-1'
+                v-if="!l.layout || Object.keys(l.layout).length === 0"
+                class="col-12 d-flex py-1"
             >
                 <TablerNone
-                    :compact='true'
-                    label='No Layout Properties'
-                    :create='false'
+                    :compact="true"
+                    label="No Layout Properties"
+                    :create="false"
                 />
             </div>
             <template v-else>
                 <div
-                    v-for='p of Object.keys(l.layout)'
-                    :key='p'
-                    class='col-12 py-1'
+                    v-for="p of Object.keys(l.layout)"
+                    :key="p"
+                    class="col-12 py-1"
                 >
                     <template v-if='p === "visibility"'>
                         <TablerToggle
-                            :model-value='(l.layout as Record<string, boolean>)[p]'
-                            :label='p'
-                            @update:model-value='(l.layout as Record<string, boolean>)[p] = $event'
+                            :model-value="(l.layout as Record<string, boolean>)[p]"
+                            :label="p"
+                            @update:model-value="(l.layout as Record<string, boolean>)[p] = $event"
                         />
                     </template>
                     <template v-else>
-                        <span v-text='p' />
+                        <span v-text="p" />
                         <span
-                            class='ms-auto'
-                            v-text='l.layout[p]'
+                            class="ms-auto"
+                            v-text="l.layout[p]"
                         />
                     </template>
                 </div>
             </template>
         </div>
-        <div class='col-lg'>
-            <label class='subheader'>Paint</label>
+        <div class="col-lg">
+            <label class="subheader">Paint</label>
             <div
-                v-if='Object.keys(l.paint).length === 0'
-                class='col-12 px-2 py-1'
+                v-if="Object.keys(l.paint).length === 0"
+                class="col-12 px-2 py-1"
             >
                 <TablerNone
-                    :compact='true'
-                    label='No Paint Properties'
-                    :create='false'
+                    :compact="true"
+                    label="No Paint Properties"
+                    :create="false"
                 />
             </div>
             <div
-                v-for='p of Object.keys(l.paint)'
-                :key='p'
-                class='col-12'
+                v-for="p of Object.keys(l.paint)"
+                :key="p"
+                class="col-12"
             >
                 <template
                     v-if='[
@@ -111,38 +111,38 @@
                 >
                     <template v-if='Array.isArray(l.paint[p]) && l.paint[p][0] === "number"'>
                         <TablerRange
-                            v-model='l.paint[p][l.paint[p].length - 1]'
-                            class='w-100'
-                            label='Opacity'
-                            :min='0'
-                            :max='1'
-                            :step='0.1'
+                            v-model="l.paint[p][l.paint[p].length - 1]"
+                            class="w-100"
+                            label="Opacity"
+                            :min="0"
+                            :max="1"
+                            :step="0.1"
                         >
                             <span
-                                class='float-right'
+                                class="float-right"
                                 v-text='Math.round(l.paint[p][l.paint[p].length - 1] * 100) + "%"'
                             />
                         </TablerRange>
                     </template>
-                    <template v-else-if='!isNaN(Number(l.paint[p]))'>
+                    <template v-else-if="!isNaN(Number(l.paint[p]))">
                         <TablerRange
-                            :model-value='(l.paint as Record<string, number>)[p]'
-                            class='w-100'
-                            label='Opacity'
-                            :min='0'
-                            :max='1'
-                            :step='0.1'
-                            @update:model-value='(l.paint as Record<string, number>)[p] = $event'
+                            :model-value="(l.paint as Record<string, number>)[p]"
+                            class="w-100"
+                            label="Opacity"
+                            :min="0"
+                            :max="1"
+                            :step="0.1"
+                            @update:model-value="(l.paint as Record<string, number>)[p] = $event"
                         >
                             <span
-                                class='float-right'
+                                class="float-right"
                                 v-text='Math.round(Number(l.paint[p]) * 100) + "%"'
                             />
                         </TablerRange>
                     </template>
                     <template v-else>
-                        <span v-text='p' />
-                        <pre v-text='l.paint[p]' />
+                        <span v-text="p" />
+                        <pre v-text="l.paint[p]" />
                     </template>
                 </template>
                 <template
@@ -153,38 +153,38 @@
                 >
                     <template v-if='Array.isArray(l.paint[p]) && l.paint[p][0] === "number"'>
                         <TablerRange
-                            v-model='l.paint[p][l.paint[p].length - 1]'
-                            class='w-100'
-                            label='Width'
-                            :min='1'
-                            :max='10'
-                            :step='1'
+                            v-model="l.paint[p][l.paint[p].length - 1]"
+                            class="w-100"
+                            label="Width"
+                            :min="1"
+                            :max="10"
+                            :step="1"
                         >
                             <span
-                                class='float-right'
-                                v-text='l.paint[p][l.paint[p].length - 1]'
+                                class="float-right"
+                                v-text="l.paint[p][l.paint[p].length - 1]"
                             />
                         </TablerRange>
                     </template>
-                    <template v-else-if='!isNaN(Number(l.paint[p]))'>
+                    <template v-else-if="!isNaN(Number(l.paint[p]))">
                         <TablerRange
-                            :model-value='(l.paint as Record<string, number>)[p]'
-                            class='w-100'
-                            label='Width'
-                            :min='1'
-                            :max='10'
-                            :step='1'
-                            @update:model-value='(l.paint as Record<string, number>)[p] = $event'
+                            :model-value="(l.paint as Record<string, number>)[p]"
+                            class="w-100"
+                            label="Width"
+                            :min="1"
+                            :max="10"
+                            :step="1"
+                            @update:model-value="(l.paint as Record<string, number>)[p] = $event"
                         >
                             <span
-                                class='float-right'
-                                v-text='l.paint[p]'
+                                class="float-right"
+                                v-text="l.paint[p]"
                             />
                         </TablerRange>
                     </template>
                     <template v-else>
-                        <span v-text='p' />
-                        <pre v-text='l.paint[p]' />
+                        <span v-text="p" />
+                        <pre v-text="l.paint[p]" />
                     </template>
                 </template>
                 <template
@@ -199,49 +199,49 @@
                 >
                     <template v-if='Array.isArray(l.paint[p]) && l.paint[p][0] === "string"'>
                         <TablerInput
-                            v-model='l.paint[p][l.paint[p].length - 1]'
-                            class='w-100'
-                            type='color'
-                            :label='p'
+                            v-model="l.paint[p][l.paint[p].length - 1]"
+                            class="w-100"
+                            type="color"
+                            :label="p"
                         >
                             <span
-                                class='float-right'
-                                v-text='l.paint[p][l.paint[p].length - 1]'
+                                class="float-right"
+                                v-text="l.paint[p][l.paint[p].length - 1]"
                             />
                         </TablerInput>
                     </template>
                     <template v-else-if='typeof l.paint[p] === "string"'>
                         <TablerInput
-                            v-model='l.paint[p]'
-                            class='w-100'
-                            type='color'
-                            :label='p'
+                            v-model="l.paint[p]"
+                            class="w-100"
+                            type="color"
+                            :label="p"
                         >
                             <span
-                                class='float-right'
-                                v-text='l.paint[p]'
+                                class="float-right"
+                                v-text="l.paint[p]"
                             />
                         </TablerInput>
                     </template>
                     <template v-else>
-                        <span v-text='p' />
+                        <span v-text="p" />
                         <CopyField
-                            :model-value='JSON.stringify(l.paint[p], null, 4)'
-                            :edit='!disabled'
-                            :hover='!disabled'
+                            :model-value="JSON.stringify(l.paint[p], null, 4)"
+                            :edit="!disabled"
+                            :hover="!disabled"
                             :rows='JSON.stringify(l.paint[p], null, 4).split("\n").length'
-                            @update:model-value='l.paint[p] = $event ? JSON.parse($event) : undefined'
+                            @update:model-value="l.paint[p] = $event ? JSON.parse($event) : undefined"
                         />
                     </template>
                 </template>
                 <template v-else>
-                    <div v-text='p' />
+                    <div v-text="p" />
                     <CopyField
-                        :model-value='JSON.stringify(l.paint[p], null, 4)'
+                        :model-value="JSON.stringify(l.paint[p], null, 4)"
                         :rows='JSON.stringify(l.paint[p], null, 4).split("\n").length'
-                        :edit='!disabled'
-                        :hover='!disabled'
-                        @update:model-value='l.paint[p] = $event ? JSON.parse($event) : undefined'
+                        :edit="!disabled"
+                        :hover="!disabled"
+                        @update:model-value="l.paint[p] = $event ? JSON.parse($event) : undefined"
                     />
                 </template>
             </div>

@@ -1,110 +1,110 @@
 <template>
-    <div class='row col-12'>
-        <template v-if='err'>
+    <div class="row col-12">
+        <template v-if="err">
             <TablerAlert
-                title='ESRI Connection Error'
-                :err='err'
-                :compact='true'
+                title="ESRI Connection Error"
+                :err="err"
+                :compact="true"
             />
-            <div class='col-md-12 mt-3 pb-2 px-3'>
-                <div class='d-flex'>
-                    <div class='ms-auto'>
+            <div class="col-md-12 mt-3 pb-2 px-3">
+                <div class="d-flex">
+                    <div class="ms-auto">
                         <a
-                            v-if='pane'
-                            class='cursor-pointer btn btn-primary'
+                            v-if="pane"
+                            class="cursor-pointer btn btn-primary"
                             @click='$emit("close")'
                         >Close Viewer</a>
                     </div>
                 </div>
             </div>
         </template>
-        <template v-else-if='loading.main'>
-            <TablerLoading desc='Connecting to ESRI Portal' />
+        <template v-else-if="loading.main">
+            <TablerLoading desc="Connecting to ESRI Portal" />
         </template>
-        <template v-else-if='!url && server'>
+        <template v-else-if="!url && server">
             <!-- If no url is given assume auth is directly with a Server-->
             <EsriServer
-                :disabled='disabled'
-                :server='server.url'
-                :readonly='readonly'
-                :token='token ?? undefined'
+                :disabled="disabled"
+                :server="server.url"
+                :readonly="readonly"
+                :token="token ?? undefined"
                 @layer='$emit("layer", $event)'
-                @close='server = null'
+                @close="server = null"
             />
         </template>
         <template v-else>
             <div
-                class='py-2'
+                class="py-2"
                 :class='{
                     "border": pane
                 }'
             >
-                <div class='d-flex'>
-                    <h1 class='subheader px-3'>
+                <div class="d-flex">
+                    <h1 class="subheader px-3">
                         ESRI Portal Explorer
                         <span
-                            v-if='portal && portal.name'
+                            v-if="portal && portal.name"
                             v-text='" - " + portal.name'
                         />
                     </h1>
 
-                    <div class='ms-auto btn-list mx-3'>
+                    <div class="ms-auto btn-list mx-3">
                         <TablerIconButton
-                            v-if='!disabled && !err && !loading.main'
-                            title='Refresh'
-                            @click='generateToken'
+                            v-if="!disabled && !err && !loading.main"
+                            title="Refresh"
+                            @click="generateToken"
                         >
                             <IconRefresh
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
 
                         <TablerIconButton
-                            v-if='!readonly && !disabled && !err && !loading.main'
-                            title='Create Hosted Service'
-                            @click='createModal = true'
+                            v-if="!readonly && !disabled && !err && !loading.main"
+                            title="Create Hosted Service"
+                            @click="createModal = true"
                         >
                             <IconPlus
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                         <TablerIconButton
-                            v-if='pane && !disabled'
-                            title='Close Explorer'
+                            v-if="pane && !disabled"
+                            title="Close Explorer"
                             @click='$emit("close")'
                         >
                             <IconX
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
 
                 <template v-if='type === "PORTAL" || server'>
-                    <template v-if='!server'>
-                        <template v-if='servers.length === 0'>
+                    <template v-if="!server">
+                        <template v-if="servers.length === 0">
                             <TablerNone
-                                :compact='true'
-                                :create='false'
-                                label='No ArcGIS Servers'
+                                :compact="true"
+                                :create="false"
+                                label="No ArcGIS Servers"
                             />
                         </template>
                         <template v-else>
-                            <div class='table-responsive'>
-                                <table class='table table-hover card-table table-vcenter cursor-pointer'>
+                            <div class="table-responsive">
+                                <table class="table table-hover card-table table-vcenter cursor-pointer">
                                     <thead><tr><th>ID</th><th>Name</th><th>Url</th></tr></thead>
                                     <tbody>
                                         <tr
-                                            v-for='serv in servers'
-                                            :key='serv.id'
-                                            @click='server = serv'
+                                            v-for="serv in servers"
+                                            :key="serv.id"
+                                            @click="server = serv"
                                         >
-                                            <td v-text='serv.id' />
-                                            <td v-text='serv.name' />
-                                            <td v-text='serv.url' />
+                                            <td v-text="serv.id" />
+                                            <td v-text="serv.name" />
+                                            <td v-text="serv.url" />
                                         </tr>
                                     </tbody>
                                 </table>
@@ -112,55 +112,55 @@
                         </template>
                     </template>
                     <template v-else>
-                        <div class='datagrid'>
+                        <div class="datagrid">
                             <template v-for='ele in ["id", "name", "adminUrl"]'>
                                 <div
-                                    v-if='server[ele]'
-                                    class='datagrid-item'
+                                    v-if="server[ele]"
+                                    class="datagrid-item"
                                 >
                                     <div
-                                        class='datagrid-title'
-                                        v-text='ele'
+                                        class="datagrid-title"
+                                        v-text="ele"
                                     />
                                     <div
-                                        class='datagrid-content'
-                                        v-text='server[ele]'
+                                        class="datagrid-content"
+                                        v-text="server[ele]"
                                     />
                                 </div>
                             </template>
                         </div>
 
                         <EsriServer
-                            :disabled='disabled'
+                            :disabled="disabled"
                             :server='server?.url ?? ""'
-                            :readonly='readonly'
+                            :readonly="readonly"
                             :portal='String(url ?? "")'
-                            :token='token ?? undefined'
+                            :token="token ?? undefined"
                             @layer='$emit("layer", $event)'
-                            @close='server = null'
+                            @close="server = null"
                         />
                     </template>
                 </template>
-                <template v-else-if='type === &apos;AGOL&apos;'>
+                <template v-else-if="type === 'AGOL'">
                     <TablerInput
-                        v-model='contentFilter.title'
-                        placeholder='Filter by Title'
+                        v-model="contentFilter.title"
+                        placeholder="Filter by Title"
                     />
 
                     <TablerLoading
-                        v-if='loading.content'
-                        desc='Searching Content'
+                        v-if="loading.content"
+                        desc="Searching Content"
                     />
                     <TablerNone
-                        v-else-if='content.total === 0'
-                        :create='false'
-                        label='No Content Items'
+                        v-else-if="content.total === 0"
+                        :create="false"
+                        label="No Content Items"
                     />
                     <div
                         v-else
-                        class='table-responsive'
+                        class="table-responsive"
                     >
-                        <table class='table table-hover card-table table-vcenter cursor-pointer'>
+                        <table class="table table-hover card-table table-vcenter cursor-pointer">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -169,45 +169,45 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for='res in content.results'
-                                    :key='res.id'
-                                    @click='fmtserver(res)'
+                                    v-for="res in content.results"
+                                    :key="res.id"
+                                    @click="fmtserver(res)"
                                 >
                                     <td>
                                         <IconMap
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                         <span
-                                            class='mx-1'
-                                            v-text='res.title'
+                                            class="mx-1"
+                                            v-text="res.title"
                                         />
                                     </td>
                                     <td>
                                         <TablerBadge
                                             v-if='res.access === "public"'
-                                            class='mx-1 mb-1'
-                                            background-color='rgba(34, 197, 94, 0.2)'
-                                            border-color='rgba(34, 197, 94, 0.5)'
-                                            text-color='#16a34a'
+                                            class="mx-1 mb-1"
+                                            background-color="rgba(34, 197, 94, 0.2)"
+                                            border-color="rgba(34, 197, 94, 0.5)"
+                                            text-color="#16a34a"
                                         >
                                             {{ res.access }}
                                         </TablerBadge>
                                         <TablerBadge
                                             v-else-if='res.access === "org"'
-                                            class='mx-1 mb-1'
-                                            background-color='rgba(245, 158, 11, 0.2)'
-                                            border-color='rgba(245, 158, 11, 0.5)'
-                                            text-color='#d97706'
+                                            class="mx-1 mb-1"
+                                            background-color="rgba(245, 158, 11, 0.2)"
+                                            border-color="rgba(245, 158, 11, 0.5)"
+                                            text-color="#d97706"
                                         >
                                             {{ res.access }}
                                         </TablerBadge>
                                         <TablerBadge
                                             v-else
-                                            class='mx-1 mb-1'
-                                            background-color='rgba(239, 68, 68, 0.2)'
-                                            border-color='rgba(239, 68, 68, 0.5)'
-                                            text-color='#dc2626'
+                                            class="mx-1 mb-1"
+                                            background-color="rgba(239, 68, 68, 0.2)"
+                                            border-color="rgba(239, 68, 68, 0.5)"
+                                            text-color="#dc2626"
                                         >
                                             {{ res.access }}
                                         </TablerBadge>
@@ -219,11 +219,11 @@
                 </template>
 
                 <EsriPortalCreate
-                    v-if='createModal'
+                    v-if="createModal"
                     :portal='String(url ?? "")'
                     :token='token?.token ?? ""'
-                    @close='createModal = false'
-                    @create='createService($event)'
+                    @close="createModal = false"
+                    @create="createService($event)"
                 />
             </div>
         </template>

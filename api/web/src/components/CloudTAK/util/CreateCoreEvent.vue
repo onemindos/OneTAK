@@ -1,88 +1,88 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-red' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 Create Event
             </div>
         </div>
-        <div class='modal-body text-body'>
+        <div class="modal-body text-body">
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
             <TablerLoading
-                v-else-if='loading'
-                desc='Creating Event'
+                v-else-if="loading"
+                desc="Creating Event"
             />
             <template v-else>
-                <div class='row g-2'>
-                    <div class='col-12 col-md-8'>
+                <div class="row g-2">
+                    <div class="col-12 col-md-8">
                         <TablerInput
-                            v-model='config.name'
-                            label='Name'
-                            :required='true'
+                            v-model="config.name"
+                            label="Name"
+                            :required="true"
                         />
                     </div>
-                    <div class='col-12 col-md-4'>
+                    <div class="col-12 col-md-4">
                         <TablerEnum
-                            v-model='config.priority'
-                            label='Priority'
+                            v-model="config.priority"
+                            label="Priority"
                             :options='["none", "low", "medium", "high", "critical"]'
                         />
                     </div>
 
-                    <div class='col-12'>
-                        <CoreEventType v-model='config.type' />
+                    <div class="col-12">
+                        <CoreEventType v-model="config.type" />
                     </div>
 
-                    <div class='col-12'>
+                    <div class="col-12">
                         <Coordinate
-                            v-model='config.coordinates'
-                            :edit='true'
-                            :hover='true'
+                            v-model="config.coordinates"
+                            :edit="true"
+                            :hover="true"
                         />
                     </div>
 
-                    <div class='col-12'>
+                    <div class="col-12">
                         <PropertyCoreEventLocation
-                            v-model='config.location'
-                            :edit='true'
+                            v-model="config.location"
+                            :edit="true"
                         />
                     </div>
 
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerInput
-                            v-model='config.remarks'
-                            label='Remarks'
-                            :rows='3'
+                            v-model="config.remarks"
+                            label="Remarks"
+                            :rows="3"
                         />
                     </div>
 
-                    <div class='col-12'>
-                        <label class='form-label'>Share to Channels</label>
+                    <div class="col-12">
+                        <label class="form-label">Share to Channels</label>
                         <div
-                            class='overflow-auto'
-                            style='max-height: 250px;'
+                            class="overflow-auto"
+                            style="max-height: 250px;"
                         >
                             <GroupSelect
-                                v-model='config.channels'
-                                :active='true'
+                                v-model="config.channels"
+                                :active="true"
                             />
                         </div>
                     </div>
                 </div>
 
                 <button
-                    class='btn btn-primary w-100 mt-3'
-                    :disabled='!config.name.trim() || !config.type'
-                    @click='submit'
+                    class="btn btn-primary w-100 mt-3"
+                    :disabled="!config.name.trim() || !config.type"
+                    @click="submit"
                 >
                     Create Event
                 </button>

@@ -1,18 +1,18 @@
 <template>
     <div
-        class='col-lg-12 cloudtak-hover py-2 mt-2 cursor-pointer'
-        @click='toggle'
+        class="col-lg-12 cloudtak-hover py-2 mt-2 cursor-pointer"
+        @click="toggle"
     >
-        <IconChevronDown v-if='isOpen' />
+        <IconChevronDown v-if="isOpen" />
         <IconChevronRight v-else />
 
-        <span class='mx-2 user-select-none'>Login Sessions</span>
+        <span class="mx-2 user-select-none">Login Sessions</span>
     </div>
     <div
-        v-if='isOpen'
-        class='col-lg-12 card-body border rounded'
+        v-if="isOpen"
+        class="col-lg-12 card-body border rounded"
     >
-        <LoginSessionsList :username='username' />
+        <LoginSessionsList :username="username" />
     </div>
 </template>
 

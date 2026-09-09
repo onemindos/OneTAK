@@ -1,49 +1,49 @@
 <template>
-    <MenuTemplate name='Package'>
+    <MenuTemplate name="Package">
         <template #buttons>
-            <div class='d-flex align-items-center gap-2'>
+            <div class="d-flex align-items-center gap-2">
                 <TablerDelete
-                    v-if='pkg && (profile && (profile.username === pkg.username || profile.system_admin))'
-                    displaytype='icon'
-                    @delete='deleteFile(pkg)'
+                    v-if="pkg && (profile && (profile.username === pkg.username || profile.system_admin))"
+                    displaytype="icon"
+                    @delete="deleteFile(pkg)"
                 />
                 <TablerIconButton
-                    v-if='pkg && !loading && !error'
+                    v-if="pkg && !loading && !error"
                     :title='"Download Asset"'
-                    @click='downloadFile'
+                    @click="downloadFile"
                 >
                     <IconDownload
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </template>
         <template #default>
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
-            <TablerLoading v-else-if='loading || !pkg || !profile' />
+            <TablerLoading v-else-if="loading || !pkg || !profile" />
             <template v-else-if='mode === "share" && shareFeat'>
-                <div class='container-fluid py-4'>
-                    <div class='card border border-light-subtle cloudtak-bg text-white shadow-sm'>
-                        <div class='card-header d-flex align-items-center gap-2'>
+                <div class="container-fluid py-4">
+                    <div class="card border border-light-subtle cloudtak-bg text-white shadow-sm">
+                        <div class="card-header d-flex align-items-center gap-2">
                             <IconShare2
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='fw-semibold text-uppercase small'>Share Package</span>
+                            <span class="fw-semibold text-uppercase small">Share Package</span>
                             <button
-                                type='button'
-                                class='btn-close btn-close-white ms-auto'
-                                aria-label='Close share panel'
+                                type="button"
+                                class="btn-close btn-close-white ms-auto"
+                                aria-label="Close share panel"
                                 @click='mode = "default"'
                             />
                         </div>
-                        <div class='card-body bg-black bg-opacity-25 rounded-bottom'>
+                        <div class="card-body bg-black bg-opacity-25 rounded-bottom">
                             <Share
-                                :feats='[shareFeat]'
+                                :feats="[shareFeat]"
                                 @done='mode = "default"'
                                 @close='mode = "default"'
                             />
@@ -52,129 +52,129 @@
                 </div>
             </template>
             <template v-else>
-                <div class='container-fluid py-4'>
-                    <div class='row gy-3 gx-0 gx-lg-3'>
-                        <div class='col-12'>
+                <div class="container-fluid py-4">
+                    <div class="row gy-3 gx-0 gx-lg-3">
+                        <div class="col-12">
                             <TablerBorder
-                                class='cloudtak-bg text-white'
-                                gap='lg'
+                                class="cloudtak-bg text-white"
+                                gap="lg"
                             >
-                                <div class='d-flex align-items-center gap-3'>
-                                    <div class='rounded-circle bg-primary-subtle text-primary-emphasis p-1 d-flex align-items-center justify-content-center'>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-primary-subtle text-primary-emphasis p-1 d-flex align-items-center justify-content-center">
                                         <IconPackage
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </div>
-                                    <div class='flex-grow-1'>
-                                        <p class='text-uppercase text-white-50 small mb-1'>
+                                    <div class="flex-grow-1">
+                                        <p class="text-uppercase text-white-50 small mb-1">
                                             Package
                                         </p>
                                         <h2
-                                            class='h4 mb-0 text-break'
-                                            v-text='pkg.name'
+                                            class="h4 mb-0 text-break"
+                                            v-text="pkg.name"
                                         />
                                         <span
-                                            class='cursor-pointer text-sm text-white-50'
-                                            @click='relative = !relative'
+                                            class="cursor-pointer text-sm text-white-50"
+                                            @click="relative = !relative"
                                         >
                                             Created {{ relative ? timeDiff(pkg.created) : pkg.created }}
                                         </span>
                                     </div>
                                 </div>
 
-                                <div class='row gy-3 gx-0 gx-sm-3'>
-                                    <div class='col-6'>
-                                        <small class='text-uppercase text-white-50 d-block mb-1'>Created By</small>
+                                <div class="row gy-3 gx-0 gx-sm-3">
+                                    <div class="col-6">
+                                        <small class="text-uppercase text-white-50 d-block mb-1">Created By</small>
                                         <p
-                                            class='text-start text-white fw-semibold p-0 text-decoration-none'
-                                            v-text='pkg.username'
+                                            class="text-start text-white fw-semibold p-0 text-decoration-none"
+                                            v-text="pkg.username"
                                         />
                                     </div>
-                                    <div class='col-6' />
+                                    <div class="col-6" />
                                     <InlineGroupSelect
-                                        v-model='channelDraft'
-                                        :value='pkg.channels'
-                                        :editing='editingChannels'
-                                        :editable='canEditPackage'
-                                        :saving='savingChannels'
-                                        label='Channels'
-                                        empty-class='text-start text-white fw-semibold p-0 mb-0 text-decoration-none'
-                                        @edit='startEditingChannels'
-                                        @cancel='cancelEditingChannels'
-                                        @save='saveChannels'
+                                        v-model="channelDraft"
+                                        :value="pkg.channels"
+                                        :editing="editingChannels"
+                                        :editable="canEditPackage"
+                                        :saving="savingChannels"
+                                        label="Channels"
+                                        empty-class="text-start text-white fw-semibold p-0 mb-0 text-decoration-none"
+                                        @edit="startEditingChannels"
+                                        @cancel="cancelEditingChannels"
+                                        @save="saveChannels"
                                     />
                                     <InlineExpiration
-                                        v-model='expirationDraft'
-                                        :value='packageExpiration'
-                                        :editing='editingExpiration'
-                                        :editable='canEditPackage'
-                                        :saving='savingExpiration'
-                                        label='Expiry'
-                                        :interactive='Boolean(packageExpiration)'
-                                        display-class='btn btn-link p-0 text-start text-reset fw-semibold menu-package__inline-button'
-                                        @edit='startEditingExpiration'
-                                        @display-click='expirationRelative = !expirationRelative'
-                                        @cancel='cancelEditingExpiration'
-                                        @clear='clearExpiration'
-                                        @save='saveExpiration'
+                                        v-model="expirationDraft"
+                                        :value="packageExpiration"
+                                        :editing="editingExpiration"
+                                        :editable="canEditPackage"
+                                        :saving="savingExpiration"
+                                        label="Expiry"
+                                        :interactive="Boolean(packageExpiration)"
+                                        display-class="btn btn-link p-0 text-start text-reset fw-semibold menu-package__inline-button"
+                                        @edit="startEditingExpiration"
+                                        @display-click="expirationRelative = !expirationRelative"
+                                        @cancel="cancelEditingExpiration"
+                                        @clear="clearExpiration"
+                                        @save="saveExpiration"
                                     />
                                     <InlineKeywords
-                                        v-model='keywordDraft'
-                                        :value='pkg.keywords'
-                                        :editing='editingKeywords'
-                                        :editable='canEditPackage'
-                                        :saving='savingKeywords'
-                                        label='Hashtags'
-                                        edit-title='Edit hashtags'
-                                        placeholder='No hashtags provided'
-                                        input-placeholder='Add hashtags'
-                                        tone='accent'
-                                        @edit='startEditingKeywords'
-                                        @cancel='cancelEditingKeywords'
-                                        @save='saveKeywords'
+                                        v-model="keywordDraft"
+                                        :value="pkg.keywords"
+                                        :editing="editingKeywords"
+                                        :editable="canEditPackage"
+                                        :saving="savingKeywords"
+                                        label="Hashtags"
+                                        edit-title="Edit hashtags"
+                                        placeholder="No hashtags provided"
+                                        input-placeholder="Add hashtags"
+                                        tone="accent"
+                                        @edit="startEditingKeywords"
+                                        @cancel="cancelEditingKeywords"
+                                        @save="saveKeywords"
                                     />
-                                    <div class='col-12'>
-                                        <small class='text-uppercase text-white-50 d-block mb-1'>Package Hash</small>
+                                    <div class="col-12">
+                                        <small class="text-uppercase text-white-50 d-block mb-1">Package Hash</small>
                                         <p
-                                            class='fs-6 fw-semibold text-white mb-0 text-break'
+                                            class="fs-6 fw-semibold text-white mb-0 text-break"
                                             v-text='pkg.hash || "—"'
                                         />
                                     </div>
-                                    <div class='col-12'>
-                                        <small class='text-uppercase text-white-50 d-block mb-1'>Size</small>
-                                        <p class='fs-6 text-white mb-0'>
+                                    <div class="col-12">
+                                        <small class="text-uppercase text-white-50 d-block mb-1">Size</small>
+                                        <p class="fs-6 text-white mb-0">
                                             {{ packageSize }}
                                         </p>
                                     </div>
                                 </div>
                             </TablerBorder>
                         </div>
-                        <div class='col-12'>
-                            <TablerBorder class='cloudtak-bg text-white'>
+                        <div class="col-12">
+                            <TablerBorder class="cloudtak-bg text-white">
                                 <template #label>
-                                    <p class='text-uppercase text-white-50 small mb-0'>
+                                    <p class="text-uppercase text-white-50 small mb-0">
                                         Quick Actions
                                     </p>
                                 </template>
                                 <button
-                                    class='btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2'
-                                    @click='createImport'
+                                    class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                                    @click="createImport"
                                 >
                                     <IconFileImport
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                     <span>Import Package</span>
                                 </button>
                                 <button
-                                    class='btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2'
-                                    :disabled='!shareFeat'
+                                    class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2"
+                                    :disabled="!shareFeat"
                                     @click='mode = "share"'
                                 >
                                     <IconShare2
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                     <span>Share Package</span>
                                 </button>

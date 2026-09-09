@@ -1,36 +1,36 @@
 <template>
-    <div class='col-12'>
-        <div class='col-12 d-flex align-items-center'>
-            <label v-text='props.label' />
+    <div class="col-12">
+        <div class="col-12 d-flex align-items-center">
+            <label v-text="props.label" />
 
             <div
-                v-if='!props.disabled'
-                class='ms-auto btn-list'
+                v-if="!props.disabled"
+                class="ms-auto btn-list"
             >
                 <TablerIconButton
-                    title='Add Link'
-                    @click='create = true'
+                    title="Add Link"
+                    @click="create = true"
                 >
                     <IconPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <TablerNone
-            v-if='!links.length'
-            :create='false'
-            :compact='true'
-            label='No Link Overrides'
+            v-if="!links.length"
+            :create="false"
+            :compact="true"
+            label="No Link Overrides"
         />
         <div
             v-else
-            class='table-responsive'
+            class="table-responsive"
         >
             <table
-                class='table card-table table-vcenter'
+                class="table card-table table-vcenter"
                 :class='{
                     "cursor-pointer": !props.disabled
                 }'
@@ -43,21 +43,21 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for='(link, it) in links'
-                        :key='`${link.url}-${link.remarks}`'
-                        @click='edit(link)'
+                        v-for="(link, it) in links"
+                        :key="`${link.url}-${link.remarks}`"
+                        @click="edit(link)"
                     >
-                        <td v-text='link.remarks' />
+                        <td v-text="link.remarks" />
                         <td>
-                            <div class='d-flex align-items-center'>
-                                <span v-text='link.url' />
-                                <div class='ms-auto'>
+                            <div class="d-flex align-items-center">
+                                <span v-text="link.url" />
+                                <div class="ms-auto">
                                     <IconTrash
-                                        v-if='!props.disabled'
-                                        :size='32'
-                                        stroke='1'
-                                        class='cursor-pointer'
-                                        @click.stop='links.splice(it, 1)'
+                                        v-if="!props.disabled"
+                                        :size="32"
+                                        stroke="1"
+                                        class="cursor-pointer"
+                                        @click.stop="links.splice(it, 1)"
                                     />
                                 </div>
                             </div>
@@ -69,11 +69,11 @@
     </div>
 
     <StyleLinkModal
-        v-if='create'
-        :edit='editLink'
-        :schema='props.schema'
-        @done='push($event)'
-        @close='create = false'
+        v-if="create"
+        :edit="editLink"
+        :schema="props.schema"
+        @done="push($event)"
+        @close="create = false"
     />
 </template>
 

@@ -1,68 +1,68 @@
 <template>
     <TablerAlert
-        v-if='error'
-        :err='error'
+        v-if="error"
+        :err="error"
     />
     <TablerLoading
-        v-else-if='loading'
-        :compact='true'
-        desc='Loading Event Types'
+        v-else-if="loading"
+        :compact="true"
+        desc="Loading Event Types"
     />
-    <template v-else-if='presets.length && !custom'>
-        <label class='form-label required'>Type</label>
-        <div class='row g-2'>
+    <template v-else-if="presets.length && !custom">
+        <label class="form-label required">Type</label>
+        <div class="row g-2">
             <div
-                v-for='(preset, index) in presets'
-                :key='index'
-                class='col-6 col-md-4'
+                v-for="(preset, index) in presets"
+                :key="index"
+                class="col-6 col-md-4"
             >
                 <div
-                    class='border rounded py-3 px-2 h-100 d-flex flex-column align-items-center justify-content-center gap-2 cursor-pointer cloudtak-hover user-select-none'
+                    class="border rounded py-3 px-2 h-100 d-flex flex-column align-items-center justify-content-center gap-2 cursor-pointer cloudtak-hover user-select-none"
                     :class='modelValue === preset.type ? "border-primary" : ""'
-                    @click='selectPreset(preset)'
+                    @click="selectPreset(preset)"
                 >
                     <img
-                        v-if='preset.icon'
-                        :src='preset.icon'
-                        :alt='preset.name'
-                        style='width: 32px; height: 32px; object-fit: contain;'
+                        v-if="preset.icon"
+                        :src="preset.icon"
+                        :alt="preset.name"
+                        style="width: 32px; height: 32px; object-fit: contain;"
                     >
                     <FeatureIcon
                         v-else
-                        :key='preset.type'
-                        :feature='{ properties: { type: preset.type } }'
-                        :size='32'
+                        :key="preset.type"
+                        :feature="{ properties: { type: preset.type } }"
+                        :size="32"
                     />
                     <span
-                        class='text-truncate w-100 text-center'
-                        v-text='preset.name'
+                        class="text-truncate w-100 text-center"
+                        v-text="preset.name"
                     />
                 </div>
             </div>
-            <div class='col-6 col-md-4'>
+            <div class="col-6 col-md-4">
                 <div
-                    class='border rounded py-3 px-2 h-100 d-flex flex-column align-items-center justify-content-center gap-2 cursor-pointer cloudtak-hover user-select-none'
-                    @click='selectOther'
+                    class="border rounded py-3 px-2 h-100 d-flex flex-column align-items-center justify-content-center gap-2 cursor-pointer cloudtak-hover user-select-none"
+                    @click="selectOther"
                 >
                     <IconDots
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
-                    <span class='text-truncate w-100 text-center'>Other</span>
+                    <span class="text-truncate w-100 text-center">Other</span>
                 </div>
             </div>
         </div>
     </template>
     <template v-else>
         <PropertyType
-            :model-value='modelValue || DEFAULT_SIDC'
-            :edit='true'
+            :model-value="modelValue || DEFAULT_SIDC"
+            :edit="true"
             @update:model-value='emit("update:modelValue", String($event))'
         />
         <button
-            v-if='presets.length'
-            class='btn btn-sm w-100 mt-2'
-            @click='backToPresets'
+            v-if="presets.length"
+            class="btn btn-sm w-100 mt-2"
+            @click="backToPresets"
         >
             Back to Preconfigured Types
         </button>

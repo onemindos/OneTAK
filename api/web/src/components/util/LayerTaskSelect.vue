@@ -1,97 +1,97 @@
 <template>
     <div>
-        <div class='d-flex align-items-center user-select-none'>
-            <label class='mx-1 mb-1'>Task Selection</label>
+        <div class="d-flex align-items-center user-select-none">
+            <label class="mx-1 mb-1">Task Selection</label>
         </div>
-        <div class='card'>
-            <div class='card-body'>
+        <div class="card">
+            <div class="card-body">
                 <TablerLoading
-                    v-if='loading.main'
-                    :inline='true'
-                    desc='Loading Tasks'
+                    v-if="loading.main"
+                    :inline="true"
+                    desc="Loading Tasks"
                 />
                 <TablerLoading
-                    v-else-if='loading.task'
-                    :inline='true'
-                    desc='Loading Task'
+                    v-else-if="loading.task"
+                    :inline="true"
+                    desc="Loading Task"
                 />
-                <template v-else-if='selected.prefix'>
-                    <div class='col-12 d-flex align-items-center user-select-none'>
+                <template v-else-if="selected.prefix">
+                    <div class="col-12 d-flex align-items-center user-select-none">
                         <img
-                            v-if='selected.logo'
-                            :src='selected.logo'
-                            alt='Logo Preview'
-                            style='height: 50px;'
-                            class='img-thumbnail'
+                            v-if="selected.logo"
+                            :src="selected.logo"
+                            alt="Logo Preview"
+                            style="height: 50px;"
+                            class="img-thumbnail"
                         >
                         <IconBroadcast
                             v-else
-                            size='50'
-                            stroke='1'
-                            class='text-muted'
+                            size="50"
+                            stroke="1"
+                            class="text-muted"
                         />
                         <div
-                            class='mx-2'
-                            v-text='selected.name'
+                            class="mx-2"
+                            v-text="selected.name"
                         />
-                        <div class='ms-auto btn-list align-items-center'>
-                            <template v-if='updates'>
+                        <div class="ms-auto btn-list align-items-center">
+                            <template v-if="updates">
                                 <div
-                                    v-if='loading.update'
-                                    class='spinner-border spinner-border-sm'
-                                    role='status'
+                                    v-if="loading.update"
+                                    class="spinner-border spinner-border-sm"
+                                    role="status"
                                 />
                                 <div
-                                    v-else-if='checkedUpdate && !latestVersion'
-                                    class='d-flex align-items-center'
+                                    v-else-if="checkedUpdate && !latestVersion"
+                                    class="d-flex align-items-center"
                                 >
-                                    <span class='small text-muted'>Up to date</span>
+                                    <span class="small text-muted">Up to date</span>
                                     <TablerIconButton
-                                        title='Check for Updates'
-                                        class='ms-1'
-                                        @click='checkUpdates'
+                                        title="Check for Updates"
+                                        class="ms-1"
+                                        @click="checkUpdates"
                                     >
                                         <IconRefresh
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                 </div>
                                 <button
-                                    v-else-if='latestVersion'
-                                    class='btn btn-sm btn-primary'
+                                    v-else-if="latestVersion"
+                                    class="btn btn-sm btn-primary"
                                     @click='emit("update", { prefix: String(selected.prefix), from: String(selected.version), to: latestVersion })'
                                 >
-                                    Update to v<span v-text='latestVersion' />
+                                    Update to v<span v-text="latestVersion" />
                                 </button>
                                 <button
                                     v-else
-                                    class='btn btn-sm btn-secondary'
-                                    @click='checkUpdates'
+                                    class="btn btn-sm btn-secondary"
+                                    @click="checkUpdates"
                                 >
                                     <IconRefresh
-                                        :size='16'
-                                        stroke='1'
-                                        class='me-1'
+                                        :size="16"
+                                        stroke="1"
+                                        class="me-1"
                                     />
                                     Check for Updates
                                 </button>
                             </template>
 
                             <TablerEnum
-                                v-model='selected.version'
-                                :disabled='disabled'
-                                :options='selected.versions'
+                                v-model="selected.version"
+                                :disabled="disabled"
+                                :options="selected.versions"
                             />
 
                             <TablerIconButton
-                                v-if='!disabled'
-                                title='Remove Task'
-                                @click='selected = { id: undefined }'
+                                v-if="!disabled"
+                                title="Remove Task"
+                                @click="selected = { id: undefined }"
                             >
                                 <IconTrash
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
@@ -99,68 +99,68 @@
                 </template>
                 <template v-else>
                     <TablerInput
-                        v-model='paging.filter'
-                        placeholder='Task Filter...'
-                        class='pb-2'
+                        v-model="paging.filter"
+                        placeholder="Task Filter..."
+                        class="pb-2"
                     />
 
                     <div
-                        v-if='loading.list'
-                        class='card-body'
+                        v-if="loading.list"
+                        class="card-body"
                     >
-                        <TablerLoading desc='Loading Tasks' />
+                        <TablerLoading desc="Loading Tasks" />
                     </div>
                     <TablerNone
-                        v-else-if='list.total === 0'
-                        :create='false'
-                        :compact='true'
-                        label='No Tasks'
+                        v-else-if="list.total === 0"
+                        :create="false"
+                        :compact="true"
+                        label="No Tasks"
                     />
                     <div
                         v-else
-                        class='row row-cards'
+                        class="row row-cards"
                     >
                         <template
-                            v-for='task in list.items'
+                            v-for="task in list.items"
                         >
-                            <div class='col-sm-6 col-lg-3'>
+                            <div class="col-sm-6 col-lg-3">
                                 <div
-                                    class='card card-link cursor-pointer cloudtak-hover'
-                                    @click='select(task)'
+                                    class="card card-link cursor-pointer cloudtak-hover"
+                                    @click="select(task)"
                                 >
-                                    <div class='card-header d-flex align-items-center user-select-none'>
+                                    <div class="card-header d-flex align-items-center user-select-none">
                                         <IconStar
-                                            v-if='task.favorite'
-                                            size='24'
-                                            stroke='1'
-                                            class='me-2'
+                                            v-if="task.favorite"
+                                            size="24"
+                                            stroke="1"
+                                            class="me-2"
                                         />
-                                        <div v-text='task.name' />
-                                        <div class='ms-auto'>
+                                        <div v-text="task.name" />
+                                        <div class="ms-auto">
                                             <TablerIconButton
-                                                title='Task Info'
-                                                @click.prevent.stop='infoModal = task'
+                                                title="Task Info"
+                                                @click.prevent.stop="infoModal = task"
                                             >
                                                 <IconInfoSquare
-                                                    :size='32'
-                                                    stroke='1'
+                                                    :size="32"
+                                                    stroke="1"
                                                 />
                                             </TablerIconButton>
                                         </div>
                                     </div>
-                                    <div class='card-body d-flex align-items-center justify-content-center user-select-none'>
-                                        <div style='width: 128px; height: 128px;'>
+                                    <div class="card-body d-flex align-items-center justify-content-center user-select-none">
+                                        <div style="width: 128px; height: 128px;">
                                             <img
-                                                v-if='task.logo'
-                                                :src='task.logo'
-                                                alt='Logo Preview'
-                                                class='img-thumbnail'
+                                                v-if="task.logo"
+                                                :src="task.logo"
+                                                alt="Logo Preview"
+                                                class="img-thumbnail"
                                             >
                                             <IconBroadcast
                                                 v-else
-                                                size='128'
-                                                stroke='1'
-                                                class='text-muted'
+                                                size="128"
+                                                stroke="1"
+                                                class="text-muted"
                                             />
                                         </div>
                                     </div>
@@ -171,15 +171,15 @@
                 </template>
             </div>
             <div
-                v-if='!loading.main && !loading.task && list.total > paging.limit && !selected.prefix'
-                class='card-footer d-flex'
+                v-if="!loading.main && !loading.task && list.total > paging.limit && !selected.prefix"
+                class="card-footer d-flex"
             >
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerPager
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </div>
@@ -187,41 +187,41 @@
     </div>
 
     <TablerModal
-        v-if='infoModal'
-        size='xl'
+        v-if="infoModal"
+        size="xl"
     >
-        <div class='modal-header'>
+        <div class="modal-header">
             <IconInfoSquare
-                size='24'
-                stroke='1'
+                size="24"
+                stroke="1"
             />
             <span
-                class='mx-2'
-                v-text='infoModal.name'
+                class="mx-2"
+                v-text="infoModal.name"
             />
             <button                                       
-                type='button'                  
-                class='btn-close'            
-                aria-label='Close'                                 
-                @click='infoModal = undefined'                                            
+                type="button"                  
+                class="btn-close"            
+                aria-label="Close"                                 
+                @click="infoModal = undefined"                                            
             />
         </div>
         <div
-            class='modal-body overflow-auto'
-            style='max-height: 50vh'
+            class="modal-body overflow-auto"
+            style="max-height: 50vh"
         >
             <TablerLoading
-                v-if='!infoModal.readme_body'
+                v-if="!infoModal.readme_body"
             />
             <TablerMarkdown
                 v-else
-                :markdown='infoModal.readme_body'
+                :markdown="infoModal.readme_body"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                class='btn btn-primary'
-                @click='infoModal = undefined'
+                class="btn btn-primary"
+                @click="infoModal = undefined"
             >
                 Close
             </button>

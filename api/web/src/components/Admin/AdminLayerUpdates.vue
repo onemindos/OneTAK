@@ -1,55 +1,55 @@
 <template>
     <div>
-        <div class='card-header'>
+        <div class="card-header">
             <TablerIconButton
-                title='Back'
+                title="Back"
                 @click='router.push("/admin/layer")'
             >
                 <IconCircleArrowLeft
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
-            <h1 class='mx-2 card-title'>
+            <h1 class="mx-2 card-title">
                 Layer Update Management
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerButton
-                    v-if='updatable.length'
-                    class='btn-primary'
-                    :disabled='queue.length > 0 || Object.keys(updating).length > 0'
-                    @click='updateAll'
+                    v-if="updatable.length"
+                    class="btn-primary"
+                    :disabled="queue.length > 0 || Object.keys(updating).length > 0"
+                    @click="updateAll"
                 >
-                    <span v-if='queue.length'>Updating <span v-text='queue.length' /> remaining...</span>
-                    <span v-else>Update All (<span v-text='updatable.length' />)</span>
+                    <span v-if="queue.length">Updating <span v-text="queue.length" /> remaining...</span>
+                    <span v-else>Update All (<span v-text="updatable.length" />)</span>
                 </TablerButton>
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 61px'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
             <TablerLoading
-                v-if='initialLoading'
-                desc='Loading Layer Updates'
+                v-if="initialLoading"
+                desc="Loading Layer Updates"
             />
             <TablerAlert
-                v-else-if='!initialLoading && error'
-                :err='error'
+                v-else-if="!initialLoading && error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!initialLoading && !list.items.length'
-                label='No Layers'
-                :create='false'
+                v-else-if="!initialLoading && !list.items.length"
+                label="No Layers"
+                :create="false"
             />
             <div
-                v-else-if='!initialLoading'
-                class='table-responsive pb-5'
+                v-else-if="!initialLoading"
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -57,56 +57,56 @@
                             <th>Task</th>
                             <th>Current</th>
                             <th>Latest</th>
-                            <th class='text-end'>
+                            <th class="text-end">
                                 Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
-                            v-for='layer in list.items'
-                            :key='layer.id'
+                            v-for="layer in list.items"
+                            :key="layer.id"
                         >
-                            <td v-text='layer.id' />
+                            <td v-text="layer.id" />
                             <td>
-                                <div class='row'>
+                                <div class="row">
                                     <a
-                                        href='#'
-                                        class='text-decoration-none'
-                                        @click.prevent='openLayer(layer)'
-                                        v-text='layer.name'
+                                        href="#"
+                                        class="text-decoration-none"
+                                        @click.prevent="openLayer(layer)"
+                                        v-text="layer.name"
                                     />
-                                    <div class='d-flex flex-wrap align-items-center gap-2'>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
                                         <span
-                                            class='subheader'
+                                            class="subheader"
                                             v-text='layer.parent_name || "Admin Layer"'
                                         />
                                         <TablerBadge
-                                            v-if='!layer.has_stack'
-                                            background-color='rgba(245, 158, 11, 0.2)'
-                                            border-color='rgba(245, 158, 11, 0.5)'
-                                            text-color='#d97706'
+                                            v-if="!layer.has_stack"
+                                            background-color="rgba(245, 158, 11, 0.2)"
+                                            border-color="rgba(245, 158, 11, 0.5)"
+                                            text-color="#d97706"
                                         >
                                             Stack Missing
                                         </TablerBadge>
                                     </div>
                                 </div>
                             </td>
-                            <td v-text='layer.task_prefix' />
-                            <td v-text='layer.current_version' />
+                            <td v-text="layer.task_prefix" />
+                            <td v-text="layer.current_version" />
                             <td>
                                 <span v-text='layer.latest_version || "Unavailable"' />
                             </td>
-                            <td class='text-end'>
+                            <td class="text-end">
                                 <TablerButton
                                     :class='layer.has_stack ? "btn-primary btn-sm" : "btn-warning btn-sm"'
-                                    :disabled='!canManageLayer(layer) || Boolean(updating[layer.id])'
-                                    @click='manageLayer(layer)'
+                                    :disabled="!canManageLayer(layer) || Boolean(updating[layer.id])"
+                                    @click="manageLayer(layer)"
                                 >
-                                    <span v-if='updating[layer.id]'>Updating...</span>
-                                    <span v-else-if='!layer.has_stack && layer.has_update'>Deploy Latest</span>
-                                    <span v-else-if='!layer.has_stack'>Deploy</span>
-                                    <span v-else-if='layer.has_update'>Update</span>
+                                    <span v-if="updating[layer.id]">Updating...</span>
+                                    <span v-else-if="!layer.has_stack && layer.has_update">Deploy Latest</span>
+                                    <span v-else-if="!layer.has_stack">Deploy</span>
+                                    <span v-else-if="layer.has_update">Update</span>
                                     <span v-else>Current</span>
                                 </TablerButton>
                             </td>
@@ -117,11 +117,11 @@
         </div>
 
         <LayerTaskUpdateModal
-            v-if='taskUpdate'
-            :layer='taskUpdate.layer'
-            :update='taskUpdate.update'
-            @close='closeUpdate'
-            @updated='closeUpdate'
+            v-if="taskUpdate"
+            :layer="taskUpdate.layer"
+            :update="taskUpdate.update"
+            @close="closeUpdate"
+            @updated="closeUpdate"
         />
     </div>
 </template>

@@ -1,140 +1,140 @@
 <template>
-    <div class='col-12 row g-0'>
-        <div class='col-12'>
-            <label class='subheader mx-2'>{{ weather?.properties.forecastGenerator || 'National Weather Service' }}</label>
+    <div class="col-12 row g-0">
+        <div class="col-12">
+            <label class="subheader mx-2">{{ weather?.properties.forecastGenerator || 'National Weather Service' }}</label>
         </div>
         <TablerLoading
-            v-if='loading'
-            desc='Loading weather...'
+            v-if="loading"
+            desc="Loading weather..."
         />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <div
-            v-else-if='weather'
-            class='col-12'
+            v-else-if="weather"
+            class="col-12"
         >
             <TablerSlidedown
-                :click-anywhere-expand='true'
-                :click-anywhere-collapse='true'
+                :click-anywhere-expand="true"
+                :click-anywhere-collapse="true"
             >
-                <div class='d-flex align-items-center py-2 px-2'>
+                <div class="d-flex align-items-center py-2 px-2">
                     <component
-                        :is='getIcon(weather.properties.periods[0].shortForecast)'
-                        size='40'
-                        stroke='1'
+                        :is="getIcon(weather.properties.periods[0].shortForecast)"
+                        size="40"
+                        stroke="1"
                     />
 
-                    <div class='d-flex mx-2'>
+                    <div class="d-flex mx-2">
                         <div
-                            style='font-size: 30px;'
-                            v-text='weather.properties.periods[0].temperature'
+                            style="font-size: 30px;"
+                            v-text="weather.properties.periods[0].temperature"
                         />
                         <div
-                            class='mx-1 my-1'
+                            class="mx-1 my-1"
                             v-text='"°" + weather.properties.periods[0].temperatureUnit'
                         />
                     </div>
-                    <div class='d-flex ms-auto'>
+                    <div class="d-flex ms-auto">
                         <div
-                            class='mx-2'
-                            style='font-size: 20px;'
-                            v-text='weather.properties.periods[0].shortForecast'
+                            class="mx-2"
+                            style="font-size: 20px;"
+                            v-text="weather.properties.periods[0].shortForecast"
                         />
                     </div>
                 </div>
 
-                <div class='row px-2 pb-2'>
-                    <div class='col-6 mb-2'>
-                        <div class='d-flex align-items-center text-muted'>
+                <div class="row px-2 pb-2">
+                    <div class="col-6 mb-2">
+                        <div class="d-flex align-items-center text-muted">
                             <IconWind
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='ms-2 small'>Wind</span>
+                            <span class="ms-2 small">Wind</span>
                         </div>
-                        <div class='ms-4'>
+                        <div class="ms-4">
                             {{ weather.properties.periods[0].windSpeed }} {{ weather.properties.periods[0].windDirection }}
                         </div>
                     </div>
-                    <div class='col-6 mb-2'>
-                        <div class='d-flex align-items-center text-muted'>
+                    <div class="col-6 mb-2">
+                        <div class="d-flex align-items-center text-muted">
                             <IconDroplet
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='ms-2 small'>Humidity</span>
+                            <span class="ms-2 small">Humidity</span>
                         </div>
-                        <div class='ms-4'>
+                        <div class="ms-4">
                             {{ weather.properties.periods[0].relativeHumidity.value }}%
                         </div>
                     </div>
-                    <div class='col-6 mb-2'>
-                        <div class='d-flex align-items-center text-muted'>
+                    <div class="col-6 mb-2">
+                        <div class="d-flex align-items-center text-muted">
                             <IconTemperature
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='ms-2 small'>Dewpoint</span>
+                            <span class="ms-2 small">Dewpoint</span>
                         </div>
-                        <div class='ms-4'>
+                        <div class="ms-4">
                             {{ Math.round(weather.properties.periods[0].dewpoint.value) }}°C
                         </div>
                     </div>
-                    <div class='col-6 mb-2'>
-                        <div class='d-flex align-items-center text-muted'>
+                    <div class="col-6 mb-2">
+                        <div class="d-flex align-items-center text-muted">
                             <IconUmbrella
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
-                            <span class='ms-2 small'>Precipitation</span>
+                            <span class="ms-2 small">Precipitation</span>
                         </div>
-                        <div class='ms-4'>
+                        <div class="ms-4">
                             {{ weather.properties.periods[0].probabilityOfPrecipitation.value || 0 }}%
                         </div>
                     </div>
                 </div>
 
                 <template #expanded>
-                    <div class='col-12 border-top pt-2'>
+                    <div class="col-12 border-top pt-2">
                         <template
-                            v-for='(period, i) in forecastPeriods'
-                            :key='period.number'
+                            v-for="(period, i) in forecastPeriods"
+                            :key="period.number"
                         >
                             <div
-                                v-if='i === 0 || !isSameDay(period.startTime, forecastPeriods[i-1].startTime)'
-                                class='px-2 py-1 font-weight-bold small text-muted border-bottom'
+                                v-if="i === 0 || !isSameDay(period.startTime, forecastPeriods[i-1].startTime)"
+                                class="px-2 py-1 font-weight-bold small text-muted border-bottom"
                                 :class='{ "mt-2": i > 0 }'
                             >
                                 {{ formatForecastDay(period.startTime) }}
                             </div>
                             <div
-                                class='d-flex align-items-center px-2 py-1'
+                                class="d-flex align-items-center px-2 py-1"
                                 :class='{ "border-top": i > 0 && isSameDay(period.startTime, forecastPeriods[i-1].startTime) }'
                             >
                                 <div
-                                    style='width: 80px;'
-                                    class='small font-weight-bold'
+                                    style="width: 80px;"
+                                    class="small font-weight-bold"
                                 >
-                                    <div v-text='period.name' />
+                                    <div v-text="period.name" />
                                     <div
-                                        class='text-muted'
-                                        style='font-size: 0.7rem'
-                                        v-text='formatForecastHour(period.startTime)'
+                                        class="text-muted"
+                                        style="font-size: 0.7rem"
+                                        v-text="formatForecastHour(period.startTime)"
                                     />
                                 </div>
                                 <component
-                                    :is='getIcon(period.shortForecast)'
-                                    :size='24'
-                                    stroke='1'
-                                    class='mx-2'
+                                    :is="getIcon(period.shortForecast)"
+                                    :size="24"
+                                    stroke="1"
+                                    class="mx-2"
                                 />
                                 <div
-                                    class='flex-grow-1 small'
-                                    v-text='period.shortForecast'
+                                    class="flex-grow-1 small"
+                                    v-text="period.shortForecast"
                                 />
-                                <div class='ms-auto font-weight-bold'>
+                                <div class="ms-auto font-weight-bold">
                                     {{ period.temperature }}°
                                 </div>
                             </div>
@@ -145,11 +145,11 @@
         </div>
         <div
             v-else
-            class='col-12 d-flex py-2 px-2'
+            class="col-12 d-flex py-2 px-2"
         >
             <div
-                class='mx-2'
-                style='font-size: 20px;'
+                class="mx-2"
+                style="font-size: 20px;"
             >
                 No Forecast Found
             </div>

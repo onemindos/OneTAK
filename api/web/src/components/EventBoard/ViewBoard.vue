@@ -1,95 +1,95 @@
 <template>
     <div
-        ref='scroller'
-        class='d-flex align-items-stretch gap-3 h-100 overflow-x-auto p-3'
+        ref="scroller"
+        class="d-flex align-items-stretch gap-3 h-100 overflow-x-auto p-3"
     >
         <div
-            v-for='(column, columnIdx) in columns'
-            :key='column.id'
-            class='cloudtak-panel d-flex flex-column event-board-column flex-shrink-0'
+            v-for="(column, columnIdx) in columns"
+            :key="column.id"
+            class="cloudtak-panel d-flex flex-column event-board-column flex-shrink-0"
             :class='{
                 "event-board-column--target": dropTarget && dropTarget.column === column.id,
                 "event-board-column--insert-before": columnDrag && columnDropIndex === columnIdx,
                 "event-board-column--insert-after": columnDrag && columnDropIndex === columns.length && columnIdx === columns.length - 1,
             }'
-            :data-column='column.id'
-            @dragover='onColumnDragOver($event, column, columnIdx)'
-            @dragleave='onColumnDragLeave($event, column)'
-            @drop.prevent='onDrop(column)'
+            :data-column="column.id"
+            @dragover="onColumnDragOver($event, column, columnIdx)"
+            @dragleave="onColumnDragLeave($event, column)"
+            @drop.prevent="onDrop(column)"
         >
-            <div class='d-flex align-items-center px-3 py-2 border-bottom event-board-column-header'>
+            <div class="d-flex align-items-center px-3 py-2 border-bottom event-board-column-header">
                 <div
-                    class='d-flex align-items-center flex-shrink-0 me-2 event-board-column-handle'
-                    draggable='true'
-                    title='Move Column'
-                    @dragstart='onColumnDragStart($event, column)'
-                    @dragend='onColumnDragEnd'
+                    class="d-flex align-items-center flex-shrink-0 me-2 event-board-column-handle"
+                    draggable="true"
+                    title="Move Column"
+                    @dragstart="onColumnDragStart($event, column)"
+                    @dragend="onColumnDragEnd"
                 >
                     <IconGripVertical
-                        :size='18'
-                        stroke='1'
+                        :size="18"
+                        stroke="1"
                     />
                 </div>
                 <TablerBadge
-                    v-if='column.color'
-                    class='text-truncate user-select-none'
+                    v-if="column.color"
+                    class="text-truncate user-select-none"
                     :background-color='column.color + "26"'
                     :border-color='column.color + "59"'
-                    :text-color='column.color'
-                    :title='column.description || undefined'
+                    :text-color="column.color"
+                    :title="column.description || undefined"
                 >
                     {{ column.name }}
                 </TablerBadge>
                 <span
                     v-else
-                    class='fw-semibold text-truncate user-select-none'
-                    :title='column.description || undefined'
-                    v-text='column.name'
+                    class="fw-semibold text-truncate user-select-none"
+                    :title="column.description || undefined"
+                    v-text="column.name"
                 />
                 <span
-                    class='badge bg-secondary text-secondary-fg ms-2 flex-shrink-0'
-                    v-text='column.events.length'
+                    class="badge bg-secondary text-secondary-fg ms-2 flex-shrink-0"
+                    v-text="column.events.length"
                 />
 
-                <div class='ms-auto flex-shrink-0'>
-                    <TablerDropdown :width='170'>
-                        <TablerIconButton title='Column Options'>
+                <div class="ms-auto flex-shrink-0">
+                    <TablerDropdown :width="170">
+                        <TablerIconButton title="Column Options">
                             <IconDotsVertical
-                                :size='18'
-                                stroke='1'
+                                :size="18"
+                                stroke="1"
                             />
                         </TablerIconButton>
 
                         <template #dropdown>
                             <div
-                                class='cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2'
-                                @click='editColumn = column'
+                                class="cursor-pointer col-12 cloudtak-hover d-flex align-items-center px-2 py-2"
+                                @click="editColumn = column"
                             >
                                 <IconPencil
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
-                                <span class='mx-2'>Edit</span>
+                                <span class="mx-2">Edit</span>
                             </div>
                             <!-- TablerDelete's confirm modal only closes on unmount -
                                  the key remounts it once the clear empties the Column -->
                             <TablerDelete
-                                :key='`clear-${column.events.length}`'
-                                class='event-board-menu-delete'
+                                :key="`clear-${column.events.length}`"
+                                class="event-board-menu-delete"
                                 :class='{ "cloudtak-hover": column.events.length > 0 }'
-                                displaytype='menu'
-                                label='Clear'
-                                title='Clear Column'
-                                :disabled='column.events.length === 0'
-                                @delete='clearColumn(column)'
+                                displaytype="menu"
+                                label="Clear"
+                                title="Clear Column"
+                                :disabled="column.events.length === 0"
+                                @delete="clearColumn(column)"
                             />
                             <TablerDelete
                                 v-if='column.type !== "nominated"'
-                                class='cloudtak-hover event-board-menu-delete'
-                                displaytype='menu'
-                                label='Delete Column'
-                                title='Delete Column'
-                                @delete='deleteColumn(column)'
+                                class="cloudtak-hover event-board-menu-delete"
+                                displaytype="menu"
+                                label="Delete Column"
+                                title="Delete Column"
+                                @delete="deleteColumn(column)"
                             />
                         </template>
                     </TablerDropdown>
@@ -97,73 +97,73 @@
             </div>
 
             <div
-                v-if='column.description'
-                class='px-3 py-2 border-bottom event-board-column-desc'
+                v-if="column.description"
+                class="px-3 py-2 border-bottom event-board-column-desc"
             >
                 <div
-                    :ref='(el) => setDescEl(column.id, el)'
-                    class='text-secondary event-board-desc'
+                    :ref="(el) => setDescEl(column.id, el)"
+                    class="text-secondary event-board-desc"
                     :class='{ "event-board-desc--clamped": !expandedDesc.has(column.id) }'
-                    v-text='column.description'
+                    v-text="column.description"
                 />
                 <div
-                    v-if='descOverflow[column.id] || expandedDesc.has(column.id)'
-                    class='d-flex align-items-center justify-content-center gap-1 cursor-pointer cloudtak-hover user-select-none mt-1 event-board-desc-toggle'
-                    role='button'
-                    tabindex='0'
-                    @click='toggleDesc(column.id)'
-                    @keydown.enter='toggleDesc(column.id)'
+                    v-if="descOverflow[column.id] || expandedDesc.has(column.id)"
+                    class="d-flex align-items-center justify-content-center gap-1 cursor-pointer cloudtak-hover user-select-none mt-1 event-board-desc-toggle"
+                    role="button"
+                    tabindex="0"
+                    @click="toggleDesc(column.id)"
+                    @keydown.enter="toggleDesc(column.id)"
                 >
                     <span v-text='expandedDesc.has(column.id) ? "Less" : "More"' />
                     <IconChevronUp
-                        v-if='expandedDesc.has(column.id)'
-                        :size='16'
-                        stroke='1'
+                        v-if="expandedDesc.has(column.id)"
+                        :size="16"
+                        stroke="1"
                     />
                     <IconChevronDown
                         v-else
-                        :size='16'
-                        stroke='1'
+                        :size="16"
+                        stroke="1"
                     />
                 </div>
             </div>
 
-            <div class='flex-grow-1 overflow-auto px-2 py-2 d-flex flex-column gap-2 event-board-column-body'>
+            <div class="flex-grow-1 overflow-auto px-2 py-2 d-flex flex-column gap-2 event-board-column-body">
                 <template
-                    v-for='(placement, idx) in column.events'
-                    :key='placement.event.id'
+                    v-for="(placement, idx) in column.events"
+                    :key="placement.event.id"
                 >
                     <div
-                        v-if='showIndicator(column, idx)'
-                        class='event-board-indicator'
+                        v-if="showIndicator(column, idx)"
+                        class="event-board-indicator"
                     />
                     <div
-                        class='event-board-card'
+                        class="event-board-card"
                         :class='{ "event-board-card--dragging": drag && drag.placement.event.id === placement.event.id }'
-                        :data-index='idx'
-                        draggable='true'
-                        @dragstart='onDragStart($event, column, placement)'
-                        @dragend='onDragEnd'
-                        @dragover='onCardDragOver($event, column, idx)'
-                        @touchstart='onTouchStart($event, column, placement)'
-                        @touchmove='onTouchMove'
-                        @touchend='onTouchEnd'
-                        @touchcancel='cancelTouchDrag'
-                        @contextmenu='onCardContextMenu'
+                        :data-index="idx"
+                        draggable="true"
+                        @dragstart="onDragStart($event, column, placement)"
+                        @dragend="onDragEnd"
+                        @dragover="onCardDragOver($event, column, idx)"
+                        @touchstart="onTouchStart($event, column, placement)"
+                        @touchmove="onTouchMove"
+                        @touchend="onTouchEnd"
+                        @touchcancel="cancelTouchDrag"
+                        @contextmenu="onCardContextMenu"
                     >
                         <StandardCoreEvent
-                            :event='placement.event'
-                            :icon='false'
+                            :event="placement.event"
+                            :icon="false"
                             @click='emit("open-event", placement.event.id)'
                         >
                             <template #actions>
                                 <TablerDelete
-                                    displaytype='icon'
-                                    :size='18'
-                                    label='Remove'
-                                    title='Remove from Board'
-                                    class='mt-1'
-                                    @delete='removeEvent(column, placement)'
+                                    displaytype="icon"
+                                    :size="18"
+                                    label="Remove"
+                                    title="Remove from Board"
+                                    class="mt-1"
+                                    @delete="removeEvent(column, placement)"
                                 />
                             </template>
                         </StandardCoreEvent>
@@ -171,13 +171,13 @@
                 </template>
 
                 <div
-                    v-if='showIndicator(column, column.events.length)'
-                    class='event-board-indicator'
+                    v-if="showIndicator(column, column.events.length)"
+                    class="event-board-indicator"
                 />
 
                 <div
-                    v-if='column.events.length === 0 && !dropTarget'
-                    class='text-muted small text-center py-4 user-select-none'
+                    v-if="column.events.length === 0 && !dropTarget"
+                    class="text-muted small text-center py-4 user-select-none"
                 >
                     No Events in this Column
                 </div>
@@ -185,52 +185,52 @@
         </div>
 
         <div
-            v-if='adding !== undefined'
-            class='event-board-column flex-shrink-0'
+            v-if="adding !== undefined"
+            class="event-board-column flex-shrink-0"
         >
-            <div class='cloudtak-panel px-3 py-2'>
+            <div class="cloudtak-panel px-3 py-2">
                 <input
-                    v-model='adding'
+                    v-model="adding"
                     v-focus
-                    class='form-control form-control-sm'
-                    placeholder='Column Name'
-                    @keyup.enter='createColumn'
-                    @keyup.esc='adding = undefined'
-                    @blur='createColumn'
+                    class="form-control form-control-sm"
+                    placeholder="Column Name"
+                    @keyup.enter="createColumn"
+                    @keyup.esc="adding = undefined"
+                    @blur="createColumn"
                 >
             </div>
         </div>
         <div
-            v-else-if='board'
-            class='flex-shrink-0'
+            v-else-if="board"
+            class="flex-shrink-0"
         >
             <TablerIconButton
-                title='Add Column'
+                title="Add Column"
                 @click='adding = ""'
             >
                 <IconPlus
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </TablerIconButton>
         </div>
     </div>
 
     <EditColumnModal
-        v-if='editColumn'
-        :column='editColumn'
-        :channel='channel'
-        @save='saveColumn($event)'
-        @close='editColumn = undefined'
+        v-if="editColumn"
+        :column="editColumn"
+        :channel="channel"
+        @save="saveColumn($event)"
+        @close="editColumn = undefined"
     />
 
     <FormWizard
-        v-if='formWizard'
-        :event-id='formWizard.eventId'
-        :event-name='formWizard.eventName'
-        :forms='formWizard.forms'
-        @complete='completeFormWizard'
-        @close='formWizard = undefined'
+        v-if="formWizard"
+        :event-id="formWizard.eventId"
+        :event-name="formWizard.eventName"
+        :forms="formWizard.forms"
+        @complete="completeFormWizard"
+        @close="formWizard = undefined"
     />
 </template>
 

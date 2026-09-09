@@ -1,16 +1,16 @@
 <template>
-    <div class='ops-view ops-inbox'>
-        <div class='ops-header'>
+    <div class="ops-view ops-inbox">
+        <div class="ops-header">
             <h2>Inbox</h2>
             <span
-                v-if='unread > 0'
-                class='badge'
+                v-if="unread > 0"
+                class="badge"
             >{{ unread }}</span>
-            <div class='ops-header-actions'>
+            <div class="ops-header-actions">
                 <button
-                    class='btn-icon'
-                    title='Mark all read'
-                    @click='markAllRead'
+                    class="btn-icon"
+                    title="Mark all read"
+                    @click="markAllRead"
                 >
                     ✓
                 </button>
@@ -18,31 +18,31 @@
         </div>
 
         <div
-            v-if='store.messages.length === 0'
-            class='ops-empty'
+            v-if="store.messages.length === 0"
+            class="ops-empty"
         >
             No messages. Listening on <code>onemind.inbox.&gt;</code>
         </div>
 
         <ul
             v-else
-            class='ops-list'
+            class="ops-list"
         >
             <li
-                v-for='msg in store.messages'
-                :key='msg.id'
-                class='ops-item'
-                :class='{ unread: !msg.read }'
-                @click='store.markRead(msg.id)'
+                v-for="msg in store.messages"
+                :key="msg.id"
+                class="ops-item"
+                :class="{ unread: !msg.read }"
+                @click="store.markRead(msg.id)"
             >
-                <div class='ops-item-header'>
-                    <span class='ops-subject'>{{ msg.subject }}</span>
-                    <span class='ops-time'>{{ formatTime(msg.receivedAt) }}</span>
+                <div class="ops-item-header">
+                    <span class="ops-subject">{{ msg.subject }}</span>
+                    <span class="ops-time">{{ formatTime(msg.receivedAt) }}</span>
                 </div>
-                <div class='ops-item-from'>
+                <div class="ops-item-from">
                     {{ msg.from }}
                 </div>
-                <div class='ops-item-body'>
+                <div class="ops-item-body">
                     {{ msg.body }}
                 </div>
             </li>

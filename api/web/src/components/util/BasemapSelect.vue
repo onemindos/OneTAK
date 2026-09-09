@@ -1,123 +1,123 @@
 <template>
     <div>
-        <div v-if='loading.init'>
+        <div v-if="loading.init">
             <TablerLoading
-                :inline='true'
-                desc='Loading Basemap'
+                :inline="true"
+                desc="Loading Basemap"
             />
         </div>
-        <div v-else-if='modelValue && !err'>
-            <div class='card'>
+        <div v-else-if="modelValue && !err">
+            <div class="card">
                 <StandardItemBasemap
-                    v-if='selected'
-                    :basemap='selected'
+                    v-if="selected"
+                    :basemap="selected"
                 >
                     <template
-                        v-if='!disabled'
+                        v-if="!disabled"
                         #actions
                     >
                         <TablerIconButton
-                            title='Remove Basemap'
+                            title="Remove Basemap"
                             @click='emit("update:modelValue", null)'
                         >
                             <IconTrash
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </template>
                 </StandardItemBasemap>
                 <div
                     v-else
-                    class='card-body d-flex align-items-center'
+                    class="card-body d-flex align-items-center"
                 >
                     <div>Unknown Basemap</div>
                     <div
-                        v-if='!disabled'
-                        class='ms-auto'
+                        v-if="!disabled"
+                        class="ms-auto"
                     >
                         <TablerIconButton
-                            title='Remove Basemap'
+                            title="Remove Basemap"
                             @click='emit("update:modelValue", null)'
                         >
                             <IconTrash
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-else-if='disabled'>
+        <div v-else-if="disabled">
             <TablerNone
-                :compact='true'
-                :create='false'
-                :label='noValueLabel'
+                :compact="true"
+                :create="false"
+                :label="noValueLabel"
             />
         </div>
         <div
             v-else
-            class='card'
+            class="card"
         >
             <div
-                v-if='loading.list && list.items.length === 0'
-                class='card-body'
+                v-if="loading.list && list.items.length === 0"
+                class="card-body"
             >
-                <TablerLoading desc='Loading Basemaps' />
+                <TablerLoading desc="Loading Basemaps" />
             </div>
             <div
                 v-else
-                class='card-body'
+                class="card-body"
             >
                 <div
-                    v-if='err'
-                    class='pb-2'
+                    v-if="err"
+                    class="pb-2"
                 >
                     <TablerInlineAlert
-                        title='Failed to load provided basemap'
-                        :description='String(err)'
-                        severity='danger'
+                        title="Failed to load provided basemap"
+                        :description="String(err)"
+                        severity="danger"
                     />
                 </div>
                 <TablerInput
-                    v-model='paging.filter'
-                    placeholder='Filter Basemaps...'
-                    class='mb-2'
+                    v-model="paging.filter"
+                    placeholder="Filter Basemaps..."
+                    class="mb-2"
                 />
                 
                 <TablerLoading
-                    v-if='loading.list'
-                    desc='Loading Basemaps'
+                    v-if="loading.list"
+                    desc="Loading Basemaps"
                 />
                 <TablerNone
-                    v-else-if='list.total === 0'
-                    :compact='true'
-                    :create='false'
-                    label='No Basemaps Found'
+                    v-else-if="list.total === 0"
+                    :compact="true"
+                    :create="false"
+                    label="No Basemaps Found"
                 />
                 <template v-else>
-                    <div class='d-flex flex-column gap-2'>
+                    <div class="d-flex flex-column gap-2">
                         <StandardItemBasemap
-                            v-for='basemap in list.items'
-                            :key='basemap.id'
-                            :basemap='basemap'
-                            class='cloudtak-hover cursor-pointer'
+                            v-for="basemap in list.items"
+                            :key="basemap.id"
+                            :basemap="basemap"
+                            class="cloudtak-hover cursor-pointer"
                             @click='emit("update:modelValue", basemap.id)'
                         />
                     </div>
                 </template>
             </div>
             <div
-                v-if='list.total > paging.limit'
-                class='card-footer d-flex'
+                v-if="list.total > paging.limit"
+                class="card-footer d-flex"
             >
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerPager
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </div>

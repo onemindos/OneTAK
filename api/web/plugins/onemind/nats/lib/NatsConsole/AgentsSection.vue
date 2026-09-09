@@ -1,109 +1,109 @@
 <template>
-    <div class='ag'>
+    <div class="ag">
         <!-- ── Top bar ──────────────────────────────────────────────────────── -->
-        <div class='ag-bar'>
-            <div class='ag-status-row'>
+        <div class="ag-bar">
+            <div class="ag-status-row">
                 <div
-                    class='ag-dot'
-                    :class='bridgeStatus'
+                    class="ag-dot"
+                    :class="bridgeStatus"
                 />
-                <span class='ag-bar-label'>{{ bridgeStatusLabel }}</span>
+                <span class="ag-bar-label">{{ bridgeStatusLabel }}</span>
                 <span
-                    v-if='natsServer'
-                    class='ag-muted ag-mono'
+                    v-if="natsServer"
+                    class="ag-muted ag-mono"
                 >· {{ natsServer }}</span>
             </div>
-            <span class='ag-muted ag-mono'>{{ agentList.length }} agent{{ agentList.length !== 1 ? 's' : '' }}</span>
-            <div class='ag-tabs'>
+            <span class="ag-muted ag-mono">{{ agentList.length }} agent{{ agentList.length !== 1 ? 's' : '' }}</span>
+            <div class="ag-tabs">
                 <button
-                    v-for='t in INNER_TABS'
-                    :key='t.id'
-                    class='ag-tab'
-                    :class='{ active: innerTab === t.id }'
-                    @click='innerTab = t.id'
+                    v-for="t in INNER_TABS"
+                    :key="t.id"
+                    class="ag-tab"
+                    :class="{ active: innerTab === t.id }"
+                    @click="innerTab = t.id"
                 >
                     <component
-                        :is='t.icon'
-                        :size='10'
+                        :is="t.icon"
+                        :size="10"
                     />{{ t.label }}
                 </button>
             </div>
             <button
-                class='ag-btn'
-                title='Re-discover agents'
-                @click='bridge.discover()'
+                class="ag-btn"
+                title="Re-discover agents"
+                @click="bridge.discover()"
             >
-                <RefreshCw :size='11' />Refresh
+                <RefreshCw :size="11" />Refresh
             </button>
         </div>
 
         <!-- ── CHAT TAB ──────────────────────────────────────────────────────── -->
         <div
             v-if='innerTab === "chat"'
-            class='ag-body'
+            class="ag-body"
         >
             <!-- Roster -->
-            <div class='ag-roster'>
-                <div class='ag-roster-hd'>
-                    <label class='ag-chk-label'>
+            <div class="ag-roster">
+                <div class="ag-roster-hd">
+                    <label class="ag-chk-label">
                         <input
-                            type='checkbox'
-                            :checked='allSelected'
-                            @change='toggleSelectAll'
+                            type="checkbox"
+                            :checked="allSelected"
+                            @change="toggleSelectAll"
                         >
                         <span
-                            class='ag-muted ag-mono'
-                            style='font-size:9px'
+                            class="ag-muted ag-mono"
+                            style="font-size:9px"
                         >ALL</span>
                     </label>
                 </div>
                 <div
-                    v-if='agentList.length === 0'
-                    class='ag-empty'
+                    v-if="agentList.length === 0"
+                    class="ag-empty"
                 >
-                    <span class='ag-empty-icon'>{{ bridgeStatus === 'connected' ? '📡' : '🔌' }}</span>
+                    <span class="ag-empty-icon">{{ bridgeStatus === 'connected' ? '📡' : '🔌' }}</span>
                     <span>{{ bridgeStatus === 'connected' ? 'No agents discovered' : bridgeStatusLabel }}</span>
                     <span
                         v-if='bridgeStatus === "connected"'
-                        class='ag-muted'
+                        class="ag-muted"
                     >Agents publish on agents.hb.*.*.*</span>
                 </div>
                 <button
-                    v-for='a in agentList'
-                    :key='a.instanceId'
-                    class='ag-card'
-                    :class='{ selected: selectedId === a.instanceId }'
-                    @click='selectAgent(a.instanceId)'
+                    v-for="a in agentList"
+                    :key="a.instanceId"
+                    class="ag-card"
+                    :class="{ selected: selectedId === a.instanceId }"
+                    @click="selectAgent(a.instanceId)"
                 >
-                    <div class='ag-card-top'>
+                    <div class="ag-card-top">
                         <input
-                            type='checkbox'
-                            :checked='selectedIds.has(a.instanceId)'
+                            type="checkbox"
+                            :checked="selectedIds.has(a.instanceId)"
                             @click.stop
-                            @change='toggleSelect(a.instanceId)'
+                            @change="toggleSelect(a.instanceId)"
                         >
                         <div
-                            class='ag-type-badge'
-                            :style='{ background: agentColor(a.agent).bg, color: agentColor(a.agent).fg }'
+                            class="ag-type-badge"
+                            :style="{ background: agentColor(a.agent).bg, color: agentColor(a.agent).fg }"
                         >
                             {{ agentInitials(a.agent) }}
                         </div>
-                        <div class='ag-card-info'>
-                            <div class='ag-card-name'>
+                        <div class="ag-card-info">
+                            <div class="ag-card-name">
                                 {{ a.name || a.agent }}
                             </div>
-                            <div class='ag-muted ag-card-sub'>
-                                {{ a.agent }}<span v-if='a.owner'> · {{ a.owner }}</span>
+                            <div class="ag-muted ag-card-sub">
+                                {{ a.agent }}<span v-if="a.owner"> · {{ a.owner }}</span>
                             </div>
                         </div>
                         <div
-                            class='ag-hb-dot'
-                            :class='heartbeatClass(a.instanceId)'
+                            class="ag-hb-dot"
+                            :class="heartbeatClass(a.instanceId)"
                         />
                     </div>
                     <div
-                        v-if='a.description'
-                        class='ag-card-desc'
+                        v-if="a.description"
+                        class="ag-card-desc"
                     >
                         {{ a.description }}
                     </div>
@@ -111,83 +111,83 @@
             </div>
 
             <!-- Chat panel -->
-            <div class='ag-chat'>
-                <template v-if='selectedAgent'>
-                    <div class='ag-chat-hd'>
+            <div class="ag-chat">
+                <template v-if="selectedAgent">
+                    <div class="ag-chat-hd">
                         <div
-                            class='ag-type-badge sm'
-                            :style='{ background: agentColor(selectedAgent.agent).bg, color: agentColor(selectedAgent.agent).fg }'
+                            class="ag-type-badge sm"
+                            :style="{ background: agentColor(selectedAgent.agent).bg, color: agentColor(selectedAgent.agent).fg }"
                         >
                             {{ agentInitials(selectedAgent.agent) }}
                         </div>
                         <div>
-                            <div class='ag-chat-name'>
+                            <div class="ag-chat-name">
                                 {{ selectedAgent.name || selectedAgent.agent }}
                             </div>
-                            <div class='ag-muted'>
+                            <div class="ag-muted">
                                 {{ selectedAgent.description || selectedAgent.agent }}
                             </div>
                         </div>
                     </div>
                     <div
-                        ref='messagesEl'
-                        class='ag-messages'
+                        ref="messagesEl"
+                        class="ag-messages"
                     >
                         <div
-                            v-if='messages.length === 0'
-                            class='ag-chat-empty'
+                            v-if="messages.length === 0"
+                            class="ag-chat-empty"
                         >
-                            <span class='ag-muted'>Send a message to start a conversation</span>
+                            <span class="ag-muted">Send a message to start a conversation</span>
                         </div>
                         <div
-                            v-for='(msg, i) in messages'
-                            :key='i'
-                            class='ag-msg'
-                            :class='msg.role'
+                            v-for="(msg, i) in messages"
+                            :key="i"
+                            class="ag-msg"
+                            :class="msg.role"
                         >
                             <div
                                 v-if='msg.role === "user"'
-                                class='ag-msg-bubble user'
+                                class="ag-msg-bubble user"
                             >
                                 {{ msg.text }}
                             </div>
                             <template v-else-if='msg.role === "assistant"'>
-                                <div class='ag-msg-bubble assistant'>
+                                <div class="ag-msg-bubble assistant">
                                     <span
-                                        v-if='msg.text'
-                                        class='ag-msg-text'
+                                        v-if="msg.text"
+                                        class="ag-msg-text"
                                     >{{ msg.text }}</span>
                                     <span
-                                        v-if='!msg.done && !msg.text'
-                                        class='ag-typing'
+                                        v-if="!msg.done && !msg.text"
+                                        class="ag-typing"
                                     ><span /><span /><span /></span>
                                     <span
-                                        v-if='!msg.done && msg.text'
-                                        class='ag-cursor'
+                                        v-if="!msg.done && msg.text"
+                                        class="ag-cursor"
                                     />
                                 </div>
                                 <div
-                                    v-if='msg.toolName'
-                                    class='ag-tool'
+                                    v-if="msg.toolName"
+                                    class="ag-tool"
                                 >
-                                    <Wrench :size='10' />{{ msg.toolName }}
+                                    <Wrench :size="10" />{{ msg.toolName }}
                                 </div>
                                 <div
-                                    v-if='msg.cost'
-                                    class='ag-cost ag-muted'
+                                    v-if="msg.cost"
+                                    class="ag-cost ag-muted"
                                 >
                                     ${{ msg.cost.toFixed(4) }}
                                 </div>
                             </template>
                             <div
                                 v-else-if='msg.role === "error"'
-                                class='ag-msg-bubble error'
+                                class="ag-msg-bubble error"
                             >
                                 {{ msg.text }}
                             </div>
                             <div
                                 v-else-if='msg.role === "status"'
-                                class='ag-status-msg ag-muted'
+                                class="ag-status-msg ag-muted"
                             >
                                 {{ msg.text }}
                             </div>
@@ -195,62 +195,62 @@
                     </div>
                     <!-- Broadcast bar (when multiple selected) -->
                     <div
-                        v-if='selectedIds.size >= 2'
-                        class='ag-broadcast-bar'
+                        v-if="selectedIds.size >= 2"
+                        class="ag-broadcast-bar"
                     >
                         <span
-                            class='ag-mono'
-                            style='font-size:10px;color:#f59e0b;flex-shrink:0'
+                            class="ag-mono"
+                            style="font-size:10px;color:#f59e0b;flex-shrink:0"
                         >{{ selectedIds.size }} agents</span>
                         <input
-                            v-model='broadcastText'
-                            class='ag-broadcast-input'
-                            placeholder='Broadcast to all selected…'
-                            @keydown.enter.exact.prevent='sendBroadcast'
+                            v-model="broadcastText"
+                            class="ag-broadcast-input"
+                            placeholder="Broadcast to all selected…"
+                            @keydown.enter.exact.prevent="sendBroadcast"
                         >
                         <button
-                            class='ag-broadcast-btn'
-                            :disabled='!broadcastText.trim() || isBroadcasting'
-                            @click='sendBroadcast'
+                            class="ag-broadcast-btn"
+                            :disabled="!broadcastText.trim() || isBroadcasting"
+                            @click="sendBroadcast"
                         >
-                            <Antenna :size='11' />SEND
+                            <Antenna :size="11" />SEND
                         </button>
                     </div>
-                    <div class='ag-input-area'>
+                    <div class="ag-input-area">
                         <textarea
-                            ref='inputEl'
-                            v-model='inputText'
-                            class='ag-input'
-                            placeholder='Message the agent… (Enter to send, Shift+Enter for newline)'
-                            :disabled='isStreaming'
-                            rows='3'
-                            @keydown='onKeydown'
+                            ref="inputEl"
+                            v-model="inputText"
+                            class="ag-input"
+                            placeholder="Message the agent… (Enter to send, Shift+Enter for newline)"
+                            :disabled="isStreaming"
+                            rows="3"
+                            @keydown="onKeydown"
                         />
-                        <div class='ag-input-actions'>
+                        <div class="ag-input-actions">
                             <button
-                                v-if='isStreaming'
-                                class='ag-stop-btn'
-                                @click='cancelPrompt'
+                                v-if="isStreaming"
+                                class="ag-stop-btn"
+                                @click="cancelPrompt"
                             >
-                                <StopCircle :size='13' />Stop
+                                <StopCircle :size="13" />Stop
                             </button>
                             <button
                                 v-else
-                                class='ag-send-btn'
-                                :disabled='!inputText.trim()'
-                                @click='sendMessage'
+                                class="ag-send-btn"
+                                :disabled="!inputText.trim()"
+                                @click="sendMessage"
                             >
-                                <Send :size='13' />Send
+                                <Send :size="13" />Send
                             </button>
                         </div>
                     </div>
                 </template>
                 <div
                     v-else
-                    class='ag-chat-placeholder'
+                    class="ag-chat-placeholder"
                 >
-                    <span class='ag-ph-icon'>💬</span>
-                    <span class='ag-muted'>Select an agent to start a conversation</span>
+                    <span class="ag-ph-icon">💬</span>
+                    <span class="ag-muted">Select an agent to start a conversation</span>
                 </div>
             </div>
         </div>
@@ -258,232 +258,232 @@
         <!-- ── CONTROLLER TAB ─────────────────────────────────────────────────── -->
         <div
             v-else-if='innerTab === "controller"'
-            class='ag-ctrl'
+            class="ag-ctrl"
         >
-            <div class='ag-ctrl-hd'>
+            <div class="ag-ctrl-hd">
                 <Terminal
-                    :size='13'
-                    style='color:#4a9eff'
+                    :size="13"
+                    style="color:#4a9eff"
                 />
-                <span class='ag-ctrl-title'>SESSION CONTROLLER</span>
+                <span class="ag-ctrl-title">SESSION CONTROLLER</span>
                 <span
-                    class='ag-muted ag-mono'
-                    style='font-size:9px'
+                    class="ag-muted ag-mono"
+                    style="font-size:9px"
                 >Requires a controller agent to be connected</span>
                 <select
-                    v-model='controllerInstanceId'
-                    class='ag-ctrl-select'
+                    v-model="controllerInstanceId"
+                    class="ag-ctrl-select"
                 >
-                    <option value=''>
+                    <option value="">
                         Select controller…
                     </option>
                     <option
-                        v-for='a in agentList'
-                        :key='a.instanceId'
-                        :value='a.instanceId'
+                        v-for="a in agentList"
+                        :key="a.instanceId"
+                        :value="a.instanceId"
                     >
                         {{ a.name || a.agent }}
                     </option>
                 </select>
                 <button
-                    class='ag-btn'
-                    :disabled='!controllerInstanceId'
-                    @click='listAll'
+                    class="ag-btn"
+                    :disabled="!controllerInstanceId"
+                    @click="listAll"
                 >
-                    <RefreshCw :size='11' />Refresh
+                    <RefreshCw :size="11" />Refresh
                 </button>
             </div>
 
-            <div class='ag-ctrl-body'>
+            <div class="ag-ctrl-body">
                 <!-- Claude Code Sessions -->
-                <div class='ag-ctrl-section'>
-                    <div class='ag-ctrl-section-hd'>
+                <div class="ag-ctrl-section">
+                    <div class="ag-ctrl-section-hd">
                         <Code2
-                            :size='12'
-                            style='color:#818cf8'
+                            :size="12"
+                            style="color:#818cf8"
                         />
-                        <span class='ag-ctrl-sec-title'>CLAUDE CODE SESSIONS</span>
-                        <span class='ag-badge'>{{ ccSessions.length }}</span>
+                        <span class="ag-ctrl-sec-title">CLAUDE CODE SESSIONS</span>
+                        <span class="ag-badge">{{ ccSessions.length }}</span>
                         <button
-                            class='ag-spawn-btn'
-                            :disabled='!controllerInstanceId'
-                            @click='showCcSpawn = !showCcSpawn'
+                            class="ag-spawn-btn"
+                            :disabled="!controllerInstanceId"
+                            @click="showCcSpawn = !showCcSpawn"
                         >
-                            <Plus :size='11' />Spawn
+                            <Plus :size="11" />Spawn
                         </button>
                     </div>
                     <div
-                        v-if='showCcSpawn'
-                        class='ag-spawn-form'
+                        v-if="showCcSpawn"
+                        class="ag-spawn-form"
                     >
                         <input
-                            v-model='ccSpec.cwd'
-                            class='ag-spawn-input'
-                            placeholder='Working directory (cwd)'
+                            v-model="ccSpec.cwd"
+                            class="ag-spawn-input"
+                            placeholder="Working directory (cwd)"
                         >
                         <input
-                            v-model='ccSpec.model'
-                            class='ag-spawn-input'
-                            placeholder='Model (e.g. claude-opus-5)'
+                            v-model="ccSpec.model"
+                            class="ag-spawn-input"
+                            placeholder="Model (e.g. claude-opus-5)"
                         >
                         <input
-                            v-model='ccSpec.permission_mode'
-                            class='ag-spawn-input'
-                            placeholder='Permission mode (bypassPermissions)'
+                            v-model="ccSpec.permission_mode"
+                            class="ag-spawn-input"
+                            placeholder="Permission mode (bypassPermissions)"
                         >
-                        <div class='ag-spawn-actions'>
+                        <div class="ag-spawn-actions">
                             <button
-                                class='ag-spawn-go'
-                                :disabled='!ccSpec.cwd'
-                                @click='spawnCc'
+                                class="ag-spawn-go"
+                                :disabled="!ccSpec.cwd"
+                                @click="spawnCc"
                             >
-                                <Zap :size='11' />Spawn Session
+                                <Zap :size="11" />Spawn Session
                             </button>
                         </div>
                     </div>
                     <div
-                        v-if='ccSessions.length === 0'
-                        class='ag-ctrl-empty ag-muted ag-mono'
+                        v-if="ccSessions.length === 0"
+                        class="ag-ctrl-empty ag-muted ag-mono"
                     >
                         No active sessions
                     </div>
                     <div
-                        v-for='sess in ccSessions'
-                        :key='sess.session_id'
-                        class='ag-sess'
+                        v-for="sess in ccSessions"
+                        :key="sess.session_id"
+                        class="ag-sess"
                     >
-                        <div class='ag-sess-top'>
+                        <div class="ag-sess-top">
                             <div
-                                class='ag-sess-dot'
+                                class="ag-sess-dot"
                                 :class='sess.active_request ? "busy" : "idle"'
                             />
                             <span
-                                class='ag-mono'
-                                style='font-size:10px;color:#e6edf3'
+                                class="ag-mono"
+                                style="font-size:10px;color:#e6edf3"
                             >{{ sess.session_id.slice(0,12) }}…</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ sess.cwd }}</span>
                             <span
-                                v-if='sess.total_cost_usd > 0'
-                                class='ag-muted ag-mono'
-                                style='font-size:9px;margin-left:auto'
+                                v-if="sess.total_cost_usd > 0"
+                                class="ag-muted ag-mono"
+                                style="font-size:9px;margin-left:auto"
                             >${{ sess.total_cost_usd.toFixed(3) }}</span>
                         </div>
-                        <div class='ag-sess-meta'>
+                        <div class="ag-sess-meta">
                             <span
-                                class='ag-chip'
+                                class="ag-chip"
                                 :class='sess.active_request ? "busy" : "idle"'
                             >{{ sess.active_request ? 'ACTIVE' : 'IDLE' }}</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ sess.model }}</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ sess.turn_count }} turns</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ fmtLife(sess.remaining_lifetime_s) }} left</span>
                         </div>
                         <button
-                            class='ag-stop-small'
-                            @click='stopCc(sess.session_id)'
+                            class="ag-stop-small"
+                            @click="stopCc(sess.session_id)"
                         >
-                            <Square :size='9' />Stop
+                            <Square :size="9" />Stop
                         </button>
                     </div>
                 </div>
 
                 <!-- Python Exec Sessions -->
-                <div class='ag-ctrl-section'>
-                    <div class='ag-ctrl-section-hd'>
+                <div class="ag-ctrl-section">
+                    <div class="ag-ctrl-section-hd">
                         <Cpu
-                            :size='12'
-                            style='color:#2dd4bf'
+                            :size="12"
+                            style="color:#2dd4bf"
                         />
-                        <span class='ag-ctrl-sec-title'>PYTHON EXEC SESSIONS</span>
-                        <span class='ag-badge'>{{ piSessions.length }}</span>
+                        <span class="ag-ctrl-sec-title">PYTHON EXEC SESSIONS</span>
+                        <span class="ag-badge">{{ piSessions.length }}</span>
                         <button
-                            class='ag-spawn-btn'
-                            :disabled='!controllerInstanceId'
-                            @click='showPiSpawn = !showPiSpawn'
+                            class="ag-spawn-btn"
+                            :disabled="!controllerInstanceId"
+                            @click="showPiSpawn = !showPiSpawn"
                         >
-                            <Plus :size='11' />Spawn
+                            <Plus :size="11" />Spawn
                         </button>
                     </div>
                     <div
-                        v-if='showPiSpawn'
-                        class='ag-spawn-form'
+                        v-if="showPiSpawn"
+                        class="ag-spawn-form"
                     >
                         <input
-                            v-model='piSpec.cwd'
-                            class='ag-spawn-input'
-                            placeholder='Working directory (cwd)'
+                            v-model="piSpec.cwd"
+                            class="ag-spawn-input"
+                            placeholder="Working directory (cwd)"
                         >
                         <input
-                            v-model='piSpec.model'
-                            class='ag-spawn-input'
-                            placeholder='Model (optional)'
+                            v-model="piSpec.model"
+                            class="ag-spawn-input"
+                            placeholder="Model (optional)"
                         >
-                        <div class='ag-spawn-actions'>
+                        <div class="ag-spawn-actions">
                             <button
-                                class='ag-spawn-go'
-                                :disabled='!piSpec.cwd'
-                                @click='spawnPi'
+                                class="ag-spawn-go"
+                                :disabled="!piSpec.cwd"
+                                @click="spawnPi"
                             >
-                                <Zap :size='11' />Spawn Session
+                                <Zap :size="11" />Spawn Session
                             </button>
                         </div>
                     </div>
                     <div
-                        v-if='piSessions.length === 0'
-                        class='ag-ctrl-empty ag-muted ag-mono'
+                        v-if="piSessions.length === 0"
+                        class="ag-ctrl-empty ag-muted ag-mono"
                     >
                         No active sessions
                     </div>
                     <div
-                        v-for='sess in piSessions'
-                        :key='sess.session_id'
-                        class='ag-sess'
+                        v-for="sess in piSessions"
+                        :key="sess.session_id"
+                        class="ag-sess"
                     >
-                        <div class='ag-sess-top'>
+                        <div class="ag-sess-top">
                             <div
-                                class='ag-sess-dot'
+                                class="ag-sess-dot"
                                 :class='sess.active_request ? "busy" : "idle"'
                             />
                             <span
-                                class='ag-mono'
-                                style='font-size:10px;color:#e6edf3'
+                                class="ag-mono"
+                                style="font-size:10px;color:#e6edf3"
                             >{{ sess.session_id.slice(0,12) }}…</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ sess.cwd }}</span>
                         </div>
-                        <div class='ag-sess-meta'>
+                        <div class="ag-sess-meta">
                             <span
-                                class='ag-chip'
+                                class="ag-chip"
                                 :class='sess.active_request ? "busy" : "idle"'
                             >{{ sess.active_request ? 'ACTIVE' : 'IDLE' }}</span>
                             <span
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ fmtLife(sess.remaining_lifetime_s) }} left</span>
                             <span
-                                v-if='sess.queued_requests > 0'
-                                class='ag-muted ag-mono'
-                                style='font-size:9px'
+                                v-if="sess.queued_requests > 0"
+                                class="ag-muted ag-mono"
+                                style="font-size:9px"
                             >{{ sess.queued_requests }} queued</span>
                         </div>
                         <button
-                            class='ag-stop-small'
-                            @click='stopPi(sess.session_id)'
+                            class="ag-stop-small"
+                            @click="stopPi(sess.session_id)"
                         >
-                            <Square :size='9' />Stop
+                            <Square :size="9" />Stop
                         </button>
                     </div>
                 </div>
@@ -493,58 +493,58 @@
         <!-- ── WIRE TAB ───────────────────────────────────────────────────────── -->
         <div
             v-else-if='innerTab === "wire"'
-            class='ag-wire'
+            class="ag-wire"
         >
-            <div class='ag-wire-hd'>
+            <div class="ag-wire-hd">
                 <Radio
-                    :size='13'
-                    class='ag-acc'
+                    :size="13"
+                    class="ag-acc"
                 />
-                <span class='ag-ctrl-title'>WIRE TRAFFIC</span>
+                <span class="ag-ctrl-title">WIRE TRAFFIC</span>
                 <select
-                    v-model='wireAgentId'
-                    class='ag-ctrl-select'
+                    v-model="wireAgentId"
+                    class="ag-ctrl-select"
                 >
-                    <option value=''>
+                    <option value="">
                         Select agent…
                     </option>
                     <option
-                        v-for='a in agentList'
-                        :key='a.instanceId'
-                        :value='a.instanceId'
+                        v-for="a in agentList"
+                        :key="a.instanceId"
+                        :value="a.instanceId"
                     >
                         {{ a.name || a.agent }}
                     </option>
                 </select>
-                <span class='ag-badge'>{{ wireLog.length }}</span>
+                <span class="ag-badge">{{ wireLog.length }}</span>
                 <button
-                    class='ag-btn'
-                    @click='wireLog = []'
+                    class="ag-btn"
+                    @click="wireLog = []"
                 >
-                    <Trash2 :size='11' />Clear
+                    <Trash2 :size="11" />Clear
                 </button>
             </div>
-            <div class='ag-wire-cols ag-muted ag-mono'>
+            <div class="ag-wire-cols ag-muted ag-mono">
                 <span>TIME</span><span>SUBJECT</span><span>DATA</span>
             </div>
             <div
-                ref='wireEl'
-                class='ag-wire-log'
+                ref="wireEl"
+                class="ag-wire-log"
             >
                 <div
-                    v-if='wireLog.length === 0'
-                    class='ag-ctrl-empty ag-muted ag-mono'
+                    v-if="wireLog.length === 0"
+                    class="ag-ctrl-empty ag-muted ag-mono"
                 >
                     {{ wireAgentId ? 'Listening on agents.' + wireAgentId + '.>' : 'Select an agent to monitor its NATS traffic' }}
                 </div>
                 <div
-                    v-for='(row, i) in wireLog'
-                    :key='i'
-                    class='ag-wire-row'
+                    v-for="(row, i) in wireLog"
+                    :key="i"
+                    class="ag-wire-row"
                 >
-                    <span class='ag-mono ag-dim'>{{ row.time }}</span>
-                    <span class='ag-mono ag-wire-subj'>{{ row.subject }}</span>
-                    <span class='ag-mono ag-dim'>{{ row.preview }}</span>
+                    <span class="ag-mono ag-dim">{{ row.time }}</span>
+                    <span class="ag-mono ag-wire-subj">{{ row.subject }}</span>
+                    <span class="ag-mono ag-dim">{{ row.preview }}</span>
                 </div>
             </div>
         </div>

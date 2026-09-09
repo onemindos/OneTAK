@@ -1,83 +1,83 @@
 <template>
     <StandardItem
-        class='d-flex flex-column mb-2'
+        class="d-flex flex-column mb-2"
         :class='{
             "cloudtak-hover": hover,
         }'
-        :hover='hover'
-        @click='flyTo(contact)'
+        :hover="hover"
+        @click="flyTo(contact)"
     >
         <div
-            class='d-flex flex-row gap-3 align-items-center'
+            class="d-flex flex-row gap-3 align-items-center"
             :class='{
                 "cursor-pointer": zoomable,
                 "cursor-default": !zoomable,
                 "contact-card--no-notes": !contact.notes || !contact.notes.trim()
             }'
         >
-            <div class='icon-wrapper ms-2 d-flex align-items-center justify-content-center rounded-circle'>
+            <div class="icon-wrapper ms-2 d-flex align-items-center justify-content-center rounded-circle">
                 <IconCheck
-                    v-if='selected'
-                    :size='compact ? 20 : 32'
-                    stroke='1'
+                    v-if="selected"
+                    :size="compact ? 20 : 32"
+                    stroke="1"
                 />
                 <ContactPuck
                     v-else
-                    :team='contact.team'
-                    :size='compact ? 20 : 32'
+                    :team="contact.team"
+                    :size="compact ? 20 : 32"
                 />
             </div>
 
             <div
-                class='flex-grow-1 d-flex flex-column gap-1'
+                class="flex-grow-1 d-flex flex-column gap-1"
                 :class='{
                     "py-2": !compact,
                     "justify-content-center": !contact.notes || !contact.notes.trim()
                 }'
             >
-                <div class='d-flex flex-wrap align-items-center gap-2'>
+                <div class="d-flex flex-wrap align-items-center gap-2">
                     <span
-                        class='fw-semibold text-break'
-                        v-text='contact.callsign'
+                        class="fw-semibold text-break"
+                        v-text="contact.callsign"
                     />
                 </div>
                 <div
-                    v-if='contact.notes && contact.notes.trim()'
-                    class='text-break subheader user-select-none'
-                    v-text='contact.notes.trim()'
+                    v-if="contact.notes && contact.notes.trim()"
+                    class="text-break subheader user-select-none"
+                    v-text="contact.notes.trim()"
                 />
             </div>
 
             <div
-                v-if='props.buttonChat'
-                class='align-self-center me-2'
+                v-if="props.buttonChat"
+                class="align-self-center me-2"
             >
                 <TablerIconButton
-                    v-if='props.buttonChat && chatable'
-                    title='Start Chat'
+                    v-if="props.buttonChat && chatable"
+                    title="Start Chat"
                     @click.stop='emit("chat", contact)'
                 >
                     <IconMessage
-                        :size='compact ? 20 : 32'
-                        stroke='1'
+                        :size="compact ? 20 : 32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
 
             <div
-                v-if='$slots.actions'
-                class='align-self-center me-2'
+                v-if="$slots.actions"
+                class="align-self-center me-2"
             >
-                <slot name='actions' />
+                <slot name="actions" />
             </div>
         </div>
 
         <div
-            v-if='$slots.expanded'
-            class='px-2 pb-2'
+            v-if="$slots.expanded"
+            class="px-2 pb-2"
             @click.stop
         >
-            <slot name='expanded' />
+            <slot name="expanded" />
         </div>
     </StandardItem>
 </template>

@@ -1,61 +1,61 @@
 <template>
-    <div :class='containerClass'>
+    <div :class="containerClass">
         <TablerBorder
             :class='["cloudtak-accent", borderClass]'
-            :background='background'
-            :shadow='shadow'
-            :fill-height='fillHeight'
-            :gap='gap'
+            :background="background"
+            :shadow="shadow"
+            :fill-height="fillHeight"
+            :gap="gap"
         >
             <template #label>
-                <small :class='labelClass'>{{ label }}</small>
+                <small :class="labelClass">{{ label }}</small>
             </template>
             <template
-                v-if='editable && !editing'
+                v-if="editable && !editing"
                 #tools
             >
                 <TablerIconButton
-                    :title='editTitle'
+                    :title="editTitle"
                     @click.stop.prevent='emit("edit")'
                 >
                     <IconPencil
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </template>
             <template
-                v-else-if='editing'
+                v-else-if="editing"
                 #tools
             >
-                <div class='d-flex gap-1'>
+                <div class="d-flex gap-1">
                     <TablerIconButton
-                        :disabled='saving'
-                        color='rgba(var(--tblr-primary-rgb), 0.14)'
-                        :title='saving ? savingLabel : saveLabel'
-                        @click.stop='commitDraft'
+                        :disabled="saving"
+                        color="rgba(var(--tblr-primary-rgb), 0.14)"
+                        :title="saving ? savingLabel : saveLabel"
+                        @click.stop="commitDraft"
                     >
                         <IconDeviceFloppy
-                            color='rgb(var(--tblr-primary-rgb))'
-                            stroke='1'
+                            color="rgb(var(--tblr-primary-rgb))"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        :disabled='saving'
-                        title='Cancel'
-                        @click.stop='revertDraft'
+                        :disabled="saving"
+                        title="Cancel"
+                        @click.stop="revertDraft"
                     >
-                        <IconX stroke='1' />
+                        <IconX stroke="1" />
                     </TablerIconButton>
                 </div>
             </template>
 
             <Keywords
-                :keywords='editing ? draftValue : value'
-                :relevant='editing ? [] : undefined'
-                :placeholder='editing ? inputPlaceholder : placeholder'
-                :tone='tone'
-                @update:keywords='draftValue = $event'
+                :keywords="editing ? draftValue : value"
+                :relevant="editing ? [] : undefined"
+                :placeholder="editing ? inputPlaceholder : placeholder"
+                :tone="tone"
+                @update:keywords="draftValue = $event"
             />
         </TablerBorder>
     </div>

@@ -1,64 +1,64 @@
 <template>
-    <div class='ig'>
-        <div class='ig-header'>
+    <div class="ig">
+        <div class="ig-header">
             <Link2
-                :size='14'
-                class='ig-accent'
+                :size="14"
+                class="ig-accent"
             />
-            <span class='ig-title'>Integrations</span>
-            <span class='ig-sub'>Services connected to the NATS bus</span>
+            <span class="ig-title">Integrations</span>
+            <span class="ig-sub">Services connected to the NATS bus</span>
         </div>
 
-        <div class='ig-grid'>
+        <div class="ig-grid">
             <div
-                v-for='i in INTEGRATIONS'
-                :key='i.id'
-                class='ig-card'
+                v-for="i in INTEGRATIONS"
+                :key="i.id"
+                class="ig-card"
                 :style='{ borderColor: statusMap.get(i.id)?.active ? `${i.color}44` : "rgba(255,255,255,0.07)" }'
             >
-                <div class='ig-card-top'>
+                <div class="ig-card-top">
                     <div
-                        class='ig-icon'
-                        :style='{ background: `${i.color}18`, color: i.color }'
+                        class="ig-icon"
+                        :style="{ background: `${i.color}18`, color: i.color }"
                     >
                         <component
-                            :is='i.icon'
-                            :size='18'
+                            :is="i.icon"
+                            :size="18"
                         />
                     </div>
-                    <div class='ig-info'>
-                        <div class='ig-name'>
+                    <div class="ig-info">
+                        <div class="ig-name">
                             {{ i.name }}
                         </div>
-                        <div class='ig-desc'>
+                        <div class="ig-desc">
                             {{ i.description }}
                         </div>
                     </div>
                     <button
-                        v-if='i.url'
-                        class='ig-open'
-                        :title='`Open ${i.name}`'
-                        @click='openUrl(i.url)'
+                        v-if="i.url"
+                        class="ig-open"
+                        :title="`Open ${i.name}`"
+                        @click="openUrl(i.url)"
                     >
-                        <ExternalLink :size='13' />
+                        <ExternalLink :size="13" />
                     </button>
                 </div>
 
-                <div class='ig-meta'>
-                    <div class='ig-status-row'>
+                <div class="ig-meta">
+                    <div class="ig-status-row">
                         <div
-                            class='ig-dot'
-                            :class='{ glow: statusMap.get(i.id)?.active }'
+                            class="ig-dot"
+                            :class="{ glow: statusMap.get(i.id)?.active }"
                             :style='{ background: statusMap.get(i.id)?.active ? "#43e27d" : nc ? "#555" : "#333" }'
                         />
-                        <span class='ig-muted'>
+                        <span class="ig-muted">
                             {{ statusMap.get(i.id)?.active ? 'Active' : nc ? 'No traffic' : 'Offline' }}
                         </span>
                     </div>
-                    <span class='ig-subject'>{{ i.subjectPrefix }}.&gt;</span>
+                    <span class="ig-subject">{{ i.subjectPrefix }}.&gt;</span>
                     <span
-                        v-if='(statusMap.get(i.id)?.msgCount ?? 0) > 0'
-                        class='ig-count ig-muted'
+                        v-if="(statusMap.get(i.id)?.msgCount ?? 0) > 0"
+                        class="ig-count ig-muted"
                     >
                         {{ statusMap.get(i.id)?.msgCount }} msgs
                     </span>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class='ig-hint'>
+        <div class="ig-hint">
             <p>Any NATS service publishing to the subject grammar (tel.*, cmd.*, evt.*, ent.*) appears here automatically.</p>
         </div>
     </div>

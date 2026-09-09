@@ -1,82 +1,82 @@
 <template>
-    <MenuTemplate name='Icon'>
+    <MenuTemplate name="Icon">
         <template #buttons>
-            <div class='d-flex align-items-center gap-2'>
+            <div class="d-flex align-items-center gap-2">
                 <TablerRefreshButton
                     v-if='route.params.icon !== "new"'
-                    :loading='loading'
-                    @click='syncIconset'
+                    :loading="loading"
+                    @click="syncIconset"
                 />
 
                 <TablerDelete
-                    v-if='(iconset.username || isSystemAdmin) && disabled && !!icon.id'
-                    displaytype='icon'
-                    @delete='deleteIcon'
+                    v-if="(iconset.username || isSystemAdmin) && disabled && !!icon.id"
+                    displaytype="icon"
+                    @delete="deleteIcon"
                 />
 
                 <TablerIconButton
-                    v-if='(iconset.username || isSystemAdmin) && disabled && !!icon.id'
-                    title='Edit'
-                    @click='disabled = false'
+                    v-if="(iconset.username || isSystemAdmin) && disabled && !!icon.id"
+                    title="Edit"
+                    @click="disabled = false"
                 >
                     <IconPencil
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </template>
         <template #default>
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <template v-else>
                 <TablerAlert
-                    v-if='syncError'
-                    class='mb-3'
-                    :err='syncError'
+                    v-if="syncError"
+                    class="mb-3"
+                    :err="syncError"
                 />
                 <div
-                    v-if='disabled === false'
-                    class='row mx-0 gap-4'
+                    v-if="disabled === false"
+                    class="row mx-0 gap-4"
                 >
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerInput
-                            v-model='icon.name'
-                            label='Name'
+                            v-model="icon.name"
+                            label="Name"
                         />
                     </div>
 
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerUploadLogo
-                            v-model='icon.data'
-                            label='Icon Data'
-                            @file-name='updateName'
+                            v-model="icon.data"
+                            label="Icon Data"
+                            @file-name="updateName"
                         />
                     </div>
 
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerInput
                             :model-value='icon.type2525b ?? ""'
-                            label='2525B Type'
-                            @update:model-value='icon.type2525b = $event ? String($event) : null'
+                            label="2525B Type"
+                            @update:model-value="icon.type2525b = $event ? String($event) : null"
                         />
                     </div>
 
-                    <div class='d-flex'>
-                        <div class='ms-auto d-flex gap-2'>
+                    <div class="d-flex">
+                        <div class="ms-auto d-flex gap-2">
                             <div
-                                v-if='icon.id'
-                                class='btn btn-secondary'
-                                @click='refresh'
+                                v-if="icon.id"
+                                class="btn btn-secondary"
+                                @click="refresh"
                             >
                                 Cancel
                             </div>
                             <div
-                                class='btn btn-primary'
-                                @click='submit'
+                                class="btn btn-primary"
+                                @click="submit"
                             >
                                 Submit
                             </div>
@@ -85,48 +85,48 @@
                 </div>
                 <div
                     v-else
-                    class='container-fluid py-4'
+                    class="container-fluid py-4"
                 >
-                    <div class='row gy-3 gx-0 gx-lg-3'>
-                        <div class='col-12'>
+                    <div class="row gy-3 gx-0 gx-lg-3">
+                        <div class="col-12">
                             <TablerBorder
-                                class='cloudtak-bg text-white'
-                                gap='lg'
+                                class="cloudtak-bg text-white"
+                                gap="lg"
                             >
-                                <div class='d-flex align-items-center gap-3'>
-                                    <div class='d-flex align-items-center justify-content-center'>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
                                         <img
-                                            :src='icon.data'
-                                            class='img-thumbnail'
-                                            style='background-color: rgb(30, 41, 59);'
-                                            width='32'
-                                            height='32'
+                                            :src="icon.data"
+                                            class="img-thumbnail"
+                                            style="background-color: rgb(30, 41, 59);"
+                                            width="32"
+                                            height="32"
                                         >
                                     </div>
-                                    <div class='flex-grow-1'>
-                                        <p class='text-uppercase text-white-50 small mb-1'>
+                                    <div class="flex-grow-1">
+                                        <p class="text-uppercase text-white-50 small mb-1">
                                             Icon
                                         </p>
                                         <h2
-                                            class='h4 mb-0 text-break'
-                                            v-text='icon.name'
+                                            class="h4 mb-0 text-break"
+                                            v-text="icon.name"
                                         />
                                     </div>
                                 </div>
 
-                                <div class='row gy-3 gx-0 gx-sm-3'>
-                                    <div class='col-12'>
-                                        <small class='text-uppercase text-white-50 d-block mb-1'>Iconset</small>
+                                <div class="row gy-3 gx-0 gx-sm-3">
+                                    <div class="col-12">
+                                        <small class="text-uppercase text-white-50 d-block mb-1">Iconset</small>
                                         <p
-                                            class='text-start text-blue fw-semibold cursor-pointer p-0 text-decoration-none'
-                                            @click='router.push(`/menu/iconset/${icon.iconset}`)'
-                                            v-text='iconset.name'
+                                            class="text-start text-blue fw-semibold cursor-pointer p-0 text-decoration-none"
+                                            @click="router.push(`/menu/iconset/${icon.iconset}`)"
+                                            v-text="iconset.name"
                                         />
                                     </div>
-                                    <div class='col-12'>
-                                        <small class='text-uppercase text-white-50 d-block mb-1'>Type 2525b</small>
+                                    <div class="col-12">
+                                        <small class="text-uppercase text-white-50 d-block mb-1">Type 2525b</small>
                                         <p
-                                            class='text-start text-white fw-semibold p-0 text-decoration-none'
+                                            class="text-start text-white fw-semibold p-0 text-decoration-none"
                                             v-text='icon.type2525b || "None"'
                                         />
                                     </div>

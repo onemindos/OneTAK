@@ -1,26 +1,26 @@
 <template>
     <MenuTemplate
-        name='Mission Chats'
-        :zindex='0'
-        :back='false'
-        :border='false'
-        :standalone='false'
-        :scroll='false'
+        name="Mission Chats"
+        :zindex="0"
+        :back="false"
+        :border="false"
+        :standalone="false"
+        :scroll="false"
     >
         <template #buttons>
             <TablerRefreshButton
-                :loading='loading'
-                @click='refresh'
+                :loading="loading"
+                @click="refresh"
             />
         </template>
         <template #default>
             <GenericChat
-                :chats='chats || []'
-                :my-u-i-d='myUID'
-                :loading='loading'
-                :error='error'
-                :can-send='true'
-                @send='onSend'
+                :chats="chats || []"
+                :my-u-i-d="myUID"
+                :loading="loading"
+                :error="error"
+                :can-send="true"
+                @send="onSend"
             />
         </template>
     </MenuTemplate>

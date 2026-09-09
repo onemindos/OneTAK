@@ -1,16 +1,16 @@
 <template>
-    <div class='w-100'>
+    <div class="w-100">
         <TablerLoading
-            v-if='loading'
-            :inline='true'
+            v-if="loading"
+            :inline="true"
         />
         <template v-else>
-            <div class='d-flex align-items-center mx-2'>
-                <template v-if='selected.id'>
+            <div class="d-flex align-items-center mx-2">
+                <template v-if="selected.id">
                     <span
-                        class='cursor-pointer'
-                        @click='$router.push(`/connection/${selected.connection}/data/${selected.id}`)'
-                        v-text='selected.name'
+                        class="cursor-pointer"
+                        @click="$router.push(`/connection/${selected.connection}/data/${selected.id}`)"
+                        v-text="selected.name"
                     />
                 </template>
                 <template v-else>
@@ -18,44 +18,44 @@
                 </template>
 
                 <div
-                    v-if='!disabled'
-                    class='btn-list ms-auto'
+                    v-if="!disabled"
+                    class="btn-list ms-auto"
                 >
                     <IconTrash
-                        v-if='selected.id'
-                        :size='32'
-                        stroke='1'
-                        class='cursor-pointer'
-                        @click='update'
+                        v-if="selected.id"
+                        :size="32"
+                        stroke="1"
+                        class="cursor-pointer"
+                        @click="update"
                     />
                     <TablerDropdown>
                         <template #default>
                             <IconSettings
-                                :size='32'
-                                stroke='1'
-                                class='cursor-pointer dropdown-toggle'
+                                :size="32"
+                                stroke="1"
+                                class="cursor-pointer dropdown-toggle"
                             />
                         </template>
                         <template #dropdown>
-                            <div class='table-resposive'>
-                                <table class='table table-hover'>
+                            <div class="table-resposive">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>(Status) Name</th>
                                         </tr>
                                     </thead>
-                                    <tbody class='table-tbody'>
+                                    <tbody class="table-tbody">
                                         <tr
-                                            v-for='d of data.items'
-                                            :key='d.id'
-                                            class='cursor-pointer'
-                                            @click.stop='update(d)'
+                                            v-for="d of data.items"
+                                            :key="d.id"
+                                            class="cursor-pointer"
+                                            @click.stop="update(d)"
                                         >
                                             <td>
-                                                <div class='d-flex align-items-center'>
+                                                <div class="d-flex align-items-center">
                                                     <span
-                                                        class='mt-2'
-                                                        v-text='d.name'
+                                                        class="mt-2"
+                                                        v-text="d.name"
                                                     />
                                                 </div>
                                             </td>

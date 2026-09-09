@@ -1,93 +1,93 @@
 <template>
-    <MenuTemplate name='Connections'>
+    <MenuTemplate name="Connections">
         <template #buttons>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
             <TablerIconButton
-                title='Create Connection'
+                title="Create Connection"
                 @click='external("/connection/new")'
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    placeholder="Filter"
                 >
                     <template #sort-icon>
-                        <template v-if='sort'>
+                        <template v-if="sort">
                             <component
-                                :is='sortTypeIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortTypeIcon"
+                                :size="20"
+                                stroke="1"
                             />
                             <component
-                                :is='sortDirectionIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortDirectionIcon"
+                                :size="20"
+                                stroke="1"
                             />
                         </template>
                         <IconArrowsSort
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                 </SearchSortFilter>
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Connections'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Connections"
+                :create="false"
             />
             <template v-else>
                 <div
-                    role='menu'
+                    role="menu"
                 >
                     <div
-                        v-for='conn in list.items'
-                        :key='conn.id'
-                        class='col-12 py-1'
+                        v-for="conn in list.items"
+                        :key="conn.id"
+                        class="col-12 py-1"
                     >
                         <StandardItem
-                            class='d-flex align-items-center py-2 px-3'
-                            @click='external(`/connection/${conn.id}`)'
+                            class="d-flex align-items-center py-2 px-3"
+                            @click="external(`/connection/${conn.id}`)"
                         >
-                            <div class='col-auto'>
-                                <ConnectionStatus :connection='conn' />
+                            <div class="col-auto">
+                                <ConnectionStatus :connection="conn" />
                             </div>
                             <div
-                                class='mx-2'
-                                style='width: 315px;'
+                                class="mx-2"
+                                style="width: 315px;"
                             >
-                                <div class='col-12'>
+                                <div class="col-12">
                                     <div
-                                        class='text-truncate'
-                                        v-text='conn.name'
+                                        class="text-truncate"
+                                        v-text="conn.name"
                                     />
                                 </div>
-                                <div class='col-12 d-flex align-items-center'>
+                                <div class="col-12 d-flex align-items-center">
                                     <div
-                                        class='subheader'
-                                        v-text='timeDiff(conn.created)'
+                                        class="subheader"
+                                        v-text="timeDiff(conn.created)"
                                     />
-                                    <div class='ms-auto'>
-                                        <AgencyBadge :connection='conn' />
+                                    <div class="ms-auto">
+                                        <AgencyBadge :connection="conn" />
                                     </div>
                                 </div>
                             </div>
@@ -96,14 +96,14 @@
                 </div>
             </template>
 
-            <div class='py-2 d-flex'>
-                <div class='ms-auto'>
+            <div class="py-2 d-flex">
+                <div class="ms-auto">
                     <TablerPager
-                        v-if='list.total > paging.limit'
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        v-if="list.total > paging.limit"
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </div>

@@ -1,113 +1,113 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Metadata'
+            v-model="expanded"
+            label="Metadata"
         >
             <template #icon>
                 <IconListDetails
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <TablerIconButton
-                    v-if='props.edit'
-                    title='Add Metadata'
-                    class='me-2'
-                    @click.stop='addEntry'
+                    v-if="props.edit"
+                    title="Add Metadata"
+                    class="me-2"
+                    @click.stop="addEntry"
                 >
                     <IconPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerBadge
-                    class='me-2'
-                    background-color='rgba(59, 130, 246, 0.15)'
-                    border-color='rgba(59, 130, 246, 0.4)'
-                    text-color='#3b82f6'
+                    class="me-2"
+                    background-color="rgba(59, 130, 246, 0.15)"
+                    border-color="rgba(59, 130, 246, 0.4)"
+                    text-color="#3b82f6"
                 >
                     {{ entries.length }}
                 </TablerBadge>
             </template>
 
-            <div class='overflow-hidden mb-2'>
-                <div class='rounded mx-2 mt-2 px-2 py-2'>
+            <div class="overflow-hidden mb-2">
+                <div class="rounded mx-2 mt-2 px-2 py-2">
                     <TablerNone
-                        v-if='!entries.length && !creating'
-                        label='No Metadata'
-                        :compact='true'
-                        :create='false'
+                        v-if="!entries.length && !creating"
+                        label="No Metadata"
+                        :compact="true"
+                        :create="false"
                     />
 
                     <div
-                        v-for='entry of entries'
-                        :key='entry.key'
-                        class='d-flex align-items-center rounded px-1 py-1 cloudtak-hover-fill'
+                        v-for="entry of entries"
+                        :key="entry.key"
+                        class="d-flex align-items-center rounded px-1 py-1 cloudtak-hover-fill"
                     >
                         <span
-                            class='text-muted text-truncate'
-                            style='min-width: 33%'
-                            v-text='entry.key'
+                            class="text-muted text-truncate"
+                            style="min-width: 33%"
+                            v-text="entry.key"
                         />
                         <span
-                            class='mx-2 text-truncate flex-fill'
-                            v-text='entry.display'
+                            class="mx-2 text-truncate flex-fill"
+                            v-text="entry.display"
                         />
                         <TablerIconButton
-                            v-if='props.edit'
-                            title='Remove Metadata'
-                            @click='removeEntry(entry.key)'
+                            v-if="props.edit"
+                            title="Remove Metadata"
+                            @click="removeEntry(entry.key)"
                         >
                             <IconTrash
-                                :size='18'
-                                stroke='1'
+                                :size="18"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
 
                     <div
-                        v-if='creating'
-                        class='rounded mt-2 px-2 py-2'
+                        v-if="creating"
+                        class="rounded mt-2 px-2 py-2"
                     >
-                        <div class='d-flex align-items-center mb-2'>
-                            <div class='subheader user-select-none'>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="subheader user-select-none">
                                 Metadata
                             </div>
-                            <div class='ms-auto d-flex align-items-center flex-nowrap'>
+                            <div class="ms-auto d-flex align-items-center flex-nowrap">
                                 <TablerIconButton
-                                    title='Save Metadata'
-                                    @click='saveEntry'
+                                    title="Save Metadata"
+                                    @click="saveEntry"
                                 >
                                     <IconCheck
-                                        :size='18'
-                                        stroke='1'
+                                        :size="18"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                                 <TablerIconButton
-                                    title='Discard Metadata'
-                                    @click='creating = false'
+                                    title="Discard Metadata"
+                                    @click="creating = false"
                                 >
                                     <IconTrash
-                                        :size='18'
-                                        stroke='1'
+                                        :size="18"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
 
                         <TablerInput
-                            v-model='draft.key'
-                            label='Key'
-                            class='pb-2'
+                            v-model="draft.key"
+                            label="Key"
+                            class="pb-2"
                         />
 
                         <TablerInput
-                            v-model='draft.value'
-                            label='Value'
+                            v-model="draft.value"
+                            label="Value"
                         />
                     </div>
                 </div>

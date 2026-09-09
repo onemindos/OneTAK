@@ -1,78 +1,78 @@
 <template>
-    <div class='legacy-chat'>
+    <div class="legacy-chat">
         <!-- Header -->
-        <div class='legacy-header'>
-            <div class='legacy-title'>
-                <span class='legacy-hex'>⬡</span>
+        <div class="legacy-header">
+            <div class="legacy-title">
+                <span class="legacy-hex">⬡</span>
                 <span>Legacy AI</span>
             </div>
             <div
-                class='legacy-status'
-                :class='wsState'
+                class="legacy-status"
+                :class="wsState"
             >
-                <span class='legacy-dot' />
+                <span class="legacy-dot" />
                 {{ wsState === 'open' ? 'Live' : wsState === 'connecting' ? 'Connecting…' : 'Offline' }}
             </div>
         </div>
 
         <!-- Messages -->
         <div
-            ref='messagesEl'
-            class='legacy-messages'
+            ref="messagesEl"
+            class="legacy-messages"
         >
             <div
-                v-for='(msg, i) in messages'
-                :key='i'
-                class='legacy-msg'
-                :class='msg.role'
+                v-for="(msg, i) in messages"
+                :key="i"
+                class="legacy-msg"
+                :class="msg.role"
             >
                 <div
-                    class='legacy-bubble'
-                    v-html='renderMd(msg.text)'
+                    class="legacy-bubble"
+                    v-html="renderMd(msg.text)"
                 />
             </div>
             <div
-                v-if='streaming'
-                class='legacy-msg assistant'
+                v-if="streaming"
+                class="legacy-msg assistant"
             >
                 <div
-                    class='legacy-bubble streaming'
+                    class="legacy-bubble streaming"
                     v-html='renderMd(streamBuf) + "<span class=cursor>▋</span>"'
                 />
             </div>
             <div
-                v-if='!messages.length && !streaming'
-                class='legacy-empty'
+                v-if="!messages.length && !streaming"
+                class="legacy-empty"
             >
-                <span class='legacy-hex-big'>⬡</span>
+                <span class="legacy-hex-big">⬡</span>
                 <p>OneMind's sovereign AI.<br>Ask anything about the op.</p>
             </div>
         </div>
 
         <!-- Input -->
-        <div class='legacy-input-row'>
+        <div class="legacy-input-row">
             <textarea
-                ref='inputEl'
-                v-model='draft'
-                class='legacy-input'
-                placeholder='Message Legacy…'
-                rows='1'
+                ref="inputEl"
+                v-model="draft"
+                class="legacy-input"
+                placeholder="Message Legacy…"
+                rows="1"
                 :disabled='wsState !== "open" || streaming'
-                @keydown.enter.exact.prevent='send'
-                @input='autoResize'
+                @keydown.enter.exact.prevent="send"
+                @input="autoResize"
             />
             <button
-                class='legacy-send'
+                class="legacy-send"
                 :disabled='!draft.trim() || wsState !== "open" || streaming'
-                @click='send'
+                @click="send"
             >
                 <svg
-                    width='18'
-                    height='18'
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
                 >
-                    <path d='M2 21l21-9L2 3v7l15 2-15 2v7z' />
+                    <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
                 </svg>
             </button>
         </div>

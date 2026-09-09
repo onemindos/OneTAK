@@ -1,175 +1,175 @@
 <template>
-    <div class='ov'>
-        <div class='ov-header'>
+    <div class="ov">
+        <div class="ov-header">
             <div>
-                <div class='ov-title'>
+                <div class="ov-title">
                     OneMind OS
                 </div>
-                <div class='ov-sub'>
+                <div class="ov-sub">
                     Unified NATS Operations Center
                 </div>
             </div>
             <div
-                class='ov-pill'
-                :class='status'
+                class="ov-pill"
+                :class="status"
             >
-                <div class='ov-pill-dot' />
+                <div class="ov-pill-dot" />
                 {{ status === 'connected' ? 'Bus Online' : status === 'connecting' ? 'Connecting…' : 'Disconnected' }}
             </div>
         </div>
 
-        <div class='ov-metrics'>
+        <div class="ov-metrics">
             <div
-                v-for='m in metricCards'
-                :key='m.label'
-                class='ov-metric'
+                v-for="m in metricCards"
+                :key="m.label"
+                class="ov-metric"
             >
-                <div class='ov-metric-top'>
+                <div class="ov-metric-top">
                     <component
-                        :is='m.icon'
-                        :size='13'
-                        class='ov-accent'
+                        :is="m.icon"
+                        :size="13"
+                        class="ov-accent"
                     />
-                    <span class='ov-label'>{{ m.label }}</span>
+                    <span class="ov-label">{{ m.label }}</span>
                 </div>
-                <div class='ov-metric-val'>
+                <div class="ov-metric-val">
                     {{ m.value }}
                 </div>
-                <div class='ov-muted'>
+                <div class="ov-muted">
                     {{ m.sub }}
                 </div>
             </div>
         </div>
 
-        <div class='ov-two'>
-            <div class='ov-card'>
-                <div class='ov-card-hd'>
+        <div class="ov-two">
+            <div class="ov-card">
+                <div class="ov-card-hd">
                     <Users
-                        :size='12'
-                        class='ov-accent'
+                        :size="12"
+                        class="ov-accent"
                     />Active Agents
                 </div>
                 <div
-                    v-if='agentList.length === 0'
-                    class='ov-empty'
+                    v-if="agentList.length === 0"
+                    class="ov-empty"
                 >
                     No agents discovered yet. Listening on agents.heartbeat.&gt;
                 </div>
                 <template v-else>
                     <div
-                        v-for='a in agentList.slice(0, 6)'
-                        :key='a.id'
-                        class='ov-agent'
+                        v-for="a in agentList.slice(0, 6)"
+                        :key="a.id"
+                        class="ov-agent"
                     >
                         <div
-                            class='ov-dot'
-                            :style='{ background: agentColor(a.status) }'
+                            class="ov-dot"
+                            :style="{ background: agentColor(a.status) }"
                         />
-                        <span class='ov-mono'>{{ a.name }}</span>
-                        <span class='ov-muted ov-type'>{{ a.type }}</span>
+                        <span class="ov-mono">{{ a.name }}</span>
+                        <span class="ov-muted ov-type">{{ a.type }}</span>
                         <span
-                            v-if='a.capabilities'
-                            class='ov-mono ov-muted ov-ml'
+                            v-if="a.capabilities"
+                            class="ov-mono ov-muted ov-ml"
                         >{{ a.capabilities.length }} tools</span>
                     </div>
                     <span
-                        v-if='agentList.length > 6'
-                        class='ov-muted ov-sm'
+                        v-if="agentList.length > 6"
+                        class="ov-muted ov-sm"
                     >+{{ agentList.length - 6 }} more</span>
                 </template>
             </div>
 
-            <div class='ov-card'>
-                <div class='ov-card-hd'>
+            <div class="ov-card">
+                <div class="ov-card-hd">
                     <Zap
-                        :size='12'
-                        class='ov-accent'
+                        :size="12"
+                        class="ov-accent"
                     />Integrations
                 </div>
                 <button
-                    class='ov-launch'
-                    style='--a:#00d4ff'
-                    @click='openUrl(cloudtakUrl)'
+                    class="ov-launch"
+                    style="--a:#00d4ff"
+                    @click="openUrl(cloudtakUrl)"
                 >
-                    <div class='ov-launch-icon'>
-                        <Crosshair :size='15' />
+                    <div class="ov-launch-icon">
+                        <Crosshair :size="15" />
                     </div>
-                    <div class='ov-launch-txt'>
-                        <div class='ov-launch-name'>
+                    <div class="ov-launch-txt">
+                        <div class="ov-launch-name">
                             ATOC — CloudTAK
                         </div>
-                        <div class='ov-muted'>
+                        <div class="ov-muted">
                             Ground COP — CoT tracks, missions, TAK devices
                         </div>
                     </div>
                     <ExternalLink
-                        :size='12'
-                        class='ov-muted'
+                        :size="12"
+                        class="ov-muted"
                     />
                 </button>
                 <button
-                    class='ov-launch'
-                    style='--a:#c084fc'
-                    @click='openUrl(wwvUrl)'
+                    class="ov-launch"
+                    style="--a:#c084fc"
+                    @click="openUrl(wwvUrl)"
                 >
-                    <div class='ov-launch-icon'>
-                        <Globe2 :size='15' />
+                    <div class="ov-launch-icon">
+                        <Globe2 :size="15" />
                     </div>
-                    <div class='ov-launch-txt'>
-                        <div class='ov-launch-name'>
+                    <div class="ov-launch-txt">
+                        <div class="ov-launch-name">
                             ATLAS — WorldWideView
                         </div>
-                        <div class='ov-muted'>
+                        <div class="ov-muted">
                             Strategic globe — space domain, orbital, recon
                         </div>
                     </div>
                     <ExternalLink
-                        :size='12'
-                        class='ov-muted'
+                        :size="12"
+                        class="ov-muted"
                     />
                 </button>
             </div>
         </div>
 
-        <div class='ov-card'>
-            <div class='ov-card-hd'>
+        <div class="ov-card">
+            <div class="ov-card-hd">
                 <Shield
-                    :size='12'
-                    class='ov-accent'
+                    :size="12"
+                    class="ov-accent"
                 />Bus Health
             </div>
-            <div class='ov-health'>
+            <div class="ov-health">
                 <div>
-                    <div class='ov-muted'>
+                    <div class="ov-muted">
                         Streams
                     </div>
-                    <div class='ov-big'>
+                    <div class="ov-big">
                         {{ metrics.streams }}
                     </div>
                 </div>
                 <div>
-                    <div class='ov-muted'>
+                    <div class="ov-muted">
                         Subscriptions
                     </div>
-                    <div class='ov-big'>
+                    <div class="ov-big">
                         {{ fmt(metrics.subjects) }}
                     </div>
                 </div>
                 <div>
-                    <div class='ov-muted'>
+                    <div class="ov-muted">
                         Throughput
                     </div>
-                    <div class='ov-big'>
+                    <div class="ov-big">
                         {{ fmtBytes(metrics.bytesIn + metrics.bytesOut) }}/s
                     </div>
                 </div>
                 <div>
-                    <div class='ov-muted'>
+                    <div class="ov-muted">
                         Status
                     </div>
-                    <div class='ov-hstatus'>
+                    <div class="ov-hstatus">
                         <div
-                            class='ov-dot'
+                            class="ov-dot"
                             :class='{ glow: status === "connected" }'
                             :style='{ background: status === "connected" ? "#43e27d" : "#ef4444" }'
                         />

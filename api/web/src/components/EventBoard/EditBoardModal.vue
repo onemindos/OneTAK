@@ -1,48 +1,48 @@
 <template>
-    <TablerModal size='lg'>
-        <div class='modal-status bg-blue' />
+    <TablerModal size="lg">
+        <div class="modal-status bg-blue" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header text-body'>
-            <div class='modal-title'>
+        <div class="modal-header text-body">
+            <div class="modal-title">
                 {{ props.board ? "Edit Board" : "New Board" }}
             </div>
         </div>
-        <div class='modal-body text-body'>
-            <div class='row g-2'>
-                <div class='col-12'>
+        <div class="modal-body text-body">
+            <div class="row g-2">
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.name'
-                        label='Name'
-                        :required='true'
-                        @keyup.enter='save'
+                        v-model="config.name"
+                        label="Name"
+                        :required="true"
+                        @keyup.enter="save"
                     />
                 </div>
 
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerInput
-                        v-model='config.description'
-                        label='Description'
-                        :rows='3'
+                        v-model="config.description"
+                        label="Description"
+                        :rows="3"
                     />
                 </div>
             </div>
 
-            <div class='d-flex mt-3'>
+            <div class="d-flex mt-3">
                 <button
-                    class='btn btn-secondary'
+                    class="btn btn-secondary"
                     @click='emit("close")'
                 >
                     Cancel
                 </button>
                 <button
-                    class='btn btn-primary ms-auto'
-                    :disabled='!config.name.trim()'
-                    @click='save'
+                    class="btn btn-primary ms-auto"
+                    :disabled="!config.name.trim()"
+                    @click="save"
                 >
                     Save
                 </button>

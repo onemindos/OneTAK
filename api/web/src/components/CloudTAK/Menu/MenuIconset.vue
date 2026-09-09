@@ -1,77 +1,77 @@
 <template>
-    <MenuTemplate :name='iconset.name'>
+    <MenuTemplate :name="iconset.name">
         <template #buttons>
             <TablerIconButton
-                v-if='iconset.username || isSystemAdmin'
-                title='Create Icon'
-                @click='router.push(`/menu/iconset/${iconset.uid}/new`)'
+                v-if="iconset.username || isSystemAdmin"
+                title="Create Icon"
+                @click="router.push(`/menu/iconset/${iconset.uid}/new`)"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                v-if='iconset.username || isSystemAdmin'
-                title='Settings'
-                @click='editIconsetModal = iconset'
+                v-if="iconset.username || isSystemAdmin"
+                title="Settings"
+                @click="editIconsetModal = iconset"
             >
                 <IconSettings
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                title='Download TAK Zip'
-                @click.stop='IconsetCache.download(iconset.uid)'
+                title="Download TAK Zip"
+                @click.stop="IconsetCache.download(iconset.uid)"
             >
                 <IconDownload
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='syncIconset'
+                :loading="loading"
+                @click="syncIconset"
             />
 
             <TablerDelete
-                v-if='iconset.username || isSystemAdmin'
-                displaytype='icon'
-                @delete='deleteIconset'
+                v-if="iconset.username || isSystemAdmin"
+                displaytype="icon"
+                @delete="deleteIconset"
             />
         </template>
         <template #default>
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <div
                 v-else
-                class='col-lg-12'
+                class="col-lg-12"
             >
                 <TablerAlert
-                    v-if='syncError'
-                    class='mb-3'
-                    :err='syncError'
+                    v-if="syncError"
+                    class="mb-3"
+                    :err="syncError"
                 />
                 <CombinedIcons
-                    :iconset='iconset.uid'
-                    :labels='false'
-                    :refresh-key='refreshKey'
+                    :iconset="iconset.uid"
+                    :labels="false"
+                    :refresh-key="refreshKey"
                 />
             </div>
         </template>
     </MenuTemplate>
 
     <IconsetEditModal
-        v-if='editIconsetModal'
-        :icon='editIconsetModal'
-        @close='syncIconset'
+        v-if="editIconsetModal"
+        :icon="editIconsetModal"
+        @close="syncIconset"
     />
 </template>
 

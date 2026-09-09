@@ -1,27 +1,27 @@
 <template>
-    <div class='card-footer py-2'>
-        <div class='d-flex align-items-center justify-content-between flex-wrap gap-2'>
+    <div class="card-footer py-2">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <p
-                v-if='total === 0'
-                class='m-0 text-muted small'
+                v-if="total === 0"
+                class="m-0 text-muted small"
             >
                 No entries
             </p>
             <p
                 v-else
-                class='m-0 text-muted small'
+                class="m-0 text-muted small"
             >
-                <span v-text='limit * currentPage + 1' />–<span v-text='total < limit ? total : (currentPage * limit + limit > total ? total : currentPage * limit + limit)' />
-                <span class='d-none d-sm-inline'> of </span>
-                <span class='d-sm-none'>/</span>
-                <span v-text='total' />
+                <span v-text="limit * currentPage + 1" />–<span v-text="total < limit ? total : (currentPage * limit + limit > total ? total : currentPage * limit + limit)" />
+                <span class="d-none d-sm-inline"> of </span>
+                <span class="d-sm-none">/</span>
+                <span v-text="total" />
             </p>
             <TablerPager
-                v-if='total > limit'
-                :page='currentPage'
-                :total='total'
-                :limit='limit'
-                @page='onPage'
+                v-if="total > limit"
+                :page="currentPage"
+                :total="total"
+                :limit="limit"
+                @page="onPage"
             />
         </div>
     </div>

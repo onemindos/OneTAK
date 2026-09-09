@@ -1,161 +1,161 @@
 <template>
-    <MenuTemplate name='Iconsets'>
+    <MenuTemplate name="Iconsets">
         <template #buttons>
             <TablerIconButton
-                title='Create Iconset'
-                @click='editModal = true'
+                title="Create Iconset"
+                @click="editModal = true"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerIconButton
-                v-if='!upload'
-                title='Zip Upload'
-                @click='upload = true'
+                v-if="!upload"
+                title="Zip Upload"
+                @click="upload = true"
             >
                 <IconFileUpload
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='refreshList'
+                :loading="loading"
+                @click="refreshList"
             />
         </template>
         <template #default>
-            <template v-if='upload'>
-                <div class='my-4'>
+            <template v-if="upload">
+                <div class="my-4">
                     <Upload
-                        method='PUT'
-                        :url='stdurl(`/api/import`)'
-                        @done='processUpload($event)'
-                        @cancel='upload = false'
-                        @err='throws($event)'
+                        method="PUT"
+                        :url="stdurl(`/api/import`)"
+                        @done="processUpload($event)"
+                        @cancel="upload = false"
+                        @err="throws($event)"
                     />
                 </div>
             </template>
             <template v-else>
                 <TablerPillGroup
-                    v-model='mode'
+                    v-model="mode"
                     :options='[
                         { value: "iconsets", label: "Iconsets" },
                         { value: "icons", label: "Icons" }
                     ]'
                 >
-                    <template #option='{ option }'>
+                    <template #option="{ option }">
                         <span
                             v-if='option.value === "iconsets"'
-                            title='Iconsets'
+                            title="Iconsets"
                         >
                             <IconAlbum
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                         <span
                             v-else
-                            title='Icons'
+                            title="Icons"
                         >
                             <IconPhoto
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </span>
                     </template>
                 </TablerPillGroup>
 
                 <template v-if='mode === "iconsets"'>
-                    <div class='pt-3'>
+                    <div class="pt-3">
                         <TablerInput
-                            v-model='paging.filter'
-                            icon='search'
-                            placeholder='Filter'
+                            v-model="paging.filter"
+                            icon="search"
+                            placeholder="Filter"
                         />
                     </div>
 
                     <TablerLoading
-                        v-if='loading'
-                        desc='Loading Iconsets'
+                        v-if="loading"
+                        desc="Loading Iconsets"
                     />
                     <TablerAlert
-                        v-else-if='loadError'
-                        :err='loadError'
+                        v-else-if="loadError"
+                        :err="loadError"
                     />
                     <template v-else>
                         <TablerAlert
-                            v-if='syncError'
-                            class='mt-3'
-                            :err='syncError'
+                            v-if="syncError"
+                            class="mt-3"
+                            :err="syncError"
                         />
                         <TablerNone
-                            v-if='!list.items.length'
-                            label='No Iconsets'
-                            :create='false'
+                            v-if="!list.items.length"
+                            label="No Iconsets"
+                            :create="false"
                         />
                         <template v-else>
-                            <div class='col-12 d-flex flex-column gap-2 py-3'>
+                            <div class="col-12 d-flex flex-column gap-2 py-3">
                                 <StandardItem
-                                    v-for='iconset in list.items'
-                                    :key='iconset.uid'
-                                    @click='router.push(`/menu/iconset/${iconset.uid}`)'
+                                    v-for="iconset in list.items"
+                                    :key="iconset.uid"
+                                    @click="router.push(`/menu/iconset/${iconset.uid}`)"
                                 >
-                                    <div class='d-flex align-items-center px-2 py-2'>
+                                    <div class="d-flex align-items-center px-2 py-2">
                                         <IconAlbum
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                         <div
-                                            class='ms-2 flex-grow-1 fw-bold text-truncate'
-                                            style='min-width: 0'
+                                            class="ms-2 flex-grow-1 fw-bold text-truncate"
+                                            style="min-width: 0"
                                         >
                                             {{ iconset.name }}
                                         </div>
 
-                                        <div class='d-flex align-items-center flex-shrink-0'>
+                                        <div class="d-flex align-items-center flex-shrink-0">
                                             <TablerBadge
-                                                v-if='!iconset.username'
-                                                class='mx-3'
-                                                background-color='rgba(59, 130, 246, 0.25)'
-                                                border-color='rgba(59, 130, 246, 0.5)'
-                                                text-color='#2563eb'
+                                                v-if="!iconset.username"
+                                                class="mx-3"
+                                                background-color="rgba(59, 130, 246, 0.25)"
+                                                border-color="rgba(59, 130, 246, 0.5)"
+                                                text-color="#2563eb"
                                             >
                                                 Public
                                             </TablerBadge>
                                             <TablerBadge
                                                 v-else
-                                                class='mx-3'
-                                                background-color='rgba(239, 68, 68, 0.2)'
-                                                border-color='rgba(239, 68, 68, 0.5)'
-                                                text-color='#dc2626'
+                                                class="mx-3"
+                                                background-color="rgba(239, 68, 68, 0.2)"
+                                                border-color="rgba(239, 68, 68, 0.5)"
+                                                text-color="#dc2626"
                                             >
                                                 Private
                                             </TablerBadge>
                                             <TablerIconButton
-                                                title='Download TAK Zip'
-                                                @click.stop='IconsetCache.download(iconset.uid)'
+                                                title="Download TAK Zip"
+                                                @click.stop="IconsetCache.download(iconset.uid)"
                                             >
                                                 <IconDownload
-                                                    :size='32'
-                                                    stroke='1'
+                                                    :size="32"
+                                                    stroke="1"
                                                 />
                                             </TablerIconButton>
                                         </div>
                                     </div>
                                 </StandardItem>
                             </div>
-                            <div class='col-lg-12 d-flex'>
-                                <div class='ms-auto'>
+                            <div class="col-lg-12 d-flex">
+                                <div class="ms-auto">
                                     <TablerPager
-                                        v-if='list.total > paging.limit'
-                                        :page='paging.page'
-                                        :total='list.total'
-                                        :limit='paging.limit'
-                                        @page='paging.page = $event'
+                                        v-if="list.total > paging.limit"
+                                        :page="paging.page"
+                                        :total="list.total"
+                                        :limit="paging.limit"
+                                        @page="paging.page = $event"
                                     />
                                 </div>
                             </div>
@@ -163,10 +163,10 @@
                     </template>
                 </template>
                 <template v-else>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <IconCombineds
-                            v-if='list.items.length'
-                            :labels='false'
+                            v-if="list.items.length"
+                            :labels="false"
                         />
                     </div>
                 </template>
@@ -175,8 +175,8 @@
     </MenuTemplate>
 
     <IconsetEditModal
-        v-if='editModal'
-        @close='editModal = false'
+        v-if="editModal"
+        @close="editModal = false"
     />
 </template>
 

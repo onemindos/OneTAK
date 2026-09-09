@@ -1,85 +1,85 @@
 <template>
-    <MenuTemplate name='Query Mode'>
+    <MenuTemplate name="Query Mode">
         <template #buttons>
             <TablerIconButton
-                title='Create Route'
-                @click='openRoute'
+                title="Create Route"
+                @click="openRoute"
             >
                 <IconRoute
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerIconButton
-                title='Refresh'
-                @click='refreshKey++'
+                title="Refresh"
+                @click="refreshKey++"
             >
                 <IconRefresh
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <Coordinate
-            v-if='coords'
-            :model-value='coords'
-            class='py-2'
+            v-if="coords"
+            :model-value="coords"
+            class="py-2"
         />
 
-        <template v-if='coords && coords.length >= 2'>
-            <div class='px-2 py-2'>
+        <template v-if="coords && coords.length >= 2">
+            <div class="px-2 py-2">
                 <button
-                    class='btn btn-success w-100'
-                    @click='eventModal = true'
+                    class="btn btn-success w-100"
+                    @click="eventModal = true"
                 >
                     Create Event
                 </button>
             </div>
 
             <QueryReverse
-                :key='`reverse-${refreshKey}`'
-                :longitude='coords[0]'
-                :latitude='coords[1]'
-                class='py-2'
-                @reverse='reverse = $event'
+                :key="`reverse-${refreshKey}`"
+                :longitude="coords[0]"
+                :latitude="coords[1]"
+                class="py-2"
+                @reverse="reverse = $event"
             />
 
             <QueryElevation
-                :key='`elevation-${refreshKey}`'
-                :longitude='coords[0]'
-                :latitude='coords[1]'
-                class='py-2'
+                :key="`elevation-${refreshKey}`"
+                :longitude="coords[0]"
+                :latitude="coords[1]"
+                class="py-2"
             />
 
             <QueryWeather
-                :key='`weather-${refreshKey}`'
-                :longitude='coords[0]'
-                :latitude='coords[1]'
-                class='py-2'
+                :key="`weather-${refreshKey}`"
+                :longitude="coords[0]"
+                :latitude="coords[1]"
+                class="py-2"
             />
 
             <QuerySun
-                :key='`sun-${refreshKey}`'
-                :longitude='coords[0]'
-                :latitude='coords[1]'
-                class='py-2'
+                :key="`sun-${refreshKey}`"
+                :longitude="coords[0]"
+                :latitude="coords[1]"
+                class="py-2"
             />
 
             <QueryMagnetic
-                :key='`magnetic-${refreshKey}`'
-                :longitude='coords[0]'
-                :latitude='coords[1]'
-                class='py-2'
+                :key="`magnetic-${refreshKey}`"
+                :longitude="coords[0]"
+                :latitude="coords[1]"
+                class="py-2"
             />
         </template>
     </MenuTemplate>
 
     <CreateCoreEvent
-        v-if='eventModal && coords && coords.length >= 2'
-        :coordinates='coords'
+        v-if="eventModal && coords && coords.length >= 2"
+        :coordinates="coords"
         :location='reverse ? reverse.LongLabel : ""'
-        @close='eventModal = false'
+        @close="eventModal = false"
     />
 </template>
 

@@ -1,106 +1,106 @@
 <template>
-    <div class='ts'>
+    <div class="ts">
         <!-- Header -->
-        <div class='ts-header'>
-            <span class='ts-title'>Tasks</span>
-            <span class='ts-badge'>{{ taskList.length }}</span>
+        <div class="ts-header">
+            <span class="ts-title">Tasks</span>
+            <span class="ts-badge">{{ taskList.length }}</span>
             <span
-                v-if='taskList.length === 0'
-                class='ts-muted'
+                v-if="taskList.length === 0"
+                class="ts-muted"
             >Listening on ent.task.&gt; …</span>
-            <div class='ts-tabs'>
+            <div class="ts-tabs">
                 <button
-                    v-for='tab in TABS'
-                    :key='tab.id'
-                    class='ts-tab'
-                    :class='{ active: activeTab === tab.id }'
-                    @click='activeTab = tab.id'
+                    v-for="tab in TABS"
+                    :key="tab.id"
+                    class="ts-tab"
+                    :class="{ active: activeTab === tab.id }"
+                    @click="activeTab = tab.id"
                 >
                     {{ tab.label }}
                 </button>
             </div>
             <button
-                class='ts-new-btn'
-                @click='showCreate = true'
+                class="ts-new-btn"
+                @click="showCreate = true"
             >
-                <Plus :size='12' /> New Task
+                <Plus :size="12" /> New Task
             </button>
         </div>
 
         <!-- Board view -->
         <div
             v-if='activeTab === "board"'
-            class='ts-board'
+            class="ts-board"
         >
             <div
-                v-for='col in COLUMNS'
-                :key='col.id'
-                class='ts-col'
+                v-for="col in COLUMNS"
+                :key="col.id"
+                class="ts-col"
             >
-                <div class='ts-col-hd'>
+                <div class="ts-col-hd">
                     <span
-                        class='ts-col-title'
-                        :class='col.id'
+                        class="ts-col-title"
+                        :class="col.id"
                     >{{ col.label }}</span>
-                    <span class='ts-col-count ts-muted'>{{ byStatus[col.id].length }}</span>
+                    <span class="ts-col-count ts-muted">{{ byStatus[col.id].length }}</span>
                 </div>
-                <div class='ts-col-body'>
+                <div class="ts-col-body">
                     <div
-                        v-for='task in byStatus[col.id]'
-                        :key='task.id'
-                        class='ts-task-card'
-                        :class='{ selected: selectedId === task.id }'
-                        @click='selectedId = selectedId === task.id ? null : task.id'
+                        v-for="task in byStatus[col.id]"
+                        :key="task.id"
+                        class="ts-task-card"
+                        :class="{ selected: selectedId === task.id }"
+                        @click="selectedId = selectedId === task.id ? null : task.id"
                     >
-                        <div class='ts-task-hd'>
-                            <span class='ts-task-title'>{{ task.title }}</span>
+                        <div class="ts-task-hd">
+                            <span class="ts-task-title">{{ task.title }}</span>
                             <span
-                                class='ts-prio'
-                                :class='task.priority'
+                                class="ts-prio"
+                                :class="task.priority"
                             >{{ task.priority[0].toUpperCase() }}</span>
                         </div>
                         <div
-                            v-if='task.description'
-                            class='ts-task-desc ts-muted'
+                            v-if="task.description"
+                            class="ts-task-desc ts-muted"
                         >
                             {{ task.description }}
                         </div>
-                        <div class='ts-task-meta'>
+                        <div class="ts-task-meta">
                             <span
-                                v-if='task.assigneeId'
-                                class='ts-assignee ts-mono ts-muted'
+                                v-if="task.assigneeId"
+                                class="ts-assignee ts-mono ts-muted"
                             >@{{ task.assigneeId }}</span>
                             <span
-                                v-if='task.dueAt'
-                                class='ts-due ts-mono ts-muted'
-                                :class='{ overdue: isOverdue(task.dueAt) }'
+                                v-if="task.dueAt"
+                                class="ts-due ts-mono ts-muted"
+                                :class="{ overdue: isOverdue(task.dueAt) }"
                             >{{ fmtDue(task.dueAt) }}</span>
                             <span
-                                v-if='task.tags.length > 0'
-                                class='ts-tag ts-muted'
+                                v-if="task.tags.length > 0"
+                                class="ts-tag ts-muted"
                             >{{ task.tags[0] }}</span>
                         </div>
                         <!-- Move buttons appear on selected -->
                         <div
-                            v-if='selectedId === task.id'
-                            class='ts-move-row'
+                            v-if="selectedId === task.id"
+                            class="ts-move-row"
                         >
                             <button
-                                v-for='col2 in COLUMNS.filter(c => c.id !== task.status)'
-                                :key='col2.id'
-                                class='ts-move-btn'
-                                :class='col2.id'
-                                @click.stop='moveTask(task.id, col2.id)'
+                                v-for="col2 in COLUMNS.filter(c => c.id !== task.status)"
+                                :key="col2.id"
+                                class="ts-move-btn"
+                                :class="col2.id"
+                                @click.stop="moveTask(task.id, col2.id)"
                             >
                                 → {{ col2.label }}
                             </button>
                         </div>
                     </div>
                     <div
-                        v-if='byStatus[col.id].length === 0'
-                        class='ts-col-empty'
+                        v-if="byStatus[col.id].length === 0"
+                        class="ts-col-empty"
                     >
-                        <span class='ts-muted'>—</span>
+                        <span class="ts-muted">—</span>
                     </div>
                 </div>
             </div>
@@ -109,48 +109,48 @@
         <!-- Inbox view (all tasks, sorted by due date) -->
         <div
             v-if='activeTab === "inbox"'
-            class='ts-inbox'
+            class="ts-inbox"
         >
             <div
-                v-if='taskList.length === 0'
-                class='ts-empty'
+                v-if="taskList.length === 0"
+                class="ts-empty"
             >
-                <span class='ts-empty-icon'>📋</span>
-                <span class='ts-muted'>No tasks yet</span>
+                <span class="ts-empty-icon">📋</span>
+                <span class="ts-muted">No tasks yet</span>
             </div>
             <div
-                v-for='task in sortedTasks'
-                :key='task.id'
-                class='ts-inbox-row'
-                :class='{ selected: selectedId === task.id }'
-                @click='selectedId = selectedId === task.id ? null : task.id'
+                v-for="task in sortedTasks"
+                :key="task.id"
+                class="ts-inbox-row"
+                :class="{ selected: selectedId === task.id }"
+                @click="selectedId = selectedId === task.id ? null : task.id"
             >
-                <div class='ts-inbox-left'>
+                <div class="ts-inbox-left">
                     <div
-                        class='ts-prio-dot'
-                        :class='task.priority'
+                        class="ts-prio-dot"
+                        :class="task.priority"
                     />
                     <div>
-                        <div class='ts-inbox-title'>
+                        <div class="ts-inbox-title">
                             {{ task.title }}
                         </div>
                         <div
-                            v-if='task.description'
-                            class='ts-inbox-desc ts-muted'
+                            v-if="task.description"
+                            class="ts-inbox-desc ts-muted"
                         >
                             {{ task.description }}
                         </div>
                     </div>
                 </div>
-                <div class='ts-inbox-right'>
+                <div class="ts-inbox-right">
                     <span
-                        class='ts-status-chip'
-                        :class='task.status'
+                        class="ts-status-chip"
+                        :class="task.status"
                     >{{ task.status.replace("_", " ") }}</span>
                     <span
-                        v-if='task.dueAt'
-                        class='ts-due ts-mono ts-muted'
-                        :class='{ overdue: isOverdue(task.dueAt) }'
+                        v-if="task.dueAt"
+                        class="ts-due ts-mono ts-muted"
+                        :class="{ overdue: isOverdue(task.dueAt) }"
                     >{{ fmtDue(task.dueAt) }}</span>
                 </div>
             </div>
@@ -158,64 +158,64 @@
 
         <!-- Create modal -->
         <div
-            v-if='showCreate'
-            class='ts-modal-overlay'
-            @click.self='showCreate = false'
+            v-if="showCreate"
+            class="ts-modal-overlay"
+            @click.self="showCreate = false"
         >
-            <div class='ts-modal'>
-                <div class='ts-modal-hd'>
-                    <span class='ts-modal-title'>New Task</span>
+            <div class="ts-modal">
+                <div class="ts-modal-hd">
+                    <span class="ts-modal-title">New Task</span>
                     <button
-                        class='ts-modal-close'
-                        @click='showCreate = false'
+                        class="ts-modal-close"
+                        @click="showCreate = false"
                     >
-                        <X :size='14' />
+                        <X :size="14" />
                     </button>
                 </div>
-                <div class='ts-modal-body'>
-                    <label class='ts-field-lbl'>Title</label>
+                <div class="ts-modal-body">
+                    <label class="ts-field-lbl">Title</label>
                     <input
-                        v-model='newTask.title'
-                        class='ts-input'
-                        placeholder='Task title'
+                        v-model="newTask.title"
+                        class="ts-input"
+                        placeholder="Task title"
                     >
-                    <label class='ts-field-lbl'>Description</label>
+                    <label class="ts-field-lbl">Description</label>
                     <textarea
-                        v-model='newTask.description'
-                        class='ts-input ts-textarea'
-                        placeholder='Optional description'
-                        rows='2'
+                        v-model="newTask.description"
+                        class="ts-input ts-textarea"
+                        placeholder="Optional description"
+                        rows="2"
                     />
-                    <label class='ts-field-lbl'>Priority</label>
-                    <div class='ts-prio-row'>
+                    <label class="ts-field-lbl">Priority</label>
+                    <div class="ts-prio-row">
                         <button
-                            v-for='p in PRIORITIES'
-                            :key='p'
-                            class='ts-prio-btn'
-                            :class='[p, { active: newTask.priority === p }]'
-                            @click='newTask.priority = p'
+                            v-for="p in PRIORITIES"
+                            :key="p"
+                            class="ts-prio-btn"
+                            :class="[p, { active: newTask.priority === p }]"
+                            @click="newTask.priority = p"
                         >
                             {{ p }}
                         </button>
                     </div>
-                    <label class='ts-field-lbl'>Assignee (optional)</label>
+                    <label class="ts-field-lbl">Assignee (optional)</label>
                     <input
-                        v-model='newTask.assigneeId'
-                        class='ts-input'
-                        placeholder='e.g. agent-id or user@email'
+                        v-model="newTask.assigneeId"
+                        class="ts-input"
+                        placeholder="e.g. agent-id or user@email"
                     >
                 </div>
-                <div class='ts-modal-footer'>
+                <div class="ts-modal-footer">
                     <button
-                        class='ts-cancel-btn'
-                        @click='showCreate = false'
+                        class="ts-cancel-btn"
+                        @click="showCreate = false"
                     >
                         Cancel
                     </button>
                     <button
-                        class='ts-submit-btn'
-                        :disabled='!newTask.title.trim()'
-                        @click='createTask'
+                        class="ts-submit-btn"
+                        :disabled="!newTask.title.trim()"
+                        @click="createTask"
                     >
                         Create
                     </button>

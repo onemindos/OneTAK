@@ -1,85 +1,85 @@
 <template>
-    <div class='wire-root'>
+    <div class="wire-root">
         <!-- ── Toolbar ──────────────────────────────────────────────────────── -->
-        <div class='wire-toolbar'>
+        <div class="wire-toolbar">
             <Radio
-                :size='14'
-                class='wire-icon'
+                :size="14"
+                class="wire-icon"
             />
-            <span class='wire-title'>Wire</span>
-            <span class='wire-subtitle'>live NATS tap</span>
+            <span class="wire-title">Wire</span>
+            <span class="wire-subtitle">live NATS tap</span>
 
             <!-- Subject input -->
-            <div class='wire-subject-row'>
+            <div class="wire-subject-row">
                 <input
-                    v-model='newSubject'
-                    class='wire-input'
-                    placeholder='subject pattern (e.g. agents.> or >)'
-                    @keydown.enter='addSubscription'
+                    v-model="newSubject"
+                    class="wire-input"
+                    placeholder="subject pattern (e.g. agents.> or >)"
+                    @keydown.enter="addSubscription"
                 >
                 <button
-                    class='wire-btn wire-btn-add'
-                    :disabled='!newSubject.trim() || !nc'
-                    @click='addSubscription'
+                    class="wire-btn wire-btn-add"
+                    :disabled="!newSubject.trim() || !nc"
+                    @click="addSubscription"
                 >
-                    <Plus :size='13' />
+                    <Plus :size="13" />
                 </button>
             </div>
 
             <!-- Active subscriptions -->
             <div
-                v-if='subscriptions.length'
-                class='wire-subs'
+                v-if="subscriptions.length"
+                class="wire-subs"
             >
                 <div
-                    v-for='sub in subscriptions'
-                    :key='sub'
-                    class='wire-sub-tag'
+                    v-for="sub in subscriptions"
+                    :key="sub"
+                    class="wire-sub-tag"
                 >
                     <span>{{ sub }}</span>
                     <button
-                        class='wire-sub-remove'
-                        @click='removeSubscription(sub)'
+                        class="wire-sub-remove"
+                        @click="removeSubscription(sub)"
                     >
-                        <X :size='10' />
+                        <X :size="10" />
                     </button>
                 </div>
             </div>
 
             <!-- Controls -->
-            <div class='wire-controls'>
-                <span class='wire-count'>{{ frames.length }} frames</span>
+            <div class="wire-controls">
+                <span class="wire-count">{{ frames.length }} frames</span>
                 <button
-                    class='wire-btn'
-                    :class='{ active: paused }'
-                    title='Pause'
-                    @click='paused = !paused'
+                    class="wire-btn"
+                    :class="{ active: paused }"
+                    title="Pause"
+                    @click="paused = !paused"
                 >
                     <Pause
-                        v-if='!paused'
-                        :size='13'
+                        v-if="!paused"
+                        :size="13"
                     />
                     <Play
                         v-else
-                        :size='13'
+                        :size="13"
                     />
                 </button>
                 <button
-                    class='wire-btn'
-                    title='Clear'
-                    @click='clearFrames'
+                    class="wire-btn"
+                    title="Clear"
+                    @click="clearFrames"
                 >
-                    <Trash2 :size='13' />
+                    <Trash2 :size="13" />
                 </button>
                 <!-- Badge filter -->
-                <div class='wire-badge-filter'>
+                <div class="wire-badge-filter">
                     <button
-                        v-for='b in ALL_BADGES'
-                        :key='b'
-                        class='wire-badge-toggle'
-                        :class='{ inactive: !activeBadges.has(b) }'
+                        v-for="b in ALL_BADGES"
+                        :key="b"
+                        class="wire-badge-toggle"
+                        :class="{ inactive: !activeBadges.has(b) }"
                         :style='{ color: BADGE_STYLE[b].color, background: activeBadges.has(b) ? BADGE_STYLE[b].bg : "transparent" }'
-                        @click='toggleBadge(b)'
+                        @click="toggleBadge(b)"
                     >
                         {{ b }}
                     </button>
@@ -89,24 +89,24 @@
 
         <!-- ── No connection notice ─────────────────────────────────────────── -->
         <div
-            v-if='!nc'
-            class='wire-empty'
+            v-if="!nc"
+            class="wire-empty"
         >
             <Radio
-                :size='28'
-                style='opacity:0.3'
+                :size="28"
+                style="opacity:0.3"
             />
             <p>Not connected to NATS.<br>Open NATS Console settings to connect.</p>
         </div>
 
         <!-- ── No subscriptions notice ─────────────────────────────────────── -->
         <div
-            v-else-if='!subscriptions.length'
-            class='wire-empty'
+            v-else-if="!subscriptions.length"
+            class="wire-empty"
         >
             <Radio
-                :size='28'
-                style='opacity:0.3'
+                :size="28"
+                style="opacity:0.3"
             />
             <p>
                 Add a subject pattern above to start tapping.<br>
@@ -117,17 +117,17 @@
         <!-- ── Frame list ───────────────────────────────────────────────────── -->
         <div
             v-else
-            ref='framesEl'
-            class='wire-frames'
+            ref="framesEl"
+            class="wire-frames"
         >
             <WireFrame
-                v-for='frame in filteredFrames'
-                :key='frame.id'
-                :frame='frame'
+                v-for="frame in filteredFrames"
+                :key="frame.id"
+                :frame="frame"
             />
             <div
-                v-if='!filteredFrames.length'
-                class='wire-empty-small'
+                v-if="!filteredFrames.length"
+                class="wire-empty-small"
             >
                 No frames matching current badge filter.
             </div>

@@ -1,27 +1,27 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Times'
+            v-model="expanded"
+            label="Times"
         >
             <template #icon>
                 <IconClock
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <span
-                    class='cursor-pointer me-2 text-white small'
+                    class="cursor-pointer me-2 text-white small"
                     @click.stop='mode = mode === "relative" ? "absolute" : "relative"'
-                    v-text='`Updated: ${format(props.updated)}`'
+                    v-text="`Updated: ${format(props.updated)}`"
                 />
             </template>
 
-            <div class='d-flex mx-3 pt-2 pb-2'>
-                <div class='ms-auto cursor-pointer subheader text-white'>
+            <div class="d-flex mx-3 pt-2 pb-2">
+                <div class="ms-auto cursor-pointer subheader text-white">
                     <span
                         v-if='mode === "relative"'
                         @click='mode = "absolute"'
@@ -32,14 +32,14 @@
                     >Relative</span>
                 </div>
             </div>
-            <div class='table-responsive rounded mx-2 pb-2 px-2'>
-                <table class='table table-transparent card-table table-hover table-vcenter'>
+            <div class="table-responsive rounded mx-2 pb-2 px-2">
+                <table class="table table-transparent card-table table-hover table-vcenter">
                     <thead>
                         <tr>
-                            <th class='fw-bold'>
+                            <th class="fw-bold">
                                 Key
                             </th>
-                            <th class='fw-bold'>
+                            <th class="fw-bold">
                                 Value
                             </th>
                         </tr>
@@ -47,11 +47,11 @@
                     <tbody>
                         <tr>
                             <td>Created</td>
-                            <td v-text='format(props.created)' />
+                            <td v-text="format(props.created)" />
                         </tr>
                         <tr>
                             <td>Updated</td>
-                            <td v-text='format(props.updated)' />
+                            <td v-text="format(props.updated)" />
                         </tr>
                         <tr>
                             <td>Ended</td>

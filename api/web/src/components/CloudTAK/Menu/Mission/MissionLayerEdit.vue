@@ -1,29 +1,29 @@
 <template>
-    <div class='col-12 border rounded my-2'>
+    <div class="col-12 border rounded my-2">
         <TablerAlert
-            v-if='error'
-            :err='error'
+            v-if="error"
+            :err="error"
         />
-        <TablerLoading v-else-if='loading.layer' />
+        <TablerLoading v-else-if="loading.layer" />
         <template v-else>
-            <div class='modal-body mx-2'>
+            <div class="modal-body mx-2">
                 <TablerInput
-                    v-model='editing.name'
-                    label='Name'
-                    @keyup.enter='editLayer'
+                    v-model="editing.name"
+                    label="Name"
+                    @keyup.enter="editLayer"
                 />
 
-                <div class='col-12 d-flex py-3'>
+                <div class="col-12 d-flex py-3">
                     <button
-                        class='btn btn-secondary'
+                        class="btn btn-secondary"
                         @click='emit("cancel")'
                     >
                         Cancel
                     </button>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='editLayer'
+                            class="btn btn-primary"
+                            @click="editLayer"
                         >
                             Save
                         </button>

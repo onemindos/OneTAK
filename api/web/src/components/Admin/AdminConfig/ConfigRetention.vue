@@ -1,135 +1,135 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Retention'
+        v-model="isOpen"
+        label="Retention"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
 
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerToggle
                             v-model='config["retention::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Retention Service'
+                            :disabled="!edit"
+                            label="Enable Retention Service"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerToggle
                             v-model='config["retention::connection-feature::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Connection Feature Retention'
+                            :disabled="!edit"
+                            label="Enable Connection Feature Retention"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerToggle
                             v-model='config["retention::chat::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Chat Retention'
+                            :disabled="!edit"
+                            label="Enable Chat Retention"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"] && config["retention::chat::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerInput
                             v-model='config["retention::chat::days"]'
-                            :disabled='!edit'
-                            type='number'
-                            label='Chat Retention (Days)'
-                            :min='1'
+                            :disabled="!edit"
+                            type="number"
+                            label="Chat Retention (Days)"
+                            :min="1"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerToggle
                             v-model='config["retention::import::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Import Retention'
+                            :disabled="!edit"
+                            label="Enable Import Retention"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"] && config["retention::import::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerInput
                             v-model='config["retention::import::days"]'
-                            :disabled='!edit'
-                            type='number'
-                            label='Import Retention (Days)'
-                            :min='1'
+                            :disabled="!edit"
+                            type="number"
+                            label="Import Retention (Days)"
+                            :min="1"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerToggle
                             v-model='config["retention::feature::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Recently Deleted Feature Retention'
+                            :disabled="!edit"
+                            label="Enable Recently Deleted Feature Retention"
                         />
                     </div>
 
                     <div
                         v-if='config["retention::enabled"] && config["retention::feature::enabled"]'
-                        class='col-lg-12'
+                        class="col-lg-12"
                     >
                         <TablerInput
                             v-model='config["retention::feature::days"]'
-                            :disabled='!edit'
-                            type='number'
-                            label='Recently Deleted Feature Retention (Days)'
-                            :min='1'
+                            :disabled="!edit"
+                            type="number"
+                            label="Recently Deleted Feature Retention (Days)"
+                            :min="1"
                         />
                     </div>
                 </div>

@@ -1,48 +1,48 @@
 <template>
-    <div class='space-y-2 bg-gray-800 rounded p-3'>
-        <div class='flex items-center justify-between text-xs text-gray-400'>
+    <div class="space-y-2 bg-gray-800 rounded p-3">
+        <div class="flex items-center justify-between text-xs text-gray-400">
             <span>{{ formatTs(store.temporal.start) }}</span>
-            <span class='text-white font-mono'>{{ formatTs(store.temporal.current) }}</span>
+            <span class="text-white font-mono">{{ formatTs(store.temporal.current) }}</span>
             <span>{{ formatTs(store.temporal.end) }}</span>
         </div>
 
         <input
-            type='range'
-            :min='store.temporal.start'
-            :max='store.temporal.end'
-            :value='store.temporal.current'
-            class='w-full h-1 accent-amber-500'
-            @input='onScrub'
+            type="range"
+            :min="store.temporal.start"
+            :max="store.temporal.end"
+            :value="store.temporal.current"
+            class="w-full h-1 accent-amber-500"
+            @input="onScrub"
         >
 
-        <div class='flex items-center gap-2'>
+        <div class="flex items-center gap-2">
             <button
-                class='px-3 py-1 text-xs rounded transition-colors'
+                class="px-3 py-1 text-xs rounded transition-colors"
                 :class='animating ? "bg-red-700 hover:bg-red-600 text-white" : "bg-green-700 hover:bg-green-600 text-white"'
-                @click='toggleAnimate'
+                @click="toggleAnimate"
             >
                 {{ animating ? 'Pause' : 'Play' }}
             </button>
 
             <select
-                v-model.number='speed'
-                class='bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs text-white focus:border-blue-500 focus:outline-none'
+                v-model.number="speed"
+                class="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs text-white focus:border-blue-500 focus:outline-none"
             >
-                <option :value='1'>
+                <option :value="1">
                     1x
                 </option>
-                <option :value='5'>
+                <option :value="5">
                     5x
                 </option>
-                <option :value='10'>
+                <option :value="10">
                     10x
                 </option>
-                <option :value='60'>
+                <option :value="60">
                     60x
                 </option>
             </select>
 
-            <span class='text-xs text-gray-500 ml-auto'>speed</span>
+            <span class="text-xs text-gray-500 ml-auto">speed</span>
         </div>
     </div>
 </template>

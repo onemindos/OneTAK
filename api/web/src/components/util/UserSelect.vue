@@ -1,77 +1,77 @@
 <template>
-    <div class='w-100 px-2 py-2'>
+    <div class="w-100 px-2 py-2">
         <TablerLoading
-            v-if='loading'
-            desc='Loading User...'
-            :inline='true'
+            v-if="loading"
+            desc="Loading User..."
+            :inline="true"
         />
         <template v-else>
-            <div class='d-flex align-items-center'>
+            <div class="d-flex align-items-center">
                 <span
-                    v-if='selected'
-                    v-text='selected.username'
+                    v-if="selected"
+                    v-text="selected.username"
                 />
                 <span v-else>Publically Shared - No User Selected</span>
 
                 <div
-                    v-if='!props.disabled'
-                    class='btn-list ms-auto'
+                    v-if="!props.disabled"
+                    class="btn-list ms-auto"
                 >
                     <TablerIconButton
-                        v-if='selected'
-                        title='Remove Selected'
-                        @click='selected = undefined'
+                        v-if="selected"
+                        title="Remove Selected"
+                        @click="selected = undefined"
                     >
                         <IconTrash
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerDropdown>
                         <template #default>
                             <TablerIconButton
-                                title='User Select'
-                                class='dropdown-toggle'
+                                title="User Select"
+                                class="dropdown-toggle"
                             >
                                 <IconSettings
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </template>
                         <template #dropdown>
                             <div
-                                class='py-1'
-                                style='min-width: 320px;'
+                                class="py-1"
+                                style="min-width: 320px;"
                             >
-                                <div class='px-2 pt-2'>
+                                <div class="px-2 pt-2">
                                     <TablerInput
-                                        v-model='paging.filter'
-                                        icon='search'
-                                        placeholder='Filter...'
+                                        v-model="paging.filter"
+                                        icon="search"
+                                        placeholder="Filter..."
                                     />
                                 </div>
                                 <div
-                                    class='px-2 pb-2'
-                                    style='max-height: 280px; overflow-y: auto;'
+                                    class="px-2 pb-2"
+                                    style="max-height: 280px; overflow-y: auto;"
                                 >
                                     <div
-                                        v-for='user of list.items'
-                                        :key='user.username'
-                                        tabindex='0'
-                                        class='cursor-pointer my-1 cloudtak-hover px-2 py-1'
-                                        @keyup.enter='selected = user'
-                                        @click.stop='selected = user'
+                                        v-for="user of list.items"
+                                        :key="user.username"
+                                        tabindex="0"
+                                        class="cursor-pointer my-1 cloudtak-hover px-2 py-1"
+                                        @keyup.enter="selected = user"
+                                        @click.stop="selected = user"
                                     >
-                                        <div class='d-flex'>
-                                            <span style='width: 24px;'>
+                                        <div class="d-flex">
+                                            <span style="width: 24px;">
                                                 <IconUser
-                                                    :size='24'
-                                                    stroke='1'
+                                                    :size="24"
+                                                    stroke="1"
                                                 />
                                             </span>
                                             <span
-                                                v-text='user.username'
+                                                v-text="user.username"
                                             />
                                         </div>
                                     </div>

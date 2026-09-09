@@ -1,5 +1,5 @@
 <template>
-    <div class='paging-empty-hint text-secondary small d-flex align-items-center justify-content-center text-center px-3 py-3'>
+    <div class="paging-empty-hint text-secondary small d-flex align-items-center justify-content-center text-center px-3 py-3">
         {{ label }}
     </div>
 </template>

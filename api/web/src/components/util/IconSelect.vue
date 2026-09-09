@@ -1,94 +1,94 @@
 <template>
     <div
-        class='row'
+        class="row"
     >
-        <div class='col-12 d-flex my-1'>
+        <div class="col-12 d-flex my-1">
             <span
-                v-if='description'
-                class='align-self-center'
+                v-if="description"
+                class="align-self-center"
             >
                 <IconInfoSquare
-                    :size='20'
-                    stroke='1'
-                    class='cursor-pointer'
-                    @click='help = true'
+                    :size="20"
+                    stroke="1"
+                    class="cursor-pointer"
+                    @click="help = true"
                 />
                 <TablerHelp
-                    v-if='help'
-                    :label='label'
-                    :description='description'
-                    @click='help = false'
+                    v-if="help"
+                    :label="label"
+                    :description="description"
+                    @click="help = false"
                 />
             </span>
             <div
-                class='align-self-center subheader'
+                class="align-self-center subheader"
                 :class='{ "required": required }'
-                v-text='label'
+                v-text="label"
             />
-            <div class='ms-auto align-self-center'>
+            <div class="ms-auto align-self-center">
                 <slot />
             </div>
         </div>
 
         <TablerLoading
-            v-if='loading.iconset'
-            desc='Loading Iconsets'
+            v-if="loading.iconset"
+            desc="Loading Iconsets"
         />
         <TablerNone
-            v-else-if='sets.length === 0'
-            label='No Iconsets Loaded'
-            :compact='true'
-            :create='false'
+            v-else-if="sets.length === 0"
+            label="No Iconsets Loaded"
+            :compact="true"
+            :create="false"
         />
         <template v-else>
             <TablerInlineAlert
-                v-if='err'
-                severity='danger'
-                title='Icon Not Found'
-                :description='err.message'
+                v-if="err"
+                severity="danger"
+                title="Icon Not Found"
+                :description="err.message"
             />
-            <div class='d-flex align-items-center'>
-                <template v-if='selected.name'>
-                    <div class='d-flex align-items-center'>
+            <div class="d-flex align-items-center">
+                <template v-if="selected.name">
+                    <div class="d-flex align-items-center">
                         <div>
                             <img
-                                :src='selected.data'
-                                class='img-thumbnail'
-                                style='width: 25px; height: auto; margin-right: 5px;'
+                                :src="selected.data"
+                                class="img-thumbnail"
+                                style="width: 25px; height: auto; margin-right: 5px;"
                             >
                         </div>
                         <div
-                            class='mx-2'
-                            v-text='selected.name'
+                            class="mx-2"
+                            v-text="selected.name"
                         />
                     </div>
                 </template>
                 <template v-else>
-                    <span class='text-center my-2 mx-2'>No Icon Selected</span>
+                    <span class="text-center my-2 mx-2">No Icon Selected</span>
                 </template>
 
                 <div
-                    v-if='!disabled'
-                    class='ms-auto'
+                    v-if="!disabled"
+                    class="ms-auto"
                 >
                     <TablerIconButton
-                        v-if='selected.name'
-                        title='Remove Icon'
-                        @click='removeIcon'
+                        v-if="selected.name"
+                        title="Remove Icon"
+                        @click="removeIcon"
                     >
                         <IconTrash
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Select Icon'
-                        @click='modal = true'
+                        title="Select Icon"
+                        @click="modal = true"
                     >
                         <IconPhotoSearch
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
@@ -96,78 +96,78 @@
         </template>
 
         <TablerModal
-            v-if='modal'
-            size='xl'
-            @close='modal = false'
+            v-if="modal"
+            size="xl"
+            @close="modal = false"
         >
-            <div class='modal-status bg-blue' />
-            <div class='modal-body'>
-                <div class='d-flex align-items-center justify-content-between mb-3'>
-                    <h3 class='modal-title'>
+            <div class="modal-status bg-blue" />
+            <div class="modal-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3 class="modal-title">
                         Select Icon
                     </h3>
                     <button
-                        type='button'
-                        class='btn-close'
-                        @click='modal = false'
+                        type="button"
+                        class="btn-close"
+                        @click="modal = false"
                     />
                 </div>
-                <div class='row g-2'>
-                    <div class='col-12'>
+                <div class="row g-2">
+                    <div class="col-12">
                         <TablerEnum
-                            v-model='params.iconset'
-                            :options='setsName'
+                            v-model="params.iconset"
+                            :options="setsName"
                             @click.stop
                         />
                     </div>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerInput
-                            v-model='params.filter'
-                            placeholder='Icon Search'
+                            v-model="params.filter"
+                            placeholder="Icon Search"
                             @click.stop
                         />
                     </div>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerToggle
-                            v-model='params.showNames'
-                            label='Show Icon Names'
-                            :off-value='false'
-                            :on-value='true'
+                            v-model="params.showNames"
+                            label="Show Icon Names"
+                            :off-value="false"
+                            :on-value="true"
                         />
                     </div>
                 </div>
                 <TablerLoading
-                    v-if='loading.icons'
-                    desc='Loading Icons'
+                    v-if="loading.icons"
+                    desc="Loading Icons"
                 />
                 <div
                     v-else
-                    class='row mt-2'
+                    class="row mt-2"
                     :class='{ "g-2": params.showNames }'
-                    style='max-height: 60vh; overflow-y: auto;'
+                    style="max-height: 60vh; overflow-y: auto;"
                 >
                     <div
-                        v-for='icon of list.items'
-                        :key='icon.id'
-                        class='col-6 col-md-4 col-lg-3 col-xl-2 cursor-pointer'
+                        v-for="icon of list.items"
+                        :key="icon.id"
+                        class="col-6 col-md-4 col-lg-3 col-xl-2 cursor-pointer"
                         :class='{ "text-center": params.showNames }'
-                        @click='selected = icon; err = null; modal = false'
+                        @click="selected = icon; err = null; modal = false"
                     >
-                        <div class='card'>
+                        <div class="card">
                             <div
-                                class='card-body text-center p-1'
+                                class="card-body text-center p-1"
                                 :class='{ "py-2": params.showNames }'
                             >
                                 <img
-                                    :src='icon.data'
-                                    class='img-thumbnail'
+                                    :src="icon.data"
+                                    class="img-thumbnail"
                                     :style='params.showNames ? "width: 64px; height: 64px;" : "width: 40px; height: 40px;"'
                                 >
                                 <div
-                                    v-if='params.showNames'
-                                    class='mt-1'
-                                    style='font-size: 0.85rem;'
-                                    v-text='icon.name'
+                                    v-if="params.showNames"
+                                    class="mt-1"
+                                    style="font-size: 0.85rem;"
+                                    v-text="icon.name"
                                 />
                             </div>
                         </div>

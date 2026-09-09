@@ -1,12 +1,12 @@
 <template>
     <MenuTemplate
-        name='Login Sessions'
-        :loading='loading'
+        name="Login Sessions"
+        :loading="loading"
     >
         <template #default>
             <LoginSessionsList
-                v-if='username'
-                :username='username'
+                v-if="username"
+                :username="username"
             />
         </template>
     </MenuTemplate>

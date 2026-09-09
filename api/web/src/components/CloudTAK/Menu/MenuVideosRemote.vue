@@ -1,82 +1,82 @@
 <template>
     <MenuTemplate
-        name='Remote Video Connection'
-        :loading='loading'
-        :err='err'
+        name="Remote Video Connection"
+        :loading="loading"
+        :err="err"
     >
         <template #buttons>
             <TablerDelete
                 v-if='route.params.connectionid !== "new"'
-                displaytype='icon'
-                @delete='deleteConnection'
+                displaytype="icon"
+                @delete="deleteConnection"
             />
         </template>
         <template #default>
-            <div class='row g-2'>
-                <div class='col-12'>
+            <div class="row g-2">
+                <div class="col-12">
                     <TablerInput
-                        v-model='connection.alias'
-                        label='Alias'
+                        v-model="connection.alias"
+                        label="Alias"
                     >
                         <TablerToggle
-                            v-model='connection.active'
-                            label='Active'
+                            v-model="connection.active"
+                            label="Active"
                         />
                     </TablerInput>
                 </div>
                 <div
                     v-if='route.params.connectionid === "new"'
-                    class='col-12'
+                    class="col-12"
                 >
-                    <label class='px-2 w-100'>Channels</label>
+                    <label class="px-2 w-100">Channels</label>
 
-                    <div style='max-height: 20vh; min-height: 200px; overflow-y: auto;'>
+                    <div style="max-height: 20vh; min-height: 200px; overflow-y: auto;">
                         <GroupSelect
-                            v-model='groups'
-                            :active='true'
-                            direction='IN'
+                            v-model="groups"
+                            :active="true"
+                            direction="IN"
                         />
                     </div>
                 </div>
-                <div class='col-12 d-flex'>
+                <div class="col-12 d-flex">
                     <label>Feeds</label>
 
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerIconButton
-                            title='Add Feed'
-                            @click='newFeed'
+                            title="Add Feed"
+                            @click="newFeed"
                         >
                             <IconPlus
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
-                <div class='col-12'>
+                <div class="col-12">
                     <TablerNone
-                        v-if='connection.feeds.length === 0'
-                        :create='false'
-                        :compact='true'
-                        label='No Feeds'
+                        v-if="connection.feeds.length === 0"
+                        :create="false"
+                        :compact="true"
+                        label="No Feeds"
                     />
                     <template v-else>
                         <template
-                            v-for='(feed, fit) of connection.feeds'
-                            :key='feed.uuid'
+                            v-for="(feed, fit) of connection.feeds"
+                            :key="feed.uuid"
                         >
                             <VideosRemoteFeed
-                                v-model='connection.feeds[fit]'
-                                @delete='connection.feeds.splice(fit, 1)'
+                                v-model="connection.feeds[fit]"
+                                @delete="connection.feeds.splice(fit, 1)"
                             />
                         </template>
                     </template>
                 </div>
-                <div class='col-12 d-flex pt-3'>
-                    <div class='ms-auto'>
+                <div class="col-12 d-flex pt-3">
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='saveConnection'
+                            class="btn btn-primary"
+                            @click="saveConnection"
                         >
                             Save Connection
                         </button>

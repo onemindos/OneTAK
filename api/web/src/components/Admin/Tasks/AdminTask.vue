@@ -1,115 +1,115 @@
 <template>
     <div>
-        <div class='card-header'>
+        <div class="card-header">
             <TablerIconButton
-                title='Back'
+                title="Back"
                 @click='router.push("/admin/tasks")'
             >
                 <IconCircleArrowLeft
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <h3
-                class='mx-2 card-title d-flex align-items-center'
+                class="mx-2 card-title d-flex align-items-center"
             >
                 <IconStar
-                    v-if='task && task.favorite'
+                    v-if="task && task.favorite"
                 />
                 <span
-                    class='ms-2'
-                    v-text='task ? task.name : route.params.task'
+                    class="ms-2"
+                    v-text="task ? task.name : route.params.task"
                 />
             </h3>
 
-            <div class='ms-auto btn-list'>
-                <template v-if='task && !edit'>
+            <div class="ms-auto btn-list">
+                <template v-if="task && !edit">
                     <TablerIconButton
-                        title='Download Task Settings'
-                        @click='downloadTask'
+                        title="Download Task Settings"
+                        @click="downloadTask"
                     >
                         <IconDownload
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Edit Task'
-                        @click='startEdit'
+                        title="Edit Task"
+                        @click="startEdit"
                     >
                         <IconPencil
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerDelete
-                        displaytype='icon'
-                        @delete='deleteTask'
+                        displaytype="icon"
+                        @delete="deleteTask"
                     />
                     <TablerRefreshButton
-                        title='Refresh'
-                        :loading='loading'
-                        @click='fetch'
+                        title="Refresh"
+                        :loading="loading"
+                        @click="fetch"
                     />
                 </template>
             </div>
         </div>
 
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
-        <template v-else-if='task'>
-            <div class='card-body'>
-                <template v-if='edit'>
-                    <div class='row g-2'>
-                        <div class='col-md-6 col-12'>
+        <template v-else-if="task">
+            <div class="card-body">
+                <template v-if="edit">
+                    <div class="row g-2">
+                        <div class="col-md-6 col-12">
                             <TablerInput
-                                v-model='edit.name'
-                                label='Task Name'
+                                v-model="edit.name"
+                                label="Task Name"
                             />
                         </div>
-                        <div class='col-md-6 col-12'>
+                        <div class="col-md-6 col-12">
                             <TablerInput
-                                v-model='edit.prefix'
-                                :disabled='true'
-                                label='Container Prefix'
+                                v-model="edit.prefix"
+                                :disabled="true"
+                                label="Container Prefix"
                             />
                         </div>
-                        <div class='col-12'>
+                        <div class="col-12">
                             <TablerToggle
-                                v-model='edit.favorite'
-                                label='Favorited'
+                                v-model="edit.favorite"
+                                label="Favorited"
                             />
                         </div>
 
                         <TablerUploadLogo
-                            v-model='edit.logo'
-                            label='Task Logo'
+                            v-model="edit.logo"
+                            label="Task Logo"
                         />
                         <TablerInput
-                            v-model='edit.repo'
-                            label='Task Code Repository URL'
+                            v-model="edit.repo"
+                            label="Task Code Repository URL"
                         />
 
                         <TablerInput
-                            v-model='edit.readme'
-                            label='Task Markdown Readme URL'
+                            v-model="edit.readme"
+                            label="Task Markdown Readme URL"
                         />
 
-                        <div class='col-12 d-flex py-2'>
+                        <div class="col-12 d-flex py-2">
                             <button
-                                class='btn btn-secondary'
-                                @click='edit = null'
+                                class="btn btn-secondary"
+                                @click="edit = null"
                             >
                                 Cancel
                             </button>
-                            <div class='ms-auto btn-list mx-3'>
+                            <div class="ms-auto btn-list mx-3">
                                 <button
-                                    class='btn btn-primary'
-                                    @click='saveTask'
+                                    class="btn btn-primary"
+                                    @click="saveTask"
                                 >
                                     Save
                                 </button>
@@ -118,59 +118,59 @@
                     </div>
                 </template>
                 <template v-else>
-                    <div class='datagrid'>
-                        <div class='datagrid-item'>
-                            <div class='datagrid-title'>
+                    <div class="datagrid">
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">
                                 Container Prefix
                             </div>
                             <div
-                                class='datagrid-content'
-                                v-text='task.prefix'
+                                class="datagrid-content"
+                                v-text="task.prefix"
                             />
                         </div>
                         <div
-                            v-if='task.repo'
-                            class='datagrid-item'
+                            v-if="task.repo"
+                            class="datagrid-item"
                         >
-                            <div class='datagrid-title'>
+                            <div class="datagrid-title">
                                 Repository
                             </div>
-                            <div class='datagrid-content'>
+                            <div class="datagrid-content">
                                 <a
-                                    :href='task.repo'
-                                    target='_blank'
-                                    v-text='task.repo'
+                                    :href="task.repo"
+                                    target="_blank"
+                                    v-text="task.repo"
                                 />
                             </div>
                         </div>
                         <div
-                            v-if='task.readme'
-                            class='datagrid-item'
+                            v-if="task.readme"
+                            class="datagrid-item"
                         >
-                            <div class='datagrid-title'>
+                            <div class="datagrid-title">
                                 Readme
                             </div>
-                            <div class='datagrid-content'>
+                            <div class="datagrid-content">
                                 <a
-                                    :href='task.readme'
-                                    target='_blank'
-                                    v-text='task.readme'
+                                    :href="task.readme"
+                                    target="_blank"
+                                    v-text="task.readme"
                                 />
                             </div>
                         </div>
                         <div
-                            v-if='task.logo'
-                            class='datagrid-item'
+                            v-if="task.logo"
+                            class="datagrid-item"
                         >
-                            <div class='datagrid-title'>
+                            <div class="datagrid-title">
                                 Logo
                             </div>
-                            <div class='datagrid-content'>
+                            <div class="datagrid-content">
                                 <img
-                                    :src='task.logo'
-                                    alt='Task Logo'
-                                    class='img-thumbnail'
-                                    style='height: 50px;'
+                                    :src="task.logo"
+                                    alt="Task Logo"
+                                    class="img-thumbnail"
+                                    style="height: 50px;"
                                 >
                             </div>
                         </div>
@@ -178,86 +178,86 @@
                 </template>
             </div>
 
-            <div class='card-header'>
-                <h3 class='card-title'>
+            <div class="card-header">
+                <h3 class="card-title">
                     Uploaded Versions
                 </h3>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerRefreshButton
-                        title='Refresh Versions'
-                        :loading='loadingVersions'
-                        @click='fetchVersions'
+                        title="Refresh Versions"
+                        :loading="loadingVersions"
+                        @click="fetchVersions"
                     />
                 </div>
             </div>
-            <TablerLoading v-if='loadingVersions' />
+            <TablerLoading v-if="loadingVersions" />
             <TablerNone
-                v-else-if='!versions.length'
-                label='No Versions Uploaded'
-                :create='false'
+                v-else-if="!versions.length"
+                label="No Versions Uploaded"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive'
+                class="table-responsive"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <tbody>
                         <template
-                            v-for='version in versions'
-                            :key='version.version'
+                            v-for="version in versions"
+                            :key="version.version"
                         >
                             <tr
-                                class='cursor-pointer'
-                                @click='toggleVersion(version.version)'
+                                class="cursor-pointer"
+                                @click="toggleVersion(version.version)"
                             >
                                 <td>
-                                    <div class='d-flex align-items-center'>
+                                    <div class="d-flex align-items-center">
                                         <IconChevronDown
-                                            v-if='expandedVersion === version.version'
-                                            :size='20'
-                                            stroke='1'
+                                            v-if="expandedVersion === version.version"
+                                            :size="20"
+                                            stroke="1"
                                         />
                                         <IconChevronRight
                                             v-else
-                                            :size='20'
-                                            stroke='1'
+                                            :size="20"
+                                            stroke="1"
                                         />
                                         <span
-                                            class='ms-2'
-                                            v-text='version.version'
+                                            class="ms-2"
+                                            v-text="version.version"
                                         />
-                                        <div class='ms-auto d-flex align-items-center'>
+                                        <div class="ms-auto d-flex align-items-center">
                                             <TablerBadge
-                                                v-if='version.deployed'
-                                                class='mx-2'
+                                                v-if="version.deployed"
+                                                class="mx-2"
                                             >
                                                 Deployed
                                             </TablerBadge>
                                             <div
-                                                v-if='!version.deployed'
+                                                v-if="!version.deployed"
                                                 @click.stop
                                             >
                                                 <TablerDelete
-                                                    displaytype='icon'
-                                                    @delete='deleteVersion(version.version)'
+                                                    displaytype="icon"
+                                                    @delete="deleteVersion(version.version)"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr v-if='expandedVersion === version.version'>
-                                <td class='py-3'>
-                                    <TablerLoading v-if='loadingCapabilities' />
+                            <tr v-if="expandedVersion === version.version">
+                                <td class="py-3">
+                                    <TablerLoading v-if="loadingCapabilities" />
                                     <TablerNone
-                                        v-else-if='!capabilities'
-                                        label='No Capabilities Document for this Version'
-                                        :create='false'
+                                        v-else-if="!capabilities"
+                                        label="No Capabilities Document for this Version"
+                                        :create="false"
                                     />
                                     <LayerStaticCapabilities
                                         v-else
-                                        :capabilities='capabilities'
-                                        :disabled='true'
+                                        :capabilities="capabilities"
+                                        :disabled="true"
                                     />
                                 </td>
                             </tr>

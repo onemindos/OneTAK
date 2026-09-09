@@ -1,77 +1,77 @@
 <template>
-    <div class='col-12'>
-        <div class='col-12'>
+    <div class="col-12">
+        <div class="col-12">
             <SlideDownHeader
-                v-model='expandedLinks'
-                label='Links'
+                v-model="expandedLinks"
+                label="Links"
             >
                 <template #icon>
                     <IconLink
-                        :size='18'
-                        stroke='1'
-                        color='#6b7990'
-                        class='ms-2 me-1'
+                        :size="18"
+                        stroke="1"
+                        color="#6b7990"
+                        class="ms-2 me-1"
                     />
                 </template>
                 <template #right>
                     <TablerIconButton
-                        v-if='props.edit'
-                        title='Add External Link'
-                        class='me-2'
-                        @click.stop='addExternalLink'
+                        v-if="props.edit"
+                        title="Add External Link"
+                        class="me-2"
+                        @click.stop="addExternalLink"
                     >
                         <IconPlus
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerBadge
-                        class='me-2'
-                        background-color='rgba(59, 130, 246, 0.15)'
-                        border-color='rgba(59, 130, 246, 0.4)'
-                        text-color='#3b82f6'
+                        class="me-2"
+                        background-color="rgba(59, 130, 246, 0.15)"
+                        border-color="rgba(59, 130, 246, 0.4)"
+                        text-color="#3b82f6"
                     >
                         {{ external_links.length }}
                     </TablerBadge>
                 </template>
 
-                <div class='overflow-hidden mb-2'>
-                    <div class='rounded mx-2 mt-2 px-2 py-2'>
+                <div class="overflow-hidden mb-2">
+                    <div class="rounded mx-2 mt-2 px-2 py-2">
                         <TablerNone
-                            v-if='!external_links.length && !isCreatingLink'
-                            label='No External Links'
-                            :compact='true'
-                            :create='false'
+                            v-if="!external_links.length && !isCreatingLink"
+                            label="No External Links"
+                            :compact="true"
+                            :create="false"
                         />
 
                         <div
-                            v-for='item of external_links'
-                            :key='item.index'
-                            class='rounded mb-2 px-2 py-2'
+                            v-for="item of external_links"
+                            :key="item.index"
+                            class="rounded mb-2 px-2 py-2"
                             :class='{ "cloudtak-hover-fill": !isEditing(item.index) }'
                         >
-                            <template v-if='isEditing(item.index)'>
-                                <div class='d-flex align-items-center mb-2'>
-                                    <div class='subheader user-select-none'>
+                            <template v-if="isEditing(item.index)">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="subheader user-select-none">
                                         External Link
                                     </div>
-                                    <div class='ms-auto d-flex align-items-center flex-nowrap'>
+                                    <div class="ms-auto d-flex align-items-center flex-nowrap">
                                         <TablerIconButton
-                                            title='Save Link'
-                                            @click='saveExternalLink(item.index)'
+                                            title="Save Link"
+                                            @click="saveExternalLink(item.index)"
                                         >
                                             <IconCheck
-                                                :size='18'
-                                                stroke='1'
+                                                :size="18"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
                                         <TablerIconButton
-                                            title='Remove Link'
-                                            @click='removeExternalLink(item.index)'
+                                            title="Remove Link"
+                                            @click="removeExternalLink(item.index)"
                                         >
                                             <IconTrash
-                                                :size='18'
-                                                stroke='1'
+                                                :size="18"
+                                                stroke="1"
                                             />
                                         </TablerIconButton>
                                     </div>
@@ -79,115 +79,115 @@
 
                                 <TablerInput
                                     :model-value='draftLinks[item.index]?.remarks || ""'
-                                    label='Label'
-                                    placeholder='External Link'
-                                    class='pb-2'
+                                    label="Label"
+                                    placeholder="External Link"
+                                    class="pb-2"
                                     @update:model-value='updateDraftLink(item.index, "remarks", String($event || ""))'
                                 />
 
                                 <TablerInput
                                     :model-value='draftLinks[item.index]?.url || ""'
-                                    label='URL'
-                                    placeholder='https://example.com'
+                                    label="URL"
+                                    placeholder="https://example.com"
                                     @update:model-value='updateDraftLink(item.index, "url", String($event || ""))'
                                 />
 
                                 <a
-                                    v-if='draftLinks[item.index]?.url'
-                                    :href='draftLinks[item.index]?.url'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    class='d-inline-flex align-items-center mt-2 small'
+                                    v-if="draftLinks[item.index]?.url"
+                                    :href="draftLinks[item.index]?.url"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="d-inline-flex align-items-center mt-2 small"
                                 >
                                     <IconExternalLink
-                                        :size='16'
-                                        stroke='1'
-                                        class='me-1'
+                                        :size="16"
+                                        stroke="1"
+                                        class="me-1"
                                     />
-                                    <span class='text-truncate'>Open Link</span>
+                                    <span class="text-truncate">Open Link</span>
                                 </a>
                             </template>
 
                             <div
                                 v-else
-                                class='d-flex align-items-center'
+                                class="d-flex align-items-center"
                             >
                                 <a
-                                    v-if='item.link.url'
-                                    :href='item.link.url'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    class='d-flex align-items-center text-reset text-decoration-none flex-fill overflow-hidden'
+                                    v-if="item.link.url"
+                                    :href="item.link.url"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="d-flex align-items-center text-reset text-decoration-none flex-fill overflow-hidden"
                                 >
                                     <IconExternalLink
-                                        :size='18'
-                                        stroke='1'
-                                        class='me-2 flex-shrink-0'
+                                        :size="18"
+                                        stroke="1"
+                                        class="me-2 flex-shrink-0"
                                     />
-                                    <span class='text-truncate'>{{ item.link.remarks || item.link.url }}</span>
+                                    <span class="text-truncate">{{ item.link.remarks || item.link.url }}</span>
                                 </a>
                                 <div
                                     v-else
-                                    class='text-muted flex-fill'
+                                    class="text-muted flex-fill"
                                 >
                                     Untitled Link
                                 </div>
 
                                 <TablerIconButton
-                                    v-if='props.edit'
-                                    title='Edit Link'
-                                    @click='startEditing(item.index)'
+                                    v-if="props.edit"
+                                    title="Edit Link"
+                                    @click="startEditing(item.index)"
                                 >
                                     <IconPencil
-                                        :size='18'
-                                        stroke='1'
+                                        :size="18"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
                         </div>
 
                         <div
-                            v-if='isCreatingLink'
-                            class='rounded mb-2 px-2 py-2'
+                            v-if="isCreatingLink"
+                            class="rounded mb-2 px-2 py-2"
                         >
-                            <div class='d-flex align-items-center mb-2'>
-                                <div class='subheader user-select-none'>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="subheader user-select-none">
                                     External Link
                                 </div>
-                                <div class='ms-auto d-flex align-items-center flex-nowrap'>
+                                <div class="ms-auto d-flex align-items-center flex-nowrap">
                                     <TablerIconButton
-                                        title='Save Link'
-                                        @click='saveNewLink'
+                                        title="Save Link"
+                                        @click="saveNewLink"
                                     >
                                         <IconCheck
-                                            :size='18'
-                                            stroke='1'
+                                            :size="18"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                     <TablerIconButton
-                                        title='Discard Link'
-                                        @click='cancelNewLink'
+                                        title="Discard Link"
+                                        @click="cancelNewLink"
                                     >
                                         <IconTrash
-                                            :size='18'
-                                            stroke='1'
+                                            :size="18"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                 </div>
                             </div>
 
                             <TablerInput
-                                :model-value='newLink.remarks'
-                                label='Label'
-                                placeholder='External Link'
-                                class='pb-2'
+                                :model-value="newLink.remarks"
+                                label="Label"
+                                placeholder="External Link"
+                                class="pb-2"
                                 @update:model-value='newLink.remarks = String($event || "")'
                             />
 
                             <TablerInput
-                                :model-value='newLink.url'
-                                label='URL'
-                                placeholder='https://example.com'
+                                :model-value="newLink.url"
+                                label="URL"
+                                placeholder="https://example.com"
                                 @update:model-value='newLink.url = String($event || "")'
                             />
                         </div>
@@ -197,71 +197,71 @@
         </div>
 
         <div
-            v-if='responder_links.length'
-            class='col-12'
+            v-if="responder_links.length"
+            class="col-12"
         >
             <SlideDownHeader
-                v-model='expandedResponders'
-                label='Tasked Personnel'
+                v-model="expandedResponders"
+                label="Tasked Personnel"
             >
                 <template #icon>
                     <IconUsers
-                        :size='18'
-                        stroke='1'
-                        color='#6b7990'
-                        class='ms-2 me-1'
+                        :size="18"
+                        stroke="1"
+                        color="#6b7990"
+                        class="ms-2 me-1"
                     />
                 </template>
                 <template #right>
                     <TablerBadge
-                        class='me-2'
-                        background-color='rgba(59, 130, 246, 0.15)'
-                        border-color='rgba(59, 130, 246, 0.4)'
-                        text-color='#3b82f6'
+                        class="me-2"
+                        background-color="rgba(59, 130, 246, 0.15)"
+                        border-color="rgba(59, 130, 246, 0.4)"
+                        text-color="#3b82f6"
                     >
                         {{ responder_links.length }}
                     </TablerBadge>
                 </template>
 
-                <div class='overflow-hidden'>
+                <div class="overflow-hidden">
                     <div
-                        v-if='statusSummary.length'
-                        class='d-flex flex-wrap gap-1 mx-3 my-2'
+                        v-if="statusSummary.length"
+                        class="d-flex flex-wrap gap-1 mx-3 my-2"
                     >
                         <TablerBadge
-                            v-for='entry of statusSummary'
-                            :key='entry.status'
-                            class='d-flex align-items-center gap-1'
+                            v-for="entry of statusSummary"
+                            :key="entry.status"
+                            class="d-flex align-items-center gap-1"
                         >
                             <span>{{ entry.status || 'Unknown' }}:</span>
-                            <span class='fw-bold'>{{ entry.count }}</span>
+                            <span class="fw-bold">{{ entry.count }}</span>
                         </TablerBadge>
                     </div>
-                    <div class='row row-cards mx-2'>
+                    <div class="row row-cards mx-2">
                         <div
-                            v-for='(link, link_it) of responder_links'
-                            :key='link_it'
-                            class='col-12'
+                            v-for="(link, link_it) of responder_links"
+                            :key="link_it"
+                            class="col-12"
                         >
-                            <div class='card bg-transparent border-0 rounded cloudtak-hover-fill'>
-                                <div class='card-body p-2'>
-                                    <div class='d-flex align-items-center'>
-                                        <span class='avatar me-2 rounded-circle bg-blue-lt'>
+                            <div class="card bg-transparent border-0 rounded cloudtak-hover-fill">
+                                <div class="card-body p-2">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar me-2 rounded-circle bg-blue-lt">
                                             {{ (link.callsign || link.uid || '?').substring(0, 2).toUpperCase() }}
                                         </span>
-                                        <div class='flex-fill overflow-hidden'>
-                                            <div class='d-flex justify-content-between align-items-center'>
+                                        <div class="flex-fill overflow-hidden">
+                                            <div class="d-flex justify-content-between align-items-center">
                                                 <h4
-                                                    class='m-0 text-truncate'
-                                                    :title='link.callsign || link.uid'
+                                                    class="m-0 text-truncate"
+                                                    :title="link.callsign || link.uid"
                                                 >
                                                     {{ link.callsign || link.uid }}
                                                 </h4>
-                                                <small class='text-muted ms-2 text-nowrap'>{{ link.production_time ? timediff(link.production_time) : "" }}</small>
+                                                <small class="text-muted ms-2 text-nowrap">{{ link.production_time ? timediff(link.production_time) : "" }}</small>
                                             </div>
                                             <div
-                                                class='text-muted small mt-1 text-truncate'
-                                                :title='link.remarks'
+                                                class="text-muted small mt-1 text-truncate"
+                                                :title="link.remarks"
                                             >
                                                 {{ link.remarks }}
                                             </div>

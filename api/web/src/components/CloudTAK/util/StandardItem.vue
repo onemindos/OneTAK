@@ -1,11 +1,11 @@
 <template>
     <div
-        class='standard-item position-relative'
+        class="standard-item position-relative"
         :class='{ "standard-item--hover": interactive }'
-        :tabindex='interactive ? 0 : undefined'
+        :tabindex="interactive ? 0 : undefined"
         :role='interactive ? "menuitem" : undefined'
-        @keydown.enter='interactive ? ($event.preventDefault(), $el.click()) : undefined'
-        @keydown.space='interactive ? ($event.preventDefault(), $el.click()) : undefined'
+        @keydown.enter="interactive ? ($event.preventDefault(), $el.click()) : undefined"
+        @keydown.space="interactive ? ($event.preventDefault(), $el.click()) : undefined"
     >
         <slot />
     </div>

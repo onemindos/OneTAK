@@ -1,63 +1,63 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Data Sync Admin
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Refresh'
-                    @click='fetchList'
+                    title="Refresh"
+                    @click="fetchList"
                 >
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                placeholder='Filter...'
-                class='mx-1 my-2'
+                v-model="paging.filter"
+                icon="search"
+                placeholder="Filter..."
+                class="mx-1 my-2"
             />
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Data Syncs'
+                v-if="loading"
+                desc="Loading Data Syncs"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Layers'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Layers"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive pb-5'
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody>
                         <tr
-                            v-for='data in list.items'
-                            :key='data.id'
-                            class='cursor-pointer'
-                            @click='external(`/connection/${data.connection}/data/${data.id}`)'
+                            v-for="data in list.items"
+                            :key="data.id"
+                            class="cursor-pointer"
+                            @click="external(`/connection/${data.connection}/data/${data.id}`)"
                         >
                             <template
-                                v-for='h in header'
-                                :key='h.name'
+                                v-for="h in header"
+                                :key="h.name"
                             >
-                                <template v-if='h.display'>
+                                <template v-if="h.display">
                                     <td>
-                                        <span v-text='(data as unknown as Record<string, unknown>)[h.name]' />
+                                        <span v-text="(data as unknown as Record<string, unknown>)[h.name]" />
                                     </td>
                                 </template>
                             </template>
@@ -66,13 +66,13 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

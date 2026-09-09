@@ -1,44 +1,44 @@
 <template>
-    <div class='ops-view ops-schedule'>
-        <div class='ops-header'>
+    <div class="ops-view ops-schedule">
+        <div class="ops-header">
             <h2>Schedule</h2>
             <button
-                class='btn-add'
-                @click='showAdd = true'
+                class="btn-add"
+                @click="showAdd = true"
             >
                 + Add
             </button>
         </div>
 
         <div
-            v-if='store.schedule.length === 0'
-            class='ops-empty'
+            v-if="store.schedule.length === 0"
+            class="ops-empty"
         >
             No scheduled items.
         </div>
 
         <ul
             v-else
-            class='ops-list'
+            class="ops-list"
         >
             <li
-                v-for='item in sorted'
-                :key='item.id'
-                class='ops-item'
+                v-for="item in sorted"
+                :key="item.id"
+                class="ops-item"
             >
-                <div class='ops-item-header'>
+                <div class="ops-item-header">
                     <span
-                        class='ops-tag'
-                        :class='item.type'
+                        class="ops-tag"
+                        :class="item.type"
                     >{{ item.type }}</span>
-                    <span class='ops-time'>{{ formatDateTime(item.startAt) }}</span>
+                    <span class="ops-time">{{ formatDateTime(item.startAt) }}</span>
                 </div>
-                <div class='ops-item-title'>
+                <div class="ops-item-title">
                     {{ item.title }}
                 </div>
                 <div
-                    v-if='item.notes'
-                    class='ops-item-notes'
+                    v-if="item.notes"
+                    class="ops-item-notes"
                 >
                     {{ item.notes }}
                 </div>
@@ -46,18 +46,18 @@
         </ul>
 
         <div
-            v-if='showAdd'
-            class='ops-modal-backdrop'
-            @click.self='showAdd = false'
+            v-if="showAdd"
+            class="ops-modal-backdrop"
+            @click.self="showAdd = false"
         >
-            <div class='ops-modal'>
+            <div class="ops-modal">
                 <h3>New Schedule Item</h3>
                 <label>Title<input
-                    v-model='form.title'
-                    type='text'
+                    v-model="form.title"
+                    type="text"
                 ></label>
                 <label>Type
-                    <select v-model='form.type'>
+                    <select v-model="form.type">
                         <option>mission</option>
                         <option>maintenance</option>
                         <option>briefing</option>
@@ -65,18 +65,18 @@
                     </select>
                 </label>
                 <label>Start<input
-                    v-model='form.startAt'
-                    type='datetime-local'
+                    v-model="form.startAt"
+                    type="datetime-local"
                 ></label>
                 <label>Notes<textarea
-                    v-model='form.notes'
-                    rows='3'
+                    v-model="form.notes"
+                    rows="3"
                 /></label>
-                <div class='ops-modal-actions'>
-                    <button @click='addItem'>
+                <div class="ops-modal-actions">
+                    <button @click="addItem">
                         Add
                     </button>
-                    <button @click='showAdd = false'>
+                    <button @click="showAdd = false">
                         Cancel
                     </button>
                 </div>

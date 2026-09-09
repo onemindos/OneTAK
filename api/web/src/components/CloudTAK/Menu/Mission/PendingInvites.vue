@@ -1,65 +1,65 @@
 <template>
     <StandardItem
-        v-if='invites.length'
-        class='d-flex flex-column px-2 py-2'
-        @click='showInvites = !showInvites'
+        v-if="invites.length"
+        class="d-flex flex-column px-2 py-2"
+        @click="showInvites = !showInvites"
     >
-        <div class='d-flex align-items-center gap-2'>
+        <div class="d-flex align-items-center gap-2">
             <IconMail
-                :size='24'
-                stroke='1'
+                :size="24"
+                stroke="1"
             />
-            <span class='fw-bold'>Pending Invites</span>
+            <span class="fw-bold">Pending Invites</span>
             <TablerBadge
-                class='rounded-pill small ms-auto'
-                background-color='var(--tblr-red-lt)'
-                border-color='var(--tblr-red)'
-                text-color='var(--tblr-red)'
+                class="rounded-pill small ms-auto"
+                background-color="var(--tblr-red-lt)"
+                border-color="var(--tblr-red)"
+                text-color="var(--tblr-red)"
             >
                 {{ invites.length }}
             </TablerBadge>
             <IconChevronDown
-                v-if='!showInvites'
-                :size='20'
-                stroke='1'
-                class='ms-2'
+                v-if="!showInvites"
+                :size="20"
+                stroke="1"
+                class="ms-2"
             />
             <IconChevronUp
                 v-else
-                :size='20'
-                stroke='1'
-                class='ms-2'
+                :size="20"
+                stroke="1"
+                class="ms-2"
             />
         </div>
 
-        <transition name='menu-overlays-fade'>
+        <transition name="menu-overlays-fade">
             <div
-                v-if='showInvites'
-                class='mt-2 pt-2 px-3 rounded-3 border cloudtak-accent'
+                v-if="showInvites"
+                class="mt-2 pt-2 px-3 rounded-3 border cloudtak-accent"
                 @click.stop
             >
                 <div
-                    v-for='invite in invites'
-                    :key='invite.token'
-                    class='d-flex align-items-center justify-content-between mb-2'
+                    v-for="invite in invites"
+                    :key="invite.token"
+                    class="d-flex align-items-center justify-content-between mb-2"
                 >
                     <span
-                        class='text-break me-2'
-                        v-text='invite.missionName'
+                        class="text-break me-2"
+                        v-text="invite.missionName"
                     />
-                    <div class='d-flex align-items-center gap-1'>
+                    <div class="d-flex align-items-center gap-1">
                         <TablerIconButton
-                            title='Delete Invite'
-                            @click='deleteInvite(invite)'
+                            title="Delete Invite"
+                            @click="deleteInvite(invite)"
                         >
                             <IconTrash
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                         <button
-                            class='btn btn-success btn-sm'
-                            @click='acceptInvite(invite)'
+                            class="btn btn-success btn-sm"
+                            @click="acceptInvite(invite)"
                         >
                             Accept
                         </button>

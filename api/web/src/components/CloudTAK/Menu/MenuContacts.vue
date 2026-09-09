@@ -1,75 +1,75 @@
 <template>
-    <MenuTemplate name='Contacts'>
+    <MenuTemplate name="Contacts">
         <template #buttons>
             <TablerRefreshButton
-                :loading='syncing'
-                @click='refreshList'
+                :loading="syncing"
+                @click="refreshList"
             />
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    placeholder="Filter"
                 />
             </div>
 
-            <EmptyInfo v-if='mapStore.hasNoChannels' />
+            <EmptyInfo v-if="mapStore.hasNoChannels" />
 
-            <TablerLoading v-if='!contacts' />
+            <TablerLoading v-if="!contacts" />
             <TablerNone
-                v-else-if='!visibleActiveContacts.length && !visibleOfflineContacts.length'
-                label='No Contacts'
-                :create='false'
+                v-else-if="!visibleActiveContacts.length && !visibleOfflineContacts.length"
+                label="No Contacts"
+                :create="false"
             />
             <template v-else>
-                <label class='subheader'>Online</label>
+                <label class="subheader">Online</label>
                 <TablerNone
-                    v-if='visibleActiveContacts.length === 0'
-                    label='No Online Contacts'
-                    :compact='true'
-                    :create='false'
+                    v-if="visibleActiveContacts.length === 0"
+                    label="No Online Contacts"
+                    :compact="true"
+                    :create="false"
                 />
                 <template v-else>
                     <div
-                        v-for='team of teams.values()'
-                        :key='team'
-                        class='col-lg-12'
+                        v-for="team of teams.values()"
+                        :key="team"
+                        class="col-lg-12"
                     >
                         <SlideDownHeader
-                            :model-value='opened.has(team)'
-                            :label='groups[team] || team'
-                            @update:model-value='val => val ? opened.add(team) : opened.delete(team)'
+                            :model-value="opened.has(team)"
+                            :label="groups[team] || team"
+                            @update:model-value="val => val ? opened.add(team) : opened.delete(team)"
                         >
                             <template #icon>
                                 <ContactPuck
-                                    class='mx-2'
-                                    :size='20'
-                                    :team='team'
+                                    class="mx-2"
+                                    :size="20"
+                                    :team="team"
                                 />
                             </template>
 
                             <template #right>
                                 <TablerBadge
-                                    class='rounded-pill small ms-auto'
-                                    background-color='rgba(107, 114, 128, 0.15)'
-                                    border-color='rgba(107, 114, 128, 0.3)'
-                                    text-color='#6b7280'
+                                    class="rounded-pill small ms-auto"
+                                    background-color="rgba(107, 114, 128, 0.15)"
+                                    border-color="rgba(107, 114, 128, 0.3)"
+                                    text-color="#6b7280"
                                 >
                                     {{ visibleActiveContacts.filter(c => c.team === team).length }}
                                 </TablerBadge>
                             </template>
 
-                            <div class='mx-2 pt-2'>
+                            <div class="mx-2 pt-2">
                                 <div
-                                    v-for='contact of visibleActiveContacts.values()'
-                                    :key='contact.uid'
-                                    class='col-lg-12'
+                                    v-for="contact of visibleActiveContacts.values()"
+                                    :key="contact.uid"
+                                    class="col-lg-12"
                                 >
                                     <Contact
-                                        v-if='contact.team === team'
-                                        :contact='contact'
-                                        @chat='router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)'
+                                        v-if="contact.team === team"
+                                        :contact="contact"
+                                        @chat="router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)"
                                     />
                                 </div>
                             </div>
@@ -77,38 +77,38 @@
                     </div>
                 </template>
 
-                <div class='col-lg-12'>
+                <div class="col-lg-12">
                     <SlideDownHeader
-                        v-model='showOffline'
-                        label='Recently Offline'
+                        v-model="showOffline"
+                        label="Recently Offline"
                     >
                         <template #right>
                             <TablerBadge
-                                class='rounded-pill small ms-auto'
-                                background-color='rgba(107, 114, 128, 0.15)'
-                                border-color='rgba(107, 114, 128, 0.3)'
-                                text-color='#6b7280'
+                                class="rounded-pill small ms-auto"
+                                background-color="rgba(107, 114, 128, 0.15)"
+                                border-color="rgba(107, 114, 128, 0.3)"
+                                text-color="#6b7280"
                             >
                                 {{ visibleOfflineContacts.length }}
                             </TablerBadge>
                         </template>
 
-                        <div class='mx-2 pt-2'>
+                        <div class="mx-2 pt-2">
                             <TablerNone
-                                v-if='visibleOfflineContacts.length === 0'
-                                label='No Offline Contacts'
-                                :compact='true'
-                                :create='false'
+                                v-if="visibleOfflineContacts.length === 0"
+                                label="No Offline Contacts"
+                                :compact="true"
+                                :create="false"
                             />
                             <template v-else>
                                 <div
-                                    v-for='a of visibleOfflineContacts'
-                                    :key='a.uid'
-                                    class='col-lg-12'
+                                    v-for="a of visibleOfflineContacts"
+                                    :key="a.uid"
+                                    class="col-lg-12"
                                 >
                                     <Contact
-                                        :contact='a'
-                                        :button-chat='false'
+                                        :contact="a"
+                                        :button-chat="false"
                                     />
                                 </div>
                             </template>

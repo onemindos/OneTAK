@@ -1,35 +1,35 @@
 <template>
     <div>
-        <div class='card-header sticky-top cloudtak-header'>
-            <h3 class='card-title'>
+        <div class="card-header sticky-top cloudtak-header">
+            <h3 class="card-title">
                 Style Overrides
             </h3>
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    v-if='disabled'
-                    title='Edit Style'
-                    @click='disabled = false'
+                    v-if="disabled"
+                    title="Edit Style"
+                    @click="disabled = false"
                 >
                     <IconPencil
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
-                <template v-else-if='!loading.save'>
-                    <div class='btn-list d-flex align-items-center'>
+                <template v-else-if="!loading.save">
+                    <div class="btn-list d-flex align-items-center">
                         <TablerToggle
-                            v-model='enabled'
-                            label='Styling Enabled'
+                            v-model="enabled"
+                            label="Styling Enabled"
                         />
 
                         <button
-                            class='btn btn-primary btn-icon px-2'
-                            title='Save Style'
-                            @click='saveLayer'
+                            class="btn btn-primary btn-icon px-2"
+                            title="Save Style"
+                            @click="saveLayer"
                         >
                             <IconDeviceFloppy
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </button>
                     </div>
@@ -38,129 +38,129 @@
         </div>
 
         <TablerInlineAlert
-            v-if='!props.capabilities || !props.capabilities.incoming?.schema?.output'
-            severity='danger'
-            class='px-2 my-2'
-            title='Data Schema Error'
-            :description='`
+            v-if="!props.capabilities || !props.capabilities.incoming?.schema?.output"
+            severity="danger"
+            class="px-2 my-2"
+            title="Data Schema Error"
+            :description="`
                     This Layer did not return a Data Schema for incoming data,
                     it is either not properly configured or there is an issue with the data source.
                     Styles can be edited, but available fields will not be shown in the style editor.
-            `'
+            `"
             :err='new Error("Layer failed to return an incoming input schema on the Capabilities object")'
         />
 
         <TablerLoading
-            v-if='loading.save'
-            desc='Saving Styles'
+            v-if="loading.save"
+            desc="Saving Styles"
         />
         <TablerLoading
-            v-else-if='loading.init'
-            desc='Loading Styles'
+            v-else-if="loading.init"
+            desc="Loading Styles"
         />
         <TablerNone
-            v-else-if='!enabled'
-            label='No Style Overrides'
-            :create='false'
+            v-else-if="!enabled"
+            label="No Style Overrides"
+            :create="false"
         />
         <template v-else>
-            <div class='card-body'>
+            <div class="card-body">
                 <StyleSingle
-                    v-model='style'
-                    :schema='(capabilities.incoming?.schema?.output ?? { properties: {} }) as Record<string, unknown>'
-                    :disabled='disabled'
-                    :disable-marti='!!props.layer.incoming?.data'
-                    :connection='Number(route.params.connectionid)'
+                    v-model="style"
+                    :schema="(capabilities.incoming?.schema?.output ?? { properties: {} }) as Record<string, unknown>"
+                    :disabled="disabled"
+                    :disable-marti="!!props.layer.incoming?.data"
+                    :connection="Number(route.params.connectionid)"
                 />
             </div>
 
-            <div class='col-12 d-flex align-items-center card-header'>
-                <h3 class='card-title'>
+            <div class="col-12 d-flex align-items-center card-header">
+                <h3 class="card-title">
                     Query Mode
                 </h3>
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <button
-                        class='btn'
-                        title='JSONata Help'
+                        class="btn"
+                        title="JSONata Help"
                         @click='help("query")'
                     >
                         <IconHelp
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </button>
                     <button
-                        v-if='query !== null'
-                        class='btn'
-                        title='Return to list'
-                        @click='query = null'
+                        v-if="query !== null"
+                        class="btn"
+                        title="Return to list"
+                        @click="query = null"
                     >
                         <IconX
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </button>
-                    <template v-if='!disabled'>
+                    <template v-if="!disabled">
                         <button
-                            v-if='query === null'
-                            class='btn'
-                            title='New Query'
-                            @click='newQuery'
+                            v-if="query === null"
+                            class="btn"
+                            title="New Query"
+                            @click="newQuery"
                         >
                             <IconPlus
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </button>
                     </template>
                 </div>
             </div>
-            <template v-if='query === null && !queries.length'>
+            <template v-if="query === null && !queries.length">
                 <TablerNone
-                    label='No Queries'
-                    :create='false'
-                    @create='newQuery'
+                    label="No Queries"
+                    :create="false"
+                    @create="newQuery"
                 />
             </template>
-            <template v-if='query === null && queries'>
+            <template v-if="query === null && queries">
                 <div
-                    role='menu'
-                    class='list-group list-group-flush px-2 py-2'
+                    role="menu"
+                    class="list-group list-group-flush px-2 py-2"
                 >
                     <div
-                        v-for='(q, q_idx) in queries'
-                        :key='q_idx'
-                        class='my-1'
+                        v-for="(q, q_idx) in queries"
+                        :key="q_idx"
+                        class="my-1"
                     >
                         <div
-                            tabindex='0'
-                            role='menuitem'
-                            class='cursor-pointer cloudtak-hover list-group-item list-group-item-action'
-                            @click='query = q_idx'
+                            tabindex="0"
+                            role="menuitem"
+                            class="cursor-pointer cloudtak-hover list-group-item list-group-item-action"
+                            @click="query = q_idx"
                         >
-                            <div class='d-flex'>
-                                <div class='align-self-center me-2'>
+                            <div class="d-flex">
+                                <div class="align-self-center me-2">
                                     <IconTrash
-                                        v-if='q.delete'
-                                        :size='32'
-                                        stroke='1'
+                                        v-if="q.delete"
+                                        :size="32"
+                                        stroke="1"
                                     />
                                     <IconBrush
                                         v-else
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </div>
                                 <div
-                                    class='align-self-center'
-                                    v-text='q.query'
+                                    class="align-self-center"
+                                    v-text="q.query"
                                 />
-                                <div class='ms-auto'>
+                                <div class="ms-auto">
                                     <IconTrash
-                                        v-if='!disabled'
-                                        :size='32'
-                                        stroke='1'
-                                        @click.stop='queries.splice(q_idx, 1)'
+                                        v-if="!disabled"
+                                        :size="32"
+                                        stroke="1"
+                                        @click.stop="queries.splice(q_idx, 1)"
                                     />
                                 </div>
                             </div>
@@ -168,14 +168,14 @@
                     </div>
                 </div>
             </template>
-            <template v-else-if='query !== null'>
-                <div class='card-body'>
-                    <div class='col-md-12 rounded px-2 py-2'>
+            <template v-else-if="query !== null">
+                <div class="card-body">
+                    <div class="col-md-12 rounded px-2 py-2">
                         <QueryInput
-                            v-model='queries[query].query'
-                            :disabled='disabled'
-                            placeholder='JSONata Query'
-                            label='JSONata Query'
+                            v-model="queries[query].query"
+                            :disabled="disabled"
+                            placeholder="JSONata Query"
+                            label="JSONata Query"
                         />
                     </div>
 
@@ -185,40 +185,40 @@
                             { value: "style", label: "Style Query" },
                             { value: "delete", label: "Delete Features" }
                         ]'
-                        :disabled='disabled'
-                        name='query-type'
+                        :disabled="disabled"
+                        name="query-type"
                         @update:model-value='(v: string) => { if (query !== null) queries[query].delete = v === "delete" }'
                     >
-                        <template #option='{ option }'>
+                        <template #option="{ option }">
                             <IconBrush
                                 v-if='option.value === "style"'
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                             <IconTrash
                                 v-if='option.value === "delete"'
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='mx-2'>{{ option.label }}</span>
+                            <span class="mx-2">{{ option.label }}</span>
                         </template>
                     </TablerPillGroup>
 
-                    <template v-if='queries[query].delete'>
+                    <template v-if="queries[query].delete">
                         <TablerInlineAlert
-                            severity='danger'
-                            class='mx-2 my-2'
-                            title='Delete Features'
-                            description='All features matching this query will not be submitted to the TAK Server'
+                            severity="danger"
+                            class="mx-2 my-2"
+                            title="Delete Features"
+                            description="All features matching this query will not be submitted to the TAK Server"
                         />
                     </template>
                     <template v-else>
                         <StyleSingle
-                            v-model='queries[query!].styles'
-                            :schema='(capabilities.incoming?.schema?.output ?? {}) as Record<string, unknown>'
-                            :disabled='disabled'
-                            :disable-marti='!!props.layer.incoming?.data'
-                            :connection='Number(route.params.connectionid)'
+                            v-model="queries[query!].styles"
+                            :schema="(capabilities.incoming?.schema?.output ?? {}) as Record<string, unknown>"
+                            :disabled="disabled"
+                            :disable-marti="!!props.layer.incoming?.data"
+                            :connection="Number(route.params.connectionid)"
                         />
                     </template>
                 </div>

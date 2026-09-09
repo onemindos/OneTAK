@@ -1,31 +1,31 @@
 <template>
     <div>
-        <div class='d-flex align-items-center user-select-none'>
-            <label class='mx-1 mb-1'>Public Tiles Selection</label>
+        <div class="d-flex align-items-center user-select-none">
+            <label class="mx-1 mb-1">Public Tiles Selection</label>
         </div>
-        <div class='card'>
-            <div class='card-body'>
+        <div class="card">
+            <div class="card-body">
                 <TablerLoading
-                    v-if='loading.main'
-                    :inline='true'
-                    desc='Loading Tiles'
+                    v-if="loading.main"
+                    :inline="true"
+                    desc="Loading Tiles"
                 />
                 <TablerLoading
-                    v-else-if='loading.tiles'
-                    :inline='true'
-                    desc='Loading Tile Metadata'
+                    v-else-if="loading.tiles"
+                    :inline="true"
+                    desc="Loading Tile Metadata"
                 />
-                <template v-else-if='selected'>
-                    <div class='col-12 d-flex align-items-center user-select-none'>
-                        <div v-text='selected.name' />
-                        <div class='ms-auto btn-list'>
+                <template v-else-if="selected">
+                    <div class="col-12 d-flex align-items-center user-select-none">
+                        <div v-text="selected.name" />
+                        <div class="ms-auto btn-list">
                             <TablerIconButton
-                                title='Remove Tile'
-                                @click='selected = undefined'
+                                title="Remove Tile"
+                                @click="selected = undefined"
                             >
                                 <IconX
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
@@ -33,30 +33,30 @@
                 </template>
                 <template v-else>
                     <TablerInput
-                        v-model='paging.filter'
-                        placeholder='Task Filter...'
-                        class='pb-2'
+                        v-model="paging.filter"
+                        placeholder="Task Filter..."
+                        class="pb-2"
                     />
 
                     <div
-                        v-if='loading.list'
-                        class='card-body'
+                        v-if="loading.list"
+                        class="card-body"
                     >
-                        <TablerLoading desc='Loading Tasks' />
+                        <TablerLoading desc="Loading Tasks" />
                     </div>
                     <TablerNone
-                        v-else-if='list.total === 0'
-                        :create='false'
-                        :compact='true'
-                        label='No Tasks'
+                        v-else-if="list.total === 0"
+                        :create="false"
+                        :compact="true"
+                        label="No Tasks"
                     />
                     <template
-                        v-for='task in list.items'
+                        v-for="task in list.items"
                         v-else
                     >
                         <div
-                            class='cloudtak-hover px-2 py-2 cursor-pointer rounded user-select-none d-flex align-items-center'
-                            @click='select(task)'
+                            class="cloudtak-hover px-2 py-2 cursor-pointer rounded user-select-none d-flex align-items-center"
+                            @click="select(task)"
                         >
                             <div v-text='task.name.replace(/^public\//, "").replace(/\.pmtiles$/, "")' />
                         </div>
@@ -64,15 +64,15 @@
                 </template>
             </div>
             <div
-                v-if='!loading.main && !loading.task && list.total > paging.limit && !selected?.id'
-                class='card-footer d-flex'
+                v-if="!loading.main && !loading.task && list.total > paging.limit && !selected?.id"
+                class="card-footer d-flex"
             >
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <TablerPager
-                        :page='paging.page'
-                        :total='list.total'
-                        :limit='paging.limit'
-                        @page='paging.page = $event'
+                        :page="paging.page"
+                        :total="list.total"
+                        :limit="paging.limit"
+                        @page="paging.page = $event"
                     />
                 </div>
             </div>

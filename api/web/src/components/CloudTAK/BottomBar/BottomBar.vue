@@ -1,26 +1,26 @@
 <template>
-    <div class='position-absolute bottom-0 start-0 text-white map-status-bar'>
-        <div class='d-flex align-items-stretch h-100'>
+    <div class="position-absolute bottom-0 start-0 text-white map-status-bar">
+        <div class="d-flex align-items-stretch h-100">
             <BottomBarCallsign
-                :mode='mode'
+                :mode="mode"
                 @set-location='$emit("set-location")'
                 @to-location='$emit("to-location")'
             />
             <div
-                v-if='bottomBarItems.length'
-                class='d-flex align-items-center justify-content-center gap-2 flex-grow-1 px-2 overflow-visible'
+                v-if="bottomBarItems.length"
+                class="d-flex align-items-center justify-content-center gap-2 flex-grow-1 px-2 overflow-visible"
             >
                 <div
-                    v-for='item in bottomBarItems'
-                    :key='item.key'
-                    class='d-flex align-items-center flex-shrink-0 position-relative'
+                    v-for="item in bottomBarItems"
+                    :key="item.key"
+                    class="d-flex align-items-center flex-shrink-0 position-relative"
                 >
-                    <component :is='item.component' />
+                    <component :is="item.component" />
                 </div>
             </div>
             <div
                 v-else
-                class='flex-grow-1'
+                class="flex-grow-1"
             />
             <BottomBarCoordinates />
         </div>

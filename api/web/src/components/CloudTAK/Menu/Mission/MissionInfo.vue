@@ -1,115 +1,115 @@
 <template>
     <MenuTemplate
-        name='Mission Info'
-        :zindex='0'
-        :back='false'
-        :border='false'
-        :standalone='false'
+        name="Mission Info"
+        :zindex="0"
+        :back="false"
+        :border="false"
+        :standalone="false"
     >
-        <div class='container-fluid px-2 px-sm-3'>
-            <div class='row gy-3 gx-0 gx-lg-3'>
-                <div class='col-12'>
+        <div class="container-fluid px-2 px-sm-3">
+            <div class="row gy-3 gx-0 gx-lg-3">
+                <div class="col-12">
                     <TablerBorder
-                        class='cloudtak-accent'
-                        gap='lg'
+                        class="cloudtak-accent"
+                        gap="lg"
                     >
-                        <div class='d-flex align-items-center gap-3'>
-                            <div class='rounded-circle bg-primary-subtle text-primary-emphasis p-1 d-flex align-items-center justify-content-center'>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-primary-subtle text-primary-emphasis p-1 d-flex align-items-center justify-content-center">
                                 <img
-                                    v-if='missionTemplate && missionTemplate.icon'
-                                    :src='String(stdurl(missionTemplate.icon))'
-                                    width='32'
-                                    height='32'
-                                    :title='missionTemplate.name'
+                                    v-if="missionTemplate && missionTemplate.icon"
+                                    :src="String(stdurl(missionTemplate.icon))"
+                                    width="32"
+                                    height="32"
+                                    :title="missionTemplate.name"
                                 >
                                 <IconBroadcast
                                     v-else
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </div>
-                            <div class='flex-grow-1'>
-                                <p class='text-uppercase text-secondary small mb-1'>
+                            <div class="flex-grow-1">
+                                <p class="text-uppercase text-secondary small mb-1">
                                     Mission
                                 </p>
                                 <h2
-                                    class='h4 mb-0 text-truncate'
-                                    style='max-width: calc(100% - 48px);'
-                                    v-text='props.subscription.name'
+                                    class="h4 mb-0 text-truncate"
+                                    style="max-width: calc(100% - 48px);"
+                                    v-text="props.subscription.name"
                                 />
                             </div>
                         </div>
 
-                        <div class='row gy-3 gx-0 gx-sm-3'>
-                            <div class='col-12 col-lg-6'>
-                                <small class='text-uppercase text-secondary d-block'>Created</small>
-                                <p class='fw-semibold p-0 mb-0'>
+                        <div class="row gy-3 gx-0 gx-sm-3">
+                            <div class="col-12 col-lg-6">
+                                <small class="text-uppercase text-secondary d-block">Created</small>
+                                <p class="fw-semibold p-0 mb-0">
                                     {{ props.subscription.meta.createTime.replace(/T/, " ").replace(/:[0-9]+\..*/, "") + " UTC" }}
                                 </p>
                             </div>
-                            <div class='col-12 col-lg-6'>
-                                <small class='text-uppercase text-secondary d-block'>Subscribers</small>
+                            <div class="col-12 col-lg-6">
+                                <small class="text-uppercase text-secondary d-block">Subscribers</small>
                                 <TablerLoading
-                                    v-if='loading.users'
-                                    :inline='true'
+                                    v-if="loading.users"
+                                    :inline="true"
                                 />
                                 <p
-                                    v-else-if='isOffline'
-                                    class='fw-semibold p-0 mb-0'
+                                    v-else-if="isOffline"
+                                    class="fw-semibold p-0 mb-0"
                                 >
                                     —
                                 </p>
                                 <p
                                     v-else
-                                    class='fw-semibold p-0 mb-0'
+                                    class="fw-semibold p-0 mb-0"
                                     v-text='subscriptions.length + " Users"'
                                 />
                             </div>
-                            <div class='col-12'>
-                                <small class='text-uppercase text-secondary d-block mb-1'>Contents</small>
+                            <div class="col-12">
+                                <small class="text-uppercase text-secondary d-block mb-1">Contents</small>
                                 <p
-                                    class='fw-semibold mb-0'
+                                    class="fw-semibold mb-0"
                                     v-text='(Array.isArray(props.subscription.meta.contents) ? props.subscription.meta.contents.length : 0) + " Files"'
                                 />
                             </div>
                             <InlineGroupSelect
-                                v-model='groupDraft'
-                                :value='groupList'
-                                :editing='editingGroups'
-                                :editable='canEditGroups'
-                                :saving='savingGroups'
-                                border-class='mission-editable-border'
-                                label='Groups (Channels)'
-                                @edit='startEditingGroups'
-                                @cancel='cancelEditingGroups'
-                                @save='saveGroups'
+                                v-model="groupDraft"
+                                :value="groupList"
+                                :editing="editingGroups"
+                                :editable="canEditGroups"
+                                :saving="savingGroups"
+                                border-class="mission-editable-border"
+                                label="Groups (Channels)"
+                                @edit="startEditingGroups"
+                                @cancel="cancelEditingGroups"
+                                @save="saveGroups"
                             />
                             <InlineKeywords
-                                v-model='keywordDraft'
-                                :value='keywords'
-                                :editing='editingKeywords'
-                                :editable='canEditMission'
-                                :saving='savingKeywords'
-                                border-class='mission-editable-border'
-                                label='Keywords'
-                                placeholder='No keywords provided'
-                                input-placeholder='Add keywords'
-                                tone='accent'
-                                @edit='startEditingKeywords'
-                                @cancel='cancelEditingKeywords'
-                                @save='saveKeywords'
+                                v-model="keywordDraft"
+                                :value="keywords"
+                                :editing="editingKeywords"
+                                :editable="canEditMission"
+                                :saving="savingKeywords"
+                                border-class="mission-editable-border"
+                                label="Keywords"
+                                placeholder="No keywords provided"
+                                input-placeholder="Add keywords"
+                                tone="accent"
+                                @edit="startEditingKeywords"
+                                @cancel="cancelEditingKeywords"
+                                @save="saveKeywords"
                             />
-                            <div class='col-12'>
-                                <small class='text-uppercase text-secondary d-block mb-1'>Description</small>
+                            <div class="col-12">
+                                <small class="text-uppercase text-secondary d-block mb-1">Description</small>
                                 <CopyField
-                                    :model-value='props.subscription.meta.description'
+                                    :model-value="props.subscription.meta.description"
                                     :edit='props.subscription.subscribed && props.subscription.role.permissions.includes("MISSION_WRITE")'
-                                    :rows='5'
-                                    @submit='updateDescription($event)'
+                                    :rows="5"
+                                    @submit="updateDescription($event)"
                                 >
                                     <span
-                                        v-if='!props.subscription.meta.description'
-                                        class='text-secondary fst-italic'
+                                        v-if="!props.subscription.meta.description"
+                                        class="text-secondary fst-italic"
                                     >No Feed Description</span>
                                 </CopyField>
                             </div>
@@ -117,64 +117,64 @@
                     </TablerBorder>
                 </div>
 
-                <div class='col-12'>
-                    <TablerBorder class='cloudtak-accent'>
+                <div class="col-12">
+                    <TablerBorder class="cloudtak-accent">
                         <template #label>
-                            <p class='text-uppercase text-secondary small mb-0'>
+                            <p class="text-uppercase text-secondary small mb-0">
                                 Quick Actions
                             </p>
                         </template>
 
                         <TablerLoading
-                            v-if='loading.subscribe'
-                            :inline='true'
-                            desc='Updating Subscription...'
+                            v-if="loading.subscribe"
+                            :inline="true"
+                            desc="Updating Subscription..."
                         />
                         <template v-else>
                             <button
-                                v-if='props.subscription.subscribed === false'
-                                class='btn btn-success w-100 d-flex align-items-center justify-content-center gap-2'
-                                @click='subscribe(true)'
+                                v-if="props.subscription.subscribed === false"
+                                class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2"
+                                @click="subscribe(true)"
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                                 <span>Subscribe</span>
                             </button>
                             <template v-else>
                                 <button
-                                    class='btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2'
-                                    @click='subscribe(false)'
+                                    class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2"
+                                    @click="subscribe(false)"
                                 >
                                     <IconMinus
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                     <span>Unsubscribe</span>
                                 </button>
 
                                 <button
-                                    v-if='!mapStore.mission || mapStore.mission.meta.guid !== props.subscription.meta.guid'
+                                    v-if="!mapStore.mission || mapStore.mission.meta.guid !== props.subscription.meta.guid"
                                     :disabled='!props.subscription.role.permissions.includes("MISSION_WRITE")'
-                                    class='btn btn-success w-100 d-flex align-items-center justify-content-center gap-2'
-                                    @click='mapStore.makeActiveMission(props.subscription)'
+                                    class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2"
+                                    @click="mapStore.makeActiveMission(props.subscription)"
                                 >
                                     <IconCheck
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                     <span>Make Active</span>
                                 </button>
                                 <button
                                     v-else
-                                    class='btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2'
+                                    class="btn btn-secondary w-100 d-flex align-items-center justify-content-center gap-2"
                                     :disabled='!props.subscription.role.permissions.includes("MISSION_WRITE")'
-                                    @click='mapStore.makeActiveMission()'
+                                    @click="mapStore.makeActiveMission()"
                                 >
                                     <IconX
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                     <span>Deactivate</span>
                                 </button>
@@ -182,28 +182,28 @@
                         </template>
 
                         <button
-                            class='btn w-100 d-flex align-items-center justify-content-center gap-2 invite-qr-btn'
-                            @click='showQR = true'
+                            class="btn w-100 d-flex align-items-center justify-content-center gap-2 invite-qr-btn"
+                            @click="showQR = true"
                         >
                             <IconQrcode
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                             <span>Invite QR Code</span>
                         </button>
                     </TablerBorder>
                 </div>
 
-                <div class='col-12'>
-                    <TablerBorder class='cloudtak-accent'>
+                <div class="col-12">
+                    <TablerBorder class="cloudtak-accent">
                         <template #label>
-                            <p class='text-uppercase text-secondary small mb-0'>
+                            <p class="text-uppercase text-secondary small mb-0">
                                 Child Missions
                             </p>
                         </template>
                         <TablerNone
-                            :compact='true'
-                            :create='false'
+                            :compact="true"
+                            :create="false"
                         />
                     </TablerBorder>
                 </div>
@@ -212,33 +212,33 @@
     </MenuTemplate>
 
     <TablerModal
-        v-if='showQR'
-        size='lg'
+        v-if="showQR"
+        size="lg"
     >
-        <div class='modal-status bg-red' />
+        <div class="modal-status bg-red" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='showQR = false'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="showQR = false"
         />
-        <div class='modal-header invite-qr-header'>
-            <div class='d-flex align-items-center'>
+        <div class="modal-header invite-qr-header">
+            <div class="d-flex align-items-center">
                 <IconQrcode
-                    :size='28'
-                    stroke='1'
+                    :size="28"
+                    stroke="1"
                 />
                 <span
-                    class='mx-2'
+                    class="mx-2"
                     v-text='props.subscription.meta.name + " Invite QR"'
                 />
             </div>
         </div>
-        <div class='modal-body invite-qr-body'>
-            <div class='col-12 text-center'>
+        <div class="modal-body invite-qr-body">
+            <div class="col-12 text-center">
                 <img
-                    :src='missionQRURL'
-                    class='invite-qr-image img-fluid'
+                    :src="missionQRURL"
+                    class="invite-qr-image img-fluid"
                     :style='appStore.resolvedTheme === "dark" ? { filter: "invert(1)" } : undefined'
                 >
             </div>

@@ -1,41 +1,41 @@
 <template>
     <div
-        ref='container'
-        class='position-absolute cloudtak-panel resizable-content'
+        ref="container"
+        class="position-absolute cloudtak-panel resizable-content"
     >
         <div
-            style='height: 50px;'
-            class='d-flex align-items-center px-2 py-2 border-bottom'
+            style="height: 50px;"
+            class="d-flex align-items-center px-2 py-2 border-bottom"
         >
             <div
-                ref='drag-handle'
-                class='cursor-pointer'
+                ref="drag-handle"
+                class="cursor-pointer"
             >
                 <IconGripVertical
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </div>
 
-            <slot name='header' />
+            <slot name="header" />
 
-            <div class='btn-list ms-auto'>
-                <slot name='actions' />
+            <div class="btn-list ms-auto">
+                <slot name="actions" />
 
                 <TablerIconButton
-                    title='Close Pane'
+                    title="Close Pane"
                     @click='emit("close")'
                 >
                     <IconX
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
         <div
-            class='modal-body'
-            :style='`height: calc(100% - 50px)`'
+            class="modal-body"
+            :style="`height: calc(100% - 50px)`"
         >
             <slot />
         </div>

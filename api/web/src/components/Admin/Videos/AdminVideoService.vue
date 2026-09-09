@@ -1,30 +1,30 @@
 <template>
-    <div class='card-header'>
-        <div class='card-title'>
+    <div class="card-header">
+        <div class="card-title">
             Video Service
         </div>
-        <div class='ms-auto btn-list'>
+        <div class="ms-auto btn-list">
             <TablerRefreshButton
-                title='Refresh'
-                :loading='loading'
-                @click='fetchService'
+                title="Refresh"
+                :loading="loading"
+                @click="fetchService"
             />
         </div>
     </div>
-    <div class='card-body'>
-        <TablerLoading v-if='loading' />
+    <div class="card-body">
+        <TablerLoading v-if="loading" />
         <TablerAlert
-            v-else-if='error'
-            :err='error'
+            v-else-if="error"
+            :err="error"
         />
         <TablerNone
-            v-else-if='!service'
-            label='No Video ECS Service'
-            :create='false'
+            v-else-if="!service"
+            label="No Video ECS Service"
+            :create="false"
         />
         <VideoConfig
             v-else
-            :service='service'
+            :service="service"
         />
     </div>
 </template>

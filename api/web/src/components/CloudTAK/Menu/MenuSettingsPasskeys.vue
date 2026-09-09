@@ -1,95 +1,95 @@
 <template>
     <MenuTemplate
-        name='Login Passkeys'
-        :loading='loading'
-        :none='!creating && !passkeys.items.length'
+        name="Login Passkeys"
+        :loading="loading"
+        :none="!creating && !passkeys.items.length"
     >
         <template #buttons>
             <TablerIconButton
-                title='New Passkey'
+                title="New Passkey"
                 @click='creating = true; newName = ""'
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetch'
+                :loading="loading"
+                @click="fetch"
             />
         </template>
         <template #default>
-            <div class='col-12 d-flex flex-column gap-2 py-3'>
+            <div class="col-12 d-flex flex-column gap-2 py-3">
                 <div
-                    v-if='creating'
-                    class='d-flex align-items-center gap-2 px-2 py-2'
+                    v-if="creating"
+                    class="d-flex align-items-center gap-2 px-2 py-2"
                 >
                     <TablerInput
-                        v-model='newName'
-                        placeholder='Passkey Name'
-                        :autofocus='true'
+                        v-model="newName"
+                        placeholder="Passkey Name"
+                        :autofocus="true"
                         @keyup='(e: KeyboardEvent) => { if (e.key === "Enter") registerPasskey(); else if (e.key === "Escape") creating = false; }'
                     />
                     <button
-                        class='btn btn-primary'
-                        @click='registerPasskey'
+                        class="btn btn-primary"
+                        @click="registerPasskey"
                     >
                         Create
                     </button>
                 </div>
-                <template v-if='selected'>
-                    <div class='d-flex align-items-center px-2 py-2'>
+                <template v-if="selected">
+                    <div class="d-flex align-items-center px-2 py-2">
                         <TablerIconButton
-                            title='Back to Passkeys'
-                            @click='selected = null'
+                            title="Back to Passkeys"
+                            @click="selected = null"
                         >
                             <IconArrowLeft
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
-                        <span class='fw-bold ms-2'>Passkey Details</span>
-                        <div class='ms-auto'>
+                        <span class="fw-bold ms-2">Passkey Details</span>
+                        <div class="ms-auto">
                             <TablerDelete
-                                displaytype='icon'
-                                @delete='deletePasskey'
+                                displaytype="icon"
+                                @delete="deletePasskey"
                             />
                         </div>
                     </div>
-                    <div class='row g-2'>
-                        <div class='col-12'>
-                            <label class='form-label'>Name</label>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <label class="form-label">Name</label>
                             <div v-text='selected.name || "Unnamed Passkey"' />
                         </div>
-                        <div class='col-12'>
-                            <label class='form-label'>Created</label>
-                            <div v-text='new Date(selected.created).toLocaleString()' />
+                        <div class="col-12">
+                            <label class="form-label">Created</label>
+                            <div v-text="new Date(selected.created).toLocaleString()" />
                         </div>
-                        <div class='col-12'>
-                            <label class='form-label'>Last Used</label>
+                        <div class="col-12">
+                            <label class="form-label">Last Used</label>
                             <div v-text='selected.last_used ? new Date(selected.last_used).toLocaleString() : "Never"' />
                         </div>
                     </div>
                 </template>
                 <template v-else>
                     <StandardItem
-                        v-for='p in passkeys.items'
-                        :key='p.id'
-                        @click='selected = p'
+                        v-for="p in passkeys.items"
+                        :key="p.id"
+                        @click="selected = p"
                     >
-                        <div class='d-flex align-items-center px-2 py-2'>
+                        <div class="d-flex align-items-center px-2 py-2">
                             <IconFingerprint
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <div class='ms-2 flex-grow-1'>
-                                <div class='fw-bold'>
+                            <div class="ms-2 flex-grow-1">
+                                <div class="fw-bold">
                                     {{ p.name || 'Unnamed Passkey' }}
                                 </div>
-                                <div class='text-muted small'>
+                                <div class="text-muted small">
                                     Created {{ new Date(p.created).toLocaleDateString() }}
-                                    <template v-if='p.last_used'>
+                                    <template v-if="p.last_used">
                                         &middot; Last used {{ new Date(p.last_used).toLocaleDateString() }}
                                     </template>
                                 </div>

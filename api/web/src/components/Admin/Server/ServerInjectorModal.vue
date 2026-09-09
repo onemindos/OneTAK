@@ -1,57 +1,57 @@
 <template>
     <TablerModal>
-        <div class='modal-status bg-yellow' />
+        <div class="modal-status bg-yellow" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-header'>
-            <div class='modal-title'>
+        <div class="modal-header">
+            <div class="modal-title">
                 Injector Editor
             </div>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
                     v-if='typeof props.injector !== "boolean"'
-                    displaytype='icon'
-                    @delete='deleteInjector'
+                    displaytype="icon"
+                    @delete="deleteInjector"
                 />
             </div>
         </div>
 
-        <TablerLoading v-if='loading' />
+        <TablerLoading v-if="loading" />
         <div
             v-else
-            class='modal-body row'
+            class="modal-body row"
         >
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerInput
-                    v-model='injector.uid'
-                    label='UID'
+                    v-model="injector.uid"
+                    label="UID"
                     :disabled='typeof props.injector !== "boolean"'
                 />
             </div>
-            <div class='col-12'>
+            <div class="col-12">
                 <TablerInput
-                    v-model='injector.toInject'
-                    label='toInject'
+                    v-model="injector.toInject"
+                    label="toInject"
                     :disabled='typeof props.injector !== "boolean"'
                 />
             </div>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
                 v-if='typeof props.injector === "boolean"'
-                class='btn btn-primary'
-                @click='saveInjector'
+                class="btn btn-primary"
+                @click="saveInjector"
             >
                 Save
             </button>
             <button
                 v-else
-                class='btn btn-primary'
+                class="btn btn-primary"
                 @click='emit("close")'
             >
                 Close

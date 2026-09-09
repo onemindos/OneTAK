@@ -1,29 +1,29 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Author'
+            v-model="expanded"
+            label="Author"
         >
             <template #icon>
                 <IconUser
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <span
-                    v-if='props.creator.time'
-                    class='cursor-pointer me-2 text-muted small'
-                    @click.stop='relative = !relative'
-                    v-text='relative ? timediff(props.creator.time) : props.creator.time'
+                    v-if="props.creator.time"
+                    class="cursor-pointer me-2 text-muted small"
+                    @click.stop="relative = !relative"
+                    v-text="relative ? timediff(props.creator.time) : props.creator.time"
                 />
             </template>
-            <div class='mx-2 pt-2'>
+            <div class="mx-2 pt-2">
                 <ContactRow
-                    :contact='effectiveContact'
-                    @chat='router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)'
+                    :contact="effectiveContact"
+                    @chat="router.push(`/menu/chats/new?callsign=${$event.callsign}&uid=${$event.uid}`)"
                 />
             </div>
         </SlideDownHeader>

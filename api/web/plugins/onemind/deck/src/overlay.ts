@@ -1,12 +1,12 @@
 /**
- * deck.gl MapLibreOverlay singleton manager.
+ * deck.gl MapboxOverlay singleton manager.
  *
- * Only one MapLibreOverlay should exist on the map at a time.
+ * Only one MapboxOverlay should exist on the map at a time.
  * This module manages that singleton and exposes methods to
  * add, remove, and update layers.
  *
  * How it works:
- *   1. init(map) — creates a MapLibreOverlay in interleaved mode
+ *   1. init(map) — creates a MapboxOverlay in interleaved mode
  *      (renders into MapLibre's WebGL2 context, same canvas, proper depth).
  *   2. setLayers(layers) — replaces the full layer list, deck.gl diffs internally.
  *   3. destroy() — removes the control from the map and clears the singleton.
@@ -28,9 +28,9 @@ let mapInstance:     Map | null = null;
 export async function initOverlay(map: Map): Promise<void> {
     if (overlayInstance) return;
 
-    const { MapLibreOverlay } = await import('@deck.gl/mapbox');
+    const { MapboxOverlay } = await import('@deck.gl/mapbox');
 
-    const overlay = new MapLibreOverlay({
+    const overlay = new MapboxOverlay({
         interleaved: true,
         layers: [],
     });

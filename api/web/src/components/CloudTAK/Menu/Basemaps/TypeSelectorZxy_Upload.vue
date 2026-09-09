@@ -1,14 +1,14 @@
 <template>
-    <div class='row row-cards'>
+    <div class="row row-cards">
         <TypeSelectorSelected
-            type='upload'
+            type="upload"
             @change-type='emit("change-type")'
         />
 
-        <div class='col-12'>
+        <div class="col-12">
             <Upload
-                method='PUT'
-                :url='uploadUrl'
+                method="PUT"
+                :url="uploadUrl"
                 @done='emit("done", $event)'
                 @cancel='emit("change-type")'
             />

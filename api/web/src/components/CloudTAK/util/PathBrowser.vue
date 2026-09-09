@@ -1,70 +1,70 @@
 <template>
-    <div class='d-flex flex-column gap-2'>
+    <div class="d-flex flex-column gap-2">
         <template
-            v-for='node of nodes'
-            :key='node.id'
+            v-for="node of nodes"
+            :key="node.id"
         >
             <StandardItem
-                :id='`foldertarget-${node.id}`'
-                class='px-3 py-3 user-select-none'
+                :id="`foldertarget-${node.id}`"
+                class="px-3 py-3 user-select-none"
                 :style='hoverNodeId === node.id ? "background-color: rgba(255, 255, 255, 0.1);" : ""'
-                @drop.stop.prevent='onDrop(node)'
-                @dragover.prevent='hoverNodeId = node.id'
-                @dragleave='hoverNodeId = undefined'
+                @drop.stop.prevent="onDrop(node)"
+                @dragover.prevent="hoverNodeId = node.id"
+                @dragleave="hoverNodeId = undefined"
                 @click='emit("navigate", node)'
             >
-                <div class='d-flex align-items-center justify-content-between'>
-                    <div class='d-flex align-items-center'>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
                         <IconFolder
-                            class='me-2'
-                            :size='20'
-                            stroke='2'
+                            class="me-2"
+                            :size="20"
+                            stroke="2"
                         />
                         <span
-                            class='fw-bold'
-                            v-text='node.name'
+                            class="fw-bold"
+                            v-text="node.name"
                         />
                     </div>
 
-                    <div class='ms-auto d-flex align-items-center gap-2'>
+                    <div class="ms-auto d-flex align-items-center gap-2">
                         <TablerBadge
-                            class='rounded-pill'
-                            background-color='rgba(107, 114, 128, 0.15)'
-                            border-color='rgba(107, 114, 128, 0.3)'
-                            text-color='#6b7280'
+                            class="rounded-pill"
+                            background-color="rgba(107, 114, 128, 0.15)"
+                            border-color="rgba(107, 114, 128, 0.3)"
+                            text-color="#6b7280"
                         >
                             {{ node.count }}
                         </TablerBadge>
                         <TablerIconButton
-                            v-if='visibilityToggle'
+                            v-if="visibilityToggle"
                             :title='isNodeHidden(node) ? "Show Folder" : "Hide Folder"'
                             @click.stop='emit("toggle-visibility", node)'
                         >
                             <IconEyeOff
-                                v-if='isNodeHidden(node)'
-                                :size='20'
-                                stroke='1'
+                                v-if="isNodeHidden(node)"
+                                :size="20"
+                                stroke="1"
                             />
                             <IconEye
                                 v-else
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                         <TablerIconButton
-                            v-if='renamable'
-                            title='Rename Folder'
+                            v-if="renamable"
+                            title="Rename Folder"
                             @click.stop='emit("rename", node)'
                         >
                             <IconPencil
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                         <TablerDelete
-                            v-if='deletable'
-                            displaytype='icon'
-                            :size='20'
+                            v-if="deletable"
+                            displaytype="icon"
+                            :size="20"
                             @delete='emit("delete", node)'
                         />
                     </div>

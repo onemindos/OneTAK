@@ -1,31 +1,31 @@
 <template>
     <FloatingPane
-        :uid='uid'
+        :uid="uid"
         @close='emit("close")'
     >
         <template #header>
             <div
-                class='mx-2 text-sm text-truncate'
-                style='max-width: calc(100% - 100px);'
+                class="mx-2 text-sm text-truncate"
+                style="max-width: calc(100% - 100px);"
                 v-text='pane?.name || "Panel"'
             />
         </template>
 
         <template
-            v-if='pane?.config._actions'
+            v-if="pane?.config._actions"
             #actions
         >
             <component
-                :is='pane.config._actions'
-                v-bind='pane.config._props || {}'
+                :is="pane.config._actions"
+                v-bind="pane.config._props || {}"
             />
         </template>
 
-        <div class='h-100 w-100 overflow-auto'>
+        <div class="h-100 w-100 overflow-auto">
             <component
-                :is='pane.config._component'
-                v-if='pane'
-                v-bind='pane.config._props || {}'
+                :is="pane.config._component"
+                v-if="pane"
+                v-bind="pane.config._props || {}"
             />
         </div>
     </FloatingPane>

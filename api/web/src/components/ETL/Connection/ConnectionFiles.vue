@@ -1,33 +1,33 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h3 class='card-title'>
+        <div class="card-header d-flex">
+            <h3 class="card-title">
                 Connection Assets
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Upload'
-                    @click='upload = true'
+                    title="Upload"
+                    @click="upload = true"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerRefreshButton
-                    title='Refresh'
-                    :loading='loading'
-                    @click='fetchList'
+                    title="Refresh"
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
 
         <div
-            v-if='!error && !upload && !loading && list.items.length'
-            class='table-responsive'
+            v-if="!error && !upload && !loading && list.items.length"
+            class="table-responsive"
         >
-            <table class='table table-hover table-vcenter card-table'>
+            <table class="table table-hover table-vcenter card-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -37,40 +37,40 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for='asset in list.items'
-                        :key='asset.name'
+                        v-for="asset in list.items"
+                        :key="asset.name"
                     >
                         <td>
-                            <div class='d-flex align-items-center'>
+                            <div class="d-flex align-items-center">
                                 <IconFile
-                                    :size='32'
-                                    stroke='1'
+                                    :size="32"
+                                    stroke="1"
                                 />
 
                                 <span
-                                    class='mx-2'
-                                    v-text='asset.name'
+                                    class="mx-2"
+                                    v-text="asset.name"
                                 />
                             </div>
                         </td>
                         <td>
-                            <TablerBytes :bytes='asset.size' />
+                            <TablerBytes :bytes="asset.size" />
                         </td>
-                        <td class='d-flex align-items-center'>
-                            <TablerEpoch :date='asset.updated' />
-                            <div class='ms-auto btn-list'>
+                        <td class="d-flex align-items-center">
+                            <TablerEpoch :date="asset.updated" />
+                            <div class="ms-auto btn-list">
                                 <TablerDelete
-                                    displaytype='icon'
-                                    title='Delete Asset'
-                                    @delete='deleteAsset(asset)'
+                                    displaytype="icon"
+                                    title="Delete Asset"
+                                    @delete="deleteAsset(asset)"
                                 />
                                 <TablerIconButton
-                                    title='Download Asset'
-                                    @click='downloadAsset(asset)'
+                                    title="Download Asset"
+                                    @click="downloadAsset(asset)"
                                 >
                                     <IconDownload
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -81,26 +81,26 @@
         </div>
         <div
             v-else
-            class='card-body'
+            class="card-body"
         >
-            <template v-if='error'>
+            <template v-if="error">
                 <TablerAlert
-                    title='Asset Error'
-                    :err='error'
-                    :compact='true'
+                    title="Asset Error"
+                    :err="error"
+                    :compact="true"
                 />
             </template>
-            <TablerLoading v-else-if='loading' />
+            <TablerLoading v-else-if="loading" />
             <Upload
-                v-else-if='upload'
-                :url='uploadURL()'
-                @cancel='upload = false'
-                @done='fetchList'
+                v-else-if="upload"
+                :url="uploadURL()"
+                @cancel="upload = false"
+                @done="fetchList"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                :compact='true'
+                v-else-if="!list.items.length"
+                :create="false"
+                :compact="true"
             />
         </div>
     </div>

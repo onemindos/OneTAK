@@ -1,121 +1,121 @@
 <template>
     <div
-        style='
+        style="
             width: 400px;
             max-width: calc(100vw - 16px);
             min-height: 160px;
             max-height: 50vh;
             display: flex;
             flex-direction: column;
-        '
+        "
     >
-        <div class='d-flex align-items-center px-3 py-2 border-bottom'>
-            <h3 class='m-0 fw-bold'>
+        <div class="d-flex align-items-center px-3 py-2 border-bottom">
+            <h3 class="m-0 fw-bold">
                 Notifications
             </h3>
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    v-if='list && list.length'
-                    title='Search'
-                    @click.stop.prevent='paging.shown = !paging.shown'
+                    v-if="list && list.length"
+                    title="Search"
+                    @click.stop.prevent="paging.shown = !paging.shown"
                 >
                     <IconSearch
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    v-if='list && list.length'
-                    title='Delete All'
-                    @click='TAKNotification.clear()'
+                    v-if="list && list.length"
+                    title="Delete All"
+                    @click="TAKNotification.clear()"
                 >
                     <IconTrash
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
         <div
-            v-if='availableTypes.length > 1'
-            class='d-flex flex-wrap justify-content-center gap-2 p-2 border-bottom'
+            v-if="availableTypes.length > 1"
+            class="d-flex flex-wrap justify-content-center gap-2 p-2 border-bottom"
         >
             <div
-                v-for='type in availableTypes'
-                :key='type'
-                class='d-flex flex-column align-items-center justify-content-center p-2 rounded cursor-pointer border cloudtak-hover'
+                v-for="type in availableTypes"
+                :key="type"
+                class="d-flex flex-column align-items-center justify-content-center p-2 rounded cursor-pointer border cloudtak-hover"
                 :class='selectedTypes.includes(type) ? "border-primary" : "border-transparent"'
-                style='width: 60px; height: 60px;'
-                @click.stop.prevent='toggleType(type)'
+                style="width: 60px; height: 60px;"
+                @click.stop.prevent="toggleType(type)"
             >
                 <NotificationIcon
-                    :type='type'
-                    :size='24'
+                    :type="type"
+                    :size="24"
                 />
                 <div
-                    style='font-size: 0.65rem;'
-                    class='mt-1'
+                    style="font-size: 0.65rem;"
+                    class="mt-1"
                 >
                     {{ type }}
                 </div>
             </div>
         </div>
         <div
-            v-if='paging.shown'
-            class='col-12 px-2'
+            v-if="paging.shown"
+            class="col-12 px-2"
         >
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                :autofocus='true'
+                v-model="paging.filter"
+                icon="search"
+                :autofocus="true"
             />
         </div>
         <TablerNone
-            v-if='!filteredList || filteredList.length === 0'
-            label='No Notifications'
-            :create='false'
+            v-if="!filteredList || filteredList.length === 0"
+            label="No Notifications"
+            :create="false"
         />
         <div
             v-else
-            class='overflow-auto list-group list-group-flush'
-            style='flex: 1; min-height: 0;'
+            class="overflow-auto list-group list-group-flush"
+            style="flex: 1; min-height: 0;"
         >
             <div
-                v-for='n in filteredList'
-                :key='n.id'
-                class='list-group-item cursor-pointer cloudtak-hover'
-                data-toggle='collapse'
-                @click='router.push(n.url)'
+                v-for="n in filteredList"
+                :key="n.id"
+                class="list-group-item cursor-pointer cloudtak-hover"
+                data-toggle="collapse"
+                @click="router.push(n.url)"
             >
-                <div class='d-flex align-items-center'>
-                    <div class='me-2'>
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
                         <NotificationIcon
-                            :type='n.type'
+                            :type="n.type"
                         />
                     </div>
-                    <div class='text-truncate'>
+                    <div class="text-truncate">
                         <div
-                            class='text-body d-block'
-                            v-text='n.name'
+                            class="text-body d-block"
+                            v-text="n.name"
                         />
                         <div
-                            v-if='n.body'
-                            class='d-block text-secondary text-truncate mt-n1'
-                            v-text='n.body'
+                            v-if="n.body"
+                            class="d-block text-secondary text-truncate mt-n1"
+                            v-text="n.body"
                         />
                         <div
-                            class='d-block text-secondary text-truncate mt-n1'
-                            v-text='timeDiff(n.created)'
+                            class="d-block text-secondary text-truncate mt-n1"
+                            v-text="timeDiff(n.created)"
                         />
                     </div>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <TablerIconButton
-                            title='Delete'
-                            @click.stop.prevent='TAKNotification.delete(n.id)'
+                            title="Delete"
+                            @click.stop.prevent="TAKNotification.delete(n.id)"
                         >
                             <IconTrash
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>

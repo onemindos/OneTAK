@@ -1,48 +1,48 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 API Tokens
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='New Token'
-                    @click='token = true'
+                    title="New Token"
+                    @click="token = true"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerRefreshButton
-                    title='Refresh'
-                    :loading='loading'
-                    @click='fetch'
+                    title="Refresh"
+                    :loading="loading"
+                    @click="fetch"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 60px'>
-            <div class='col-12 px-2 py-2'>
+        <div style="min-height: 20vh; margin-bottom: 60px">
+            <div class="col-12 px-2 py-2">
                 <TablerInput
-                    v-model='paging.filter'
-                    icon='search'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    icon="search"
+                    placeholder="Filter"
                 />
             </div>
 
-            <TablerLoading v-if='loading' />
+            <TablerLoading v-if="loading" />
             <TablerNone
-                v-else-if='!list.items.length'
-                :create='false'
-                label='No Tokens'
+                v-else-if="!list.items.length"
+                :create="false"
+                label="No Tokens"
             />
             <div
                 v-else
-                class='table-responsive'
+                class="table-responsive"
             >
-                <table class='table table-hover card-table table-vcenter cursor-pointer'>
+                <table class="table table-hover card-table table-vcenter cursor-pointer">
                     <thead>
                         <tr>
                             <th>Token Name</th>
@@ -54,57 +54,57 @@
                     </thead>
                     <tbody>
                         <tr
-                            v-for='t in list.items'
-                            :key='t.id'
-                            @click='token = t'
+                            v-for="t in list.items"
+                            :key="t.id"
+                            @click="token = t"
                         >
-                            <td v-text='t.name' />
+                            <td v-text="t.name" />
                             <td>
                                 <TablerBadge
-                                    v-for='permission in t.permissions'
-                                    :key='permission'
-                                    class='me-1'
+                                    v-for="permission in t.permissions"
+                                    :key="permission"
+                                    class="me-1"
                                 >
-                                    <code v-text='permission' />
+                                    <code v-text="permission" />
                                 </TablerBadge>
                                 <span
-                                    v-if='!t.permissions.length'
-                                    class='text-secondary fst-italic'
+                                    v-if="!t.permissions.length"
+                                    class="text-secondary fst-italic"
                                 >None</span>
                             </td>
                             <td>
                                 <span
-                                    v-if='t.username'
-                                    v-text='t.username'
+                                    v-if="t.username"
+                                    v-text="t.username"
                                 />
                                 <span
                                     v-else
-                                    class='text-secondary fst-italic'
+                                    class="text-secondary fst-italic"
                                 >Unknown</span>
                             </td>
-                            <td><TablerEpoch :date='+new Date(t.created)' /></td>
-                            <td><TablerEpoch :date='+new Date(t.updated)' /></td>
+                            <td><TablerEpoch :date="+new Date(t.created)" /></td>
+                            <td><TablerEpoch :date="+new Date(t.updated)" /></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div
-            class='position-absolute bottom-0 w-100'
-            style='height: 60px;'
+            class="position-absolute bottom-0 w-100"
+            style="height: 60px;"
         >
             <TableFooter
-                :limit='paging.limit'
-                :total='list.total'
-                @page='paging.page = $event'
+                :limit="paging.limit"
+                :total="list.total"
+                @page="paging.page = $event"
             />
         </div>
 
         <TokenModal
-            v-if='token'
-            :token='token'
-            @close='token = undefined'
-            @refresh='fetch'
+            v-if="token"
+            :token="token"
+            @close="token = undefined"
+            @refresh="fetch"
         />
     </div>
 </template>

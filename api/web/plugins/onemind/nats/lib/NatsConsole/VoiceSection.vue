@@ -1,31 +1,31 @@
 <template>
     <div
-        ref='rootEl'
-        class='vc'
-        tabindex='0'
-        @keydown='onKeyDown'
-        @keyup='onKeyUp'
+        ref="rootEl"
+        class="vc"
+        tabindex="0"
+        @keydown="onKeyDown"
+        @keyup="onKeyUp"
     >
         <!-- Header -->
-        <div class='vc-hd'>
+        <div class="vc-hd">
             <Mic
-                :size='13'
+                :size="13"
                 :class='isListening ? "vc-listening-icon" : "vc-acc"'
             />
             <div>
-                <div class='vc-title'>
+                <div class="vc-title">
                     VOICE INTERFACE
                 </div>
                 <div
-                    class='vc-mono vc-dim'
-                    style='font-size:9px'
+                    class="vc-mono vc-dim"
+                    style="font-size:9px"
                 >
                     PUSH-TO-TALK • SPACE BAR OR HOLD BUTTON
                 </div>
             </div>
             <div
-                class='vc-status-pill'
-                :class='statusClass'
+                class="vc-status-pill"
+                :class="statusClass"
             >
                 {{ statusLabel }}
             </div>
@@ -33,167 +33,167 @@
 
         <!-- Not supported -->
         <div
-            v-if='!isSupported'
-            class='vc-unsupported'
+            v-if="!isSupported"
+            class="vc-unsupported"
         >
             <MicOff
-                :size='28'
-                style='opacity:0.3'
+                :size="28"
+                style="opacity:0.3"
             />
-            <span class='vc-mono'>SPEECH RECOGNITION NOT SUPPORTED IN THIS BROWSER</span>
+            <span class="vc-mono">SPEECH RECOGNITION NOT SUPPORTED IN THIS BROWSER</span>
             <span
-                class='vc-dim vc-mono'
-                style='font-size:10px'
+                class="vc-dim vc-mono"
+                style="font-size:10px"
             >Try Chrome or Edge</span>
         </div>
 
         <template v-else>
             <!-- Agent selector -->
-            <div class='vc-agent-row'>
-                <div class='vc-agent-label vc-mono vc-dim'>
+            <div class="vc-agent-row">
+                <div class="vc-agent-label vc-mono vc-dim">
                     TARGET AGENT
                 </div>
                 <select
-                    v-model='selectedAgentId'
-                    class='vc-agent-select'
+                    v-model="selectedAgentId"
+                    class="vc-agent-select"
                 >
-                    <option value=''>
+                    <option value="">
                         -- Select agent --
                     </option>
                     <option
-                        v-for='agent in agents'
-                        :key='agent.id'
-                        :value='agent.id'
+                        v-for="agent in agents"
+                        :key="agent.id"
+                        :value="agent.id"
                     >
                         {{ agent.name }} ({{ agent.type }})
                     </option>
                 </select>
                 <div
-                    v-if='selectedAgent'
-                    class='vc-agent-status'
-                    :class='selectedAgent.status'
+                    v-if="selectedAgent"
+                    class="vc-agent-status"
+                    :class="selectedAgent.status"
                 >
                     <div
-                        class='vc-dot'
-                        :class='selectedAgent.status'
+                        class="vc-dot"
+                        :class="selectedAgent.status"
                     />
                     <span
-                        class='vc-mono'
-                        style='font-size:10px'
+                        class="vc-mono"
+                        style="font-size:10px"
                     >{{ selectedAgent.status.toUpperCase() }}</span>
                 </div>
             </div>
 
             <!-- PTT button -->
-            <div class='vc-ptt-area'>
+            <div class="vc-ptt-area">
                 <div
-                    class='vc-ptt-wrap'
-                    :class='{ listening: isListening }'
+                    class="vc-ptt-wrap"
+                    :class="{ listening: isListening }"
                 >
                     <div
-                        v-if='isListening'
-                        class='vc-pulse-ring'
+                        v-if="isListening"
+                        class="vc-pulse-ring"
                     />
                     <div
-                        v-if='isListening'
-                        class='vc-pulse-ring delay1'
+                        v-if="isListening"
+                        class="vc-pulse-ring delay1"
                     />
                     <button
-                        class='vc-ptt-btn'
-                        :class='{ listening: isListening, processing: isProcessing }'
-                        :disabled='isProcessing'
-                        @mousedown='startListening'
-                        @mouseup='stopListening'
-                        @mouseleave='isListening ? stopListening() : null'
-                        @touchstart.prevent='startListening'
-                        @touchend.prevent='stopListening'
+                        class="vc-ptt-btn"
+                        :class="{ listening: isListening, processing: isProcessing }"
+                        :disabled="isProcessing"
+                        @mousedown="startListening"
+                        @mouseup="stopListening"
+                        @mouseleave="isListening ? stopListening() : null"
+                        @touchstart.prevent="startListening"
+                        @touchend.prevent="stopListening"
                     >
                         <Loader2
-                            v-if='isProcessing'
-                            :size='28'
-                            class='vc-spin'
+                            v-if="isProcessing"
+                            :size="28"
+                            class="vc-spin"
                         />
                         <MicOff
-                            v-else-if='!isListening'
-                            :size='28'
+                            v-else-if="!isListening"
+                            :size="28"
                         />
                         <Mic
                             v-else
-                            :size='28'
+                            :size="28"
                         />
                     </button>
                 </div>
-                <div class='vc-ptt-hint vc-mono vc-dim'>
+                <div class="vc-ptt-hint vc-mono vc-dim">
                     {{ isListening ? 'RELEASE TO SEND' : isProcessing ? 'PROCESSING…' : 'HOLD SPACE OR BUTTON TO SPEAK' }}
                 </div>
             </div>
 
             <!-- Live transcript -->
             <div
-                v-if='interimTranscript || isListening'
-                class='vc-interim'
-                :class='{ active: isListening }'
+                v-if="interimTranscript || isListening"
+                class="vc-interim"
+                :class="{ active: isListening }"
             >
                 <div
-                    v-if='isListening && !interimTranscript'
-                    class='vc-interim-dots'
+                    v-if="isListening && !interimTranscript"
+                    class="vc-interim-dots"
                 >
                     <span /><span /><span />
                 </div>
-                <span v-if='interimTranscript'>{{ interimTranscript }}</span>
+                <span v-if="interimTranscript">{{ interimTranscript }}</span>
             </div>
 
             <!-- Error -->
             <div
-                v-if='speechError'
-                class='vc-error'
+                v-if="speechError"
+                class="vc-error"
             >
-                <AlertTriangle :size='11' /> {{ speechError }}
+                <AlertTriangle :size="11" /> {{ speechError }}
             </div>
 
             <!-- Transcript feed -->
             <div
-                ref='feedEl'
-                class='vc-feed'
+                ref="feedEl"
+                class="vc-feed"
             >
                 <div
-                    v-if='entries.length === 0'
-                    class='vc-empty'
+                    v-if="entries.length === 0"
+                    class="vc-empty"
                 >
                     <Mic
-                        :size='20'
-                        style='opacity:0.15'
+                        :size="20"
+                        style="opacity:0.15"
                     />
                     <span
-                        class='vc-mono vc-dim'
-                        style='font-size:10px'
+                        class="vc-mono vc-dim"
+                        style="font-size:10px"
                     >NO VOICE EXCHANGES YET</span>
                     <span
-                        class='vc-mono vc-dim'
-                        style='font-size:9px'
+                        class="vc-mono vc-dim"
+                        style="font-size:9px"
                     >HOLD SPACE TO BEGIN</span>
                 </div>
                 <div
-                    v-for='entry in entries'
-                    :key='entry.id'
-                    class='vc-entry'
-                    :class='entry.role'
+                    v-for="entry in entries"
+                    :key="entry.id"
+                    class="vc-entry"
+                    :class="entry.role"
                 >
-                    <div class='vc-entry-meta'>
+                    <div class="vc-entry-meta">
                         <component
                             :is='entry.role === "user" ? Mic : Bot'
-                            :size='10'
+                            :size="10"
                         />
                         <span
-                            class='vc-mono'
-                            style='font-size:9px'
+                            class="vc-mono"
+                            style="font-size:9px"
                         >{{ entry.role === 'user' ? 'OPERATOR' : 'AGENT' }}</span>
                         <span
-                            class='vc-mono vc-dim'
-                            style='font-size:9px;margin-left:auto'
+                            class="vc-mono vc-dim"
+                            style="font-size:9px;margin-left:auto"
                         >{{ fmtTime(entry.timestamp) }}</span>
                     </div>
-                    <div class='vc-entry-text'>
+                    <div class="vc-entry-text">
                         {{ entry.content }}
                     </div>
                 </div>

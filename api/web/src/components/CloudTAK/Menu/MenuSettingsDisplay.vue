@@ -1,69 +1,69 @@
 <template>
     <MenuTemplate
-        name='Display Preferences'
-        :loading='loading || !profile'
+        name="Display Preferences"
+        :loading="loading || !profile"
     >
-        <template v-if='profile'>
-            <div class='col-12 d-flex flex-column gap-2 py-2'>
+        <template v-if="profile">
+            <div class="col-12 d-flex flex-column gap-2 py-2">
                 <TablerInput
-                    v-model='search'
-                    icon='search'
-                    placeholder='Search settings...'
+                    v-model="search"
+                    icon="search"
+                    placeholder="Search settings..."
                 />
 
-                <div class='d-flex flex-column gap-2'>
+                <div class="d-flex flex-column gap-2">
                     <StandardItem
-                        v-for='item of filteredSettings'
-                        :key='item.key'
-                        :hover='false'
-                        class='position-relative'
+                        v-for="item of filteredSettings"
+                        :key="item.key"
+                        :hover="false"
+                        class="position-relative"
                     >
-                        <Transition name='saved-fade'>
+                        <Transition name="saved-fade">
                             <div
-                                v-if='savedKey === item.key'
-                                class='saved-indicator position-absolute d-flex align-items-center gap-1'
+                                v-if="savedKey === item.key"
+                                class="saved-indicator position-absolute d-flex align-items-center gap-1"
                             >
                                 <IconCircleCheck
-                                    :size='16'
-                                    stroke='1.5'
-                                    class='text-success'
+                                    :size="16"
+                                    stroke="1.5"
+                                    class="text-success"
                                 />
-                                <span class='text-success small fw-medium'>Saved</span>
+                                <span class="text-success small fw-medium">Saved</span>
                             </div>
                         </Transition>
-                        <div class='d-flex flex-column gap-2 px-3 py-3'>
-                            <div class='d-flex align-items-center gap-3'>
+                        <div class="d-flex flex-column gap-2 px-3 py-3">
+                            <div class="d-flex align-items-center gap-3">
                                 <div
-                                    class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 flex-shrink-0'
-                                    style='width: 40px; height: 40px;'
+                                    class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 flex-shrink-0"
+                                    style="width: 40px; height: 40px;"
                                 >
                                     <component
-                                        :is='item.icon'
-                                        :size='24'
-                                        stroke='1.5'
+                                        :is="item.icon"
+                                        :size="24"
+                                        stroke="1.5"
                                     />
                                 </div>
-                                <div class='fw-bold text-white'>
+                                <div class="fw-bold text-white">
                                     {{ item.label }}
                                 </div>
                             </div>
-                            <div class='col-12'>
+                            <div class="col-12">
                                 <TablerEnum
                                     v-if='item.type === "enum"'
-                                    v-model='(profile as any)[item.key]'
-                                    :options='item.options'
+                                    v-model="(profile as any)[item.key]"
+                                    :options="item.options"
                                 />
                                 <TablerToggle
                                     v-else
-                                    v-model='(profile as any)[item.key]'
+                                    v-model="(profile as any)[item.key]"
                                 />
                             </div>
                         </div>
                     </StandardItem>
 
                     <div
-                        v-if='filteredSettings.length === 0'
-                        class='text-center text-secondary py-4'
+                        v-if="filteredSettings.length === 0"
+                        class="text-center text-secondary py-4"
                     >
                         No settings match "{{ search }}"
                     </div>

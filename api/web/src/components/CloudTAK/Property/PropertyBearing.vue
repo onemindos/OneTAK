@@ -1,59 +1,59 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <IconCompass
-            :size='18'
-            stroke='1'
-            color='#6b7990'
-            class='ms-2 me-1'
+            :size="18"
+            stroke="1"
+            color="#6b7990"
+            class="ms-2 me-1"
         />
         <label
-            class='subheader user-select-none'
-            v-text='props.label'
+            class="subheader user-select-none"
+            v-text="props.label"
         />
-        <div class='mx-2'>
+        <div class="mx-2">
             <CopyField
-                v-model='config.bearing'
-                :edit='props.edit'
-                :hover='props.hover'
-                :size='24'
+                v-model="config.bearing"
+                :edit="props.edit"
+                :hover="props.hover"
+                :size="24"
             />
             <div
-                class='mx-2'
-                role='menu'
+                class="mx-2"
+                role="menu"
             >
                 <span
-                    title='Degrees'
-                    class='my-1 px-2 user-select-none'
+                    title="Degrees"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "deg",
                         "cursor-pointer": mode !== "deg",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("deg")'
                     @click='changeMode("deg")'
                 >Deg</span>
                 <span
-                    title='Radians'
-                    class='my-1 px-2 user-select-none'
+                    title="Radians"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "rad",
                         "cursor-pointer": mode !== "rad",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("rad")'
                     @click='changeMode("rad")'
                 >Rads</span>
                 <span
-                    title='Mil-Radians'
-                    class='my-1 px-2 user-select-none'
+                    title="Mil-Radians"
+                    class="my-1 px-2 user-select-none"
                     :class='{
                         "cloudtak-accent rounded-bottom text-blue": mode === "mil",
                         "cursor-pointer": mode !== "mil",
                     }'
-                    role='menuitem'
-                    tabindex='0'
+                    role="menuitem"
+                    tabindex="0"
                     @keyup.enter='changeMode("mil")'
                     @click='changeMode("mil")'
                 >Mils</span>

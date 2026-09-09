@@ -1,9 +1,9 @@
 <template>
-    <div class='col-12 py-2'>
+    <div class="col-12 py-2">
         <TablerInput
-            v-model='current'
-            :rows='32'
-            :error='error'
+            v-model="current"
+            :rows="32"
+            :error="error"
         />
     </div>
 </template>

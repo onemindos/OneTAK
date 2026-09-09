@@ -1,5 +1,5 @@
 <template>
-    <div class='generic-bottom-pane'>
+    <div class="generic-bottom-pane">
         <slot />
     </div>
 </template>

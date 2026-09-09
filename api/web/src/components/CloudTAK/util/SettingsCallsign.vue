@@ -1,82 +1,82 @@
 <template>
-    <TablerLoading v-if='loading || !profile' />
+    <TablerLoading v-if="loading || !profile" />
     <template v-else>
-        <div class='col-12 d-flex flex-column gap-2 py-2'>
+        <div class="col-12 d-flex flex-column gap-2 py-2">
             <TablerInput
-                v-model='search'
-                icon='search'
-                placeholder='Search settings...'
+                v-model="search"
+                icon="search"
+                placeholder="Search settings..."
             />
 
-            <div class='d-flex flex-column gap-2'>
+            <div class="d-flex flex-column gap-2">
                 <StandardItem
-                    v-for='item of filteredSettings'
-                    :key='item.key'
-                    :hover='false'
-                    class='position-relative'
+                    v-for="item of filteredSettings"
+                    :key="item.key"
+                    :hover="false"
+                    class="position-relative"
                 >
-                    <Transition name='saved-fade'>
+                    <Transition name="saved-fade">
                         <div
-                            v-if='savedKey === item.key'
-                            class='saved-indicator position-absolute d-flex align-items-center gap-1'
+                            v-if="savedKey === item.key"
+                            class="saved-indicator position-absolute d-flex align-items-center gap-1"
                         >
                             <IconCircleCheck
-                                :size='16'
-                                stroke='1.5'
-                                class='text-success'
+                                :size="16"
+                                stroke="1.5"
+                                class="text-success"
                             />
-                            <span class='text-success small fw-medium'>Saved</span>
+                            <span class="text-success small fw-medium">Saved</span>
                         </div>
                     </Transition>
-                    <div class='d-flex flex-column gap-2 px-3 py-3'>
-                        <div class='d-flex align-items-center gap-3'>
+                    <div class="d-flex flex-column gap-2 px-3 py-3">
+                        <div class="d-flex align-items-center gap-3">
                             <div
-                                class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 flex-shrink-0'
-                                style='width: 40px; height: 40px;'
+                                class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 flex-shrink-0"
+                                style="width: 40px; height: 40px;"
                             >
                                 <component
-                                    :is='item.icon'
-                                    :size='24'
-                                    stroke='1.5'
+                                    :is="item.icon"
+                                    :size="24"
+                                    stroke="1.5"
                                 />
                             </div>
-                            <div class='fw-bold text-white'>
+                            <div class="fw-bold text-white">
                                 {{ item.label }}
                             </div>
                         </div>
-                        <div class='col-12'>
+                        <div class="col-12">
                             <TablerInput
                                 v-if='item.type === "input"'
-                                v-model='(profile as any)[item.key]'
+                                v-model="(profile as any)[item.key]"
                                 :error='item.key === "tak_callsign" ? validateTextNotEmpty(profile.tak_callsign) : ""'
                                 :required='item.key === "tak_callsign"'
                             />
                             <TablerInput
                                 v-else-if='item.type === "seconds"'
-                                v-model='locFreqSeconds'
-                                type='number'
-                                min='0'
-                                step='0.1'
+                                v-model="locFreqSeconds"
+                                type="number"
+                                min="0"
+                                step="0.1"
                             />
                             <TablerEnum
                                 v-else-if='item.type === "enum"'
-                                v-model='(profile as any)[item.key]'
-                                :options='item.options'
+                                v-model="(profile as any)[item.key]"
+                                :options="item.options"
                             />
                             <CoordinateType
                                 v-else-if='item.type === "coordinate"'
-                                v-model='profile.tak_type'
-                                :size='24'
+                                v-model="profile.tak_type"
+                                :size="24"
                             />
                         </div>
                         <div
                             v-if='(item.type === "input" || item.type === "seconds") && hasChanged(item.key)'
-                            class='d-flex justify-content-end'
+                            class="d-flex justify-content-end"
                         >
                             <button
-                                class='btn btn-primary btn-sm'
+                                class="btn btn-primary btn-sm"
                                 :disabled='item.key === "tak_callsign" && !!validateTextNotEmpty(profile.tak_callsign)'
-                                @click='saveField(item.key)'
+                                @click="saveField(item.key)"
                             >
                                 Save
                             </button>
@@ -85,8 +85,8 @@
                 </StandardItem>
 
                 <div
-                    v-if='filteredSettings.length === 0'
-                    class='text-center text-secondary py-4'
+                    v-if="filteredSettings.length === 0"
+                    class="text-center text-secondary py-4"
                 >
                     No settings match "{{ search }}"
                 </div>

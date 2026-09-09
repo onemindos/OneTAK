@@ -1,95 +1,95 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Layer Alarms
             </h3>
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerRefreshButton
-                        title='Refresh'
-                        :loading='loading'
+                        title="Refresh"
+                        :loading="loading"
                         @click='emit("stack")'
                     />
 
                     <TablerIconButton
-                        title='Edit'
-                        @click='disabled = false'
+                        title="Edit"
+                        @click="disabled = false"
                     >
                         <IconPencil
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
 
-        <div class='card-body'>
-            <template v-if='loading'>
+        <div class="card-body">
+            <template v-if="loading">
                 <TablerLoading />
             </template>
             <template v-else>
-                <div class='row g-2'>
-                    <div class='col-md-12'>
+                <div class="row g-2">
+                    <div class="col-md-12">
                         <TablerEnum
-                            v-model='config.priority'
-                            label='Alarm Urgency'
-                            :disabled='disabled'
+                            v-model="config.priority"
+                            label="Alarm Urgency"
+                            :disabled="disabled"
                             :options='["off", "high", "low"]'
                         />
                     </div>
 
                     <TablerInlineAlert
                         v-if='config.priority === "high"'
-                        severity='danger'
-                        title='High Urgency Alarms'
-                        description='Use only for mission-critical layers that require immediate attention'
-                        :dismissable='false'
+                        severity="danger"
+                        title="High Urgency Alarms"
+                        description="Use only for mission-critical layers that require immediate attention"
+                        :dismissable="false"
                     />
                     <TablerInlineAlert
                         v-else-if='config.priority === "low"'
-                        severity='info'
-                        title='Low Urgency Alarms'
-                        description='Use for layers that are important but not mission-critical'
-                        :dismissable='false'
+                        severity="info"
+                        title="Low Urgency Alarms"
+                        description="Use for layers that are important but not mission-critical"
+                        :dismissable="false"
                     />
 
                     <div
                         v-if='config.priority !== "off"'
-                        class='row g-3 mb-4 align-items-end'
+                        class="row g-3 mb-4 align-items-end"
                     >
-                        <div class='col-md'>
+                        <div class="col-md">
                             <TablerRange
-                                v-model='config.alarm_evals'
-                                label='Evaluation Periods'
-                                :disabled='disabled'
-                                :min='1'
-                                :max='10'
-                                @change='periods = generatePeriodData()'
+                                v-model="config.alarm_evals"
+                                label="Evaluation Periods"
+                                :disabled="disabled"
+                                :min="1"
+                                :max="10"
+                                @change="periods = generatePeriodData()"
                             >
                                 <span>{{ config.alarm_evals }}</span>
                             </TablerRange>
                         </div>
-                        <div class='col-md'>
+                        <div class="col-md">
                             <TablerRange
-                                v-model='config.alarm_points'
-                                label='Data Points to Alarm'
-                                :disabled='disabled'
-                                :min='1'
-                                :max='config.alarm_evals'
+                                v-model="config.alarm_points"
+                                label="Data Points to Alarm"
+                                :disabled="disabled"
+                                :min="1"
+                                :max="config.alarm_evals"
                             >
                                 <span>{{ config.alarm_points }}</span>
                             </TablerRange>
                         </div>
-                        <div class='col-md'>
+                        <div class="col-md">
                             <TablerRange
-                                v-model='config.alarm_period'
-                                label='Period (seconds)'
-                                :disabled='disabled'
-                                :min='2'
-                                :max='300'
-                                @change='periods = generatePeriodData()'
+                                v-model="config.alarm_period"
+                                label="Period (seconds)"
+                                :disabled="disabled"
+                                :min="2"
+                                :max="300"
+                                @change="periods = generatePeriodData()"
                             >
                                 <span>{{ config.alarm_period }}s</span>
                             </TablerRange>
@@ -98,13 +98,13 @@
 
                     <div
                         v-if='config.priority !== "off"'
-                        class='card text-center mb-4'
+                        class="card text-center mb-4"
                     >
-                        <div class='card-body'>
-                            <p class='card-text fs-5'>
+                        <div class="card-body">
+                            <p class="card-text fs-5">
                                 Alarm State:
                                 <span
-                                    class='fw-bold'
+                                    class="fw-bold"
                                     :class='{
                                         "text-success": alarmState === "OK",
                                         "text-danger": alarmState === "ALARM",
@@ -112,86 +112,86 @@
                                     }'
                                 >{{ alarmState }}</span>
                             </p>
-                            <p class='card-text text-muted'>
+                            <p class="card-text text-muted">
                                 {{ periods.filter(p => p).length }} out of {{ config.alarm_evals }} recent periods are breaching the threshold.
                             </p>
                         </div>
 
-                        <div class='d-flex align-items-center px-3 pb-2'>
-                            <div class='subheader'>
-                                <span v-text='`${periods.length * config.alarm_period} Seconds Ago`' />
+                        <div class="d-flex align-items-center px-3 pb-2">
+                            <div class="subheader">
+                                <span v-text="`${periods.length * config.alarm_period} Seconds Ago`" />
                             </div>
-                            <div class='ms-auto subheader'>
+                            <div class="ms-auto subheader">
                                 Current Time
                             </div>
                         </div>
                         <div
-                            class='d-flex align-items-stretch gap-1 ps-3 pe-3 pb-3'
-                            style='height: 250px;'
+                            class="d-flex align-items-stretch gap-1 ps-3 pe-3 pb-3"
+                            style="height: 250px;"
                         >
                             <div
-                                v-for='(periodData, periodIndex) in periods.slice(0, EXTRA_PERIODS)'
-                                :key='periodIndex'
-                                class='h-100 d-flex flex-column justify-content-end p-1 border rounded'
-                                :style='`width: calc(${100 / periods.length}%)`'
+                                v-for="(periodData, periodIndex) in periods.slice(0, EXTRA_PERIODS)"
+                                :key="periodIndex"
+                                class="h-100 d-flex flex-column justify-content-end p-1 border rounded"
+                                :style="`width: calc(${100 / periods.length}%)`"
                             >
-                                <div class='text-center small fw-bold mt-1 text-body-secondary'>
+                                <div class="text-center small fw-bold mt-1 text-body-secondary">
                                     Ignored
                                 </div>
                             </div>
                             <div
-                                v-for='(periodData, periodIndex) in periods.slice(EXTRA_PERIODS)'
-                                :key='periodIndex'
-                                class='cursor-pointer cloudtak-hover h-100 d-flex flex-column justify-content-end p-1 border rounded'
+                                v-for="(periodData, periodIndex) in periods.slice(EXTRA_PERIODS)"
+                                :key="periodIndex"
+                                class="cursor-pointer cloudtak-hover h-100 d-flex flex-column justify-content-end p-1 border rounded"
                                 :class='{
                                     "border-danger bg-danger-subtle": periodData,
                                     "border-success bd-success-suble": !periodData
                                 }'
-                                style='transition: all 0.3s ease-in-out'
-                                :style='`width: calc(${100 / periods.length}%)`'
-                                @click='periods[periodIndex + EXTRA_PERIODS] = !periods[periodIndex + EXTRA_PERIODS]'
+                                style="transition: all 0.3s ease-in-out"
+                                :style="`width: calc(${100 / periods.length}%)`"
+                                @click="periods[periodIndex + EXTRA_PERIODS] = !periods[periodIndex + EXTRA_PERIODS]"
                             >
-                                <div class='small fw-bold text-body-secondary'>
+                                <div class="small fw-bold text-body-secondary">
                                     {{ periodData ? "ALARM" : "OK" }}
                                 </div>
                             </div>
                         </div>
-                        <div class='d-flex justify-content-center gap-4 mt-3 small text-muted pb-3'>
-                            <div class='d-flex align-items-center gap-2'>
+                        <div class="d-flex justify-content-center gap-4 mt-3 small text-muted pb-3">
+                            <div class="d-flex align-items-center gap-2">
                                 <span
-                                    class='d-inline-block rounded border'
-                                    style='width: 14px; height: 14px;'
+                                    class="d-inline-block rounded border"
+                                    style="width: 14px; height: 14px;"
                                 /> Outside Evaluation
                             </div>
-                            <div class='d-flex align-items-center gap-2'>
+                            <div class="d-flex align-items-center gap-2">
                                 <span
-                                    class='d-inline-block rounded border border-success bg-success-subtle'
-                                    style='width: 14px; height: 14px;'
+                                    class="d-inline-block rounded border border-success bg-success-subtle"
+                                    style="width: 14px; height: 14px;"
                                 /> OK Period
                             </div>
-                            <div class='d-flex align-items-center gap-2'>
+                            <div class="d-flex align-items-center gap-2">
                                 <span
-                                    class='d-inline-block rounded border border-danger bg-danger-subtle'
-                                    style='width: 14px; height: 14px;'
+                                    class="d-inline-block rounded border border-danger bg-danger-subtle"
+                                    style="width: 14px; height: 14px;"
                                 /> Alarming Period
                             </div>
                         </div>
                     </div>
 
                     <div
-                        v-if='!disabled'
-                        class='col-12 pt-3 d-flex'
+                        v-if="!disabled"
+                        class="col-12 pt-3 d-flex"
                     >
                         <button
-                            class='btn'
-                            @click='refresh'
+                            class="btn"
+                            @click="refresh"
                         >
                             Cancel
                         </button>
-                        <div class='ms-auto'>
+                        <div class="ms-auto">
                             <button
-                                class='btn btn-primary'
-                                @click='saveLayer'
+                                class="btn btn-primary"
+                                @click="saveLayer"
                             >
                                 Save
                             </button>

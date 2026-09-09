@@ -1,42 +1,42 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h3 class='card-title'>
+        <div class="card-header d-flex">
+            <h3 class="card-title">
                 Environment
             </h3>
             <div
-                v-if='disabled'
-                class='ms-auto btn-list'
+                v-if="disabled"
+                class="ms-auto btn-list"
             >
-                <template v-if='disabled && !raw'>
+                <template v-if="disabled && !raw">
                     <TablerIconButton
-                        title='Raw View'
-                        @click='raw = true'
+                        title="Raw View"
+                        @click="raw = true"
                     >
                         <IconCode
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        v-if='props.capabilities'
-                        title='Edit'
-                        @click='disabled = false'
+                        v-if="props.capabilities"
+                        title="Edit"
+                        @click="disabled = false"
                     >
                         <IconPencil
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </template>
-                <template v-else-if='raw'>
+                <template v-else-if="raw">
                     <TablerIconButton
-                        title='Close View'
-                        @click='raw = false'
+                        title="Close View"
+                        @click="raw = false"
                     >
                         <IconX
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </template>
@@ -44,54 +44,54 @@
         </div>
 
         <div
-            v-if='softAlert'
-            class='bg-red-lt mx-2 px-2 py-2 my-2 rounded border border-red justify-content-center'
+            v-if="softAlert"
+            class="bg-red-lt mx-2 px-2 py-2 my-2 rounded border border-red justify-content-center"
         >
             <div>Output Schema could not be loaded from upstream source:</div>
-            <div v-text='softAlert.message' />
+            <div v-text="softAlert.message" />
         </div>
         <TablerLoading
-            v-else-if='!environment'
-            desc='Loading Environment'
+            v-else-if="!environment"
+            desc="Loading Environment"
         />
         <TablerLoading
-            v-else-if='loading.save'
-            desc='Saving Environment'
+            v-else-if="loading.save"
+            desc="Saving Environment"
         />
         <div
             v-else
-            class='col'
+            class="col"
         >
-            <template v-if='raw'>
+            <template v-if="raw">
                 <CopyField
-                    :rows='20'
-                    :edit='true'
-                    :hover='true'
-                    :validate='validateJSON'
-                    :model-value='JSON.stringify(environment, null, 4)'
-                    @update:model-value='environment = JSON.parse($event)'
+                    :rows="20"
+                    :edit="true"
+                    :hover="true"
+                    :validate="validateJSON"
+                    :model-value="JSON.stringify(environment, null, 4)"
+                    @update:model-value="environment = JSON.parse($event)"
                 />
             </template>
             <TablerAlert
-                v-else-if='!props.capabilities'
-                title='Missing Capabilities'
+                v-else-if="!props.capabilities"
+                title="Missing Capabilities"
                 :err='new Error("Layer failed to return a Capabilities object")'
             />
             <TablerAlert
-                v-else-if='!props.capabilities?.incoming?.schema?.input'
-                title='Missing Input Schema'
+                v-else-if="!props.capabilities?.incoming?.schema?.input"
+                title="Missing Input Schema"
                 :err='new Error("Layer failed to return an input schema on the Capabilities object")'
             />
             <template v-else-if='direction === "incoming" && props.capabilities.name === "etl-arcgis"'>
                 <LayerIncomingEnvironmentArcGIS
-                    v-model='environment'
-                    :disabled='disabled'
+                    v-model="environment"
+                    :disabled="disabled"
                 />
             </template>
             <template v-else-if='direction === "outgoing" && props.capabilities.name === "etl-arcgis"'>
                 <LayerOutgoingEnvironmentArcGIS
-                    v-model='environment'
-                    :disabled='disabled'
+                    v-model="environment"
+                    :disabled="disabled"
                 />
             </template>
             <template
@@ -100,48 +100,48 @@
                         || !(props.capabilities[direction] as DirectionCapability)?.schema?.input?.properties
                 '
             >
-                <div class='d-flex justify-content-center my-4'>
+                <div class="d-flex justify-content-center my-4">
                     Only Object Schemas are Supported.
                 </div>
             </template>
             <template v-else>
                 <TablerNone
-                    v-if='Object.keys(inputSchema.properties).length === 0'
-                    label='No Schema'
-                    :create='false'
+                    v-if="Object.keys(inputSchema.properties).length === 0"
+                    label="No Schema"
+                    :create="false"
                 />
                 <Schema
                     v-else
-                    v-model='environment'
-                    :schema='inputSchema'
-                    :disabled='disabled'
+                    v-model="environment"
+                    :schema="inputSchema"
+                    :disabled="disabled"
                 />
             </template>
 
-            <div class='px-2 pb-3'>
-                <template v-if='(config.timezone as Record<string, unknown>)'>
+            <div class="px-2 pb-3">
+                <template v-if="(config.timezone as Record<string, unknown>)">
                     <TablerTimeZone
-                        v-model='(config.timezone as Record<string, string>).timezone'
-                        label='Date TimeZone Override'
-                        :disabled='disabled'
+                        v-model="(config.timezone as Record<string, string>).timezone"
+                        label="Date TimeZone Override"
+                        :disabled="disabled"
                     />
                 </template>
             </div>
 
             <div
-                v-if='!disabled || raw'
-                class='col-12 px-2 py-2 d-flex'
+                v-if="!disabled || raw"
+                class="col-12 px-2 py-2 d-flex"
             >
                 <button
-                    class='btn'
-                    @click='reload'
+                    class="btn"
+                    @click="reload"
                 >
                     Cancel
                 </button>
-                <div class='ms-auto'>
+                <div class="ms-auto">
                     <button
-                        class='btn btn-primary'
-                        @click='saveLayer'
+                        class="btn btn-primary"
+                        @click="saveLayer"
                     >
                         Save
                     </button>

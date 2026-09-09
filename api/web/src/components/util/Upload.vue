@@ -1,30 +1,30 @@
 <template>
-    <div class='card-body'>
+    <div class="card-body">
         <TablerInlineAlert
-            v-if='props.sizeWarning'
-            severity='warning'
-            title='Uploads are limited to 5 GB'
+            v-if="props.sizeWarning"
+            severity="warning"
+            title="Uploads are limited to 5 GB"
         />
         <div
-            class='row'
+            class="row"
             :class='{ "d-none": file }'
         >
             <div
-                class='col-12 d-flex justify-content-center mb-3'
-                v-text='props.label'
+                class="col-12 d-flex justify-content-center mb-3"
+                v-text="props.label"
             />
-            <div class='col-12 d-flex justify-content-center'>
-                <div class='btn-list'>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="btn-list">
                     <button
-                        v-if='props.cancel'
-                        class='btn btn-secondary'
+                        v-if="props.cancel"
+                        class="btn btn-secondary"
                         @click='emit("cancel")'
                     >
                         Cancel
                     </button>
                     <button
-                        class='btn btn-primary'
-                        @click='fileInput?.click()'
+                        class="btn btn-primary"
+                        @click="fileInput?.click()"
                     >
                         Upload
                     </button>
@@ -32,50 +32,50 @@
             </div>
             <form>
                 <input
-                    id='file'
-                    ref='fileInput'
-                    class='d-none'
-                    type='file'
-                    name='file'
-                    :accept='props.mimetype'
-                    @change='stage'
+                    id="file"
+                    ref="fileInput"
+                    class="d-none"
+                    type="file"
+                    name="file"
+                    :accept="props.mimetype"
+                    @change="stage"
                 >
             </form>
         </div>
 
         <div
-            v-if='file && progress === 0'
-            class='row'
+            v-if="file && progress === 0"
+            class="row"
         >
-            <div class='d-flex align-items-center px-3 py-2'>
+            <div class="d-flex align-items-center px-3 py-2">
                 <IconFile
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
                 <span
-                    class='mx-2 user-select-none'
-                    v-text='file.name'
+                    class="mx-2 user-select-none"
+                    v-text="file.name"
                 />
             </div>
         </div>
         <div
-            v-else-if='file && progress > 0 && progress < 100'
+            v-else-if="file && progress > 0 && progress < 100"
         >
-            <TablerLoading :desc='`Uploading ${file.name} (${progress}%)`' />
-            <TablerProgress :percent='progress / 100' />
+            <TablerLoading :desc="`Uploading ${file.name} (${progress}%)`" />
+            <TablerProgress :percent="progress / 100" />
         </div>
         <div
-            v-else-if='file && progress === 100'
-            class='row'
+            v-else-if="file && progress === 100"
+            class="row"
         >
-            <div class='d-flex align-items-center px-3 py-2 text-success'>
+            <div class="d-flex align-items-center px-3 py-2 text-success">
                 <IconFile
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
                 <span
-                    class='mx-2 user-select-none'
-                    v-text='`${file.name} - Upload Complete`'
+                    class="mx-2 user-select-none"
+                    v-text="`${file.name} - Upload Complete`"
                 />
             </div>
         </div>

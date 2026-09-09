@@ -1,29 +1,29 @@
 <template>
-    <div class='space-y-4'>
-        <p class='text-xs text-gray-400'>
+    <div class="space-y-4">
+        <p class="text-xs text-gray-400">
             Load Cloud Optimized GeoTIFFs (COG) as raster layers.
             Works with drone ortho imagery, aerial photography, and satellite snapshots.
         </p>
 
         <!-- Add COG layer -->
-        <div class='space-y-2'>
-            <label class='block text-xs text-gray-400'>GeoTIFF URL</label>
+        <div class="space-y-2">
+            <label class="block text-xs text-gray-400">GeoTIFF URL</label>
             <input
-                v-model='cogUrl'
-                class='w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
-                placeholder='https://intel.local/imagery/ortho.tif'
+                v-model="cogUrl"
+                class="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+                placeholder="https://intel.local/imagery/ortho.tif"
             >
-            <label class='block text-xs text-gray-400'>Label</label>
-            <div class='flex gap-2'>
+            <label class="block text-xs text-gray-400">Label</label>
+            <div class="flex gap-2">
                 <input
-                    v-model='cogLabel'
-                    class='flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
-                    placeholder='Drone Ortho 2024-09-09'
+                    v-model="cogLabel"
+                    class="flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+                    placeholder="Drone Ortho 2024-09-09"
                 >
                 <button
-                    :disabled='!cogUrl'
-                    class='px-3 py-2 text-xs rounded bg-blue-700 hover:bg-blue-600 text-white transition-colors disabled:opacity-40'
-                    @click='addLayer'
+                    :disabled="!cogUrl"
+                    class="px-3 py-2 text-xs rounded bg-blue-700 hover:bg-blue-600 text-white transition-colors disabled:opacity-40"
+                    @click="addLayer"
                 >
                     Add
                 </button>
@@ -32,38 +32,38 @@
 
         <!-- Active COG layers -->
         <div
-            v-if='store.cogLayers.length'
-            class='space-y-2'
+            v-if="store.cogLayers.length"
+            class="space-y-2"
         >
-            <span class='text-xs text-gray-400'>Active imagery</span>
+            <span class="text-xs text-gray-400">Active imagery</span>
             <div
-                v-for='layer in store.cogLayers'
-                :key='layer.id'
-                class='bg-gray-800 rounded p-3 space-y-2'
+                v-for="layer in store.cogLayers"
+                :key="layer.id"
+                class="bg-gray-800 rounded p-3 space-y-2"
             >
-                <div class='flex items-center justify-between'>
-                    <p class='text-xs text-white'>
+                <div class="flex items-center justify-between">
+                    <p class="text-xs text-white">
                         {{ layer.label }}
                     </p>
                     <button
-                        class='text-xs text-red-400 hover:text-red-300'
-                        @click='removeLayer(layer.id)'
+                        class="text-xs text-red-400 hover:text-red-300"
+                        @click="removeLayer(layer.id)"
                     >
                         Remove
                     </button>
                 </div>
-                <div class='flex items-center gap-2'>
-                    <span class='text-xs text-gray-400 w-12'>Opacity</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-400 w-12">Opacity</span>
                     <input
-                        type='range'
-                        min='0'
-                        max='1'
-                        step='0.05'
-                        :value='layer.opacity'
-                        class='flex-1 h-1 accent-blue-500'
-                        @input='setOpacity(layer.id, Number(($event.target as HTMLInputElement).value))'
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        :value="layer.opacity"
+                        class="flex-1 h-1 accent-blue-500"
+                        @input="setOpacity(layer.id, Number(($event.target as HTMLInputElement).value))"
                     >
-                    <span class='text-xs text-gray-400 w-8 text-right'>{{ Math.round(layer.opacity * 100) }}%</span>
+                    <span class="text-xs text-gray-400 w-8 text-right">{{ Math.round(layer.opacity * 100) }}%</span>
                 </div>
             </div>
         </div>

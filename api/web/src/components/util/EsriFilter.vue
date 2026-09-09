@@ -1,29 +1,29 @@
 <template>
-    <TablerModal size='xl'>
+    <TablerModal size="xl">
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='$emit("close")'
         />
-        <div class='modal-status bg-yellow' />
-        <div class='modal-header'>
-            <div class='modal-title'>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-header">
+            <div class="modal-title">
                 ESRI Layer Filter
             </div>
         </div>
-        <div class='modal-body row g-2'>
+        <div class="modal-body row g-2">
             <TablerInput
-                v-model='filter.query'
-                label='SQL Query'
-                :disabled='disabled'
+                v-model="filter.query"
+                label="SQL Query"
+                :disabled="disabled"
             />
 
-            <div class='d-flex px-4'>
-                <div class='ms-auto'>
+            <div class="d-flex px-4">
+                <div class="ms-auto">
                     <button
-                        class='btn btn-secondary'
-                        @click='fetch'
+                        class="btn btn-secondary"
+                        @click="fetch"
                     >
                         Test Query
                     </button>
@@ -31,28 +31,28 @@
             </div>
 
             <TablerAlert
-                v-if='err'
-                :err='err'
-                title='Query Error'
+                v-if="err"
+                :err="err"
+                title="Query Error"
             />
             <TablerLoading
-                v-if='loading.count'
-                desc='Loading Features'
+                v-if="loading.count"
+                desc="Loading Features"
             />
-            <template v-else-if='list.features.features'>
-                <pre v-text='features' />
+            <template v-else-if="list.features.features">
+                <pre v-text="features" />
             </template>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                class='btn me-auto'
+                class="btn me-auto"
                 @click='$emit("close")'
             >
                 Close
             </button>
             <button
-                class='btn btn-primary'
-                @click='save'
+                class="btn btn-primary"
+                @click="save"
             >
                 Save Filter
             </button>

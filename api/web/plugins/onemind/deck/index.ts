@@ -12,8 +12,10 @@
  *   - disable() destroys the overlay and clears all layers.
  */
 
+import { markRaw } from 'vue';
 import type { App } from 'vue';
-import type { PluginAPI, PluginInstance } from '../../plugin';
+import type { PluginAPI, PluginInstance } from '../../../plugin';
+import { IconLayersLinked } from '@tabler/icons-vue';
 import { initOverlay, destroyOverlay, setLayers } from './src/overlay';
 import { useDeckStore } from './src/store';
 import { buildTile3DLayer } from './src/layers/tile3d';
@@ -55,6 +57,7 @@ export default class DeckPlugin implements PluginInstance {
 
         this.api.menu.add({
             key:         MENU_KEY,
+            icon:        markRaw(IconLayersLinked),
             label:       'Deck Layers',
             route:       ROUTE_NAME,
             tooltip:     '3D tiles · Heatmaps · Track replay',

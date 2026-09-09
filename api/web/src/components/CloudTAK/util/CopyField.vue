@@ -1,45 +1,45 @@
 <template>
-    <div v-bind='$attrs'>
+    <div v-bind="$attrs">
         <label
-            v-if='label'
-            class='mx-1'
-            v-text='props.label'
+            v-if="label"
+            class="mx-1"
+            v-text="props.label"
         />
 
         <div
-            v-if='editing'
-            class='rounded'
+            v-if="editing"
+            class="rounded"
         >
             <TablerInput
-                v-model='text'
-                :rows='rows'
-                :autofocus='true'
-                label=''
-                :error='error'
-                @update:model-value='validUpdate($event)'
-                @blur='validUpdate(text, {
+                v-model="text"
+                :rows="rows"
+                :autofocus="true"
+                label=""
+                :error="error"
+                @update:model-value="validUpdate($event)"
+                @blur="validUpdate(text, {
                     submit: false,
                     editing: true
-                })'
-                @submit='validUpdate(text, {
+                })"
+                @submit="validUpdate(text, {
                     submit: rows > 1 ? false : true,
                     editing: rows > 1 ? true : false
-                })'
+                })"
             >
                 <template
-                    v-if='!error'
+                    v-if="!error"
                     #end
                 >
                     <TablerIconButton
-                        title='Done Editing'
-                        @click.stop.prevent='validUpdate(text, {
+                        title="Done Editing"
+                        @click.stop.prevent="validUpdate(text, {
                             submit: true,
                             editing: false
-                        })'
+                        })"
                     >
                         <IconCheck
-                            :size='20'
-                            stroke='1.5'
+                            :size="20"
+                            stroke="1.5"
                         />
                     </TablerIconButton>
                 </template>
@@ -47,8 +47,8 @@
         </div>
         <div
             v-else
-            ref='infobox'
-            class='position-relative rounded text-truncate'
+            ref="infobox"
+            class="position-relative rounded text-truncate"
             :style='{
                 ...(rows === 1 ? { minHeight: `${minheight}px` } : {}),
                 ...(props.mode !== "pre" ? { backgroundColor: "rgba(0, 0, 0, 0.1)" } : {}),
@@ -63,91 +63,91 @@
             <template v-if='rows > 1 || mode === "pre"'>
                 <TablerMarkdown
                     v-if='mode === "text"'
-                    style='min-height: 32px'
-                    :markdown='markdown'
+                    style="min-height: 32px"
+                    :markdown="markdown"
                 />
                 <pre
                     v-else
-                    v-text='text'
+                    v-text="text"
                 />
 
                 <TablerDelete
-                    v-if='props.deletable'
-                    displaytype='icon'
-                    style='top: 8px;'
-                    :size='24'
+                    v-if="props.deletable"
+                    displaytype="icon"
+                    style="top: 8px;"
+                    :size="24"
                     :class='{
                         "cloudtak-hover-hidden": hover,
                     }'
                     :style='{
                         "right": props.edit ? "64px" : "32px",
                     }'
-                    class='position-absolute cloudtak-accent'
+                    class="position-absolute cloudtak-accent"
                     @delete='$emit("delete")'
                 />
 
                 <TablerIconButton
-                    v-if='edit'
-                    title='Edit Field'
-                    class='position-absolute'
+                    v-if="edit"
+                    title="Edit Field"
+                    class="position-absolute"
                     :class='{
                         "cloudtak-hover-hidden": hover,
                     }'
-                    style='right: 40px; top: 8px;'
-                    @click.stop.prevent='editing = true'
+                    style="right: 40px; top: 8px;"
+                    @click.stop.prevent="editing = true"
                 >
                     <IconPencil
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <CopyButton
-                    :text='text'
-                    class='position-absolute cloudtak-accent'
-                    :size='24'
-                    style='right: 8px; top: 8px;'
+                    :text="text"
+                    class="position-absolute cloudtak-accent"
+                    :size="24"
+                    style="right: 8px; top: 8px;"
                 />
             </template>
             <template v-else>
-                <span v-text='text' />
+                <span v-text="text" />
 
                 <TablerDelete
-                    v-if='props.deletable'
-                    displaytype='icon'
-                    style='top: 6px;'
-                    :size='24'
+                    v-if="props.deletable"
+                    displaytype="icon"
+                    style="top: 6px;"
+                    :size="24"
                     :class='{
                         "cloudtak-hover-hidden": hover,
                     }'
                     :style='{
                         "right": props.edit ? "64px" : "32px",
                     }'
-                    class='position-absolute cloudtak-accent'
+                    class="position-absolute cloudtak-accent"
                     @delete='$emit("delete")'
                 />
 
                 <TablerIconButton
-                    v-if='edit'
-                    title='Edit'
-                    class='position-absolute'
+                    v-if="edit"
+                    title="Edit"
+                    class="position-absolute"
                     :class='{
                         "cloudtak-hover-hidden": hover,
                     }'
-                    style='right: 36px; top: 6px;'
-                    @click.stop.prevent='editing = true'
+                    style="right: 36px; top: 6px;"
+                    @click.stop.prevent="editing = true"
                 >
                     <IconPencil
-                        :size='24'
-                        stroke='1'
+                        :size="24"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <CopyButton
-                    :text='text'
-                    class='position-absolute'
-                    :size='24'
-                    style='right: 8px; top: 6px;'
+                    :text="text"
+                    class="position-absolute"
+                    :size="24"
+                    style="right: 8px; top: 6px;"
                 />
             </template>
         </div>

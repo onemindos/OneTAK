@@ -1,55 +1,55 @@
 <template>
-    <div class='page page-center cloudtak-gradient setup-page position-relative'>
-        <div class='container container-normal py-4 position-relative setup-container'>
-            <div class='row align-items-center g-4'>
-                <div class='col-lg'>
-                    <div class='container-tight'>
-                        <div class='card card-md'>
-                            <div class='card-body'>
-                                <div class='text-center mb-4'>
+    <div class="page page-center cloudtak-gradient setup-page position-relative">
+        <div class="container container-normal py-4 position-relative setup-container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg">
+                    <div class="container-tight">
+                        <div class="card card-md">
+                            <div class="card-body">
+                                <div class="text-center mb-4">
                                     <img
-                                        src='/CloudTAKLogo.svg'
-                                        alt='CloudTAK logo'
-                                        class='setup-logo'
-                                        draggable='false'
+                                        src="/CloudTAKLogo.svg"
+                                        alt="CloudTAK logo"
+                                        class="setup-logo"
+                                        draggable="false"
                                     >
                                 </div>
-                                <h2 class='h2 text-center mb-4'>
+                                <h2 class="h2 text-center mb-4">
                                     Connect to Server
                                 </h2>
 
                                 <div
                                     v-if='viewMode === "providers"'
-                                    class='mt-2'
+                                    class="mt-2"
                                 >
-                                    <h3 class='h4 mb-3'>
+                                    <h3 class="h4 mb-3">
                                         Known Providers
                                     </h3>
 
                                     <TablerAlert
-                                        v-if='connectError'
-                                        class='mb-3'
-                                        title='Unable to Connect'
-                                        :err='connectError'
-                                        :compact='true'
+                                        v-if="connectError"
+                                        class="mb-3"
+                                        title="Unable to Connect"
+                                        :err="connectError"
+                                        :compact="true"
                                     />
 
                                     <TablerLoading
-                                        v-if='providersLoading'
-                                        desc='Loading Providers'
+                                        v-if="providersLoading"
+                                        desc="Loading Providers"
                                     />
 
-                                    <template v-else-if='providersError'>
+                                    <template v-else-if="providersError">
                                         <TablerAlert
-                                            class='mb-3'
-                                            title='Unable to load providers'
-                                            :err='providersError'
-                                            :compact='true'
+                                            class="mb-3"
+                                            title="Unable to load providers"
+                                            :err="providersError"
+                                            :compact="true"
                                         />
                                         <button
-                                            class='btn btn-outline-secondary w-100 mb-3'
-                                            type='button'
-                                            @click='loadProviders'
+                                            class="btn btn-outline-secondary w-100 mb-3"
+                                            type="button"
+                                            @click="loadProviders"
                                         >
                                             Retry
                                         </button>
@@ -57,49 +57,49 @@
 
                                     <template v-else>
                                         <TablerInput
-                                            v-model='searchTerm'
-                                            icon='search'
-                                            label='Search by Name'
-                                            placeholder='Search CloudTAK providers'
-                                            class='mb-3'
+                                            v-model="searchTerm"
+                                            icon="search"
+                                            label="Search by Name"
+                                            placeholder="Search CloudTAK providers"
+                                            class="mb-3"
                                         />
 
                                         <TablerNone
-                                            v-if='filteredProviders.length === 0'
-                                            label='No Providers'
-                                            :compact='true'
-                                            :create='false'
+                                            v-if="filteredProviders.length === 0"
+                                            label="No Providers"
+                                            :compact="true"
+                                            :create="false"
                                         />
 
-                                        <div class='row g-3 mb-4'>
+                                        <div class="row g-3 mb-4">
                                             <div
-                                                v-for='provider in filteredProviders'
-                                                :key='provider.url'
-                                                class='col-12'
+                                                v-for="provider in filteredProviders"
+                                                :key="provider.url"
+                                                class="col-12"
                                             >
                                                 <button
-                                                    type='button'
-                                                    class='card provider-card h-100 w-100 text-start'
-                                                    :disabled='connecting'
-                                                    @click='connect(provider.url)'
+                                                    type="button"
+                                                    class="card provider-card h-100 w-100 text-start"
+                                                    :disabled="connecting"
+                                                    @click="connect(provider.url)"
                                                 >
-                                                    <span class='card-body d-flex align-items-center gap-3'>
+                                                    <span class="card-body d-flex align-items-center gap-3">
                                                         <img
-                                                            v-if='providerLogo(provider)'
-                                                            :src='providerLogo(provider) || undefined'
-                                                            alt='Provider logo'
-                                                            class='provider-logo'
-                                                            draggable='false'
+                                                            v-if="providerLogo(provider)"
+                                                            :src="providerLogo(provider) || undefined"
+                                                            alt="Provider logo"
+                                                            class="provider-logo"
+                                                            draggable="false"
                                                         >
-                                                        <span class='flex-grow-1 provider-details'>
-                                                            <span class='fw-bold d-block'>{{ provider.name }}</span>
-                                                            <span class='text-muted small d-block text-break'>{{ provider.url }}</span>
+                                                        <span class="flex-grow-1 provider-details">
+                                                            <span class="fw-bold d-block">{{ provider.name }}</span>
+                                                            <span class="text-muted small d-block text-break">{{ provider.url }}</span>
                                                         </span>
                                                         <span
-                                                            v-if='isConnectingTo(provider.url)'
-                                                            class='spinner-border spinner-border-sm flex-shrink-0'
-                                                            role='status'
-                                                            aria-label='Connecting'
+                                                            v-if="isConnectingTo(provider.url)"
+                                                            class="spinner-border spinner-border-sm flex-shrink-0"
+                                                            role="status"
+                                                            aria-label="Connecting"
                                                         />
                                                     </span>
                                                 </button>
@@ -107,11 +107,11 @@
                                         </div>
                                     </template>
 
-                                    <div class='form-footer'>
+                                    <div class="form-footer">
                                         <button
-                                            class='btn btn-outline-secondary w-100'
-                                            type='button'
-                                            :disabled='connecting'
+                                            class="btn btn-outline-secondary w-100"
+                                            type="button"
+                                            :disabled="connecting"
                                             @click='showView("manual")'
                                         >
                                             Manual Entry
@@ -121,40 +121,40 @@
 
                                 <div
                                     v-else
-                                    class='mt-2'
+                                    class="mt-2"
                                 >
-                                    <h3 class='h4 mb-3 text-center'>
+                                    <h3 class="h4 mb-3 text-center">
                                         Manual Entry
                                     </h3>
-                                    <div class='mb-3'>
+                                    <div class="mb-3">
                                         <TablerInput
-                                            v-model='serverUrl'
-                                            label='Server URL'
-                                            placeholder='https://cloudtak.example.com'
-                                            :error='connectError ? connectError.message : undefined'
-                                            :disabled='connecting'
-                                            @keyup.enter='connect(serverUrl)'
+                                            v-model="serverUrl"
+                                            label="Server URL"
+                                            placeholder="https://cloudtak.example.com"
+                                            :error="connectError ? connectError.message : undefined"
+                                            :disabled="connecting"
+                                            @keyup.enter="connect(serverUrl)"
                                         />
                                     </div>
-                                    <div class='form-footer d-grid gap-2'>
+                                    <div class="form-footer d-grid gap-2">
                                         <button
-                                            class='btn btn-primary w-100'
-                                            type='button'
-                                            :disabled='connecting'
-                                            @click='connect(serverUrl)'
+                                            class="btn btn-primary w-100"
+                                            type="button"
+                                            :disabled="connecting"
+                                            @click="connect(serverUrl)"
                                         >
                                             <span
-                                                v-if='connecting'
-                                                class='spinner-border spinner-border-sm me-2'
-                                                role='status'
+                                                v-if="connecting"
+                                                class="spinner-border spinner-border-sm me-2"
+                                                role="status"
                                             />
-                                            <span v-if='connecting'>Connecting...</span>
+                                            <span v-if="connecting">Connecting...</span>
                                             <span v-else>Connect</span>
                                         </button>
                                         <button
-                                            class='btn btn-link'
-                                            type='button'
-                                            :disabled='connecting'
+                                            class="btn btn-link"
+                                            type="button"
+                                            :disabled="connecting"
                                             @click='showView("providers")'
                                         >
                                             Back to Providers
@@ -168,11 +168,11 @@
             </div>
         </div>
 
-        <div class='corner-logo'>
+        <div class="corner-logo">
             <img
-                src='/CloudTAKLogo.svg'
-                alt='CloudTAK logo'
-                draggable='false'
+                src="/CloudTAKLogo.svg"
+                alt="CloudTAK logo"
+                draggable="false"
             >
         </div>
     </div>

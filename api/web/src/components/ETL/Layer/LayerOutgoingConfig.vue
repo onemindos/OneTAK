@@ -1,90 +1,90 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Layer Config
             </h3>
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    v-if='disabled'
-                    title='Edit Layer Config'
-                    @click='disabled = false'
+                    v-if="disabled"
+                    title="Edit Layer Config"
+                    @click="disabled = false"
                 >
                     <IconPencil
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <TablerLoading
-            v-if='loading.save'
-            desc='Saving Config'
+            v-if="loading.save"
+            desc="Saving Config"
         />
         <TablerLoading
-            v-else-if='loading.init'
-            desc='Loading Config'
+            v-else-if="loading.init"
+            desc="Loading Config"
         />
         <div
             v-else
-            class='card-body'
+            class="card-body"
         >
-            <div class='row g-2'>
-                <div class='col-12 d-flex align-items-center'>
-                    <label class='subheader'>Exclusion Filters</label>
-                    <div class='ms-auto'>
+            <div class="row g-2">
+                <div class="col-12 d-flex align-items-center">
+                    <label class="subheader">Exclusion Filters</label>
+                    <div class="ms-auto">
                         <TablerIconButton
-                            v-if='!disabled'
-                            title='Add Filter'
-                            @click='addFilter'
+                            v-if="!disabled"
+                            title="Add Filter"
+                            @click="addFilter"
                         >
                             <IconPlus
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </div>
                 </div>
-                <div class='col-12 border rounded'>
+                <div class="col-12 border rounded">
                     <TablerNone
-                        v-if='!outgoing.filters || !outgoing.filters.queries || outgoing.filters.queries.length === 0'
-                        label='No Exclusion Filters'
-                        :compact='true'
-                        :create='false'
+                        v-if="!outgoing.filters || !outgoing.filters.queries || outgoing.filters.queries.length === 0"
+                        label="No Exclusion Filters"
+                        :compact="true"
+                        :create="false"
                     />
                     <template v-else>
                         <template
-                            v-for='(filter, filter_idx) of outgoing.filters.queries'
+                            v-for="(filter, filter_idx) of outgoing.filters.queries"
                             :key='outgoing.filters.queries.length + "-" + filter_idx'
                         >
-                            <div class='row mx-2 my-2 border-bottom pb-2'>
+                            <div class="row mx-2 my-2 border-bottom pb-2">
                                 <div
-                                    v-if='!disabled'
-                                    class='col-md-4 col-12'
+                                    v-if="!disabled"
+                                    class="col-md-4 col-12"
                                 >
                                     <TablerInput
-                                        v-model='filter.name'
-                                        label='Name'
-                                        placeholder='Optional Name'
-                                        :disabled='disabled'
+                                        v-model="filter.name"
+                                        label="Name"
+                                        placeholder="Optional Name"
+                                        :disabled="disabled"
                                     />
                                 </div>
                                 <div
-                                    class='col-12'
+                                    class="col-12"
                                     :class='{ "col-md-8": !disabled }'
                                 >
                                     <QueryInput
-                                        v-model='filter.query'
+                                        v-model="filter.query"
                                         :label='disabled && filter.name ? filter.name : "Filter"'
-                                        :disabled='disabled'
+                                        :disabled="disabled"
                                     >
                                         <TablerDelete
-                                            v-if='!disabled'
-                                            title='Delete Filter'
-                                            :size='24'
-                                            displaytype='icon'
-                                            @delete='outgoing.filters.queries.splice(filter_idx, 1)'
+                                            v-if="!disabled"
+                                            title="Delete Filter"
+                                            :size="24"
+                                            displaytype="icon"
+                                            @delete="outgoing.filters.queries.splice(filter_idx, 1)"
                                         />
                                     </QueryInput>
                                 </div>
@@ -94,19 +94,19 @@
                 </div>
 
                 <div
-                    v-if='!disabled'
-                    class='col-12 pt-3 d-flex'
+                    v-if="!disabled"
+                    class="col-12 pt-3 d-flex"
                 >
                     <button
-                        class='btn'
-                        @click='reload'
+                        class="btn"
+                        @click="reload"
                     >
                         Cancel
                     </button>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='saveOutgoing'
+                            class="btn btn-primary"
+                            @click="saveOutgoing"
                         >
                             Save
                         </button>

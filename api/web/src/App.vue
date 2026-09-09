@@ -1,85 +1,85 @@
 <template>
     <div
-        class='page h-100'
+        class="page h-100"
         :class='appStore.resolvedTheme === "dark" ? "cloudtak-gradient" : "cloudtak-gradient-light"'
-        :data-bs-theme='appStore.resolvedTheme'
-        data-bs-theme-base='neutral'
-        data-bs-theme-primary='blue'
+        :data-bs-theme="appStore.resolvedTheme"
+        data-bs-theme-base="neutral"
+        data-bs-theme-primary="blue"
     >
         <!-- New-version upgrade banner -->
         <div
-            v-if='updateAvailable'
-            class='d-flex align-items-center justify-content-center flex-wrap gap-2 px-3 pb-2'
-            style='background: rgba(20,20,20,0.88); backdrop-filter: blur(6px); padding-top: calc(0.5rem + var(--status-bar-height, 0px));'
+            v-if="updateAvailable"
+            class="d-flex align-items-center justify-content-center flex-wrap gap-2 px-3 pb-2"
+            style="background: rgba(20,20,20,0.88); backdrop-filter: blur(6px); padding-top: calc(0.5rem + var(--status-bar-height, 0px));"
         >
             <IconRefresh
-                size='16'
-                class='text-success flex-shrink-0'
+                size="16"
+                class="text-success flex-shrink-0"
             />
-            <span class='text-white small'>
+            <span class="text-white small">
                 A new version of CloudTAK is ready
             </span>
             <button
-                class='btn btn-sm btn-success py-0'
-                @click='applyUpdate'
+                class="btn btn-sm btn-success py-0"
+                @click="applyUpdate"
             >
                 Update Now
             </button>
             <button
-                class='btn-close btn-close-white'
-                style='font-size: 0.65rem;'
-                @click='updateAvailable = false'
+                class="btn-close btn-close-white"
+                style="font-size: 0.65rem;"
+                @click="updateAvailable = false"
             />
         </div>
         <!-- Session expiry warning banner -->
         <div
-            v-if='sessionWarningShown'
-            class='d-flex align-items-center justify-content-center flex-wrap gap-2 px-3 pb-2'
-            style='background: rgba(20,20,20,0.88); backdrop-filter: blur(6px); padding-top: calc(0.5rem + var(--status-bar-height, 0px));'
+            v-if="sessionWarningShown"
+            class="d-flex align-items-center justify-content-center flex-wrap gap-2 px-3 pb-2"
+            style="background: rgba(20,20,20,0.88); backdrop-filter: blur(6px); padding-top: calc(0.5rem + var(--status-bar-height, 0px));"
         >
             <IconClock
-                size='16'
-                class='text-warning flex-shrink-0'
+                size="16"
+                class="text-warning flex-shrink-0"
             />
-            <span class='text-white small'>
-                Your session expires in <span v-text='sessionRemainingLabel' /> &mdash; sign in again to stay connected
+            <span class="text-white small">
+                Your session expires in <span v-text="sessionRemainingLabel" /> &mdash; sign in again to stay connected
             </span>
             <button
-                class='btn btn-sm btn-warning py-0'
-                @click='appStore.sessionExpired'
+                class="btn btn-sm btn-warning py-0"
+                @click="appStore.sessionExpired"
             >
                 Sign In Again
             </button>
             <button
-                class='btn-close btn-close-white'
-                style='font-size: 0.65rem;'
-                @click='sessionWarningDismissed = true'
+                class="btn-close btn-close-white"
+                style="font-size: 0.65rem;"
+                @click="sessionWarningDismissed = true"
             />
         </div>
 
         <Loading
             v-if='!mounted || (appStore.loading && !route.path.includes("configure") && !route.path.includes("login"))'
-            :stage='appStore.loadingStage'
+            :stage="appStore.loadingStage"
         />
         <router-view
             v-else
-            @err='error = $event'
-            @login='appStore.refreshLogin'
+            @err="error = $event"
+            @login="appStore.refreshLogin"
         />
         <TablerError
-            v-if='error'
-            :err='error'
-            @close='error = undefined'
+            v-if="error"
+            :err="error"
+            @close="error = undefined"
         />
         <ChannelChangeModal
-            v-if='mapStore.channelChange'
-            @close='mapStore.channelChange = false'
+            v-if="mapStore.channelChange"
+            @close="mapStore.channelChange = false"
         />
         <NotificationToast
-            v-for='n in toastNotifications'
-            :id='n.id'
-            :key='n.id'
-            @close='TAKNotification.update(n.id, { toast: false })'
+            v-for="n in toastNotifications"
+            :id="n.id"
+            :key="n.id"
+            @close="TAKNotification.update(n.id, { toast: false })"
         />
     </div>
 </template>

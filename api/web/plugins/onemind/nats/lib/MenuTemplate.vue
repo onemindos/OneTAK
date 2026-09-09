@@ -1,23 +1,23 @@
 <template>
-    <div class='menu-template'>
-        <div class='mt-header'>
+    <div class="menu-template">
+        <div class="mt-header">
             <button
                 v-if='backType !== "none"'
-                class='mt-back'
-                @click='handleBack'
+                class="mt-back"
+                @click="handleBack"
             >
                 <X
                     v-if='backType === "close"'
-                    :size='16'
+                    :size="16"
                 />
                 <ArrowLeft
                     v-else
-                    :size='16'
+                    :size="16"
                 />
             </button>
-            <span class='mt-name'>{{ name }}</span>
+            <span class="mt-name">{{ name }}</span>
         </div>
-        <div class='mt-body'>
+        <div class="mt-body">
             <slot />
         </div>
     </div>

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 CloudTAK Settings
             </h3>
         </div>
-        <div class='card-body row'>
+        <div class="card-body row">
             <ConfigLogin />
             <ConfigAgol />
             <ConfigMedia />

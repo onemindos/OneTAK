@@ -1,30 +1,30 @@
 <template>
     <TablerModal>
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
-            @click='close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="close"
         />
-        <div class='modal-status bg-yellow' />
-        <div class='modal-header'>
-            <div class='modal-title'>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-header">
+            <div class="modal-title">
                 Create Feature Service
             </div>
         </div>
-        <div class='modal-body row'>
-            <div class='col-12'>
+        <div class="modal-body row">
+            <div class="col-12">
                 <TablerInput
-                    v-model='data.name'
-                    label='Service Name'
-                    @keyup.enter='create'
+                    v-model="data.name"
+                    label="Service Name"
+                    @keyup.enter="create"
                 />
             </div>
-            <div class='col-12 mt-3'>
-                <div class='col'>
+            <div class="col-12 mt-3">
+                <div class="col">
                     <a
-                        class='cursor-pointer btn w-100'
-                        @click='create'
+                        class="cursor-pointer btn w-100"
+                        @click="create"
                     >Create</a>
                 </div>
             </div>

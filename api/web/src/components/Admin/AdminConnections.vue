@@ -1,109 +1,109 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h1 class='card-title'>
+        <div class="card-header d-flex">
+            <h1 class="card-title">
                 Connection Admin
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='View Admin Connection'
+                    title="View Admin Connection"
                     @click='navTo("/connection/0")'
                 >
                     <IconServerBolt
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Create Connection'
+                    title="Create Connection"
                     @click='navTo("/connection/new")'
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
-                    title='Reconnect All'
-                    :disabled='loading'
-                    @click='reconnectConnections'
+                    title="Reconnect All"
+                    :disabled="loading"
+                    @click="reconnectConnections"
                 >
                     <IconPlugConnected
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
 
-        <div style='min-height: 20vh; margin-bottom: 61px'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
             <TablerInput
-                v-model='paging.filter'
-                icon='search'
-                placeholder='Filter...'
-                class='mx-1 my-2'
+                v-model="paging.filter"
+                icon="search"
+                placeholder="Filter..."
+                class="mx-1 my-2"
             />
             <TablerLoading
-                v-if='loading'
-                desc='Loading Connections'
+                v-if="loading"
+                desc="Loading Connections"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Layers'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Layers"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive pb-5'
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody
-                        role='menu'
+                        role="menu"
                     >
                         <tr
-                            v-for='connection in list.items'
-                            :key='connection.id'
-                            class='cursor-pointer'
-                            role='menuitem'
-                            tabindex='0'
-                            @keyup.enter='navTo(`/connection/${connection.id}`, $event)'
-                            @click='navTo(`/connection/${connection.id}`, $event)'
+                            v-for="connection in list.items"
+                            :key="connection.id"
+                            class="cursor-pointer"
+                            role="menuitem"
+                            tabindex="0"
+                            @keyup.enter="navTo(`/connection/${connection.id}`, $event)"
+                            @click="navTo(`/connection/${connection.id}`, $event)"
                         >
-                            <template v-for='h in header'>
+                            <template v-for="h in header">
                                 <template v-if='h.display && h.name === "name"'>
                                     <td>
-                                        <div class='d-flex flex-wrap align-items-center gap-2'>
-                                            <Status :connection='connection' />
+                                        <div class="d-flex flex-wrap align-items-center gap-2">
+                                            <Status :connection="connection" />
                                             <span
-                                                class='mx-2'
-                                                v-text='connection[h.name]'
+                                                class="mx-2"
+                                                v-text="connection[h.name]"
                                             />
-                                            <div class='ms-auto d-flex align-items-center gap-2'>
-                                                <CertificateBadge :certificate='connection.certificate' />
+                                            <div class="ms-auto d-flex align-items-center gap-2">
+                                                <CertificateBadge :certificate="connection.certificate" />
                                             </div>
                                         </div>
                                     </td>
                                 </template>
-                                <template v-else-if='h.display'>
+                                <template v-else-if="h.display">
                                     <td>
-                                        <span v-text='connection[h.name]' />
+                                        <span v-text="connection[h.name]" />
                                     </td>
                                 </template>
                             </template>
@@ -112,13 +112,13 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

@@ -1,67 +1,67 @@
 <template>
     <div>
         <TablerBadge
-            v-if='connection.agency'
-            class='cursor-pointer'
-            background-color='rgba(59, 130, 246, 0.15)'
-            border-color='rgba(59, 130, 246, 0.3)'
-            text-color='#2563eb'
-            hover-background-color='rgba(59, 130, 246, 0.25)'
-            hover-border-color='rgba(59, 130, 246, 0.5)'
-            style='height: 20px'
-            @click='info.shown = true'
+            v-if="connection.agency"
+            class="cursor-pointer"
+            background-color="rgba(59, 130, 246, 0.15)"
+            border-color="rgba(59, 130, 246, 0.3)"
+            text-color="#2563eb"
+            hover-background-color="rgba(59, 130, 246, 0.25)"
+            hover-border-color="rgba(59, 130, 246, 0.5)"
+            style="height: 20px"
+            @click="info.shown = true"
         >
             Agency
         </TablerBadge>
         <TablerBadge
             v-else
-            background-color='rgba(239, 68, 68, 0.15)'
-            border-color='rgba(239, 68, 68, 0.3)'
-            text-color='#dc2626'
-            style='height: 20px'
+            background-color="rgba(239, 68, 68, 0.15)"
+            border-color="rgba(239, 68, 68, 0.3)"
+            text-color="#dc2626"
+            style="height: 20px"
         >
             Admin
         </TablerBadge>
 
-        <TablerModal v-if='info.shown'>
-            <div class='modal-status bg-yellow' />
+        <TablerModal v-if="info.shown">
+            <div class="modal-status bg-yellow" />
             <button
-                type='button'
-                class='btn-close'
-                aria-label='Close'
-                @click='info.shown = false'
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                @click="info.shown = false"
             />
 
             <TablerLoading
-                v-if='!agency'
-                desc='Loading Agency...'
+                v-if="!agency"
+                desc="Loading Agency..."
             />
             <template v-else>
-                <div class='modal-header'>
+                <div class="modal-header">
                     <div
-                        class='modal-title'
-                        v-text='agency.name'
+                        class="modal-title"
+                        v-text="agency.name"
                     />
                 </div>
 
-                <div class='modal-body'>
-                    <div class='datagrid'>
-                        <div class='datagrid-item'>
-                            <div class='datagrid-title'>
+                <div class="modal-body">
+                    <div class="datagrid">
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">
                                 Description
                             </div>
                             <div
-                                class='datagrid-content'
+                                class="datagrid-content"
                                 v-text='"No Description"'
                             />
                         </div>
                     </div>
                 </div>
             </template>
-            <div class='modal-footer'>
+            <div class="modal-footer">
                 <button
-                    class='btn btn-primary'
-                    @click='info.shown = false'
+                    class="btn btn-primary"
+                    @click="info.shown = false"
                 >
                     Close
                 </button>

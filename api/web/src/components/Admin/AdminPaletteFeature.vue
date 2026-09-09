@@ -1,52 +1,52 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title d-flex align-items-center'>
+        <div class="card-header">
+            <h1 class="card-title d-flex align-items-center">
                 <TablerIconButton
-                    title='Back to Template'
-                    @click='router.push(`/admin/template/${route.params.template}`)'
+                    title="Back to Template"
+                    @click="router.push(`/admin/template/${route.params.template}`)"
                 >
                     <IconCircleArrowLeft
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <span
-                    class='ms-2'
+                    class="ms-2"
                     v-text='route.params.feature === "new" ? "New Palette Feature" : paletteFeature.name'
                 />
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
                     v-if='route.params.feature !== "new"'
-                    displaytype='icon'
-                    @delete='deletePaletteFeature'
+                    displaytype="icon"
+                    @delete="deletePaletteFeature"
                 />
             </div>
         </div>
-        <div class='card-body'>
+        <div class="card-body">
             <TablerLoading
-                v-if='loading'
-                desc='Loading Palette Feature'
+                v-if="loading"
+                desc="Loading Palette Feature"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <template v-else>
-                <div class='row g-2'>
-                    <div class='col-12'>
+                <div class="row g-2">
+                    <div class="col-12">
                         <TablerInput
-                            v-model='paletteFeature.name'
-                            label='Name'
+                            v-model="paletteFeature.name"
+                            label="Name"
                         />
                     </div>
-                    <div class='col-12'>
+                    <div class="col-12">
                         <TablerEnum
-                            v-model='paletteFeature.type'
-                            label='Geometry Type'
+                            v-model="paletteFeature.type"
+                            label="Geometry Type"
                             :options='[
                                 "Point",
                                 "LineString",
@@ -55,17 +55,17 @@
                         />
                     </div>
                     <PropertyStyle
-                        :geometry='paletteFeature.type'
-                        :model-value='paletteFeature.style'
-                        @update:model-value='paletteFeature.style = $event'
+                        :geometry="paletteFeature.type"
+                        :model-value="paletteFeature.style"
+                        @update:model-value="paletteFeature.style = $event"
                     />
                 </div>
 
-                <div class='col-12 d-flex pt-4'>
-                    <div class='ms-auto'>
+                <div class="col-12 d-flex pt-4">
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='savePaletteFeature'
+                            class="btn btn-primary"
+                            @click="savePaletteFeature"
                         >
                             Save
                         </button>

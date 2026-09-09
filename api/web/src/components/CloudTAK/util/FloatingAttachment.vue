@@ -1,55 +1,55 @@
 <template>
     <FloatingPane
-        :uid='uid'
+        :uid="uid"
         @close='emit("close")'
     >
         <template #header>
             <div
                 v-if='pane ? pane.config.attachment : "Attachment"'
-                class='text-sm text-truncate'
-                style='width: calc(100% - 100px);'
-                v-text='pane.config.attachment.name'
+                class="text-sm text-truncate"
+                style="width: calc(100% - 100px);"
+                v-text="pane.config.attachment.name"
             />
         </template>
 
         <template #actions>
             <TablerIconButton
-                title='Download'
-                @click='downloadAsset(pane.config.attachment)'
+                title="Download"
+                @click="downloadAsset(pane.config.attachment)"
             >
                 <IconDownload
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <div
-            v-if='pane'
-            class='h-100 w-100'
+            v-if="pane"
+            class="h-100 w-100"
         >
             <img
                 v-if='[".png", ".jpg", ".jpeg", ".webp"].includes(pane.config.attachment.ext.toLowerCase())'
-                :src='String(downloadAssetUrl(pane.config.attachment))'
-                style='
+                :src="String(downloadAssetUrl(pane.config.attachment))"
+                style="
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
-                '
+                "
             >
             <template
                 v-else
             >
                 <div
-                    class='d-flex flex-column align-items-center justify-content-center text-muted h-100'
+                    class="d-flex flex-column align-items-center justify-content-center text-muted h-100"
                 >
                     <IconEyeOff
-                        :size='48'
-                        stroke='1'
-                        class='mb-2'
+                        :size="48"
+                        stroke="1"
+                        class="mb-2"
                     />
                     <div
-                        v-text='`No preview available for ${pane.config.attachment.ext} files.`'
+                        v-text="`No preview available for ${pane.config.attachment.ext} files.`"
                     />
                 </div>
             </template>

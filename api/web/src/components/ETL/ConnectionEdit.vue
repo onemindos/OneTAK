@@ -1,15 +1,15 @@
 <template>
     <div
-        class='h-full w-full cloudtak-page'
-        style='overflow: auto;'
+        class="h-full w-full cloudtak-page"
+        style="overflow: auto;"
     >
-        <NavHeader title='Connections' />
+        <NavHeader title="Connections" />
 
-        <div class='page-wrapper'>
-            <div class='page-header d-print-none'>
-                <div class='container-xl'>
-                    <div class='row g-2 align-items-center'>
-                        <div class='col d-flex text-white'>
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col d-flex text-white">
                             <TablerBreadCrumb />
                         </div>
                     </div>
@@ -17,195 +17,195 @@
             </div>
         </div>
 
-        <div class='page-body'>
-            <div class='container-xl'>
-                <div class='row row-deck row-cards'>
-                    <div class='col-lg-12'>
-                        <template v-if='loading'>
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <div class="col-lg-12">
+                        <template v-if="loading">
                             <TablerLoading
-                                class='text-white'
+                                class="text-white"
                             />
                         </template>
                         <template v-else>
-                            <div class='card'>
-                                <div class='card-header'>
+                            <div class="card">
+                                <div class="card-header">
                                     <h3
-                                        v-if='route.params.connectionid'
-                                        class='card-title'
+                                        v-if="route.params.connectionid"
+                                        class="card-title"
                                     >
-                                        Connection <span v-text='connection.id' />
+                                        Connection <span v-text="connection.id" />
                                     </h3>
                                     <h3
                                         v-else
-                                        class='card-title'
+                                        class="card-title"
                                     >
                                         New Connection
                                     </h3>
 
                                     <div
-                                        v-if='route.params.connectionid && connection.readonly !== true'
-                                        class='ms-auto d-flex btn-list'
+                                        v-if="route.params.connectionid && connection.readonly !== true"
+                                        class="ms-auto d-flex btn-list"
                                     >
-                                        <span class='px-2'>Enabled</span>
-                                        <label class='form-check form-switch'>
+                                        <span class="px-2">Enabled</span>
+                                        <label class="form-check form-switch">
                                             <input
-                                                v-model='connection.enabled'
-                                                class='form-check-input'
-                                                type='checkbox'
+                                                v-model="connection.enabled"
+                                                class="form-check-input"
+                                                type="checkbox"
                                             >
                                         </label>
                                     </div>
                                 </div>
-                                <div class='card-body'>
-                                    <div class='row row-cards'>
-                                        <div class='col-md-12 mt-3'>
+                                <div class="card-body">
+                                    <div class="row row-cards">
+                                        <div class="col-md-12 mt-3">
                                             <TablerInput
-                                                v-model='connection.name'
-                                                label='Name'
-                                                :error='errors.name'
-                                                description='The human readable name of the Connection'
+                                                v-model="connection.name"
+                                                label="Name"
+                                                :error="errors.name"
+                                                description="The human readable name of the Connection"
                                             />
                                         </div>
 
-                                        <div class='col-md-12'>
+                                        <div class="col-md-12">
                                             <TablerPillGroup
                                                 :model-value='connection.readonly ? "external" : "cloud"'
                                                 :options='[
                                                     { value: "cloud", label: "Cloud Integration" },
                                                     { value: "external", label: "External Integration" }
                                                 ]'
-                                                :disabled='!!route.params.connectionid'
-                                                name='connection-readonly'
+                                                :disabled="!!route.params.connectionid"
+                                                name="connection-readonly"
                                                 @update:model-value='(v: string) => { connection.readonly = v === "external" }'
                                             >
-                                                <template #option='{ option }'>
+                                                <template #option="{ option }">
                                                     <span
                                                         v-if='option.value === "cloud"'
-                                                        title='Cloud Integration'
+                                                        title="Cloud Integration"
                                                     >
                                                         <IconCloud
-                                                            :size='32'
-                                                            stroke='1'
+                                                            :size="32"
+                                                            stroke="1"
                                                         />
                                                     </span>
                                                     <span
                                                         v-if='option.value === "external"'
-                                                        title='External Integration'
+                                                        title="External Integration"
                                                     >
                                                         <IconDrone
-                                                            :size='32'
-                                                            stroke='1'
+                                                            :size="32"
+                                                            stroke="1"
                                                         />
                                                     </span>
-                                                    <span class='mx-2'>{{ option.label }}</span>
+                                                    <span class="mx-2">{{ option.label }}</span>
                                                 </template>
                                             </TablerPillGroup>
                                         </div>
-                                        <div class='col-md-12'>
+                                        <div class="col-md-12">
                                             <TablerInput
-                                                v-model='connection.description'
-                                                label='Description'
-                                                description='
+                                                v-model="connection.description"
+                                                label="Description"
+                                                description="
                                                     Human readable details about what the connection contains or is used for
-                                                '
-                                                :error='errors.description'
-                                                :rows='6'
+                                                "
+                                                :error="errors.description"
+                                                :rows="6"
                                             />
                                         </div>
-                                        <div class='col-md-12'>
+                                        <div class="col-md-12">
                                             <AgencySelect
-                                                v-if='!agencyDisabled'
-                                                v-model='connection.agency'
-                                                label='Agency Owner'
-                                                @disabled='disableAgency'
+                                                v-if="!agencyDisabled"
+                                                v-model="connection.agency"
+                                                label="Agency Owner"
+                                                @disabled="disableAgency"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <template v-if='isNextReady || route.params.connectionid'>
-                                    <div class='card-header'>
-                                        <h3 class='card-title'>
+                                <template v-if="isNextReady || route.params.connectionid">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
                                             Connection Authentication
                                         </h3>
                                     </div>
-                                    <div class='card-body'>
-                                        <div class='row'>
-                                            <template v-if='isReady'>
-                                                <div class='col-12 d-flex align-items-center'>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <template v-if="isReady">
+                                                <div class="col-12 d-flex align-items-center">
                                                     <IconCheck
-                                                        :size='40'
-                                                        class='text-green'
+                                                        :size="40"
+                                                        class="text-green"
                                                     />
-                                                    <span class='mx-3'>Certificate Uploaded</span>
+                                                    <span class="mx-3">Certificate Uploaded</span>
 
-                                                    <div class='ms-auto'>
+                                                    <div class="ms-auto">
                                                         <TablerIconButton
-                                                            title='Remove Certificate'
+                                                            title="Remove Certificate"
                                                             @click='certificateAttachment({ ca: [], key: "", cert: ""})'
                                                         >
                                                             <IconTrash
-                                                                :size='32'
-                                                                stroke='1'
+                                                                :size="32"
+                                                                stroke="1"
                                                             />
                                                         </TablerIconButton>
                                                     </div>
                                                 </div>
                                             </template>
-                                            <template v-else-if='!route.params.connectionid || regen'>
-                                                <div class='col-12 pb-2'>
+                                            <template v-else-if="!route.params.connectionid || regen">
+                                                <div class="col-12 pb-2">
                                                     <TablerPillGroup
-                                                        v-model='type'
-                                                        :options='certTypeOptions'
-                                                        :rounded='false'
-                                                        size='default'
-                                                        padding=''
-                                                        name='cert-type'
+                                                        v-model="type"
+                                                        :options="certTypeOptions"
+                                                        :rounded="false"
+                                                        size="default"
+                                                        padding=""
+                                                        name="cert-type"
                                                     />
                                                 </div>
                                                 <template v-if='type === "raw"'>
                                                     <CertificateRaw
-                                                        @certs='certificateAttachment($event)'
-                                                        @err='err = $event'
+                                                        @certs="certificateAttachment($event)"
+                                                        @err="err = $event"
                                                     />
                                                 </template>
                                                 <template v-else-if='type === "p12"'>
                                                     <CertificateP12
-                                                        class='mx-2'
-                                                        @certs='certificateAttachment($event)'
-                                                        @err='err = $event'
+                                                        class="mx-2"
+                                                        @certs="certificateAttachment($event)"
+                                                        @err="err = $event"
                                                     />
                                                 </template>
                                                 <template v-else-if='type === "login"'>
                                                     <CertificateLogin
-                                                        @certs='certificateAttachment($event)'
-                                                        @err='err = $event'
+                                                        @certs="certificateAttachment($event)"
+                                                        @err="err = $event"
                                                     />
                                                 </template>
                                                 <template v-else-if='!agencyDisabled && type === "creation"'>
                                                     <CertificateMachineUser
-                                                        :connection='connection'
-                                                        @certs='certificateAttachment($event)'
-                                                        @integration='integrationAttachment($event)'
-                                                        @err='err = $event'
+                                                        :connection="connection"
+                                                        @certs="certificateAttachment($event)"
+                                                        @integration="integrationAttachment($event)"
+                                                        @err="err = $event"
                                                     />
                                                 </template>
                                             </template>
                                             <template v-else>
-                                                <div class='border px-3 py-3'>
-                                                    <div class='d-flex justify-content-center'>
+                                                <div class="border px-3 py-3">
+                                                    <div class="d-flex justify-content-center">
                                                         <IconLock
-                                                            :size='50'
-                                                            stroke='1'
+                                                            :size="50"
+                                                            stroke="1"
                                                         />
                                                     </div>
-                                                    <div class='d-flex justify-content-center my-3'>
+                                                    <div class="d-flex justify-content-center my-3">
                                                         Once Certificates are generated they cannot be viewed
                                                     </div>
-                                                    <div class='d-flex justify-content-center'>
+                                                    <div class="d-flex justify-content-center">
                                                         <button
-                                                            class='btn btn-secondary'
-                                                            @click='regen = true'
+                                                            class="btn btn-secondary"
+                                                            @click="regen = true"
                                                         >
                                                             Regenerate Certificate
                                                         </button>
@@ -213,19 +213,19 @@
                                                 </div>
                                             </template>
 
-                                            <div class='col-md-12 mt-3'>
-                                                <div class='d-flex'>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="d-flex">
                                                     <TablerDelete
-                                                        v-if='route.params.connectionid'
-                                                        label='Delete Connection'
-                                                        @delete='del'
+                                                        v-if="route.params.connectionid"
+                                                        label="Delete Connection"
+                                                        @delete="del"
                                                     />
 
-                                                    <div class='ms-auto'>
+                                                    <div class="ms-auto">
                                                         <button
-                                                            :disabled='!route.params.connectionid && !isReady'
-                                                            class='cursor-pointer btn btn-primary'
-                                                            @click='create'
+                                                            :disabled="!route.params.connectionid && !isReady"
+                                                            class="cursor-pointer btn btn-primary"
+                                                            @click="create"
                                                         >
                                                             Save Connection
                                                         </button>

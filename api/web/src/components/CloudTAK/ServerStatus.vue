@@ -1,21 +1,21 @@
 <template>
-    <div class='d-flex flex-column align-items-center'>
+    <div class="d-flex flex-column align-items-center">
         <div
-            title='Return Home'
-            class='position-relative cursor-pointer cloudtak-hover'
-            role='button'
-            tabindex='0'
-            @click='handleHomeClick'
-            @keyup.enter='handleHomeClick'
+            title="Return Home"
+            class="position-relative cursor-pointer cloudtak-hover"
+            role="button"
+            tabindex="0"
+            @click="handleHomeClick"
+            @keyup.enter="handleHomeClick"
         >
             <img
-                :src='logo'
-                :height='props.size'
-                :width='props.size'
-                alt='Server Logo'
+                :src="logo"
+                :height="props.size"
+                :width="props.size"
+                alt="Server Logo"
             >
             <div
-                class='server-status-dot position-absolute'
+                class="server-status-dot position-absolute"
                 :class='{
                     "status-green": mapStore.isOpen,
                     "status-red": !mapStore.isOpen
@@ -23,9 +23,9 @@
             />
         </div>
         <div
-            v-if='props.version'
-            class='subheader text-white mt-1'
-            v-text='serverVersion'
+            v-if="props.version"
+            class="subheader text-white mt-1"
+            v-text="serverVersion"
         />
     </div>
 </template>

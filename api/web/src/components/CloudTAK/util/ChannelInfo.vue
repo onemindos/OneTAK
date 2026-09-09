@@ -1,12 +1,12 @@
 <template>
-    <div class='col-12 d-flex align-items-center py-2 px-2 text-muted'>
+    <div class="col-12 d-flex align-items-center py-2 px-2 text-muted">
         <IconInfoSquareRounded
-            :size='32'
-            stroke='1'
-            class='mx-2'
+            :size="32"
+            stroke="1"
+            class="mx-2"
         />
         <div>
-            <span v-text='props.label' /> are only shown if the channel in which they belong is turned on
+            <span v-text="props.label" /> are only shown if the channel in which they belong is turned on
         </div>
     </div>
 </template>

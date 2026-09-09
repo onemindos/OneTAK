@@ -1,23 +1,23 @@
 <template>
-    <div class='d-flex flex-column'>
+    <div class="d-flex flex-column">
         <TablerInput
-            v-if='input'
-            v-model='filter'
-            class='mt-2'
-            :placeholder='placeholder'
+            v-if="input"
+            v-model="filter"
+            class="mt-2"
+            :placeholder="placeholder"
             @keyup.enter='emit("select", { callsign: filter })'
         />
         <div
-            v-if='filteredList.length'
-            class='mt-2'
-            style='max-height: 200px; overflow-y: auto;'
+            v-if="filteredList.length"
+            class="mt-2"
+            style="max-height: 200px; overflow-y: auto;"
         >
             <Contact
-                v-for='contact in filteredList'
-                :key='contact.uid'
-                :contact='contact'
-                :hoist='false'
-                :button-chat='false'
+                v-for="contact in filteredList"
+                :key="contact.uid"
+                :contact="contact"
+                :hoist="false"
+                :button-chat="false"
                 @click='emit("select", contact)'
             />
         </div>

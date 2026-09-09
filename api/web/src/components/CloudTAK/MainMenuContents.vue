@@ -1,102 +1,102 @@
 <template>
     <div
-        v-if='compact'
-        class='main-menu-layout d-flex flex-column h-100 overflow-hidden'
+        v-if="compact"
+        class="main-menu-layout d-flex flex-column h-100 overflow-hidden"
     >
         <div
-            class='main-menu-scroll flex-grow-1 w-100 overflow-auto noscroll pb-2'
+            class="main-menu-scroll flex-grow-1 w-100 overflow-auto noscroll pb-2"
         >
             <MenuItemCard
-                v-for='item in visibleCompactMenuItems'
-                :key='`compact-${item.key}`'
-                :icon='item.icon'
-                :label='item.label'
-                :tooltip='item.tooltip'
-                :badge='item.badge'
+                v-for="item in visibleCompactMenuItems"
+                :key="`compact-${item.key}`"
+                :icon="item.icon"
+                :label="item.label"
+                :tooltip="item.tooltip"
+                :badge="item.badge"
                 :layout='"list"'
-                :compact='true'
-                @select='handleSelect(item)'
+                :compact="true"
+                @select="handleSelect(item)"
             />
         </div>
 
-        <div class='main-menu-footer flex-shrink-0'>
-            <div class='d-flex justify-content-center mb-2'>
+        <div class="main-menu-footer flex-shrink-0">
+            <div class="d-flex justify-content-center mb-2">
                 <TablerDropdown
-                    position='left'
+                    position="left"
                 >
                     <template #default>
                         <TablerIconButton
-                            title='Application Switcher'
-                            class='cloudtak-hover'
-                            :hover='false'
+                            title="Application Switcher"
+                            class="cloudtak-hover"
+                            :hover="false"
                         >
                             <IconGridDots
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
                         </TablerIconButton>
                     </template>
                     <template #dropdown>
                         <div
-                            class='py-1'
-                            style='min-width: 200px;'
+                            class="py-1"
+                            style="min-width: 200px;"
                         >
-                            <div class='px-3 pt-2 pb-1 fw-bold'>
+                            <div class="px-3 pt-2 pb-1 fw-bold">
                                 Applications
                             </div>
-                            <div class='px-2 pb-2'>
+                            <div class="px-2 pb-2">
                                 <div
-                                    v-for='application in appSwitcherApplications'
-                                    :key='application.url'
-                                    class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none'
-                                    @click.stop='external(application.url)'
+                                    v-for="application in appSwitcherApplications"
+                                    :key="application.url"
+                                    class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none"
+                                    @click.stop="external(application.url)"
                                 >
                                     <img
-                                        v-if='application.icon'
-                                        :src='application.icon'
-                                        :alt='`${application.name} logo`'
-                                        class='app-switcher-logo'
+                                        v-if="application.icon"
+                                        :src="application.icon"
+                                        :alt="`${application.name} logo`"
+                                        class="app-switcher-logo"
                                     >
                                     <IconWorld
                                         v-else
-                                        :size='25'
-                                        stroke='1'
+                                        :size="25"
+                                        stroke="1"
                                     />
-                                    <span class='ps-2'>{{ application.name }}</span>
+                                    <span class="ps-2">{{ application.name }}</span>
                                 </div>
                                 <div
-                                    v-if='appSwitcherApplications.length'
-                                    class='dropdown-divider my-1'
+                                    v-if="appSwitcherApplications.length"
+                                    class="dropdown-divider my-1"
                                 />
                                 <div
-                                    class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none'
+                                    class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none"
                                     @click.stop='external("/video")'
                                 >
                                     <IconDeviceTv
-                                        :size='25'
-                                        stroke='1'
+                                        :size="25"
+                                        stroke="1"
                                     />
-                                    <span class='ps-2'>Video Wall</span>
+                                    <span class="ps-2">Video Wall</span>
                                 </div>
                                 <div
-                                    class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none'
+                                    class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none"
                                     @click.stop='external("/board")'
                                 >
                                     <IconLayoutKanban
-                                        :size='25'
-                                        stroke='1'
+                                        :size="25"
+                                        stroke="1"
                                     />
-                                    <span class='ps-2'>Event Board</span>
+                                    <span class="ps-2">Event Board</span>
                                 </div>
                             </div>
                         </div>
                     </template>
                 </TablerDropdown>
             </div>
-            <div class='d-flex justify-content-center mb-1'>
+            <div class="d-flex justify-content-center mb-1">
                 <ServerStatus
-                    :version='true'
-                    :size='50'
+                    :version="true"
+                    :size="50"
                 />
             </div>
         </div>
@@ -104,115 +104,115 @@
 
     <MenuTemplate
         v-else
-        name='Main Menu'
-        :back='false'
+        name="Main Menu"
+        :back="false"
     >
         <template #buttons>
             <TablerIconButton
                 v-if='preferredLayout !== "list"'
-                title='List View'
+                title="List View"
                 @click='mapStore.menu.setLayout("list")'
             >
                 <IconLayoutList
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerIconButton
-                v-if='canEditOrder'
+                v-if="canEditOrder"
                 :title='isDraggable ? "Save Order" : "Reorder Items"'
                 :variant='isDraggable ? "primary" : "secondary"'
-                @click='handleReorderToggle'
+                @click="handleReorderToggle"
             >
                 <IconPencil
-                    v-if='!isDraggable'
-                    :size='32'
-                    stroke='1'
+                    v-if="!isDraggable"
+                    :size="32"
+                    stroke="1"
                 />
                 <IconPencilCheck
                     v-else
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerIconButton
                 v-if='preferredLayout !== "tiles"'
-                title='Tile View'
+                title="Tile View"
                 @click='mapStore.menu.setLayout("tiles")'
             >
                 <IconLayoutGrid
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
         <div
-            class='px-3 pt-3 pb-2'
+            class="px-3 pt-3 pb-2"
         >
             <TablerInput
-                v-model='menuFilter'
-                placeholder='Search...'
-                :autofocus='!appStore.isMobileDetected'
-                icon='search'
-                class='mb-0'
+                v-model="menuFilter"
+                placeholder="Search..."
+                :autofocus="!appStore.isMobileDetected"
+                icon="search"
+                class="mb-0"
             />
         </div>
         <div
-            v-if='visibleFilteredMenuItems.length'
-            ref='sortableRef'
-            class='pb-3'
+            v-if="visibleFilteredMenuItems.length"
+            ref="sortableRef"
+            class="pb-3"
             :class='{
                 "menu-tiles px-3 py-3": menuLayout === "tiles",
                 "d-flex flex-column gap-2 mx-3": menuLayout === "list"
             }'
         >
             <MenuItemCard
-                v-for='item in visibleFilteredMenuItems'
-                :key='`tile-${item.key}`'
-                :data-key='item.key'
+                v-for="item in visibleFilteredMenuItems"
+                :key="`tile-${item.key}`"
+                :data-key="item.key"
                 :class='{
                     "cursor-move": isDraggable,
                     "text-muted": item.visibility === "hidden"
                 }'
                 :description-class='item.visibility === "hidden" ? "text-muted" : ""'
-                :icon='item.icon'
-                :label='item.label'
-                :description='item.description'
-                :tooltip='item.tooltip'
-                :badge='item.badge'
-                :layout='menuLayout'
-                :compact='false'
-                @select='handleSelect(item)'
+                :icon="item.icon"
+                :label="item.label"
+                :description="item.description"
+                :tooltip="item.tooltip"
+                :badge="item.badge"
+                :layout="menuLayout"
+                :compact="false"
+                @select="handleSelect(item)"
             >
                 <template #prefix>
                     <div
-                        v-if='isDraggable'
-                        class='d-flex align-items-center'
+                        v-if="isDraggable"
+                        class="d-flex align-items-center"
                     >
                         <IconGripVertical
-                            stroke='1'
-                            :size='20'
-                            class='text-muted cursor-move drag-handle me-2'
+                            stroke="1"
+                            :size="20"
+                            class="text-muted cursor-move drag-handle me-2"
                         />
                         <div
-                            class='cursor-pointer'
-                            @click.stop='cycleVisibility(item)'
+                            class="cursor-pointer"
+                            @click.stop="cycleVisibility(item)"
                         >
                             <IconEye
                                 v-if='!item.visibility || item.visibility === "full"'
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                             <IconEyeDotted
                                 v-else-if='item.visibility === "partial"'
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                             <IconEyeOff
                                 v-else
-                                :size='20'
-                                stroke='1'
+                                :size="20"
+                                stroke="1"
                             />
                         </div>
                     </div>
@@ -221,56 +221,56 @@
         </div>
         <TablerNone
             v-else
-            label='No Menu Items'
-            :create='false'
-            class='px-3'
+            label="No Menu Items"
+            :create="false"
+            class="px-3"
         />
 
         <template #footer>
             <div
-                class='main-menu-footer flex-shrink-0 cloudtak-header border-top'
+                class="main-menu-footer flex-shrink-0 cloudtak-header border-top"
             >
                 <div
-                    class='row g-0 align-items-center'
+                    class="row g-0 align-items-center"
                 >
                     <div
-                        style='width: calc(100% - 40px)'
-                        class='py-2 d-flex align-items-center overflow-hidden'
+                        style="width: calc(100% - 40px)"
+                        class="py-2 d-flex align-items-center overflow-hidden"
                     >
-                        <div class='d-flex align-items-center overflow-hidden w-100'>
+                        <div class="d-flex align-items-center overflow-hidden w-100">
                             <IconUser
-                                title='User Icon'
-                                :size='32'
-                                stroke='1'
-                                class='mx-2'
+                                title="User Icon"
+                                :size="32"
+                                stroke="1"
+                                class="mx-2"
                             />
-                            <div class='overflow-hidden'>
+                            <div class="overflow-hidden">
                                 <div
-                                    class='text-truncate'
-                                    style='font-size: 18px;'
-                                    v-text='username'
+                                    class="text-truncate"
+                                    style="font-size: 18px;"
+                                    v-text="username"
                                 />
                                 <div
-                                    class='text-muted'
-                                    style='font-size: 11px; line-height: 1.2;'
-                                    v-text='`v${version}`'
+                                    class="text-muted"
+                                    style="font-size: 11px; line-height: 1.2;"
+                                    v-text="`v${version}`"
                                 />
                             </div>
                         </div>
                     </div>
 
                     <div
-                        role='button'
-                        style='width: 40px;'
-                        class='py-2 px-2 ms-auto d-flex cloudtak-hover cursor-pointer'
-                        title='Logout'
-                        @click.stop.prevent='logout'
-                        @keyup.enter='logout'
+                        role="button"
+                        style="width: 40px;"
+                        class="py-2 px-2 ms-auto d-flex cloudtak-hover cursor-pointer"
+                        title="Logout"
+                        @click.stop.prevent="logout"
+                        @keyup.enter="logout"
                     >
                         <IconLogout
-                            tabindex='0'
-                            :size='32'
-                            stroke='1'
+                            tabindex="0"
+                            :size="32"
+                            stroke="1"
                         />
                     </div>
                 </div>

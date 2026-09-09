@@ -1,120 +1,120 @@
 <template>
-    <div class='nats-settings'>
+    <div class="nats-settings">
         <!-- Sidebar -->
-        <div class='ns-sidebar'>
-            <div class='ns-sidebar-hd'>
+        <div class="ns-sidebar">
+            <div class="ns-sidebar-hd">
                 SETTINGS
             </div>
             <button
-                v-for='sec in SETTINGS_SECTIONS'
-                :key='sec.id'
-                class='ns-sidebar-btn'
-                :class='{ active: activeSection === sec.id }'
-                @click='activeSection = sec.id'
+                v-for="sec in SETTINGS_SECTIONS"
+                :key="sec.id"
+                class="ns-sidebar-btn"
+                :class="{ active: activeSection === sec.id }"
+                @click="activeSection = sec.id"
             >
                 <component
-                    :is='sec.icon'
-                    :size='12'
+                    :is="sec.icon"
+                    :size="12"
                 />
                 {{ sec.label }}
             </button>
         </div>
 
         <!-- Content -->
-        <div class='ns-content'>
+        <div class="ns-content">
             <!-- ── CONNECTION ──────────────────────────────────────────────── -->
             <template v-if='activeSection === "connection"'>
-                <div class='ns-section-hd'>
+                <div class="ns-section-hd">
                     <Settings
-                        :size='13'
-                        class='ns-icon'
+                        :size="13"
+                        class="ns-icon"
                     />
                     <span>Connection Profiles</span>
                 </div>
-                <div class='ns-profiles'>
+                <div class="ns-profiles">
                     <div
-                        v-for='p in profiles'
-                        :key='p.id'
-                        class='ns-profile'
+                        v-for="p in profiles"
+                        :key="p.id"
+                        class="ns-profile"
                         :class='{ active: p.id === activeProfileId, connected: status === "connected" && p.id === activeProfileId }'
                     >
-                        <div class='nsp-row'>
-                            <div class='nsp-info'>
-                                <span class='nsp-label'>{{ p.label }}</span>
-                                <span class='nsp-url'>{{ p.wsUrl }}</span>
+                        <div class="nsp-row">
+                            <div class="nsp-info">
+                                <span class="nsp-label">{{ p.label }}</span>
+                                <span class="nsp-url">{{ p.wsUrl }}</span>
                             </div>
-                            <div class='nsp-actions'>
+                            <div class="nsp-actions">
                                 <button
                                     v-if='p.id !== activeProfileId || status !== "connected"'
-                                    class='nsp-btn nsp-btn-connect'
+                                    class="nsp-btn nsp-btn-connect"
                                     :disabled='status === "connecting"'
-                                    @click='connectTo(p.id)'
+                                    @click="connectTo(p.id)"
                                 >
                                     Connect
                                 </button>
                                 <button
                                     v-else
-                                    class='nsp-btn nsp-btn-disconnect'
-                                    @click='disconnect()'
+                                    class="nsp-btn nsp-btn-disconnect"
+                                    @click="disconnect()"
                                 >
                                     Disconnect
                                 </button>
                                 <button
-                                    class='nsp-btn nsp-btn-edit'
-                                    @click='startEdit(p)'
+                                    class="nsp-btn nsp-btn-edit"
+                                    @click="startEdit(p)"
                                 >
-                                    <Pencil :size='11' />
+                                    <Pencil :size="11" />
                                 </button>
                                 <button
-                                    class='nsp-btn nsp-btn-del'
-                                    :disabled='profiles.length <= 1'
-                                    @click='removeProfile(p.id)'
+                                    class="nsp-btn nsp-btn-del"
+                                    :disabled="profiles.length <= 1"
+                                    @click="removeProfile(p.id)"
                                 >
-                                    <Trash2 :size='11' />
+                                    <Trash2 :size="11" />
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class='ns-form'>
-                    <div class='ns-form-title'>
+                <div class="ns-form">
+                    <div class="ns-form-title">
                         {{ editingId ? 'Edit Profile' : 'Add Profile' }}
                     </div>
-                    <div class='ns-fields'>
+                    <div class="ns-fields">
                         <input
-                            v-model='form.label'
-                            class='ns-input'
-                            placeholder='Label (e.g. OneMind Hub)'
+                            v-model="form.label"
+                            class="ns-input"
+                            placeholder="Label (e.g. OneMind Hub)"
                         >
                         <input
-                            v-model='form.wsUrl'
-                            class='ns-input'
-                            placeholder='WebSocket URL (e.g. wss://nats-ws.onemindos.dev)'
+                            v-model="form.wsUrl"
+                            class="ns-input"
+                            placeholder="WebSocket URL (e.g. wss://nats-ws.onemindos.dev)"
                         >
                         <input
-                            v-model='form.user'
-                            class='ns-input'
-                            placeholder='User (optional)'
+                            v-model="form.user"
+                            class="ns-input"
+                            placeholder="User (optional)"
                         >
                         <input
-                            v-model='form.pass'
-                            class='ns-input'
-                            type='password'
-                            placeholder='Password (optional)'
+                            v-model="form.pass"
+                            class="ns-input"
+                            type="password"
+                            placeholder="Password (optional)"
                         >
                     </div>
-                    <div class='ns-form-actions'>
+                    <div class="ns-form-actions">
                         <button
-                            class='ns-btn ns-btn-save'
-                            :disabled='!form.label || !form.wsUrl'
-                            @click='saveForm'
+                            class="ns-btn ns-btn-save"
+                            :disabled="!form.label || !form.wsUrl"
+                            @click="saveForm"
                         >
                             {{ editingId ? 'Update' : 'Add' }}
                         </button>
                         <button
-                            v-if='editingId'
-                            class='ns-btn'
-                            @click='cancelEdit'
+                            v-if="editingId"
+                            class="ns-btn"
+                            @click="cancelEdit"
                         >
                             Cancel
                         </button>
@@ -122,13 +122,13 @@
                 </div>
                 <div
                     v-if='status === "error" && error'
-                    class='ns-error'
+                    class="ns-error"
                 >
-                    <AlertCircle :size='13' /> {{ error }}
+                    <AlertCircle :size="13" /> {{ error }}
                 </div>
                 <div
                     v-if='status === "connected" && rtt'
-                    class='ns-rtt'
+                    class="ns-rtt"
                 >
                     RTT: {{ rtt }}ms
                 </div>
@@ -136,192 +136,192 @@
 
             <!-- ── APPEARANCE ──────────────────────────────────────────────── -->
             <template v-if='activeSection === "appearance"'>
-                <div class='ns-section-hd'>
+                <div class="ns-section-hd">
                     <Palette
-                        :size='13'
-                        class='ns-icon'
+                        :size="13"
+                        class="ns-icon"
                     />
                     <span>Appearance</span>
                 </div>
-                <div class='ns-setting-group'>
-                    <div class='ns-group-label'>
+                <div class="ns-setting-group">
+                    <div class="ns-group-label">
                         UI DENSITY
                     </div>
-                    <div class='ns-options'>
+                    <div class="ns-options">
                         <button
                             v-for='opt in ["compact","normal","comfortable"]'
-                            :key='opt'
-                            class='ns-option'
-                            :class='{ active: appearance.density === opt }'
+                            :key="opt"
+                            class="ns-option"
+                            :class="{ active: appearance.density === opt }"
                             @click='setAppearance("density", opt)'
                         >
                             {{ opt.charAt(0).toUpperCase() + opt.slice(1) }}
                         </button>
                     </div>
                 </div>
-                <div class='ns-setting-group'>
-                    <div class='ns-group-label'>
+                <div class="ns-setting-group">
+                    <div class="ns-group-label">
                         FONT SIZE
                     </div>
-                    <div class='ns-options'>
+                    <div class="ns-options">
                         <button
                             v-for='opt in ["small","medium","large"]'
-                            :key='opt'
-                            class='ns-option'
-                            :class='{ active: appearance.fontSize === opt }'
+                            :key="opt"
+                            class="ns-option"
+                            :class="{ active: appearance.fontSize === opt }"
                             @click='setAppearance("fontSize", opt)'
                         >
                             {{ opt.charAt(0).toUpperCase() + opt.slice(1) }}
                         </button>
                     </div>
                 </div>
-                <div class='ns-setting-group'>
-                    <div class='ns-group-label'>
+                <div class="ns-setting-group">
+                    <div class="ns-group-label">
                         ACCENT COLOR
                     </div>
-                    <div class='ns-swatches'>
+                    <div class="ns-swatches">
                         <button
-                            v-for='sw in SWATCHES'
-                            :key='sw.value'
-                            class='ns-swatch'
-                            :class='{ active: appearance.accent === sw.value }'
+                            v-for="sw in SWATCHES"
+                            :key="sw.value"
+                            class="ns-swatch"
+                            :class="{ active: appearance.accent === sw.value }"
                             :style='{ background: sw.value, boxShadow: appearance.accent === sw.value ? `0 0 0 2px ${sw.value}` : "none" }'
-                            :title='sw.name'
+                            :title="sw.name"
                             @click='setAppearance("accent", sw.value)'
                         />
                     </div>
                 </div>
-                <div class='ns-setting-row'>
+                <div class="ns-setting-row">
                     <div>
-                        <div class='ns-row-label'>
+                        <div class="ns-row-label">
                             Nav Labels
                         </div>
-                        <div class='ns-row-desc'>
+                        <div class="ns-row-desc">
                             Show text labels next to nav icons
                         </div>
                     </div>
                     <button
-                        class='ns-toggle'
-                        :class='{ on: appearance.navLabels }'
+                        class="ns-toggle"
+                        :class="{ on: appearance.navLabels }"
                         @click='setAppearance("navLabels", !appearance.navLabels)'
                     >
-                        <div class='ns-toggle-knob' />
+                        <div class="ns-toggle-knob" />
                     </button>
                 </div>
             </template>
 
             <!-- ── NOTIFICATIONS ───────────────────────────────────────────── -->
             <template v-if='activeSection === "notifications"'>
-                <div class='ns-section-hd'>
+                <div class="ns-section-hd">
                     <Bell
-                        :size='13'
-                        class='ns-icon'
+                        :size="13"
+                        class="ns-icon"
                     />
                     <span>Notifications</span>
                 </div>
                 <div
                     v-if='notifPermission !== "granted"'
-                    class='ns-notif-perm'
+                    class="ns-notif-perm"
                 >
                     <AlertCircle
-                        :size='12'
-                        style='color:#f59e0b'
+                        :size="12"
+                        style="color:#f59e0b"
                     />
                     <span>Browser notifications not enabled.</span>
                     <button
-                        class='ns-btn ns-btn-save'
-                        style='padding:3px 10px;font-size:10px'
-                        @click='requestNotifPermission'
+                        class="ns-btn ns-btn-save"
+                        style="padding:3px 10px;font-size:10px"
+                        @click="requestNotifPermission"
                     >
                         Enable
                     </button>
                 </div>
                 <div
-                    v-for='item in NOTIF_ITEMS'
-                    :key='item.key'
-                    class='ns-setting-row'
+                    v-for="item in NOTIF_ITEMS"
+                    :key="item.key"
+                    class="ns-setting-row"
                 >
                     <div>
-                        <div class='ns-row-label'>
+                        <div class="ns-row-label">
                             {{ item.label }}
                         </div>
-                        <div class='ns-row-desc'>
+                        <div class="ns-row-desc">
                             {{ item.desc }}
                         </div>
                     </div>
                     <button
-                        class='ns-toggle'
-                        :class='{ on: notifs[item.key] }'
-                        :disabled='item.locked'
-                        @click='!item.locked && setNotif(item.key, !notifs[item.key])'
+                        class="ns-toggle"
+                        :class="{ on: notifs[item.key] }"
+                        :disabled="item.locked"
+                        @click="!item.locked && setNotif(item.key, !notifs[item.key])"
                     >
-                        <div class='ns-toggle-knob' />
+                        <div class="ns-toggle-knob" />
                     </button>
                 </div>
                 <button
-                    class='ns-test-btn'
-                    @click='testNotification'
+                    class="ns-test-btn"
+                    @click="testNotification"
                 >
-                    <BellRing :size='11' /> Test Notification
+                    <BellRing :size="11" /> Test Notification
                 </button>
             </template>
 
             <!-- ── PROFILE ─────────────────────────────────────────────────── -->
             <template v-if='activeSection === "profile"'>
-                <div class='ns-section-hd'>
+                <div class="ns-section-hd">
                     <User
-                        :size='13'
-                        class='ns-icon'
+                        :size="13"
+                        class="ns-icon"
                     />
                     <span>Operator Profile</span>
                 </div>
-                <div class='ns-avatar-row'>
-                    <div class='ns-avatar'>
+                <div class="ns-avatar-row">
+                    <div class="ns-avatar">
                         {{ profileInitial }}
                     </div>
                     <div>
-                        <div class='ns-profile-name'>
+                        <div class="ns-profile-name">
                             {{ profile.name || 'Operator' }}
                         </div>
-                        <div class='ns-profile-callsign ns-mono'>
+                        <div class="ns-profile-callsign ns-mono">
                             {{ profile.callsign || 'No callsign set' }}
                         </div>
                     </div>
                 </div>
                 <div
-                    class='ns-fields'
-                    style='margin-top:12px'
+                    class="ns-fields"
+                    style="margin-top:12px"
                 >
-                    <label class='ns-field-label'>Display Name</label>
+                    <label class="ns-field-label">Display Name</label>
                     <input
-                        v-model='profile.name'
-                        class='ns-input'
-                        placeholder='Full name'
+                        v-model="profile.name"
+                        class="ns-input"
+                        placeholder="Full name"
                     >
-                    <label class='ns-field-label'>Callsign</label>
+                    <label class="ns-field-label">Callsign</label>
                     <input
-                        v-model='profile.callsign'
-                        class='ns-input'
-                        placeholder='e.g. ZEUS-1'
+                        v-model="profile.callsign"
+                        class="ns-input"
+                        placeholder="e.g. ZEUS-1"
                     >
-                    <label class='ns-field-label'>Unit / Org</label>
+                    <label class="ns-field-label">Unit / Org</label>
                     <input
-                        v-model='profile.org'
-                        class='ns-input'
-                        placeholder='e.g. OneMind OS'
+                        v-model="profile.org"
+                        class="ns-input"
+                        placeholder="e.g. OneMind OS"
                     >
                 </div>
                 <button
-                    class='ns-btn ns-btn-save'
-                    style='margin-top:10px;padding:6px 16px'
-                    @click='saveProfile'
+                    class="ns-btn ns-btn-save"
+                    style="margin-top:10px;padding:6px 16px"
+                    @click="saveProfile"
                 >
-                    <Save :size='11' /> Save Profile
+                    <Save :size="11" /> Save Profile
                 </button>
                 <div
-                    v-if='profileSaved'
-                    class='ns-rtt'
-                    style='color:#22c55e'
+                    v-if="profileSaved"
+                    class="ns-rtt"
+                    style="color:#22c55e"
                 >
                     Profile saved.
                 </div>
@@ -329,66 +329,66 @@
 
             <!-- ── ABOUT ───────────────────────────────────────────────────── -->
             <template v-if='activeSection === "about"'>
-                <div class='ns-section-hd'>
+                <div class="ns-section-hd">
                     <Info
-                        :size='13'
-                        class='ns-icon'
+                        :size="13"
+                        class="ns-icon"
                     />
                     <span>About</span>
                 </div>
-                <div class='ns-about-hero'>
-                    <div class='ns-om-badge'>
+                <div class="ns-about-hero">
+                    <div class="ns-om-badge">
                         OM
                     </div>
                     <div>
-                        <div style='font-weight:700;font-size:13px'>
+                        <div style="font-weight:700;font-size:13px">
                             OneMind OS
                         </div>
                         <div
-                            class='ns-muted'
-                            style='font-size:10px'
+                            class="ns-muted"
+                            style="font-size:10px"
                         >
                             Sovereign Operations Platform
                         </div>
                     </div>
                 </div>
-                <div class='ns-about-rows'>
+                <div class="ns-about-rows">
                     <div
-                        v-for='row in ABOUT_ROWS'
-                        :key='row.label'
-                        class='ns-about-row'
+                        v-for="row in ABOUT_ROWS"
+                        :key="row.label"
+                        class="ns-about-row"
                     >
-                        <span class='ns-muted'>{{ row.label }}</span>
-                        <span class='ns-mono'>{{ row.value }}</span>
+                        <span class="ns-muted">{{ row.label }}</span>
+                        <span class="ns-mono">{{ row.value }}</span>
                     </div>
                 </div>
-                <div class='ns-about-links'>
+                <div class="ns-about-links">
                     <a
-                        href='https://github.com/onemindos/cloudtak-plugin-nats'
-                        target='_blank'
-                        rel='noopener'
-                        class='ns-link'
+                        href="https://github.com/onemindos/cloudtak-plugin-nats"
+                        target="_blank"
+                        rel="noopener"
+                        class="ns-link"
                     >
-                        <ExternalLink :size='10' /> GitHub
+                        <ExternalLink :size="10" /> GitHub
                     </a>
                     <a
-                        href='https://cloudtak.onemindos.dev'
-                        target='_blank'
-                        rel='noopener'
-                        class='ns-link'
+                        href="https://cloudtak.onemindos.dev"
+                        target="_blank"
+                        rel="noopener"
+                        class="ns-link"
                     >
-                        <ExternalLink :size='10' /> CloudTAK
+                        <ExternalLink :size="10" /> CloudTAK
                     </a>
                     <a
-                        href='https://wwv.onemindos.dev'
-                        target='_blank'
-                        rel='noopener'
-                        class='ns-link'
+                        href="https://wwv.onemindos.dev"
+                        target="_blank"
+                        rel="noopener"
+                        class="ns-link"
                     >
-                        <ExternalLink :size='10' /> WWV
+                        <ExternalLink :size="10" /> WWV
                     </a>
                 </div>
-                <div class='ns-about-quote'>
+                <div class="ns-about-quote">
                     OneMind OS — Zeus Delacruz<br><em>"You + AI = One Mind"</em>
                 </div>
             </template>

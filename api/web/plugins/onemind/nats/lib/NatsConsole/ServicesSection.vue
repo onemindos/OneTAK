@@ -1,165 +1,165 @@
 <template>
-    <div class='sv'>
+    <div class="sv">
         <!-- Header -->
-        <div class='sv-hd'>
+        <div class="sv-hd">
             <LayoutGrid
-                :size='13'
-                class='sv-acc'
+                :size="13"
+                class="sv-acc"
             />
-            <span class='sv-title'>SERVICE CATALOG</span>
-            <span class='sv-badge'>{{ filteredTiles.length }}</span>
-            <div class='sv-search-wrap'>
+            <span class="sv-title">SERVICE CATALOG</span>
+            <span class="sv-badge">{{ filteredTiles.length }}</span>
+            <div class="sv-search-wrap">
                 <Search
-                    :size='11'
-                    class='sv-search-icon'
+                    :size="11"
+                    class="sv-search-icon"
                 />
                 <input
-                    v-model='search'
-                    class='sv-search'
-                    placeholder='Search services…'
+                    v-model="search"
+                    class="sv-search"
+                    placeholder="Search services…"
                 >
                 <button
-                    v-if='search'
-                    class='sv-clear-btn'
+                    v-if="search"
+                    class="sv-clear-btn"
                     @click='search = ""'
                 >
-                    <X :size='10' />
+                    <X :size="10" />
                 </button>
             </div>
             <button
-                class='sv-icon-btn'
-                title='Add service'
-                @click='openAdd'
+                class="sv-icon-btn"
+                title="Add service"
+                @click="openAdd"
             >
-                <Plus :size='13' />
+                <Plus :size="13" />
             </button>
             <button
-                class='sv-icon-btn'
-                title='Export'
-                @click='exportServices'
+                class="sv-icon-btn"
+                title="Export"
+                @click="exportServices"
             >
-                <Download :size='13' />
+                <Download :size="13" />
             </button>
         </div>
 
         <!-- Recently opened -->
         <div
-            v-if='recentlyOpened.length > 0'
-            class='sv-recent'
+            v-if="recentlyOpened.length > 0"
+            class="sv-recent"
         >
             <Clock
-                :size='10'
-                class='sv-dim'
+                :size="10"
+                class="sv-dim"
             />
-            <span class='sv-dim sv-mono'>RECENT:</span>
+            <span class="sv-dim sv-mono">RECENT:</span>
             <button
-                v-for='id in recentlyOpened'
-                :key='id'
-                class='sv-recent-chip'
-                @click='openService(getTile(id))'
+                v-for="id in recentlyOpened"
+                :key="id"
+                class="sv-recent-chip"
+                @click="openService(getTile(id))"
             >
                 {{ getTile(id)?.name ?? id }}
             </button>
         </div>
 
         <!-- Category filter -->
-        <div class='sv-cats'>
+        <div class="sv-cats">
             <button
-                class='sv-cat'
+                class="sv-cat"
                 :class='{ active: activeCat === "" }'
                 @click='activeCat = ""'
             >
                 ALL
             </button>
             <button
-                v-for='cat in categories'
-                :key='cat'
-                class='sv-cat'
-                :class='{ active: activeCat === cat }'
-                @click='activeCat = cat'
+                v-for="cat in categories"
+                :key="cat"
+                class="sv-cat"
+                :class="{ active: activeCat === cat }"
+                @click="activeCat = cat"
             >
                 {{ cat }}
             </button>
         </div>
 
         <!-- Grid -->
-        <div class='sv-body'>
+        <div class="sv-body">
             <div
-                v-if='filteredTiles.length === 0'
-                class='sv-empty'
+                v-if="filteredTiles.length === 0"
+                class="sv-empty"
             >
                 <Search
-                    :size='22'
-                    style='opacity:0.2'
+                    :size="22"
+                    style="opacity:0.2"
                 />
-                <span class='sv-mono sv-dim'>NO SERVICES MATCH</span>
+                <span class="sv-mono sv-dim">NO SERVICES MATCH</span>
             </div>
 
             <template
-                v-for='cat in visibleCategories'
-                :key='cat'
+                v-for="cat in visibleCategories"
+                :key="cat"
             >
-                <div class='sv-cat-label'>
+                <div class="sv-cat-label">
                     {{ cat }}
                 </div>
-                <div class='sv-grid'>
+                <div class="sv-grid">
                     <div
-                        v-for='tile in tilesForCat(cat)'
-                        :key='tile.id'
-                        class='sv-card'
-                        :class='{ pinned: pinnedIds.includes(tile.id) }'
+                        v-for="tile in tilesForCat(cat)"
+                        :key="tile.id"
+                        class="sv-card"
+                        :class="{ pinned: pinnedIds.includes(tile.id) }"
                     >
-                        <div class='sv-card-top'>
-                            <span class='sv-emoji'>{{ tile.emoji ?? '🔗' }}</span>
-                            <div class='sv-card-info'>
-                                <div class='sv-card-name'>
+                        <div class="sv-card-top">
+                            <span class="sv-emoji">{{ tile.emoji ?? '🔗' }}</span>
+                            <div class="sv-card-info">
+                                <div class="sv-card-name">
                                     {{ tile.name }}
                                 </div>
-                                <div class='sv-card-url sv-mono'>
+                                <div class="sv-card-url sv-mono">
                                     {{ domain(tile.url) }}
                                 </div>
                             </div>
                             <div
-                                class='sv-status-dot'
-                                :class='statusClass(tile.id)'
-                                :title='statusText(tile.id)'
+                                class="sv-status-dot"
+                                :class="statusClass(tile.id)"
+                                :title="statusText(tile.id)"
                             />
                         </div>
-                        <div class='sv-card-desc'>
+                        <div class="sv-card-desc">
                             {{ tile.description }}
                         </div>
-                        <div class='sv-card-actions'>
+                        <div class="sv-card-actions">
                             <button
-                                class='sv-open-btn'
-                                @click='openService(tile)'
+                                class="sv-open-btn"
+                                @click="openService(tile)"
                             >
-                                <ExternalLink :size='10' /> OPEN
+                                <ExternalLink :size="10" /> OPEN
                             </button>
                             <button
-                                class='sv-icon-sm'
+                                class="sv-icon-sm"
                                 :title='pinnedIds.includes(tile.id) ? "Unpin" : "Pin"'
-                                @click='togglePin(tile.id)'
+                                @click="togglePin(tile.id)"
                             >
                                 <Star
-                                    :size='10'
+                                    :size="10"
                                     :fill='pinnedIds.includes(tile.id) ? "currentColor" : "none"'
                                 />
                             </button>
                             <button
-                                v-if='tile.custom'
-                                class='sv-icon-sm'
-                                title='Edit'
-                                @click='openEdit(tile)'
+                                v-if="tile.custom"
+                                class="sv-icon-sm"
+                                title="Edit"
+                                @click="openEdit(tile)"
                             >
-                                <Pencil :size='10' />
+                                <Pencil :size="10" />
                             </button>
                             <button
-                                v-if='tile.custom'
-                                class='sv-icon-sm sv-danger'
-                                title='Delete'
-                                @click='deleteTile(tile.id)'
+                                v-if="tile.custom"
+                                class="sv-icon-sm sv-danger"
+                                title="Delete"
+                                @click="deleteTile(tile.id)"
                             >
-                                <Trash2 :size='10' />
+                                <Trash2 :size="10" />
                             </button>
                         </div>
                     </div>
@@ -169,74 +169,74 @@
 
         <!-- Add/Edit modal -->
         <div
-            v-if='modalOpen'
-            class='sv-overlay'
-            @click.self='modalOpen = false'
+            v-if="modalOpen"
+            class="sv-overlay"
+            @click.self="modalOpen = false"
         >
-            <div class='sv-modal'>
-                <div class='sv-modal-hd'>
-                    <span class='sv-title'>{{ editingTile ? 'EDIT SERVICE' : 'ADD SERVICE' }}</span>
+            <div class="sv-modal">
+                <div class="sv-modal-hd">
+                    <span class="sv-title">{{ editingTile ? 'EDIT SERVICE' : 'ADD SERVICE' }}</span>
                     <button
-                        class='sv-icon-btn'
-                        @click='modalOpen = false'
+                        class="sv-icon-btn"
+                        @click="modalOpen = false"
                     >
-                        <X :size='13' />
+                        <X :size="13" />
                     </button>
                 </div>
-                <div class='sv-modal-body'>
-                    <label class='sv-label'>Name</label>
+                <div class="sv-modal-body">
+                    <label class="sv-label">Name</label>
                     <input
-                        v-model='form.name'
-                        class='sv-input'
-                        placeholder='My Service'
+                        v-model="form.name"
+                        class="sv-input"
+                        placeholder="My Service"
                     >
-                    <label class='sv-label'>URL</label>
+                    <label class="sv-label">URL</label>
                     <input
-                        v-model='form.url'
-                        class='sv-input'
-                        placeholder='https://…'
+                        v-model="form.url"
+                        class="sv-input"
+                        placeholder="https://…"
                     >
-                    <label class='sv-label'>Category</label>
+                    <label class="sv-label">Category</label>
                     <input
-                        v-model='form.category'
-                        class='sv-input'
-                        placeholder='Observability'
-                        list='sv-cats-list'
+                        v-model="form.category"
+                        class="sv-input"
+                        placeholder="Observability"
+                        list="sv-cats-list"
                     >
-                    <datalist id='sv-cats-list'>
+                    <datalist id="sv-cats-list">
                         <option
-                            v-for='c in categories'
-                            :key='c'
-                            :value='c'
+                            v-for="c in categories"
+                            :key="c"
+                            :value="c"
                         />
                     </datalist>
-                    <label class='sv-label'>Description</label>
+                    <label class="sv-label">Description</label>
                     <input
-                        v-model='form.description'
-                        class='sv-input'
-                        placeholder='Short description'
+                        v-model="form.description"
+                        class="sv-input"
+                        placeholder="Short description"
                     >
-                    <label class='sv-label'>Emoji</label>
+                    <label class="sv-label">Emoji</label>
                     <input
-                        v-model='form.emoji'
-                        class='sv-input'
-                        placeholder='🔗'
-                        maxlength='4'
+                        v-model="form.emoji"
+                        class="sv-input"
+                        placeholder="🔗"
+                        maxlength="4"
                     >
                 </div>
-                <div class='sv-modal-ft'>
+                <div class="sv-modal-ft">
                     <button
-                        class='sv-cancel-btn'
-                        @click='modalOpen = false'
+                        class="sv-cancel-btn"
+                        @click="modalOpen = false"
                     >
                         Cancel
                     </button>
                     <button
-                        class='sv-save-btn'
-                        :disabled='!form.name || !form.url'
-                        @click='saveForm'
+                        class="sv-save-btn"
+                        :disabled="!form.name || !form.url"
+                        @click="saveForm"
                     >
-                        <Check :size='11' /> {{ editingTile ? 'Save' : 'Add' }}
+                        <Check :size="11" /> {{ editingTile ? 'Save' : 'Add' }}
                     </button>
                 </div>
             </div>

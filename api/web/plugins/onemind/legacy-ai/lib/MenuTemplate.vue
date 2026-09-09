@@ -1,61 +1,61 @@
 <template>
     <div
-        class='w-100 px-0 d-flex flex-column'
-        style='height: calc(100vh - 64px)'
+        class="w-100 px-0 d-flex flex-column"
+        style="height: calc(100vh - 64px)"
     >
         <div
-            class='col-12 bg-dark flex-shrink-0'
-            :style='`z-index: ${zindex};`'
-            style='border-radius: 0px;'
+            class="col-12 bg-dark flex-shrink-0"
+            :style="`z-index: ${zindex};`"
+            style="border-radius: 0px;"
             :class='{ "border-bottom border-light": border }'
         >
-            <div class='card-header d-flex align-items-center py-2 px-0 mx-2 flex-wrap row-gap-2'>
+            <div class="card-header d-flex align-items-center py-2 px-0 mx-2 flex-wrap row-gap-2">
                 <div
-                    class='d-flex align-items-center flex-grow-1'
-                    style='min-width: 0'
+                    class="d-flex align-items-center flex-grow-1"
+                    style="min-width: 0"
                 >
                     <TablerIconButton
                         v-if='backType === "close"'
-                        title='Close Menu'
+                        title="Close Menu"
                         @click='router.push("/")'
                     >
                         <IconCircleX
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
                         v-else-if='backType === "back"'
-                        title='Go Back'
-                        @click='routerBack'
+                        title="Go Back"
+                        @click="routerBack"
                     >
                         <IconCircleArrowLeft
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <div v-else />
 
                     <div
-                        class='strong user-select-none text-break px-2'
-                        v-text='name'
+                        class="strong user-select-none text-break px-2"
+                        v-text="name"
                     />
                 </div>
-                <div class='col-auto btn-list align-items-center'>
-                    <slot name='buttons' />
+                <div class="col-auto btn-list align-items-center">
+                    <slot name="buttons" />
                 </div>
             </div>
         </div>
 
-        <div class='row mx-0 d-flex flex-row overflow-y-auto overflow-x-hidden align-content-start flex-grow-1'>
+        <div class="row mx-0 d-flex flex-row overflow-y-auto overflow-x-hidden align-content-start flex-grow-1">
             <TablerLoading
-                v-if='loading'
-                :desc='`Loading ${name}`'
+                v-if="loading"
+                :desc="`Loading ${name}`"
             />
             <TablerNone
-                v-else-if='none'
-                :label='name'
-                :create='false'
+                v-else-if="none"
+                :label="name"
+                :create="false"
             />
             <slot v-else />
         </div>

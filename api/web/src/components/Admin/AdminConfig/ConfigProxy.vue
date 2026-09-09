@@ -1,70 +1,70 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Plugin Proxy'
+        v-model="isOpen"
+        label="Plugin Proxy"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
 
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerToggle
                             v-model='config["proxy::enabled"]'
-                            :disabled='!edit'
-                            label='Enable Plugin Proxy'
+                            :disabled="!edit"
+                            label="Enable Plugin Proxy"
                         />
 
                         <template v-if='config["proxy::enabled"]'>
-                            <p class='text-secondary mt-2 mb-2'>
+                            <p class="text-secondary mt-2 mb-2">
                                 Allow plugins to make outbound requests through CloudTAK. Configure the whitelist as an array of allowed origin URLs.
                             </p>
 
-                            <div class='d-flex align-items-center justify-content-between mb-2'>
-                                <label class='form-label mb-0'>Allowed URLs</label>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="form-label mb-0">Allowed URLs</label>
 
                                 <TablerIconButton
-                                    v-if='edit'
-                                    title='Add URL'
-                                    @click='addWhitelistEntry()'
+                                    v-if="edit"
+                                    title="Add URL"
+                                    @click="addWhitelistEntry()"
                                 >
                                     <IconPlus
-                                        color='rgb(var(--tblr-primary-rgb))'
-                                        stroke='1'
+                                        color="rgb(var(--tblr-primary-rgb))"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -72,26 +72,26 @@
                             <template v-if='config["proxy::whitelist"].length'>
                                 <div
                                     v-for='(url, index) in config["proxy::whitelist"]'
-                                    :key='index'
-                                    class='d-flex gap-2 align-items-center mb-2'
+                                    :key="index"
+                                    class="d-flex gap-2 align-items-center mb-2"
                                 >
-                                    <div class='flex-grow-1'>
+                                    <div class="flex-grow-1">
                                         <TablerInput
                                             v-model='config["proxy::whitelist"][index]'
-                                            :disabled='!edit'
-                                            :error='validateOptionalProxyURL(url)'
-                                            placeholder='https://api.example.com'
+                                            :disabled="!edit"
+                                            :error="validateOptionalProxyURL(url)"
+                                            placeholder="https://api.example.com"
                                         />
                                     </div>
 
                                     <TablerIconButton
-                                        v-if='edit'
-                                        title='Remove URL'
-                                        @click='removeWhitelistEntry(index)'
+                                        v-if="edit"
+                                        title="Remove URL"
+                                        @click="removeWhitelistEntry(index)"
                                     >
                                         <IconTrash
-                                            color='rgb(var(--tblr-danger-rgb))'
-                                            stroke='1'
+                                            color="rgb(var(--tblr-danger-rgb))"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                 </div>
@@ -99,8 +99,8 @@
 
                             <TablerNone
                                 v-else
-                                label='No proxy URLs configured'
-                                :create='false'
+                                label="No proxy URLs configured"
+                                :create="false"
                             />
                         </template>
                     </div>

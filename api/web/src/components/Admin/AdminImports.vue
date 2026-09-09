@@ -1,151 +1,151 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 User Imports
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
-            <div class='row col-12 mx-1 my-2'>
-                <div class='col-md-9 col-lg-9'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
+            <div class="row col-12 mx-1 my-2">
+                <div class="col-md-9 col-lg-9">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        label='Name Filter'
-                        placeholder='Filter...'
+                        v-model="paging.filter"
+                        icon="search"
+                        label="Name Filter"
+                        placeholder="Filter..."
                     />
                 </div>
-                <div class='col-md-3 col-lg-3'>
+                <div class="col-md-3 col-lg-3">
                     <TablerEnum
-                        v-model='paging.status'
-                        label='Status'
-                        :options='statusOptions'
-                        default='All Statuses'
+                        v-model="paging.status"
+                        label="Status"
+                        :options="statusOptions"
+                        default="All Statuses"
                     />
                 </div>
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Imports'
+                v-if="loading"
+                desc="Loading Imports"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Imports'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Imports"
+                :create="false"
             />
             <div
                 v-else
-                class='d-flex flex-column gap-2 px-1 pb-5'
+                class="d-flex flex-column gap-2 px-1 pb-5"
             >
                 <template
-                    v-for='imp in list.items'
-                    :key='imp.id'
+                    v-for="imp in list.items"
+                    :key="imp.id"
                 >
                     <StandardItemImport
-                        :imp='imp'
-                        :show-username='true'
-                        :button-retry='true'
-                        :button-download='true'
-                        @click='toggle(imp.id)'
-                        @retry='retryImport(imp.id)'
-                        @download='downloadImport(imp.id)'
+                        :imp="imp"
+                        :show-username="true"
+                        :button-retry="true"
+                        :button-download="true"
+                        @click="toggle(imp.id)"
+                        @retry="retryImport(imp.id)"
+                        @download="downloadImport(imp.id)"
                     />
                     <div
-                        v-if='expanded === imp.id'
-                        class='border rounded p-3 mx-1'
+                        v-if="expanded === imp.id"
+                        class="border rounded p-3 mx-1"
                     >
-                        <div class='datagrid mb-3'>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                        <div class="datagrid mb-3">
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     Username
                                 </div>
-                                <div class='datagrid-content'>
+                                <div class="datagrid-content">
                                     {{ imp.username }}
                                 </div>
                             </div>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     Status
                                 </div>
-                                <div class='datagrid-content'>
+                                <div class="datagrid-content">
                                     {{ imp.status }}
                                 </div>
                             </div>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     Source
                                 </div>
-                                <div class='datagrid-content'>
+                                <div class="datagrid-content">
                                     {{ imp.source }}{{ imp.source_id ? `: ${imp.source_id}` : '' }}
                                 </div>
                             </div>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     Created
                                 </div>
-                                <div class='datagrid-content'>
+                                <div class="datagrid-content">
                                     {{ new Date(imp.created).toLocaleString() }}
                                 </div>
                             </div>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     Updated
                                 </div>
-                                <div class='datagrid-content'>
+                                <div class="datagrid-content">
                                     {{ new Date(imp.updated).toLocaleString() }}
                                 </div>
                             </div>
-                            <div class='datagrid-item'>
-                                <div class='datagrid-title'>
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">
                                     ID
                                 </div>
-                                <div class='datagrid-content font-monospace small'>
+                                <div class="datagrid-content font-monospace small">
                                     {{ imp.id }}
                                 </div>
                             </div>
                         </div>
 
-                        <template v-if='imp.error'>
-                            <div class='subheader mb-1'>
+                        <template v-if="imp.error">
+                            <div class="subheader mb-1">
                                 Error
                             </div>
                             <pre
-                                class='border rounded p-2 mb-3'
-                                style='max-height: 30vh; overflow: auto;'
+                                class="border rounded p-2 mb-3"
+                                style="max-height: 30vh; overflow: auto;"
                             >{{ imp.error }}</pre>
                         </template>
 
-                        <div class='btn-list justify-content-end'>
+                        <div class="btn-list justify-content-end">
                             <TablerIconButton
                                 v-if='imp.status === "Fail"'
-                                title='Retry Import'
-                                @click='retryImport(imp.id)'
+                                title="Retry Import"
+                                @click="retryImport(imp.id)"
                             >
                                 <IconRestore
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                             <button
-                                class='btn btn-outline-secondary'
-                                @click='downloadImport(imp.id)'
+                                class="btn btn-outline-secondary"
+                                @click="downloadImport(imp.id)"
                             >
                                 <IconDownload
-                                    :size='16'
-                                    stroke='1'
-                                    class='me-1'
+                                    :size="16"
+                                    stroke="1"
+                                    class="me-1"
                                 />
                                 Download
                             </button>
@@ -154,13 +154,13 @@
                 </template>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

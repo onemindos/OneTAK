@@ -1,28 +1,28 @@
 <template>
-    <div class='channel-tree'>
+    <div class="channel-tree">
         <div
-            v-for='ch in store.sortedChannels'
-            :key='ch.id'
-            class='channel'
+            v-for="ch in store.sortedChannels"
+            :key="ch.id"
+            class="channel"
         >
             <div
-                class='channel__header'
-                :class='{ &apos;channel__header--active&apos;: store.myChannelId === ch.id }'
-                @click='join(ch.id)'
+                class="channel__header"
+                :class="{ 'channel__header--active': store.myChannelId === ch.id }"
+                @click="join(ch.id)"
             >
-                <span class='channel__icon'>📻</span>
-                <span class='channel__name'>{{ ch.name }}</span>
-                <span class='channel__count'>{{ store.usersInChannel(ch.id).length }}</span>
+                <span class="channel__icon">📻</span>
+                <span class="channel__name">{{ ch.name }}</span>
+                <span class="channel__count">{{ store.usersInChannel(ch.id).length }}</span>
             </div>
             <UserRow
-                v-for='u in store.usersInChannel(ch.id)'
-                :key='u.session'
-                :user='u'
+                v-for="u in store.usersInChannel(ch.id)"
+                :key="u.session"
+                :user="u"
             />
         </div>
         <div
-            v-if='!store.sortedChannels.length'
-            class='channel-tree__empty'
+            v-if="!store.sortedChannels.length"
+            class="channel-tree__empty"
         >
             No channels
         </div>

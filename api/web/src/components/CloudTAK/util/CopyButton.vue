@@ -1,22 +1,22 @@
 <template>
     <TablerIconButton
-        v-if='!copied'
-        :title='title'
-        @click.stop.prevent='copy'
+        v-if="!copied"
+        :title="title"
+        @click.stop.prevent="copy"
     >
         <IconCopy
-            :size='size'
-            stroke='stroke'
+            :size="size"
+            stroke="stroke"
         />
     </TablerIconButton>
     <TablerIconButton
         v-else
-        title='Copied'
-        @click.stop.prevent='copy'
+        title="Copied"
+        @click.stop.prevent="copy"
     >
         <IconCopyCheck
-            :size='size'
-            :stroke='String(stroke + 1)'
+            :size="size"
+            :stroke="String(stroke + 1)"
         />
     </TablerIconButton>
 </template>

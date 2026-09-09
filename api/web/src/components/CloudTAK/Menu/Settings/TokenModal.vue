@@ -1,56 +1,56 @@
 <template>
     <TablerModal>
-        <div class='modal-status bg-yellow' />
+        <div class="modal-status bg-yellow" />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='$emit("close")'
         />
-        <div class='modal-header'>
+        <div class="modal-header">
             <div
-                class='modal-title'
+                class="modal-title"
                 v-text='"id" in token ? "Edit Token" : "New Token"'
             />
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
-                    v-if='editToken.id'
-                    displaytype='icon'
-                    @delete='deleteToken'
+                    v-if="editToken.id"
+                    displaytype="icon"
+                    @delete="deleteToken"
                 />
             </div>
         </div>
 
-        <div class='modal-body row'>
+        <div class="modal-body row">
             <div
-                v-if='!code'
-                class='col-12'
+                v-if="!code"
+                class="col-12"
             >
                 <TablerInput
-                    v-model='editToken.name'
-                    label='Token Name'
-                    @keyup.enter='saveToken'
+                    v-model="editToken.name"
+                    label="Token Name"
+                    @keyup.enter="saveToken"
                 />
             </div>
             <div
                 v-else
-                class='col-12'
+                class="col-12"
             >
-                <pre v-text='code' />
+                <pre v-text="code" />
             </div>
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                v-if='!code'
-                class='btn btn-primary'
-                @click='saveToken'
+                v-if="!code"
+                class="btn btn-primary"
+                @click="saveToken"
             >
                 Save
             </button>
             <button
                 v-else
-                class='btn btn-primary'
+                class="btn btn-primary"
                 @click='$emit("refresh")'
             >
                 Close

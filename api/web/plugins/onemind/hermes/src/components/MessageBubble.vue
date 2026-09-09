@@ -1,10 +1,10 @@
 <template>
     <div
-        class='bubble'
-        :class='`bubble--${message.role}`'
+        class="bubble"
+        :class="`bubble--${message.role}`"
     >
-        <span class='bubble__role'>{{ roleLabel }}</span>
-        <span class='bubble__content'>{{ message.content }}</span>
+        <span class="bubble__role">{{ roleLabel }}</span>
+        <span class="bubble__content">{{ message.content }}</span>
     </div>
 </template>
 

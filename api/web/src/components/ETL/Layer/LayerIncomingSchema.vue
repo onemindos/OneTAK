@@ -1,31 +1,31 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Layer Schema
             </h3>
         </div>
 
         <TablerAlert
-            v-if='!props.capabilities'
-            title='Missing Capabilities'
+            v-if="!props.capabilities"
+            title="Missing Capabilities"
             :err='new Error("Layer failed to return an incoming input schema on the Capabilities object")'
         />
         <TablerAlert
-            v-else-if='!props.capabilities.incoming?.schema?.output || props.capabilities.incoming?.schema?.outputError'
-            title='Missing Output Schema'
+            v-else-if="!props.capabilities.incoming?.schema?.output || props.capabilities.incoming?.schema?.outputError"
+            title="Missing Output Schema"
             :err='new Error(props.capabilities.incoming?.schema?.outputError?.message || "Layer failed to return an output schema on the Capabilities object")'
         />
         <TablerNone
-            v-else-if='!hasProperties'
-            label='No Schema'
-            :create='false'
+            v-else-if="!hasProperties"
+            label="No Schema"
+            :create="false"
         />
         <div
             v-else
-            class='table-responsive'
+            class="table-responsive"
         >
-            <table class='table table-hover card-table table-vcenter'>
+            <table class="table table-hover card-table table-vcenter">
                 <thead>
                     <tr>
                         <th>Property Name</th>
@@ -36,12 +36,12 @@
                 </thead>
                 <tbody>
                     <SchemaRows
-                        :properties='((props.capabilities.incoming?.schema?.output as Record<string, unknown>)?.properties ?? {}) as Record<string, Record<string, unknown>>'
-                        :required='(props.capabilities.incoming?.schema?.output as Record<string, unknown>)?.required as string[] ?? []'
-                        :depth='0'
-                        parent-path=''
-                        :expanded='expanded'
-                        @toggle='toggleExpand'
+                        :properties="((props.capabilities.incoming?.schema?.output as Record<string, unknown>)?.properties ?? {}) as Record<string, Record<string, unknown>>"
+                        :required="(props.capabilities.incoming?.schema?.output as Record<string, unknown>)?.required as string[] ?? []"
+                        :depth="0"
+                        parent-path=""
+                        :expanded="expanded"
+                        @toggle="toggleExpand"
                     />
                 </tbody>
             </table>

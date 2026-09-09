@@ -1,67 +1,67 @@
 <template>
     <div
-        v-if='feature'
-        class='d-flex flex-column'
-        style='height: 100%;'
+        v-if="feature"
+        class="d-flex flex-column"
+        style="height: 100%;"
     >
         <div
-            class='col-12 cloudtak-header border-bottom flex-shrink-0'
-            style='
+            class="col-12 cloudtak-header border-bottom flex-shrink-0"
+            style="
                 height: 90px;
                 border-radius: 0px;
-            '
+            "
         >
-            <div class='col-12 card-header px-1 py-2'>
+            <div class="col-12 card-header px-1 py-2">
                 <div
-                    class='card-title mx-2 text-truncate'
-                    style='width: 280px'
+                    class="card-title mx-2 text-truncate"
+                    style="width: 280px"
                     v-text='feature.properties?.name || "No Name"'
                 />
             </div>
-            <div class='col-12 btn-list my-2 d-flex align-items-center mx-2'>
+            <div class="col-12 btn-list my-2 d-flex align-items-center mx-2">
                 <TablerIconButton
-                    title='Zoom To'
-                    @click='zoomTo'
+                    title="Zoom To"
+                    @click="zoomTo"
                 >
                     <IconZoomPan
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
 
                 <TablerIconButton
                     v-if='overlay && ["basemap", "overlay"].includes(overlay.mode) && overlay.actions.feature.includes("fetch")'
-                    title='Cut to Marker'
-                    @click='cutFeature'
+                    title="Cut to Marker"
+                    @click="cutFeature"
                 >
                     <IconScissors
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <div
-                    class='ms-auto'
-                    style='margin-right: 14px;'
+                    class="ms-auto"
+                    style="margin-right: 14px;"
                 >
                     <TablerIconButton
                         v-if='mode === "default"'
-                        title='Raw View'
+                        title="Raw View"
                         @click='mode = "raw"'
                     >
                         <IconCode
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
                         v-if='mode === "raw"'
-                        title='Default View'
+                        title="Default View"
                         @click='mode = "default"'
                     >
                         <IconX
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
@@ -69,62 +69,62 @@
         </div>
 
         <div
-            class='col-12 overflow-auto flex-fill'
-            style='min-height: 0'
+            class="col-12 overflow-auto flex-fill"
+            style="min-height: 0"
         >
             <template v-if='mode === "default"'>
-                <div class='col-12 px-2 py-2'>
-                    <Coordinate v-model='center' />
+                <div class="col-12 px-2 py-2">
+                    <Coordinate v-model="center" />
                 </div>
 
-                <div class='col-12 px-2 pb-2'>
-                    <div class='col-12'>
+                <div class="col-12 px-2 pb-2">
+                    <div class="col-12">
                         <IconBlockquote
-                            :size='18'
-                            stroke='1'
-                            color='#6b7990'
-                            class='ms-2 me-1'
+                            :size="18"
+                            stroke="1"
+                            color="#6b7990"
+                            class="ms-2 me-1"
                         />
-                        <label class='subheader user-select-none'>Remarks</label>
+                        <label class="subheader user-select-none">Remarks</label>
                     </div>
                     <div
-                        v-if='htmlDescription'
-                        class='mx-2'
+                        v-if="htmlDescription"
+                        class="mx-2"
                     >
                         <CopyField
-                            :model-value='htmlDescription'
-                            :rows='2'
-                            mode='text'
+                            :model-value="htmlDescription"
+                            :rows="2"
+                            mode="text"
                         />
                     </div>
                     <div
                         v-else
-                        class='table-responsive rounded mx-2'
+                        class="table-responsive rounded mx-2"
                     >
-                        <table class='table card-table table-hover table-vcenter datatable'>
+                        <table class="table card-table table-hover table-vcenter datatable">
                             <thead>
                                 <tr>
                                     <th>Key</th>
                                     <th>Value</th>
                                 </tr>
                             </thead>
-                            <tbody class='cloudtak-accent'>
-                                <template v-if='feature.properties && displayProperties.length'>
+                            <tbody class="cloudtak-accent">
+                                <template v-if="feature.properties && displayProperties.length">
                                     <tr
-                                        v-for='prop of displayProperties'
-                                        :key='prop'
+                                        v-for="prop of displayProperties"
+                                        :key="prop"
                                     >
-                                        <td v-text='prop' />
+                                        <td v-text="prop" />
                                         <td>
                                             <a
                                                 v-if='typeof feature.properties[prop] === "string" && feature.properties[prop].startsWith("http")'
-                                                :href='feature.properties[prop]'
-                                                target='_blank'
-                                                v-text='feature.properties[prop]'
+                                                :href="feature.properties[prop]"
+                                                target="_blank"
+                                                v-text="feature.properties[prop]"
                                             />
                                             <span
                                                 v-else
-                                                v-text='feature.properties[prop]'
+                                                v-text="feature.properties[prop]"
                                             />
                                         </td>
                                     </tr>
@@ -135,7 +135,7 @@
                 </div>
             </template>
             <template v-else-if='mode === "raw"'>
-                <pre v-text='feature' />
+                <pre v-text="feature" />
             </template>
         </div>
     </div>

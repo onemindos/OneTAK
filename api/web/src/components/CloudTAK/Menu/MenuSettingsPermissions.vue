@@ -1,72 +1,72 @@
 <template>
     <MenuTemplate
-        name='Permissions'
-        :loading='loading'
+        name="Permissions"
+        :loading="loading"
     >
         <template #buttons>
             <TablerIconButton
-                title='Refresh Permissions'
-                :disabled='Boolean(working)'
-                @click='refreshStatuses'
+                title="Refresh Permissions"
+                :disabled="Boolean(working)"
+                @click="refreshStatuses"
             >
                 <IconRefresh
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
         </template>
 
-        <div class='col-12 d-flex flex-column gap-2 py-3'>
+        <div class="col-12 d-flex flex-column gap-2 py-3">
             <div
-                v-if='error'
-                class='alert alert-warning mb-0'
-                role='alert'
+                v-if="error"
+                class="alert alert-warning mb-0"
+                role="alert"
             >
                 {{ error }}
             </div>
 
             <StandardItem
-                v-for='item of permissionItems'
-                :key='item.key'
-                :hover='false'
+                v-for="item of permissionItems"
+                :key="item.key"
+                :hover="false"
             >
-                <div class='d-flex flex-column gap-3 px-3 py-3'>
-                    <div class='d-flex align-items-start justify-content-between gap-3'>
-                        <div class='d-flex align-items-start gap-3 flex-grow-1'>
+                <div class="d-flex flex-column gap-3 px-3 py-3">
+                    <div class="d-flex align-items-start justify-content-between gap-3">
+                        <div class="d-flex align-items-start gap-3 flex-grow-1">
                             <component
-                                :is='item.icon'
-                                :size='30'
-                                stroke='1.5'
-                                class='flex-shrink-0 mt-1'
+                                :is="item.icon"
+                                :size="30"
+                                stroke="1.5"
+                                class="flex-shrink-0 mt-1"
                             />
 
-                            <div class='flex-grow-1'>
-                                <div class='fw-bold'>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">
                                     {{ item.title }}
                                 </div>
 
-                                <div class='text-secondary small mt-1'>
+                                <div class="text-secondary small mt-1">
                                     {{ item.description }}
                                 </div>
                             </div>
                         </div>
 
                         <TablerBadge
-                            class='text-uppercase flex-shrink-0'
-                            v-bind='badgeProps(item.status)'
+                            class="text-uppercase flex-shrink-0"
+                            v-bind="badgeProps(item.status)"
                         >
                             {{ badgeLabel(item.status) }}
                         </TablerBadge>
                     </div>
 
                     <div
-                        v-if='shouldShowAction(item.key, item.status)'
-                        class='d-flex justify-content-end'
+                        v-if="shouldShowAction(item.key, item.status)"
+                        class="d-flex justify-content-end"
                     >
                         <button
-                            class='btn btn-primary'
-                            :disabled='!canRequest(item.key, item.status) || working === item.key'
-                            @click='requestPermission(item.key)'
+                            class="btn btn-primary"
+                            :disabled="!canRequest(item.key, item.status) || working === item.key"
+                            @click="requestPermission(item.key)"
                         >
                             {{ actionLabel(item.status, item.key) }}
                         </button>

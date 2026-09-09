@@ -1,32 +1,32 @@
 <template>
     <div
-        class='slidedown'
+        class="slidedown"
         :class='{ "slidedown--expanded": expanded }'
     >
         <div
-            class='slidedown__header cloudtak-hover-fill d-flex align-items-center cursor-pointer user-select-none py-2 px-2'
-            @click='toggle'
+            class="slidedown__header cloudtak-hover-fill d-flex align-items-center cursor-pointer user-select-none py-2 px-2"
+            @click="toggle"
         >
-            <slot name='icon' />
-            <label class='subheader cursor-pointer m-0'>{{ label }}</label>
+            <slot name="icon" />
+            <label class="subheader cursor-pointer m-0">{{ label }}</label>
 
-            <div class='ms-auto d-flex align-items-center'>
-                <slot name='right' />
+            <div class="ms-auto d-flex align-items-center">
+                <slot name="right" />
                 <IconChevronDown
-                    class='slidedown__chevron'
+                    class="slidedown__chevron"
                     :class='{ "slidedown__chevron--collapsed": !expanded }'
-                    :size='18'
+                    :size="18"
                 />
             </div>
         </div>
 
         <div
-            class='slidedown__panel'
+            class="slidedown__panel"
             :class='{ "slidedown__panel--expanded": expanded }'
         >
             <div
-                class='slidedown__body'
-                :style='{ overflow: overflow }'
+                class="slidedown__body"
+                :style="{ overflow: overflow }"
             >
                 <slot />
             </div>

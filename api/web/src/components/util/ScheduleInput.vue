@@ -1,36 +1,36 @@
 <template>
     <div>
-        <div class='d-flex align-items-center mb-1'>
+        <div class="d-flex align-items-center mb-1">
             <label
-                class='form-label mb-0'
-                v-text='label'
+                class="form-label mb-0"
+                v-text="label"
             />
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <TablerPillGroup
-                    v-model='mode'
+                    v-model="mode"
                     :options='[
                         { value: "rate", label: "Rate" },
                         { value: "cron", label: "Cron" }
                     ]'
-                    :rounded='false'
-                    :full-width='false'
-                    :disabled='disabled'
-                    size='sm'
-                    padding=''
-                    :name='`schedule-mode-${uid}`'
+                    :rounded="false"
+                    :full-width="false"
+                    :disabled="disabled"
+                    size="sm"
+                    padding=""
+                    :name="`schedule-mode-${uid}`"
                 >
-                    <template #option='{ option }'>
+                    <template #option="{ option }">
                         <IconRepeat
                             v-if='option.value === "rate"'
-                            class='me-1'
-                            :size='16'
-                            stroke='1.5'
+                            class="me-1"
+                            :size="16"
+                            stroke="1.5"
                         />
                         <IconCode
                             v-else
-                            class='me-1'
-                            :size='16'
-                            stroke='1.5'
+                            class="me-1"
+                            :size="16"
+                            stroke="1.5"
                         />
                         {{ option.label }}
                     </template>
@@ -39,75 +39,75 @@
         </div>
 
         <div v-if='mode === "rate"'>
-            <div class='input-group'>
-                <span class='input-group-text'>Every</span>
+            <div class="input-group">
+                <span class="input-group-text">Every</span>
                 <input
-                    v-model.number='rateFreq'
-                    type='number'
-                    min='1'
-                    step='1'
-                    class='form-control'
+                    v-model.number="rateFreq"
+                    type="number"
+                    min="1"
+                    step="1"
+                    class="form-control"
                     :class='{ "is-invalid": Boolean(errorMessage) }'
-                    :disabled='disabled'
-                    aria-label='Frequency'
+                    :disabled="disabled"
+                    aria-label="Frequency"
                 >
                 <select
-                    v-model='rateUnit'
-                    class='form-select'
-                    style='max-width: 130px;'
-                    :disabled='disabled'
-                    aria-label='Unit'
+                    v-model="rateUnit"
+                    class="form-select"
+                    style="max-width: 130px;"
+                    :disabled="disabled"
+                    aria-label="Unit"
                 >
                     <option
-                        v-for='unit in SCHEDULE_UNITS'
-                        :key='unit'
-                        :value='unit'
-                        v-text='unitLabel(unit)'
+                        v-for="unit in SCHEDULE_UNITS"
+                        :key="unit"
+                        :value="unit"
+                        v-text="unitLabel(unit)"
                     />
                 </select>
             </div>
         </div>
         <div v-else>
             <input
-                v-model='cronField'
-                type='text'
-                class='form-control font-monospace'
+                v-model="cronField"
+                type="text"
+                class="form-control font-monospace"
                 :class='{ "is-invalid": Boolean(errorMessage) }'
-                :disabled='disabled'
-                placeholder='0/15 * * * ? *'
-                aria-label='Cron Expression'
+                :disabled="disabled"
+                placeholder="0/15 * * * ? *"
+                aria-label="Cron Expression"
             >
             <div
-                v-if='!disabled'
-                class='d-flex flex-wrap mt-2'
-                style='gap: 0.25rem;'
+                v-if="!disabled"
+                class="d-flex flex-wrap mt-2"
+                style="gap: 0.25rem;"
             >
                 <button
-                    v-for='preset in CRON_PRESETS'
-                    :key='preset.expression'
-                    type='button'
-                    class='badge bg-blue-lt cursor-pointer border-0 user-select-none'
-                    @click='cronField = preset.expression'
-                    v-text='preset.label'
+                    v-for="preset in CRON_PRESETS"
+                    :key="preset.expression"
+                    type="button"
+                    class="badge bg-blue-lt cursor-pointer border-0 user-select-none"
+                    @click="cronField = preset.expression"
+                    v-text="preset.label"
                 />
             </div>
         </div>
 
         <div
-            v-if='errorMessage'
-            class='small text-danger mt-1'
-            v-text='errorMessage'
+            v-if="errorMessage"
+            class="small text-danger mt-1"
+            v-text="errorMessage"
         />
         <div
-            v-else-if='description'
-            class='small text-secondary mt-1 d-flex align-items-center'
+            v-else-if="description"
+            class="small text-secondary mt-1 d-flex align-items-center"
         >
             <IconClock2
-                :size='14'
-                stroke='1.5'
-                class='me-1 flex-shrink-0'
+                :size="14"
+                stroke="1.5"
+                class="me-1 flex-shrink-0"
             />
-            <span v-text='description' />
+            <span v-text="description" />
         </div>
     </div>
 </template>

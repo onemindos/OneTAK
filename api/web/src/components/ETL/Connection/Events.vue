@@ -1,46 +1,46 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h3 class='card-title'>
+        <div class="card-header">
+            <h3 class="card-title">
                 Connection Events
             </h3>
 
-            <div class='ms-auto'>
-                <div class='btn-list'>
+            <div class="ms-auto">
+                <div class="btn-list">
                     <TablerIconButton
-                        title='Clear Events'
-                        @click='events = []'
+                        title="Clear Events"
+                        @click="events = []"
                     >
                         <IconTrash
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        v-if='paused'
-                        title='Play Events'
-                        @click='paused = false'
+                        v-if="paused"
+                        title="Play Events"
+                        @click="paused = false"
                     >
                         <IconPlayerPlay
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
                         v-else
-                        title='Pause Events'
-                        @click='paused = true'
+                        title="Pause Events"
+                        @click="paused = true"
                     >
                         <IconPlayerPause
-                            :size='32'
-                            stroke='1'
+                            :size="32"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
-        <pre v-text='eventStr' />
+        <pre v-text="eventStr" />
     </div>
 </template>
 <script setup lang='ts'>

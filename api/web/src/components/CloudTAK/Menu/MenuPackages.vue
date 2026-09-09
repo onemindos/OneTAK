@@ -1,92 +1,92 @@
 <template>
     <MenuTemplate
-        name='Data Packages'
+        name="Data Packages"
     >
         <template #buttons>
             <TablerIconButton
-                v-if='!loading'
-                title='Create Package'
-                @click='upload = true'
+                v-if="!loading"
+                title="Create Package"
+                @click="upload = true"
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
 
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
         <template #default>
             <ShareToPackage
-                v-if='upload'
-                :upload='true'
-                @close='upload = false'
+                v-if="upload"
+                :upload="true"
+                @close="upload = false"
             />
 
-            <div class='d-flex flex-column'>
-                <div class='d-flex pt-2 flex-row gap-2'>
+            <div class="d-flex flex-column">
+                <div class="d-flex pt-2 flex-row gap-2">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        placeholder='Filter'
-                        class='flex-grow-1'
+                        v-model="paging.filter"
+                        icon="search"
+                        placeholder="Filter"
+                        class="flex-grow-1"
                     />
                 </div>
 
-                <ChannelInfo label='Data Packages' />
-                <EmptyInfo v-if='mapStore.hasNoChannels' />
+                <ChannelInfo label="Data Packages" />
+                <EmptyInfo v-if="mapStore.hasNoChannels" />
 
                 <TablerLoading
-                    v-if='loading'
-                    class='my-5'
+                    v-if="loading"
+                    class="my-5"
                 />
                 <TablerAlert
-                    v-else-if='error'
-                    title='Packages Error'
-                    :err='error'
+                    v-else-if="error"
+                    title="Packages Error"
+                    :err="error"
                 />
                 <TablerNone
-                    v-else-if='!list.items.length'
-                    label='No Packages'
-                    :create='false'
+                    v-else-if="!list.items.length"
+                    label="No Packages"
+                    :create="false"
                 />
                 <div
                     v-else
-                    class='d-flex flex-column gap-3'
+                    class="d-flex flex-column gap-3"
                 >
                     <StandardItem
-                        v-for='pkg in list.items'
-                        :key='pkg.uid'
-                        class='d-flex flex-row gap-3'
-                        @click='router.push(`/menu/packages/${pkg.uid}`)'
+                        v-for="pkg in list.items"
+                        :key="pkg.uid"
+                        class="d-flex flex-row gap-3"
+                        @click="router.push(`/menu/packages/${pkg.uid}`)"
                     >
-                        <div class='icon-wrapper ms-2 mt-2 d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'>
+                        <div class="icon-wrapper ms-2 mt-2 d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25">
                             <IconPackage
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </div>
 
-                        <div class='flex-grow-1 d-flex flex-column gap-2 py-2'>
-                            <div class='d-flex flex-wrap align-items-center gap-2'>
+                        <div class="flex-grow-1 d-flex flex-column gap-2 py-2">
+                            <div class="d-flex flex-wrap align-items-center gap-2">
                                 <span
-                                    class='fw-semibold text-break'
-                                    v-text='pkg.name'
+                                    class="fw-semibold text-break"
+                                    v-text="pkg.name"
                                 />
                             </div>
 
                             <Keywords
                                 :keywords='pkg.keywords.filter((k) => k && k.trim() !== "missionpackage")'
-                                tone='accent'
+                                tone="accent"
                             />
 
-                            <div class='text-secondary small d-flex flex-wrap align-items-center gap-2'>
-                                <div v-text='timeDiff(pkg.created)' />
-                                <span class='text-white-50'>•</span>
-                                <div v-text='pkg.username' />
+                            <div class="text-secondary small d-flex flex-wrap align-items-center gap-2">
+                                <div v-text="timeDiff(pkg.created)" />
+                                <span class="text-white-50">•</span>
+                                <div v-text="pkg.username" />
                             </div>
                         </div>
                     </StandardItem>

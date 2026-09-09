@@ -1,9 +1,9 @@
 <template>
     <div
-        class='onemind-bottom'
-        @click='openPanel'
+        class="onemind-bottom"
+        @click="openPanel"
     >
-        <span :class='dotClass' />
+        <span :class="dotClass" />
         <span>Legacy AI</span>
     </div>
 </template>

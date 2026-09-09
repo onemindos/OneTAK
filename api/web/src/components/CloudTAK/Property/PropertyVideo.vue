@@ -1,26 +1,26 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Video'
+            v-model="expanded"
+            label="Video"
         >
             <template #icon>
                 <IconMovie
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
 
-            <div class='mx-2 py-2 mt-2'>
-                <div class='rounded px-2 pb-2'>
-                    <div class='row g-2'>
-                        <div class='col-12'>
+            <div class="mx-2 py-2 mt-2">
+                <div class="rounded px-2 pb-2">
+                    <div class="row g-2">
+                        <div class="col-12">
                             <TablerInput
-                                v-model='video.url'
-                                label='Video URL'
-                                placeholder='rtsp://example.com:8554/stream'
+                                v-model="video.url"
+                                label="Video URL"
+                                placeholder="rtsp://example.com:8554/stream"
                             />
                         </div>
                     </div>

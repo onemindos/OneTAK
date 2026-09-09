@@ -1,98 +1,98 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Mission Templates
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Create Template'
+                    title="Create Template"
                     @click='router.push("/admin/template/new")'
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Refresh'
-                    @click='fetchList'
+                    title="Refresh"
+                    @click="fetchList"
                 >
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
-            <div class='row col-12 mx-1 my-2'>
-                <div class='col-md-12'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
+            <div class="row col-12 mx-1 my-2">
+                <div class="col-md-12">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        label='Name Filter'
-                        placeholder='Filter...'
+                        v-model="paging.filter"
+                        icon="search"
+                        label="Name Filter"
+                        placeholder="Filter..."
                     />
                 </div>
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Templates'
+                v-if="loading"
+                desc="Loading Templates"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Templates'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Templates"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive pb-5'
+                class="table-responsive pb-5"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody>
                         <tr
-                            v-for='template in list.items'
-                            :key='template.id'
-                            tabindex='0'
-                            class='cursor-pointer'
-                            @keyup.enter='stdclick(router, $event, `/admin/template/${template.id}`)'
-                            @click='stdclick(router, $event, `/admin/template/${template.id}`)'
+                            v-for="template in list.items"
+                            :key="template.id"
+                            tabindex="0"
+                            class="cursor-pointer"
+                            @keyup.enter="stdclick(router, $event, `/admin/template/${template.id}`)"
+                            @click="stdclick(router, $event, `/admin/template/${template.id}`)"
                         >
-                            <template v-for='h in header'>
-                                <template v-if='h.display'>
+                            <template v-for="h in header">
+                                <template v-if="h.display">
                                     <td>
-                                        <div class='d-flex align-items-center'>
+                                        <div class="d-flex align-items-center">
                                             <div
                                                 v-if='h.name === "icon"'
-                                                class='d-flex justify-content-center align-items-center'
-                                                style='width: 32px; height: 32px;'
+                                                class="d-flex justify-content-center align-items-center"
+                                                style="width: 32px; height: 32px;"
                                             >
                                                 <img
-                                                    v-if='template.icon'
-                                                    :src='template.icon'
-                                                    style='max-width: 100%; max-height: 100%; object-fit: contain;'
-                                                    alt='Template Icon'
+                                                    v-if="template.icon"
+                                                    :src="template.icon"
+                                                    style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                                    alt="Template Icon"
                                                 >
                                             </div>
                                             <Keywords
                                                 v-else-if='h.name === "keywords"'
-                                                :keywords='template.keywords || []'
+                                                :keywords="template.keywords || []"
                                             />
                                             <span
                                                 v-else
-                                                v-text='template[h.name]'
+                                                v-text="template[h.name]"
                                             />
                                         </div>
                                     </td>
@@ -103,13 +103,13 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>

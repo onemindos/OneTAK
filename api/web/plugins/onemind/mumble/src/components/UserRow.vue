@@ -1,16 +1,16 @@
 <template>
     <div
-        class='user-row'
-        :class='{ &apos;user-row--talking&apos;: user.talking }'
+        class="user-row"
+        :class="{ 'user-row--talking': user.talking }"
     >
-        <span class='user-row__indicator'>{{ user.talking ? '🔊' : (user.selfMuted ? '🔇' : '·') }}</span>
-        <span class='user-row__name'>{{ user.name }}</span>
+        <span class="user-row__indicator">{{ user.talking ? '🔊' : (user.selfMuted ? '🔇' : '·') }}</span>
+        <span class="user-row__name">{{ user.name }}</span>
         <span
-            v-if='user.muted || user.deafened'
-            class='user-row__flags'
+            v-if="user.muted || user.deafened"
+            class="user-row__flags"
         >
-            <span v-if='user.muted'>M</span>
-            <span v-if='user.deafened'>D</span>
+            <span v-if="user.muted">M</span>
+            <span v-if="user.deafened">D</span>
         </span>
     </div>
 </template>

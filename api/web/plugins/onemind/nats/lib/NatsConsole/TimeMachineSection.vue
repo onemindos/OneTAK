@@ -1,114 +1,114 @@
 <template>
-    <div class='tm'>
+    <div class="tm">
         <!-- Tab bar -->
-        <div class='tm-tabs'>
+        <div class="tm-tabs">
             <button
-                v-for='tab in TABS'
-                :key='tab.id'
-                class='tm-tab'
-                :class='{ active: activeTab === tab.id }'
-                @click='activeTab = tab.id'
+                v-for="tab in TABS"
+                :key="tab.id"
+                class="tm-tab"
+                :class="{ active: activeTab === tab.id }"
+                @click="activeTab = tab.id"
             >
                 <component
-                    :is='tab.icon'
-                    :size='11'
+                    :is="tab.icon"
+                    :size="11"
                 />
                 {{ tab.label }}
             </button>
-            <div class='tm-spacer' />
-            <div class='tm-conn'>
+            <div class="tm-spacer" />
+            <div class="tm-conn">
                 <div
-                    class='tm-conn-dot'
-                    :class='{ ok: tmReachable }'
+                    class="tm-conn-dot"
+                    :class="{ ok: tmReachable }"
                 />
                 <span
-                    class='tm-mono'
+                    class="tm-mono"
                     :class='tmReachable ? "tm-green" : "tm-dim"'
-                    style='font-size:9px'
+                    style="font-size:9px"
                 >
                     {{ tmReachable ? 'TIMEMACHINE ONLINE' : 'OFFLINE' }}
                 </span>
             </div>
         </div>
 
-        <div class='tm-body'>
+        <div class="tm-body">
             <!-- ── QUERY ─────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "query"'>
-                <div class='tm-query-panel'>
+                <div class="tm-query-panel">
                     <!-- Editor area -->
-                    <div class='tm-editor-wrap'>
-                        <div class='tm-editor-hd'>
+                    <div class="tm-editor-wrap">
+                        <div class="tm-editor-hd">
                             <Database
-                                :size='11'
-                                class='tm-acc'
+                                :size="11"
+                                class="tm-acc"
                             />
-                            <span class='tm-section-label'>SQL QUERY</span>
-                            <div class='tm-presets'>
+                            <span class="tm-section-label">SQL QUERY</span>
+                            <div class="tm-presets">
                                 <button
-                                    v-for='p in PRESETS'
-                                    :key='p.name'
-                                    class='tm-preset-chip'
-                                    :title='p.sql'
-                                    @click='loadPreset(p)'
+                                    v-for="p in PRESETS"
+                                    :key="p.name"
+                                    class="tm-preset-chip"
+                                    :title="p.sql"
+                                    @click="loadPreset(p)"
                                 >
                                     {{ p.name }}
                                 </button>
                             </div>
                         </div>
                         <textarea
-                            v-model='sql'
-                            class='tm-textarea tm-mono'
-                            rows='6'
-                            placeholder='SELECT * FROM entity_events ORDER BY timestamp DESC LIMIT 100'
-                            spellcheck='false'
-                            @keydown='onSqlKey'
+                            v-model="sql"
+                            class="tm-textarea tm-mono"
+                            rows="6"
+                            placeholder="SELECT * FROM entity_events ORDER BY timestamp DESC LIMIT 100"
+                            spellcheck="false"
+                            @keydown="onSqlKey"
                         />
-                        <div class='tm-run-bar'>
+                        <div class="tm-run-bar">
                             <button
-                                class='tm-run-btn'
-                                :disabled='queryLoading || !sql.trim()'
-                                @click='runQuery'
+                                class="tm-run-btn"
+                                :disabled="queryLoading || !sql.trim()"
+                                @click="runQuery"
                             >
                                 <Loader2
-                                    v-if='queryLoading'
-                                    :size='12'
-                                    class='tm-spin'
+                                    v-if="queryLoading"
+                                    :size="12"
+                                    class="tm-spin"
                                 />
                                 <Play
                                     v-else
-                                    :size='12'
+                                    :size="12"
                                 />
                                 {{ queryLoading ? 'RUNNING…' : 'RUN' }}
                             </button>
                             <span
-                                class='tm-mono tm-dim'
-                                style='font-size:9px'
+                                class="tm-mono tm-dim"
+                                style="font-size:9px"
                             >CMD+ENTER</span>
-                            <template v-if='queryResult'>
-                                <span class='tm-stat'><span class='tm-green tm-mono'>{{ queryResult.rows.toLocaleString() }}</span> rows</span>
-                                <span class='tm-stat'>elapsed: <span class='tm-green tm-mono'>{{ fmtElapsed(queryResult.elapsed) }}</span></span>
+                            <template v-if="queryResult">
+                                <span class="tm-stat"><span class="tm-green tm-mono">{{ queryResult.rows.toLocaleString() }}</span> rows</span>
+                                <span class="tm-stat">elapsed: <span class="tm-green tm-mono">{{ fmtElapsed(queryResult.elapsed) }}</span></span>
                             </template>
                             <span
-                                v-if='queryError'
-                                class='tm-err tm-mono'
+                                v-if="queryError"
+                                class="tm-err tm-mono"
                             >{{ queryError }}</span>
                             <div
-                                v-if='queryResult'
-                                class='tm-view-toggle'
+                                v-if="queryResult"
+                                class="tm-view-toggle"
                             >
                                 <button
-                                    class='tm-view-btn'
+                                    class="tm-view-btn"
                                     :class='{ active: viewMode === "table" }'
                                     @click='viewMode = "table"'
                                 >
-                                    <Table2 :size='11' /> TABLE
+                                    <Table2 :size="11" /> TABLE
                                 </button>
                                 <button
-                                    class='tm-view-btn'
+                                    class="tm-view-btn"
                                     :class='{ active: viewMode === "raw" }'
                                     @click='viewMode = "raw"'
                                 >
-                                    <Code :size='11' /> RAW
+                                    <Code :size="11" /> RAW
                                 </button>
                             </div>
                         </div>
@@ -116,41 +116,41 @@
 
                     <!-- Results -->
                     <div
-                        v-if='queryResult'
-                        class='tm-results'
+                        v-if="queryResult"
+                        class="tm-results"
                     >
                         <!-- Table view -->
                         <div
                             v-if='viewMode === "table"'
-                            class='tm-table-wrap'
+                            class="tm-table-wrap"
                         >
-                            <table class='tm-table'>
+                            <table class="tm-table">
                                 <thead>
                                     <tr>
                                         <th
-                                            v-for='col in queryColumns'
-                                            :key='col'
-                                            class='tm-th'
-                                            @click='setSortCol(col)'
+                                            v-for="col in queryColumns"
+                                            :key="col"
+                                            class="tm-th"
+                                            @click="setSortCol(col)"
                                         >
                                             {{ col }}
                                             <span
-                                                v-if='sortCol === col'
-                                                class='tm-sort-arrow'
+                                                v-if="sortCol === col"
+                                                class="tm-sort-arrow"
                                             >{{ sortDir === "asc" ? "↑" : "↓" }}</span>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-for='(row, ri) in sortedRows'
-                                        :key='ri'
-                                        class='tm-tr'
+                                        v-for="(row, ri) in sortedRows"
+                                        :key="ri"
+                                        class="tm-tr"
                                     >
                                         <td
-                                            v-for='col in queryColumns'
-                                            :key='col'
-                                            class='tm-td tm-mono'
+                                            v-for="col in queryColumns"
+                                            :key="col"
+                                            class="tm-td tm-mono"
                                         >
                                             {{ fmtCell(row[col]) }}
                                         </td>
@@ -161,82 +161,82 @@
                         <!-- Raw JSON view -->
                         <pre
                             v-else
-                            class='tm-raw tm-mono'
+                            class="tm-raw tm-mono"
                         >{{ JSON.stringify(queryResult.data, null, 2) }}</pre>
                     </div>
                     <div
-                        v-else-if='!queryLoading'
-                        class='tm-empty'
+                        v-else-if="!queryLoading"
+                        class="tm-empty"
                     >
                         <Database
-                            :size='22'
-                            class='tm-empty-icon'
+                            :size="22"
+                            class="tm-empty-icon"
                         />
                         <span>WRITE A QUERY AND HIT RUN</span>
-                        <span class='tm-dim tm-mono'>timemachine.onemindos.dev</span>
+                        <span class="tm-dim tm-mono">timemachine.onemindos.dev</span>
                     </div>
                 </div>
             </template>
 
             <!-- ── SCHEMA ─────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "schema"'>
-                <div class='tm-schema-panel'>
+                <div class="tm-schema-panel">
                     <!-- Table list -->
-                    <div class='tm-schema-left'>
-                        <div class='tm-schema-hd'>
+                    <div class="tm-schema-left">
+                        <div class="tm-schema-hd">
                             <Layers
-                                :size='11'
-                                class='tm-acc'
+                                :size="11"
+                                class="tm-acc"
                             />
-                            <span class='tm-section-label'>TABLES</span>
-                            <span class='tm-badge'>{{ schemaTables.length }}</span>
+                            <span class="tm-section-label">TABLES</span>
+                            <span class="tm-badge">{{ schemaTables.length }}</span>
                             <button
-                                class='tm-icon-btn'
-                                :disabled='schemaLoading'
-                                title='Refresh'
-                                @click='loadTables'
+                                class="tm-icon-btn"
+                                :disabled="schemaLoading"
+                                title="Refresh"
+                                @click="loadTables"
                             >
                                 <RefreshCw
-                                    :size='11'
+                                    :size="11"
                                     :class='{ "tm-spin": schemaLoading }'
                                 />
                             </button>
                         </div>
-                        <div class='tm-schema-search-wrap'>
+                        <div class="tm-schema-search-wrap">
                             <Search
-                                :size='10'
-                                class='tm-search-icon'
+                                :size="10"
+                                class="tm-search-icon"
                             />
                             <input
-                                v-model='tableSearch'
-                                class='tm-search'
-                                placeholder='Filter tables…'
+                                v-model="tableSearch"
+                                class="tm-search"
+                                placeholder="Filter tables…"
                             >
                         </div>
                         <div
-                            v-if='schemaError'
-                            class='tm-schema-err tm-mono'
+                            v-if="schemaError"
+                            class="tm-schema-err tm-mono"
                         >
                             {{ schemaError }}
                         </div>
-                        <div class='tm-table-list'>
+                        <div class="tm-table-list">
                             <button
-                                v-for='table in filteredTables'
-                                :key='table'
-                                class='tm-table-btn'
-                                :class='{ active: selectedTable === table }'
-                                @click='selectTable(table)'
+                                v-for="table in filteredTables"
+                                :key="table"
+                                class="tm-table-btn"
+                                :class="{ active: selectedTable === table }"
+                                @click="selectTable(table)"
                             >
                                 <Table2
-                                    :size='10'
-                                    style='flex-shrink:0'
+                                    :size="10"
+                                    style="flex-shrink:0"
                                 />
-                                <span class='tm-mono'>{{ table }}</span>
+                                <span class="tm-mono">{{ table }}</span>
                             </button>
                             <div
-                                v-if='filteredTables.length === 0 && !schemaLoading'
-                                class='tm-dim tm-mono'
-                                style='padding:12px;font-size:10px'
+                                v-if="filteredTables.length === 0 && !schemaLoading"
+                                class="tm-dim tm-mono"
+                                style="padding:12px;font-size:10px"
                             >
                                 {{ schemaTables.length === 0 ? 'No tables loaded' : 'No match' }}
                             </div>
@@ -244,59 +244,59 @@
                     </div>
 
                     <!-- Column detail -->
-                    <div class='tm-schema-right'>
-                        <template v-if='selectedTable'>
-                            <div class='tm-schema-hd'>
+                    <div class="tm-schema-right">
+                        <template v-if="selectedTable">
+                            <div class="tm-schema-hd">
                                 <Database
-                                    :size='11'
-                                    class='tm-acc'
+                                    :size="11"
+                                    class="tm-acc"
                                 />
-                                <span class='tm-section-label tm-mono'>{{ selectedTable }}</span>
+                                <span class="tm-section-label tm-mono">{{ selectedTable }}</span>
                                 <span
-                                    v-if='selectedRowCount !== null'
-                                    class='tm-badge'
+                                    v-if="selectedRowCount !== null"
+                                    class="tm-badge"
                                 >{{ selectedRowCount.toLocaleString() }} rows</span>
                                 <button
-                                    class='tm-icon-btn'
-                                    title='Query this table'
-                                    @click='queryFromTable(selectedTable)'
+                                    class="tm-icon-btn"
+                                    title="Query this table"
+                                    @click="queryFromTable(selectedTable)"
                                 >
-                                    <Play :size='11' />
+                                    <Play :size="11" />
                                 </button>
                             </div>
                             <div
-                                v-if='columnsLoading'
-                                class='tm-empty'
+                                v-if="columnsLoading"
+                                class="tm-empty"
                             >
                                 <Loader2
-                                    :size='16'
-                                    class='tm-spin tm-acc'
+                                    :size="16"
+                                    class="tm-spin tm-acc"
                                 />
                             </div>
                             <div
-                                v-else-if='selectedColumns.length > 0'
-                                class='tm-col-list'
+                                v-else-if="selectedColumns.length > 0"
+                                class="tm-col-list"
                             >
-                                <div class='tm-col-hdr'>
+                                <div class="tm-col-hdr">
                                     <span>COLUMN</span><span>TYPE</span>
                                 </div>
                                 <div
-                                    v-for='col in selectedColumns'
-                                    :key='col.name'
-                                    class='tm-col-row'
+                                    v-for="col in selectedColumns"
+                                    :key="col.name"
+                                    class="tm-col-row"
                                 >
-                                    <span class='tm-mono'>{{ col.name }}</span>
-                                    <span class='tm-mono tm-type'>{{ col.type }}</span>
+                                    <span class="tm-mono">{{ col.name }}</span>
+                                    <span class="tm-mono tm-type">{{ col.type }}</span>
                                 </div>
                             </div>
                         </template>
                         <div
                             v-else
-                            class='tm-empty'
+                            class="tm-empty"
                         >
                             <Layers
-                                :size='20'
-                                class='tm-empty-icon'
+                                :size="20"
+                                class="tm-empty-icon"
                             />
                             <span>SELECT A TABLE</span>
                         </div>
@@ -306,70 +306,70 @@
 
             <!-- ── HISTORY ────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "history"'>
-                <div class='tm-panel-hd'>
+                <div class="tm-panel-hd">
                     <Clock
-                        :size='13'
-                        class='tm-acc'
+                        :size="13"
+                        class="tm-acc"
                     />
-                    <span class='tm-section-label'>QUERY HISTORY</span>
-                    <span class='tm-badge'>{{ history.length }}</span>
+                    <span class="tm-section-label">QUERY HISTORY</span>
+                    <span class="tm-badge">{{ history.length }}</span>
                     <button
-                        v-if='history.length > 0'
-                        class='tm-icon-btn'
-                        title='Clear history'
-                        @click='clearHistory'
+                        v-if="history.length > 0"
+                        class="tm-icon-btn"
+                        title="Clear history"
+                        @click="clearHistory"
                     >
-                        <Trash2 :size='11' />
+                        <Trash2 :size="11" />
                     </button>
                 </div>
-                <div class='tm-list'>
+                <div class="tm-list">
                     <div
-                        v-if='history.length === 0'
-                        class='tm-empty'
+                        v-if="history.length === 0"
+                        class="tm-empty"
                     >
                         <Clock
-                            :size='22'
-                            class='tm-empty-icon'
+                            :size="22"
+                            class="tm-empty-icon"
                         />
                         <span>NO QUERY HISTORY</span>
-                        <span class='tm-dim tm-mono'>Run queries to build history</span>
+                        <span class="tm-dim tm-mono">Run queries to build history</span>
                     </div>
                     <div
-                        v-for='(entry, idx) in history'
-                        :key='entry.id'
-                        class='tm-hist-row'
+                        v-for="(entry, idx) in history"
+                        :key="entry.id"
+                        class="tm-hist-row"
                     >
-                        <div class='tm-hist-meta'>
+                        <div class="tm-hist-meta">
                             <span
-                                class='tm-mono tm-dim'
-                                style='font-size:9px'
+                                class="tm-mono tm-dim"
+                                style="font-size:9px"
                             >{{ timeAgo(entry.timestamp) }}</span>
-                            <template v-if='entry.rowCount !== undefined'>
+                            <template v-if="entry.rowCount !== undefined">
                                 <span
-                                    class='tm-mono'
-                                    style='font-size:9px;color:#22c55e'
+                                    class="tm-mono"
+                                    style="font-size:9px;color:#22c55e"
                                 >{{ entry.rowCount.toLocaleString() }} rows</span>
                             </template>
-                            <template v-if='entry.elapsed !== undefined'>
+                            <template v-if="entry.elapsed !== undefined">
                                 <span
-                                    class='tm-mono tm-dim'
-                                    style='font-size:9px'
+                                    class="tm-mono tm-dim"
+                                    style="font-size:9px"
                                 >{{ fmtElapsed(entry.elapsed) }}</span>
                             </template>
                         </div>
                         <button
-                            class='tm-hist-sql tm-mono'
-                            :title='entry.sql'
-                            @click='loadHistoryEntry(entry)'
+                            class="tm-hist-sql tm-mono"
+                            :title="entry.sql"
+                            @click="loadHistoryEntry(entry)"
                         >
                             {{ truncate(entry.sql, 160) }}
                         </button>
                         <button
-                            class='tm-hist-del'
-                            title='Delete'
-                            @click='deleteHistory(idx)'
+                            class="tm-hist-del"
+                            title="Delete"
+                            @click="deleteHistory(idx)"
                         >
-                            <Trash2 :size='10' />
+                            <Trash2 :size="10" />
                         </button>
                     </div>
                 </div>
@@ -377,75 +377,75 @@
 
             <!-- ── TIMELINE ───────────────────────────────────────────────────── -->
             <template v-if='activeTab === "timeline"'>
-                <div class='tm-panel-hd'>
+                <div class="tm-panel-hd">
                     <Clock
-                        :size='13'
-                        class='tm-acc'
+                        :size="13"
+                        class="tm-acc"
                     />
-                    <span class='tm-section-label'>ENTITY TIMELINE</span>
+                    <span class="tm-section-label">ENTITY TIMELINE</span>
                     <span
-                        class='tm-mono tm-dim'
-                        style='font-size:9px'
+                        class="tm-mono tm-dim"
+                        style="font-size:9px"
                     >Replay entity state via NATS ent.{type}.{id}.replay</span>
                 </div>
 
                 <!-- Controls -->
-                <div class='tm-tl-controls'>
-                    <div class='tm-tl-row'>
-                        <div class='tm-field'>
-                            <label class='tm-label'>ENTITY TYPE</label>
+                <div class="tm-tl-controls">
+                    <div class="tm-tl-row">
+                        <div class="tm-field">
+                            <label class="tm-label">ENTITY TYPE</label>
                             <input
-                                v-model='tlEntityType'
-                                class='tm-input tm-mono'
-                                placeholder='drone / node / mission…'
+                                v-model="tlEntityType"
+                                class="tm-input tm-mono"
+                                placeholder="drone / node / mission…"
                             >
                         </div>
-                        <div class='tm-field'>
-                            <label class='tm-label'>ENTITY ID</label>
+                        <div class="tm-field">
+                            <label class="tm-label">ENTITY ID</label>
                             <input
-                                v-model='tlEntityId'
-                                class='tm-input tm-mono'
-                                placeholder='entity-uuid'
+                                v-model="tlEntityId"
+                                class="tm-input tm-mono"
+                                placeholder="entity-uuid"
                             >
                         </div>
                     </div>
-                    <div class='tm-tl-row'>
-                        <div class='tm-field'>
-                            <label class='tm-label'>START</label>
+                    <div class="tm-tl-row">
+                        <div class="tm-field">
+                            <label class="tm-label">START</label>
                             <input
-                                v-model='tlStart'
-                                class='tm-input tm-mono'
-                                type='datetime-local'
+                                v-model="tlStart"
+                                class="tm-input tm-mono"
+                                type="datetime-local"
                             >
                         </div>
-                        <div class='tm-field'>
-                            <label class='tm-label'>END</label>
+                        <div class="tm-field">
+                            <label class="tm-label">END</label>
                             <input
-                                v-model='tlEnd'
-                                class='tm-input tm-mono'
-                                type='datetime-local'
+                                v-model="tlEnd"
+                                class="tm-input tm-mono"
+                                type="datetime-local"
                             >
                         </div>
                         <button
-                            class='tm-fetch-btn'
-                            :disabled='tlLoading || !tlEntityId.trim()'
-                            @click='fetchTimeline'
+                            class="tm-fetch-btn"
+                            :disabled="tlLoading || !tlEntityId.trim()"
+                            @click="fetchTimeline"
                         >
                             <Loader2
-                                v-if='tlLoading'
-                                :size='11'
-                                class='tm-spin'
+                                v-if="tlLoading"
+                                :size="11"
+                                class="tm-spin"
                             />
                             <Download
                                 v-else
-                                :size='11'
+                                :size="11"
                             />
                             FETCH
                         </button>
                     </div>
                     <div
-                        v-if='tlError'
-                        class='tm-err tm-mono'
+                        v-if="tlError"
+                        class="tm-err tm-mono"
                     >
                         {{ tlError }}
                     </div>
@@ -453,60 +453,60 @@
 
                 <!-- Playback bar -->
                 <div
-                    v-if='tlEntries.length > 0'
-                    class='tm-tl-playbar'
+                    v-if="tlEntries.length > 0"
+                    class="tm-tl-playbar"
                 >
                     <button
-                        class='tm-play-btn'
-                        title='Rewind'
-                        @click='tlSeek(0)'
+                        class="tm-play-btn"
+                        title="Rewind"
+                        @click="tlSeek(0)"
                     >
-                        <SkipBack :size='12' />
+                        <SkipBack :size="12" />
                     </button>
                     <button
-                        class='tm-play-btn primary'
-                        @click='togglePlay'
+                        class="tm-play-btn primary"
+                        @click="togglePlay"
                     >
                         <Pause
-                            v-if='tlPlaying'
-                            :size='12'
+                            v-if="tlPlaying"
+                            :size="12"
                         />
                         <Play
                             v-else
-                            :size='12'
+                            :size="12"
                         />
                     </button>
                     <input
-                        class='tm-scrubber'
-                        type='range'
-                        min='0'
-                        :max='tlEntries.length - 1'
-                        :value='tlIdx'
-                        @input='tlSeek(Number(($event.target as HTMLInputElement).value))'
+                        class="tm-scrubber"
+                        type="range"
+                        min="0"
+                        :max="tlEntries.length - 1"
+                        :value="tlIdx"
+                        @input="tlSeek(Number(($event.target as HTMLInputElement).value))"
                     >
                     <span
-                        class='tm-mono'
-                        style='font-size:10px'
+                        class="tm-mono"
+                        style="font-size:10px"
                     >{{ tlIdx + 1 }} / {{ tlEntries.length }}</span>
-                    <div class='tm-speed-btns'>
+                    <div class="tm-speed-btns">
                         <button
-                            v-for='s in [1, 2, 5]'
-                            :key='s'
-                            class='tm-speed-btn'
-                            :class='{ active: tlSpeed === s }'
-                            @click='tlSpeed = s'
+                            v-for="s in [1, 2, 5]"
+                            :key="s"
+                            class="tm-speed-btn"
+                            :class="{ active: tlSpeed === s }"
+                            @click="tlSpeed = s"
                         >
                             {{ s }}×
                         </button>
                     </div>
-                    <div class='tm-nats-status'>
+                    <div class="tm-nats-status">
                         <div
-                            class='tm-conn-dot'
-                            :class='{ ok: !!nc }'
+                            class="tm-conn-dot"
+                            :class="{ ok: !!nc }"
                         />
                         <span
-                            class='tm-mono'
-                            style='font-size:9px;'
+                            class="tm-mono"
+                            style="font-size:9px;"
                             :class='nc ? "tm-green" : "tm-dim"'
                         >{{ nc ? 'NATS OK' : 'NO NATS' }}</span>
                     </div>
@@ -514,65 +514,65 @@
 
                 <!-- Current frame -->
                 <div
-                    v-if='tlEntries.length > 0'
-                    class='tm-tl-frame'
+                    v-if="tlEntries.length > 0"
+                    class="tm-tl-frame"
                 >
-                    <div class='tm-frame-hd'>
+                    <div class="tm-frame-hd">
                         <span
-                            class='tm-mono'
-                            style='color:#f59e0b;font-size:10px'
+                            class="tm-mono"
+                            style="color:#f59e0b;font-size:10px"
                         >{{ tlEntries[tlIdx]?.timestamp ?? '' }}</span>
                         <span
-                            class='tm-mono tm-dim'
-                            style='font-size:9px'
+                            class="tm-mono tm-dim"
+                            style="font-size:9px"
                         >{{ tlEntityType }}.{{ tlEntityId }}</span>
                         <span
-                            v-if='tlPublished > 0'
-                            class='tm-mono'
-                            style='font-size:9px;color:#22c55e'
+                            v-if="tlPublished > 0"
+                            class="tm-mono"
+                            style="font-size:9px;color:#22c55e"
                         >{{ tlPublished }} published</span>
                     </div>
-                    <pre class='tm-frame-data tm-mono'>{{ JSON.stringify(tlEntries[tlIdx]?.state ?? {}, null, 2) }}</pre>
+                    <pre class="tm-frame-data tm-mono">{{ JSON.stringify(tlEntries[tlIdx]?.state ?? {}, null, 2) }}</pre>
                 </div>
 
                 <!-- Frame list -->
                 <div
-                    v-if='tlEntries.length > 0'
-                    ref='tlListEl'
-                    class='tm-tl-list'
+                    v-if="tlEntries.length > 0"
+                    ref="tlListEl"
+                    class="tm-tl-list"
                 >
                     <div
-                        v-for='(entry, i) in tlEntries'
-                        :key='i'
-                        class='tm-tl-item'
-                        :class='{ active: i === tlIdx }'
-                        @click='tlSeek(i)'
+                        v-for="(entry, i) in tlEntries"
+                        :key="i"
+                        class="tm-tl-item"
+                        :class="{ active: i === tlIdx }"
+                        @click="tlSeek(i)"
                     >
                         <div
-                            class='tm-tl-dot'
-                            :class='{ active: i === tlIdx }'
+                            class="tm-tl-dot"
+                            :class="{ active: i === tlIdx }"
                         />
                         <span
-                            class='tm-mono'
-                            style='font-size:10px'
+                            class="tm-mono"
+                            style="font-size:10px"
                         >{{ entry.timestamp }}</span>
                         <span
-                            class='tm-mono tm-dim'
-                            style='font-size:9px'
+                            class="tm-mono tm-dim"
+                            style="font-size:9px"
                         >{{ previewState(entry.state) }}</span>
                     </div>
                 </div>
 
                 <div
-                    v-else-if='!tlLoading'
-                    class='tm-empty'
+                    v-else-if="!tlLoading"
+                    class="tm-empty"
                 >
                     <Clock
-                        :size='22'
-                        class='tm-empty-icon'
+                        :size="22"
+                        class="tm-empty-icon"
                     />
                     <span>ENTER ENTITY TYPE + ID AND FETCH</span>
-                    <span class='tm-dim tm-mono'>Re-publishes frames to ent.{type}.{id}.replay</span>
+                    <span class="tm-dim tm-mono">Re-publishes frames to ent.{type}.{id}.replay</span>
                 </div>
             </template>
         </div>

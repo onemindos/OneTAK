@@ -1,36 +1,36 @@
 <template>
     <TablerModal>
-        <div class='modal-header'>
-            <div class='modal-title'>
+        <div class="modal-header">
+            <div class="modal-title">
                 Buffer Geometry
             </div>
             <button
-                type='button'
-                class='btn-close'
-                aria-label='Close'
+                type="button"
+                class="btn-close"
+                aria-label="Close"
                 @click='emit("close")'
             />
         </div>
-        <div class='modal-body'>
+        <div class="modal-body">
             <PropertyDistance
-                v-model='radius'
-                label='Radius'
-                :unit='displayUnit'
-                :edit='true'
+                v-model="radius"
+                label="Radius"
+                :unit="displayUnit"
+                :edit="true"
             />
         </div>
-        <div class='modal-footer'>
+        <div class="modal-footer">
             <button
-                type='button'
-                class='btn'
+                type="button"
+                class="btn"
                 @click='emit("close")'
             >
                 Cancel
             </button>
             <button
-                type='button'
-                class='btn btn-primary'
-                @click='applyBuffer'
+                type="button"
+                class="btn btn-primary"
+                @click="applyBuffer"
             >
                 Apply
             </button>

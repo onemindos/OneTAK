@@ -23,7 +23,7 @@
  */
 
 import type { HeatmapLayerConfig } from '../types';
-import type { DBFeature } from '../../../plugin';
+import type { DBFeature } from '../../../../../plugin';
 
 const DEFAULT_COLOR_RANGE: [number, number, number, number][] = [
     [0, 0, 255, 0],
@@ -46,7 +46,7 @@ export async function buildHeatmapLayer(config: HeatmapLayerConfig, features: DB
         radiusPixels: config.radiusPixels ?? 30,
         colorRange:   (config.colorRange ?? DEFAULT_COLOR_RANGE) as [number, number, number, number][],
         getPosition: (d: DBFeature) => {
-            const coords = d.geometry?.coordinates as [number, number] | undefined;
+            const coords = (d.geometry as unknown as { coordinates?: [number, number] })?.coordinates;
             return coords ?? [0, 0];
         },
         getWeight: () => 1,

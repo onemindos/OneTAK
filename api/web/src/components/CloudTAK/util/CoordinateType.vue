@@ -1,26 +1,26 @@
 <template>
     <TablerPillGroup
-        v-model='config.mode'
-        :options='coordOptions'
-        :rounded='false'
-        :full-width='false'
-        size='default'
-        name='point-type'
-        padding=''
+        v-model="config.mode"
+        :options="coordOptions"
+        :rounded="false"
+        :full-width="false"
+        size="default"
+        name="point-type"
+        padding=""
     >
-        <template #option='{ option }'>
-            <span :title='option.label'>
+        <template #option="{ option }">
+            <span :title="option.label">
                 <IconPoint
                     v-if='option.value === "u-d-p"'
-                    title='Point Icon'
-                    :size='size'
-                    stroke='1'
+                    title="Point Icon"
+                    :size="size"
+                    stroke="1"
                 />
                 <img
                     v-else
-                    :width='size'
-                    :height='size'
-                    :src='sidcIcon(option.value)'
+                    :width="size"
+                    :height="size"
+                    :src="sidcIcon(option.value)"
                 >
             </span>
         </template>

@@ -1,18 +1,18 @@
 <template>
-    <div class='card'>
-        <div class='card-body text-center py-4'>
-            <template v-if='!file'>
+    <div class="card">
+        <div class="card-body text-center py-4">
+            <template v-if="!file">
                 <form
-                    id='dropzone-default'
-                    class='dropzone dz-clickable'
-                    action='./'
-                    autocomplete='off'
-                    :novalidate='true'
+                    id="dropzone-default"
+                    class="dropzone dz-clickable"
+                    action="./"
+                    autocomplete="off"
+                    :novalidate="true"
                 >
-                    <div class='dz-default dz-message'>
+                    <div class="dz-default dz-message">
                         <button
-                            class='dz-button'
-                            type='button'
+                            class="dz-button"
+                            type="button"
                         >
                             Drop .p12 here<br>click to upload
                         </button>
@@ -21,18 +21,18 @@
             </template>
             <template v-else>
                 <TablerInput
-                    v-model='password'
-                    type='password'
-                    autocomplete='new-password'
-                    label='P12 Password'
-                    @keyup.enter='extract'
+                    v-model="password"
+                    type="password"
+                    autocomplete="new-password"
+                    label="P12 Password"
+                    @keyup.enter="extract"
                 />
 
-                <div class='row mt-3'>
-                    <div class='col'>
+                <div class="row mt-3">
+                    <div class="col">
                         <a
-                            class='cursor-pointer btn w-100'
-                            @click='extract'
+                            class="cursor-pointer btn w-100"
+                            @click="extract"
                         >OK</a>
                     </div>
                 </div>

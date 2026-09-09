@@ -1,17 +1,17 @@
 <template>
-    <div class='presets'>
-        <div class='presets__header'>
+    <div class="presets">
+        <div class="presets__header">
             Presets
         </div>
         <div
-            v-for='preset in PRESET_QUERIES'
-            :key='preset.id'
-            class='presets__item'
-            :class='`presets__item--${preset.category}`'
-            @click='$emit(&apos;select&apos;, preset.sql)'
+            v-for="preset in PRESET_QUERIES"
+            :key="preset.id"
+            class="presets__item"
+            :class="`presets__item--${preset.category}`"
+            @click="$emit('select', preset.sql)"
         >
-            <span class='presets__label'>{{ preset.label }}</span>
-            <span class='presets__desc'>{{ preset.description }}</span>
+            <span class="presets__label">{{ preset.label }}</span>
+            <span class="presets__desc">{{ preset.description }}</span>
         </div>
     </div>
 </template>

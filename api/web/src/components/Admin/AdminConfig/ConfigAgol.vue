@@ -1,51 +1,51 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='ArcGIS Online'
+        v-model="isOpen"
+        label="ArcGIS Online"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerToggle
                             v-model='config["agol::enabled"]'
-                            :disabled='!edit'
-                            label='ArcGIS Online Enabled'
+                            :disabled="!edit"
+                            label="ArcGIS Online Enabled"
                         />
 
                         <template v-if='config["agol::enabled"]'>
@@ -56,33 +56,33 @@
                                     { value: "legacy", label: "Legacy" }
                                 ]'
                                 :disabled='!config["agol::enabled"] || !edit'
-                                size='default'
+                                size="default"
                             />
 
                             <template v-if='config["agol::auth_method"] === "oauth2"'>
                                 <TablerInput
                                     v-model='config["agol::client_id"]'
-                                    :disabled='!edit'
-                                    label='OAuth2 Client ID'
-                                    description='Client ID from your ArcGIS Location Platform or ArcGIS Enterprise account'
+                                    :disabled="!edit"
+                                    label="OAuth2 Client ID"
+                                    description="Client ID from your ArcGIS Location Platform or ArcGIS Enterprise account"
                                 />
                                 <TablerInput
                                     v-model='config["agol::client_secret"]'
-                                    type='password'
-                                    autocomplete='new-password'
-                                    :disabled='!edit'
-                                    label='OAuth2 Client Secret'
-                                    description='Client Secret from your ArcGIS Location Platform or ArcGIS Enterprise account'
+                                    type="password"
+                                    autocomplete="new-password"
+                                    :disabled="!edit"
+                                    label="OAuth2 Client Secret"
+                                    description="Client Secret from your ArcGIS Location Platform or ArcGIS Enterprise account"
                                 />
                             </template>
                             <template v-else>
                                 <TablerInput
                                     v-model='config["agol::token"]'
-                                    type='password'
-                                    autocomplete='new-password'
-                                    :disabled='!edit'
-                                    label='Legacy Token'
-                                    description='ArcGIS Online access token'
+                                    type="password"
+                                    autocomplete="new-password"
+                                    :disabled="!edit"
+                                    label="Legacy Token"
+                                    description="ArcGIS Online access token"
                                 />
                             </template>
                         </template>

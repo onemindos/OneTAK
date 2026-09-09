@@ -1,37 +1,37 @@
 <template>
     <div>
-        <div class='card-header d-flex'>
-            <h3 class='card-title'>
+        <div class="card-header d-flex">
+            <h3 class="card-title">
                 Data Assets
             </h3>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerIconButton
-                    title='Upload'
-                    @click='upload = true'
+                    title="Upload"
+                    @click="upload = true"
                 >
                     <IconPlus
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Refresh'
-                    @click='fetchList'
+                    title="Refresh"
+                    @click="fetchList"
                 >
                     <IconRefresh
-                        :size='32'
-                        stroke='1'
+                        :size="32"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <div
-            v-if='!err && !upload && !loading.list && list.assets.length'
-            class='table-responsive'
+            v-if="!err && !upload && !loading.list && list.assets.length"
+            class="table-responsive"
         >
-            <table class='table table-hover table-vcenter card-table'>
+            <table class="table table-hover table-vcenter card-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -41,72 +41,72 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for='asset in list.assets'
-                        :key='asset.name'
+                        v-for="asset in list.assets"
+                        :key="asset.name"
                     >
                         <td>
-                            <div class='d-flex align-items-center'>
-                                <div class='btn-list'>
+                            <div class="d-flex align-items-center">
+                                <div class="btn-list">
                                     <span
-                                        v-if='asset.visualized'
-                                        title='Visualizable'
+                                        v-if="asset.visualized"
+                                        title="Visualizable"
                                     >
                                         <IconMap
-                                            :size='32'
-                                            stroke='1'
+                                            :size="32"
+                                            stroke="1"
                                         />
                                     </span>
                                     <span
                                         v-else
-                                        title='Not Cloud Optimized'
+                                        title="Not Cloud Optimized"
                                     >
                                         <IconMapOff
-                                            size='32'
-                                            stroke='1'
+                                            size="32"
+                                            stroke="1"
                                         />
                                     </span>
                                 </div>
 
                                 <span
-                                    class='mx-2'
-                                    v-text='asset.name'
+                                    class="mx-2"
+                                    v-text="asset.name"
                                 />
 
                                 <span
-                                    v-if='data.mission_sync && asset.sync'
-                                    title='Syncing'
+                                    v-if="data.mission_sync && asset.sync"
+                                    title="Syncing"
                                 >
                                     <IconRefreshDot
-                                        :size='32'
-                                        stroke='1'
-                                        class='text-green'
+                                        :size="32"
+                                        stroke="1"
+                                        class="text-green"
                                     />
                                 </span>
                                 <IconRefreshOff
-                                    v-else-if='data.mission_sync && !asset.sync'
-                                    :size='32'
-                                    stroke='1'
+                                    v-else-if="data.mission_sync && !asset.sync"
+                                    :size="32"
+                                    stroke="1"
                                 />
                             </div>
                         </td>
                         <td>
-                            <TablerBytes :bytes='asset.size' />
+                            <TablerBytes :bytes="asset.size" />
                         </td>
-                        <td class='d-flex align-items-center'>
-                            <TablerEpoch :date='asset.updated' />
-                            <div class='ms-auto btn-list'>
+                        <td class="d-flex align-items-center">
+                            <TablerEpoch :date="asset.updated" />
+                            <div class="ms-auto btn-list">
                                 <TablerDelete
-                                    title='Delete Asset'
-                                    displaytype='icon'
-                                    @delete='deleteAsset(asset)'
+                                    title="Delete Asset"
+                                    displaytype="icon"
+                                    @delete="deleteAsset(asset)"
                                 />
                                 <TablerIconButton
-                                    title='Download Asset'
-                                    @click='downloadAsset(asset)'
+                                    title="Download Asset"
+                                    @click="downloadAsset(asset)"
                                 >
                                     <IconDownload
-                                        :size='32'
-                                        stroke='1'
+                                        :size="32"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -117,26 +117,26 @@
         </div>
         <div
             v-else
-            class='card-body'
+            class="card-body"
         >
-            <template v-if='err'>
+            <template v-if="err">
                 <TablerAlert
-                    title='Asset Error'
-                    :err='err'
-                    :compact='true'
+                    title="Asset Error"
+                    :err="err"
+                    :compact="true"
                 />
             </template>
-            <TablerLoading v-else-if='loading.list' />
+            <TablerLoading v-else-if="loading.list" />
             <Upload
-                v-else-if='upload'
-                :url='uploadURL()'
-                @cancel='upload = false'
-                @done='fetchList'
+                v-else-if="upload"
+                :url="uploadURL()"
+                @cancel="upload = false"
+                @done="fetchList"
             />
             <TablerNone
-                v-else-if='!list.assets.length'
-                :create='false'
-                :compact='true'
+                v-else-if="!list.assets.length"
+                :create="false"
+                :compact="true"
             />
         </div>
     </div>

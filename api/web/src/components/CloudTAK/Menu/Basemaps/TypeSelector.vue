@@ -1,36 +1,36 @@
 <template>
-    <div class='row g-2'>
-        <div class='col-12'>
+    <div class="row g-2">
+        <div class="col-12">
             <TablerInput
-                v-model='filter'
-                icon='search'
-                placeholder='Filter basemap types'
+                v-model="filter"
+                icon="search"
+                placeholder="Filter basemap types"
             />
         </div>
 
         <div
-            v-for='option in filteredOptions'
-            :key='option.id'
-            class='col-12 col-md-6 col-xl-4'
+            v-for="option in filteredOptions"
+            :key="option.id"
+            class="col-12 col-md-6 col-xl-4"
         >
             <StandardItem
-                class='h-100 d-flex align-items-center gap-3 px-3 py-3'
+                class="h-100 d-flex align-items-center gap-3 px-3 py-3"
                 :class='modelValue === option.id ? "bg-blue" : ""'
-                @click='select(option.id)'
+                @click="select(option.id)"
             >
-                <div class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 p-2'>
+                <div class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 p-2">
                     <component
-                        :is='option.icon'
-                        :size='28'
-                        stroke='1.5'
+                        :is="option.icon"
+                        :size="28"
+                        stroke="1.5"
                     />
                 </div>
 
                 <div>
-                    <div class='fw-semibold'>
+                    <div class="fw-semibold">
                         {{ option.label }}
                     </div>
-                    <div class='small text-white-50'>
+                    <div class="small text-white-50">
                         {{ option.description }}
                     </div>
                 </div>

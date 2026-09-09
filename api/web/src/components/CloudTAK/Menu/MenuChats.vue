@@ -1,115 +1,115 @@
 <template>
-    <MenuTemplate name='Chats'>
+    <MenuTemplate name="Chats">
         <template #buttons>
             <TablerIconButton
-                title='Select Chats'
-                @click='multiselect = !multiselect'
+                title="Select Chats"
+                @click="multiselect = !multiselect"
             >
                 <IconListCheck
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerIconButton
-                title='New Chat'
+                title="New Chat"
                 @click='router.push("/menu/contacts")'
             >
                 <IconPlus
-                    :size='32'
-                    stroke='1'
+                    :size="32"
+                    stroke="1"
                 />
             </TablerIconButton>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
         <template #default>
-            <div class='my-2'>
+            <div class="my-2">
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    placeholder="Filter"
                 >
                     <template #sort-icon>
-                        <template v-if='sort'>
+                        <template v-if="sort">
                             <component
-                                :is='sortTypeIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortTypeIcon"
+                                :size="20"
+                                stroke="1"
                             />
                             <component
-                                :is='sortDirectionIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortDirectionIcon"
+                                :size="20"
+                                stroke="1"
                             />
                         </template>
                         <IconArrowsSort
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                 </SearchSortFilter>
             </div>
 
             <TablerAlert
-                v-if='error'
-                :err='error'
+                v-if="error"
+                :err="error"
             />
-            <TablerLoading v-else-if='loading || !chats' />
+            <TablerLoading v-else-if="loading || !chats" />
             <TablerNone
-                v-else-if='!chats.length'
-                :create='false'
+                v-else-if="!chats.length"
+                :create="false"
             />
             <template v-else>
                 <GenericSelect
-                    ref='select'
-                    role='menu'
-                    :disabled='!multiselect'
-                    :hover='false'
-                    :items='sortedChats'
+                    ref="select"
+                    role="menu"
+                    :disabled="!multiselect"
+                    :hover="false"
+                    :items="sortedChats"
                 >
-                    <template #buttons='{disabled}'>
+                    <template #buttons="{disabled}">
                         <TablerDelete
-                            :disabled='disabled'
-                            displaytype='icon'
-                            @delete='deleteChats'
+                            :disabled="disabled"
+                            displaytype="icon"
+                            @delete="deleteChats"
                         />
                     </template>
-                    <template #item='{item}'>
+                    <template #item="{item}">
                         <StandardItem
-                            class='d-flex align-items-center gap-3 p-2 w-100'
-                            @click='multiselect ? undefined : router.push(`/menu/chats/${item.name}`)'
+                            class="d-flex align-items-center gap-3 p-2 w-100"
+                            @click="multiselect ? undefined : router.push(`/menu/chats/${item.name}`)"
                         >
                             <div
-                                class='d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25'
-                                style='width: 3rem; height: 3rem; min-width: 3rem;'
+                                class="d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25"
+                                style="width: 3rem; height: 3rem; min-width: 3rem;"
                             >
                                 <IconUser
-                                    :size='24'
-                                    stroke='1'
+                                    :size="24"
+                                    stroke="1"
                                 />
                             </div>
 
                             <div
-                                class='d-flex flex-column flex-grow-1'
-                                style='min-width: 0'
+                                class="d-flex flex-column flex-grow-1"
+                                style="min-width: 0"
                             >
-                                <div class='d-flex justify-content-between align-items-center w-100'>
-                                    <div class='d-flex flex-column text-truncate'>
-                                        <span class='fw-bold text-truncate'>{{ item.name }}</span>
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <div class="d-flex flex-column text-truncate">
+                                        <span class="fw-bold text-truncate">{{ item.name }}</span>
                                         <span
-                                            class='text-muted text-nowrap'
-                                            style='font-size: 0.75rem;'
+                                            class="text-muted text-nowrap"
+                                            style="font-size: 0.75rem;"
                                         >
                                             {{ timeDiff(item.updated) }}
                                         </span>
                                     </div>
                                     <div
-                                        v-if='item.unread'
-                                        class='me-3 flex-shrink-0 d-flex align-items-center justify-content-center rounded-pill border border-danger bg-danger bg-opacity-50 text-white px-2 small'
+                                        v-if="item.unread"
+                                        class="me-3 flex-shrink-0 d-flex align-items-center justify-content-center rounded-pill border border-danger bg-danger bg-opacity-50 text-white px-2 small"
                                     >
                                         {{ item.unread }}
                                     </div>

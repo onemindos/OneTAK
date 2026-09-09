@@ -1,79 +1,79 @@
 <template>
-    <div class='rp'>
-        <div class='rp-header'>
+    <div class="rp">
+        <div class="rp-header">
             <Clock
-                :size='14'
-                class='rp-accent'
+                :size="14"
+                class="rp-accent"
             />
-            <span class='rp-title'>Replay</span>
-            <span class='rp-sub'>Replay messages from JetStream history</span>
+            <span class="rp-title">Replay</span>
+            <span class="rp-sub">Replay messages from JetStream history</span>
         </div>
 
-        <div class='rp-controls'>
-            <div class='rp-row'>
-                <div class='rp-field'>
-                    <label class='rp-lbl'>Subject filter</label>
+        <div class="rp-controls">
+            <div class="rp-row">
+                <div class="rp-field">
+                    <label class="rp-lbl">Subject filter</label>
                     <input
-                        v-model='subject'
-                        class='rp-input'
-                        type='text'
-                        placeholder='e.g. tel.drone.> or evt.mission.*'
+                        v-model="subject"
+                        class="rp-input"
+                        type="text"
+                        placeholder="e.g. tel.drone.> or evt.mission.*"
                     >
                 </div>
                 <button
-                    class='rp-btn'
-                    :disabled='!nc || isReplaying'
-                    @click='handleReplay'
+                    class="rp-btn"
+                    :disabled="!nc || isReplaying"
+                    @click="handleReplay"
                 >
                     <Square
-                        v-if='isReplaying'
-                        :size='13'
+                        v-if="isReplaying"
+                        :size="13"
                     />
                     <Play
                         v-else
-                        :size='13'
+                        :size="13"
                     />
                     {{ isReplaying ? 'Replaying…' : 'Replay' }}
                 </button>
             </div>
 
-            <div class='rp-presets'>
+            <div class="rp-presets">
                 <button
-                    v-for='p in PRESETS'
-                    :key='p.seconds'
-                    class='rp-preset'
-                    :class='{ active: selectedPreset === p.seconds }'
-                    @click='selectedPreset = p.seconds'
+                    v-for="p in PRESETS"
+                    :key="p.seconds"
+                    class="rp-preset"
+                    :class="{ active: selectedPreset === p.seconds }"
+                    @click="selectedPreset = p.seconds"
                 >
                     {{ p.label }}
                 </button>
             </div>
         </div>
 
-        <div class='rp-results'>
+        <div class="rp-results">
             <div
-                v-if='messages.length === 0'
-                class='rp-empty'
+                v-if="messages.length === 0"
+                class="rp-empty"
             >
                 <SkipForward
-                    :size='22'
-                    class='rp-empty-icon'
+                    :size="22"
+                    class="rp-empty-icon"
                 />
                 <span>{{ nc ? 'Select a time range and subject to replay messages from JetStream.' : 'Connect to NATS first.' }}</span>
             </div>
             <template v-else>
-                <div class='rp-results-hd'>
-                    <span class='rp-badge'>{{ messages.length }} messages</span>
-                    <span class='rp-muted'>from {{ PRESETS.find(p => p.seconds === selectedPreset)?.label ?? '?' }}</span>
+                <div class="rp-results-hd">
+                    <span class="rp-badge">{{ messages.length }} messages</span>
+                    <span class="rp-muted">from {{ PRESETS.find(p => p.seconds === selectedPreset)?.label ?? '?' }}</span>
                 </div>
                 <div
-                    v-for='msg in messages'
-                    :key='msg.id'
-                    class='rp-msg'
+                    v-for="msg in messages"
+                    :key="msg.id"
+                    class="rp-msg"
                 >
-                    <span class='rp-mono rp-time'>{{ fmtTime(msg.timestamp) }}</span>
-                    <span class='rp-mono rp-subj'>{{ msg.subject }}</span>
-                    <span class='rp-mono rp-data'>{{ msg.data.length > 120 ? msg.data.slice(0, 120) + '…' : msg.data }}</span>
+                    <span class="rp-mono rp-time">{{ fmtTime(msg.timestamp) }}</span>
+                    <span class="rp-mono rp-subj">{{ msg.subject }}</span>
+                    <span class="rp-mono rp-data">{{ msg.data.length > 120 ? msg.data.slice(0, 120) + '…' : msg.data }}</span>
                 </div>
             </template>
         </div>

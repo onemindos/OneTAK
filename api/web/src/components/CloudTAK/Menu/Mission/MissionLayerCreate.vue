@@ -1,30 +1,30 @@
 <template>
-    <div class='col-12 border rounded py-2 px-2'>
+    <div class="col-12 border rounded py-2 px-2">
         <TablerAlert
-            v-if='error'
-            :err='error'
+            v-if="error"
+            :err="error"
         />
-        <TablerLoading v-else-if='loading.layer' />
+        <TablerLoading v-else-if="loading.layer" />
         <template v-else>
-            <div class='modal-body'>
+            <div class="modal-body">
                 <TablerInput
-                    v-model='layer.name'
-                    label='Folder Name'
-                    :autofocus='true'
-                    @keyup.enter='createLayer'
+                    v-model="layer.name"
+                    label="Folder Name"
+                    :autofocus="true"
+                    @keyup.enter="createLayer"
                 />
 
-                <div class='col-12 pt-2 d-flex'>
+                <div class="col-12 pt-2 d-flex">
                     <button
-                        class='btn btn-secondary'
+                        class="btn btn-secondary"
                         @click='emit("cancel")'
                     >
                         Cancel
                     </button>
-                    <div class='ms-auto'>
+                    <div class="ms-auto">
                         <button
-                            class='btn btn-primary'
-                            @click='createLayer'
+                            class="btn btn-primary"
+                            @click="createLayer"
                         >
                             Create
                         </button>

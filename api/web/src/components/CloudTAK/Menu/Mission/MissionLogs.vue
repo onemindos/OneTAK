@@ -1,90 +1,90 @@
 <template>
     <MenuTemplate
-        name='Mission Logs'
-        :zindex='0'
-        :back='false'
-        :border='false'
-        :loading='!logs'
-        :standalone='false'
+        name="Mission Logs"
+        :zindex="0"
+        :back="false"
+        :border="false"
+        :loading="!logs"
+        :standalone="false"
     >
         <template #buttons>
-            <TablerIconButton title='Download Logs'>
+            <TablerIconButton title="Download Logs">
                 <IconDownload
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                     @click='exportLogs("csv")'
                 />
             </TablerIconButton>
         </template>
         <template #default>
             <div
-                v-if='logs && logs.length'
-                class='col-12 pb-2 px-2'
+                v-if="logs && logs.length"
+                class="col-12 pb-2 px-2"
             >
                 <SearchSortFilter
-                    v-model='paging.filter'
-                    v-model:sort='sort'
-                    :sort-options='sortOptions'
-                    :active-filters='selectedKeywords.length'
-                    placeholder='Filter'
+                    v-model="paging.filter"
+                    v-model:sort="sort"
+                    :sort-options="sortOptions"
+                    :active-filters="selectedKeywords.length"
+                    placeholder="Filter"
                 >
                     <template #sort-icon>
-                        <template v-if='sort'>
+                        <template v-if="sort">
                             <component
-                                :is='sortTypeIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortTypeIcon"
+                                :size="20"
+                                stroke="1"
                             />
                             <component
-                                :is='sortDirectionIcon'
-                                :size='20'
-                                stroke='1'
+                                :is="sortDirectionIcon"
+                                :size="20"
+                                stroke="1"
                             />
                         </template>
                         <IconArrowsSort
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                     </template>
                     <template #filters>
-                        <div class='d-flex flex-column'>
-                            <div class='d-flex align-items-center justify-content-between px-3 py-2'>
-                                <strong class='small text-uppercase text-secondary'>Filters</strong>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between px-3 py-2">
+                                <strong class="small text-uppercase text-secondary">Filters</strong>
                                 <button
-                                    v-if='selectedKeywords.length'
-                                    type='button'
-                                    class='btn btn-link btn-sm p-0'
-                                    @click='selectedKeywords = []'
+                                    v-if="selectedKeywords.length"
+                                    type="button"
+                                    class="btn btn-link btn-sm p-0"
+                                    @click="selectedKeywords = []"
                                 >
                                     Clear
                                 </button>
                             </div>
-                            <div class='px-3 pb-2 d-flex flex-column gap-2'>
+                            <div class="px-3 pb-2 d-flex flex-column gap-2">
                                 <div>
-                                    <div class='small text-uppercase text-secondary mb-1'>
+                                    <div class="small text-uppercase text-secondary mb-1">
                                         Keywords
                                     </div>
                                     <div
-                                        v-if='!availableKeywords.length'
-                                        class='small text-secondary'
+                                        v-if="!availableKeywords.length"
+                                        class="small text-secondary"
                                     >
                                         No keywords available
                                     </div>
                                     <label
-                                        v-for='keyword in availableKeywords'
-                                        :key='keyword'
-                                        class='form-check mb-1'
+                                        v-for="keyword in availableKeywords"
+                                        :key="keyword"
+                                        class="form-check mb-1"
                                     >
                                         <input
-                                            class='form-check-input'
-                                            type='checkbox'
-                                            :checked='selectedKeywords.includes(keyword)'
-                                            @change='toggleKeyword(keyword)'
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            :checked="selectedKeywords.includes(keyword)"
+                                            @change="toggleKeyword(keyword)"
                                         >
                                         <span
-                                            class='form-check-label'
-                                            v-text='keyword'
+                                            class="form-check-label"
+                                            v-text="keyword"
                                         />
                                     </label>
                                 </div>
@@ -95,60 +95,60 @@
             </div>
 
             <TablerNone
-                v-if='!filteredLogs.length'
-                :create='false'
-                label='No Logs'
+                v-if="!filteredLogs.length"
+                :create="false"
+                label="No Logs"
             />
             <div
                 v-else
-                class='rows px-2 d-flex flex-column gap-3'
+                class="rows px-2 d-flex flex-column gap-3"
             >
                 <MissionLogItem
-                    v-for='log in filteredLogs'
-                    :key='log.id'
-                    :log='log'
-                    :subscription='props.subscription'
-                    :relevant='availableKeywords'
+                    v-for="log in filteredLogs"
+                    :key="log.id"
+                    :log="log"
+                    :subscription="props.subscription"
+                    :relevant="availableKeywords"
                 />
             </div>
             <template v-if='props.subscription.role.permissions.includes("MISSION_WRITE")'>
                 <div
-                    class='px-2 position-relative'
-                    :aria-busy='loading.create'
+                    class="px-2 position-relative"
+                    :aria-busy="loading.create"
                 >
                     <div
-                        v-if='loading.create'
-                        class='position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center cloudtak-scrim rounded-4 z-3'
+                        v-if="loading.create"
+                        class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center cloudtak-scrim rounded-4 z-3"
                     >
                         <TablerLoading
-                            desc='Creating Log'
-                            :compact='true'
+                            desc="Creating Log"
+                            :compact="true"
                         />
                     </div>
 
-                    <div class='d-flex justify-content-between align-items-center mb-2 pt-2'>
-                        <label class='form-label mb-0'>Create Log</label>
-                        <div class='d-flex align-items-center gap-2'>
+                    <div class="d-flex justify-content-between align-items-center mb-2 pt-2">
+                        <label class="form-label mb-0">Create Log</label>
+                        <div class="d-flex align-items-center gap-2">
                             <TablerSelect
-                                v-if='templateLogs.length'
-                                v-model='selectedLogType'
-                                :options='logTypeOptions'
+                                v-if="templateLogs.length"
+                                v-model="selectedLogType"
+                                :options="logTypeOptions"
                             />
                             <TablerDropdown>
                                 <template #default>
                                     <TablerIconButton
-                                        title='Options'
+                                        title="Options"
                                     >
                                         <IconSettings
-                                            :size='24'
-                                            stroke='1'
+                                            :size="24"
+                                            stroke="1"
                                         />
                                     </TablerIconButton>
                                 </template>
                                 <template #dropdown>
                                     <TablerToggle
-                                        v-model='submitOnEnter'
-                                        label='Submit on Enter'
+                                        v-model="submitOnEnter"
+                                        label="Submit on Enter"
                                         @click.stop
                                     />
                                 </template>
@@ -156,23 +156,23 @@
                         </div>
                     </div>
 
-                    <div v-if='!selectedTemplateLog'>
+                    <div v-if="!selectedTemplateLog">
                         <TablerInput
-                            v-model='createLog.content'
-                            :rows='4'
-                            @keyup.enter='submitOnEnter ? submitLog() : undefined'
+                            v-model="createLog.content"
+                            :rows="4"
+                            @keyup.enter="submitOnEnter ? submitLog() : undefined"
                         />
 
                         <Keywords
-                            v-model:keywords='createLog.keywords'
-                            :relevant='availableKeywords'
+                            v-model:keywords="createLog.keywords"
+                            :relevant="availableKeywords"
                         />
 
-                        <div class='d-flex my-2'>
-                            <div class='ms-auto'>
+                        <div class="d-flex my-2">
+                            <div class="ms-auto">
                                 <TablerButton
-                                    :loading='loading.create'
-                                    @click='submitLog'
+                                    :loading="loading.create"
+                                    @click="submitLog"
                                 >
                                     Save Log
                                 </TablerButton>
@@ -181,15 +181,15 @@
                     </div>
                     <div v-else>
                         <TablerSchema
-                            v-model='createLog.schema'
-                            :schema='selectedTemplateLog.schema'
+                            v-model="createLog.schema"
+                            :schema="selectedTemplateLog.schema"
                         />
 
-                        <div class='d-flex my-2'>
-                            <div class='ms-auto'>
+                        <div class="d-flex my-2">
+                            <div class="ms-auto">
                                 <TablerButton
-                                    :loading='loading.create'
-                                    @click='submitLog'
+                                    :loading="loading.create"
+                                    @click="submitLog"
                                 >
                                     Save Log
                                 </TablerButton>

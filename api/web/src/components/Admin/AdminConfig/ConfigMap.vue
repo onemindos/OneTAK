@@ -1,175 +1,175 @@
 <template>
     <SlideDownHeader
-        v-model='isOpen'
-        label='Map Settings'
+        v-model="isOpen"
+        label="Map Settings"
     >
         <template #right>
             <TablerIconButton
-                v-if='!edit && isOpen'
-                title='Edit'
-                @click.stop='edit = true'
+                v-if="!edit && isOpen"
+                title="Edit"
+                @click.stop="edit = true"
             >
-                <IconPencil stroke='1' />
+                <IconPencil stroke="1" />
             </TablerIconButton>
             <div
-                v-else-if='edit && isOpen'
-                class='d-flex gap-1'
+                v-else-if="edit && isOpen"
+                class="d-flex gap-1"
             >
                 <TablerIconButton
-                    color='rgba(var(--tblr-primary-rgb), 0.14)'
-                    title='Save'
-                    @click.stop='save'
+                    color="rgba(var(--tblr-primary-rgb), 0.14)"
+                    title="Save"
+                    @click.stop="save"
                 >
                     <IconDeviceFloppy
-                        color='rgb(var(--tblr-primary-rgb))'
-                        stroke='1'
+                        color="rgb(var(--tblr-primary-rgb))"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerIconButton
-                    title='Cancel'
-                    @click.stop='edit = false; fetch()'
+                    title="Cancel"
+                    @click.stop="edit = false; fetch()"
                 >
-                    <IconX stroke='1' />
+                    <IconX stroke="1" />
                 </TablerIconButton>
             </div>
         </template>
-        <div class='col-lg-12 py-2 px-2 border rounded'>
-            <TablerLoading v-if='loading' />
+        <div class="col-lg-12 py-2 px-2 border rounded">
+            <TablerLoading v-if="loading" />
             <template v-else>
                 <TablerAlert
-                    v-if='err'
-                    :err='err'
+                    v-if="err"
+                    :err="err"
                 />
-                <div class='row'>
-                    <div class='col-lg-12'>
+                <div class="row">
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`map::center`]'
-                            label='Initial Map Center (<lat>,<lng>)'
-                            placeholder='Latitude, Longitude'
-                            :error='validateLatLng(config[`map::center`])'
-                            :disabled='!edit'
+                            v-model="config[`map::center`]"
+                            label="Initial Map Center (<lat>,<lng>)"
+                            placeholder="Latitude, Longitude"
+                            :error="validateLatLng(config[`map::center`])"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`map::zoom`]'
-                            label='Initial Map Zoom'
-                            :disabled='!edit'
+                            v-model="config[`map::zoom`]"
+                            label="Initial Map Zoom"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`map::pitch`]'
-                            label='Initial Map Pitch'
-                            :disabled='!edit'
+                            v-model="config[`map::pitch`]"
+                            label="Initial Map Pitch"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12'>
+                    <div class="col-lg-12">
                         <TablerInput
-                            v-model='config[`map::bearing`]'
-                            label='Initial Map Bearing'
-                            :disabled='!edit'
+                            v-model="config[`map::bearing`]"
+                            label="Initial Map Bearing"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12 mt-3'>
-                        <label class='form-label'>Default Basemap</label>
+                    <div class="col-lg-12 mt-3">
+                        <label class="form-label">Default Basemap</label>
                         <BasemapSelect
-                            v-model='config[`map::basemap`]'
-                            :disabled='!edit'
+                            v-model="config[`map::basemap`]"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12 mt-3'>
-                        <label class='form-label'>Default Terrain</label>
+                    <div class="col-lg-12 mt-3">
+                        <label class="form-label">Default Terrain</label>
                         <BasemapSelect
-                            v-model='config[`map::terrain`]'
-                            type='raster-dem'
-                            no-value-label='No Default Terrain'
-                            :disabled='!edit'
+                            v-model="config[`map::terrain`]"
+                            type="raster-dem"
+                            no-value-label="No Default Terrain"
+                            :disabled="!edit"
                         />
                     </div>
-                    <div class='col-lg-12 mt-3'>
-                        <label class='form-label'>Favourite Basemaps</label>
+                    <div class="col-lg-12 mt-3">
+                        <label class="form-label">Favourite Basemaps</label>
 
                         <TablerNone
-                            v-if='!favs.length'
-                            :compact='true'
-                            :create='false'
-                            label='No Favourite Basemaps'
+                            v-if="!favs.length"
+                            :compact="true"
+                            :create="false"
+                            label="No Favourite Basemaps"
                         />
 
-                        <div class='d-flex flex-column gap-2'>
+                        <div class="d-flex flex-column gap-2">
                             <template
-                                v-for='(fav, i) in favs'
-                                :key='i'
+                                v-for="(fav, i) in favs"
+                                :key="i"
                             >
                                 <StandardItem
-                                    v-if='!edit'
-                                    class='d-flex align-items-center'
+                                    v-if="!edit"
+                                    class="d-flex align-items-center"
                                 >
-                                    <div class='icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 ms-2 my-2 overflow-hidden'>
+                                    <div class="icon-wrapper d-flex align-items-center justify-content-center rounded-circle bg-black bg-opacity-25 ms-2 my-2 overflow-hidden">
                                         <img
-                                            v-if='fav.image'
-                                            :src='fav.image'
-                                            :alt='fav.name'
-                                            class='fav-preview'
+                                            v-if="fav.image"
+                                            :src="fav.image"
+                                            :alt="fav.name"
+                                            class="fav-preview"
                                         >
                                         <IconPhoto
                                             v-else
-                                            :size='24'
-                                            stroke='1'
+                                            :size="24"
+                                            stroke="1"
                                         />
                                     </div>
 
-                                    <div class='ms-3 flex-grow-1 fav-content'>
-                                        <span class='fw-semibold'>{{ fav.name }}</span>
+                                    <div class="ms-3 flex-grow-1 fav-content">
+                                        <span class="fw-semibold">{{ fav.name }}</span>
                                     </div>
                                 </StandardItem>
 
                                 <StandardItem
                                     v-else
-                                    class='px-3 py-2'
+                                    class="px-3 py-2"
                                 >
-                                    <div class='d-flex align-items-center mb-2'>
-                                        <div class='fw-semibold'>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="fw-semibold">
                                             Favourite {{ i + 1 }}
                                         </div>
-                                        <div class='ms-auto'>
+                                        <div class="ms-auto">
                                             <TablerIconButton
-                                                title='Remove Favourite'
-                                                @click='favs.splice(i, 1)'
+                                                title="Remove Favourite"
+                                                @click="favs.splice(i, 1)"
                                             >
                                                 <IconTrash
-                                                    :size='20'
-                                                    stroke='1'
+                                                    :size="20"
+                                                    stroke="1"
                                                 />
                                             </TablerIconButton>
                                         </div>
                                     </div>
 
                                     <BasemapSelect
-                                        v-model='fav.id'
-                                        :disabled='!edit'
+                                        v-model="fav.id"
+                                        :disabled="!edit"
                                     />
 
                                     <TablerUploadLogo
-                                        v-model='fav.image'
-                                        :input-id='`basemap-fav-image-${i}`'
-                                        label='Preview Image (PNG)'
-                                        :disabled='!edit'
+                                        v-model="fav.image"
+                                        :input-id="`basemap-fav-image-${i}`"
+                                        label="Preview Image (PNG)"
+                                        :disabled="!edit"
                                     />
                                 </StandardItem>
                             </template>
 
                             <button
-                                v-if='edit && favs.length < 3'
-                                class='btn btn-secondary w-100'
+                                v-if="edit && favs.length < 3"
+                                class="btn btn-secondary w-100"
                                 @click='favs.push({ id: null, name: "", image: "" })'
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
-                                <span class='mx-2'>Add Favourite</span>
+                                <span class="mx-2">Add Favourite</span>
                             </button>
                         </div>
                     </div>

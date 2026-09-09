@@ -1,46 +1,46 @@
 <template>
-    <MenuTemplate name='History'>
+    <MenuTemplate name="History">
         <template #default>
             <TablerNone
-                v-if='entries.length === 0'
-                label='No Breadcrumb Trails'
-                :create='false'
+                v-if="entries.length === 0"
+                label="No Breadcrumb Trails"
+                :create="false"
             />
             <template v-else>
-                <div class='col-12 pt-2 pb-1'>
-                    <span class='text-muted small'>
+                <div class="col-12 pt-2 pb-1">
+                    <span class="text-muted small">
                         CoT markers with live breadcrumb recording.
                     </span>
                 </div>
-                <div class='d-flex flex-column gap-2 py-2'>
+                <div class="d-flex flex-column gap-2 py-2">
                     <StandardItem
-                        v-for='entry in entries'
-                        :key='entry.uid'
-                        class='d-flex align-items-center px-3 py-2 gap-3 cursor-pointer'
-                        @click='flyToEntry(entry)'
+                        v-for="entry in entries"
+                        :key="entry.uid"
+                        class="d-flex align-items-center px-3 py-2 gap-3 cursor-pointer"
+                        @click="flyToEntry(entry)"
                     >
                         <IconRoute
-                            :size='20'
-                            stroke='1'
-                            class='text-muted flex-shrink-0'
+                            :size="20"
+                            stroke="1"
+                            class="text-muted flex-shrink-0"
                         />
 
-                        <div class='flex-grow-1 d-flex flex-column gap-1 overflow-hidden'>
+                        <div class="flex-grow-1 d-flex flex-column gap-1 overflow-hidden">
                             <span
-                                class='fw-semibold text-truncate'
-                                v-text='entry.callsign'
+                                class="fw-semibold text-truncate"
+                                v-text="entry.callsign"
                             />
-                            <div class='d-flex align-items-center gap-2'>
+                            <div class="d-flex align-items-center gap-2">
                                 <span
-                                    class='text-muted small text-truncate'
-                                    v-text='entry.uid'
+                                    class="text-muted small text-truncate"
+                                    v-text="entry.uid"
                                 />
                                 <TablerBadge
-                                    v-if='entry.coordinates.length'
-                                    class='small flex-shrink-0'
-                                    background-color='rgba(107, 114, 128, 0.15)'
-                                    border-color='rgba(107, 114, 128, 0.3)'
-                                    text-color='#6b7280'
+                                    v-if="entry.coordinates.length"
+                                    class="small flex-shrink-0"
+                                    background-color="rgba(107, 114, 128, 0.15)"
+                                    border-color="rgba(107, 114, 128, 0.3)"
+                                    text-color="#6b7280"
                                 >
                                     {{ `${entry.coordinates.length} pts` }}
                                 </TablerBadge>
@@ -48,32 +48,32 @@
                         </div>
 
                         <div
-                            class='d-flex align-items-center gap-2 flex-shrink-0'
+                            class="d-flex align-items-center gap-2 flex-shrink-0"
                             @click.stop
                         >
                             <TablerToggle
-                                :model-value='liveEnabled.has(entry.uid)'
-                                title='Live Trail'
-                                @update:model-value='(val: boolean) => toggleLive(entry.uid, val)'
+                                :model-value="liveEnabled.has(entry.uid)"
+                                title="Live Trail"
+                                @update:model-value="(val: boolean) => toggleLive(entry.uid, val)"
                             />
 
                             <TablerIconButton
-                                title='View CoT'
-                                @click.stop.prevent='router.push(`/cot/${entry.uid}`)'
+                                title="View CoT"
+                                @click.stop.prevent="router.push(`/cot/${entry.uid}`)"
                             >
                                 <IconListDetails
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
 
                             <TablerIconButton
-                                title='Clear Trail'
-                                @click.stop.prevent='clearTrail(entry)'
+                                title="Clear Trail"
+                                @click.stop.prevent="clearTrail(entry)"
                             >
                                 <IconTrash
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>

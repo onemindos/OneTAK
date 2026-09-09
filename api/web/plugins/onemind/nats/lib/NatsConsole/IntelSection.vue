@@ -1,516 +1,516 @@
 <template>
-    <div class='it'>
-        <div class='it-tabs'>
+    <div class="it">
+        <div class="it-tabs">
             <button
-                v-for='tab in TABS'
-                :key='tab.id'
-                class='it-tab'
-                :class='{ active: activeTab === tab.id }'
-                @click='activeTab = tab.id'
+                v-for="tab in TABS"
+                :key="tab.id"
+                class="it-tab"
+                :class="{ active: activeTab === tab.id }"
+                @click="activeTab = tab.id"
             >
                 <component
-                    :is='tab.icon'
-                    :size='11'
+                    :is="tab.icon"
+                    :size="11"
                 />
                 {{ tab.label }}
             </button>
         </div>
 
-        <div class='it-body'>
+        <div class="it-body">
             <!-- ── FEED ──────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "feed"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Newspaper
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>SIGINT FEED</span>
-                    <span class='it-badge'>{{ intelItems.length }}</span>
+                    <span class="it-panel-title">SIGINT FEED</span>
+                    <span class="it-badge">{{ intelItems.length }}</span>
                     <span
-                        v-if='criticalIntel > 0'
-                        class='it-badge crit'
+                        v-if="criticalIntel > 0"
+                        class="it-badge crit"
                     >CRITICAL {{ criticalIntel }}</span>
                     <button
-                        class='it-icon-btn'
-                        :class='{ active: showFeedFilters }'
-                        @click='showFeedFilters = !showFeedFilters'
+                        class="it-icon-btn"
+                        :class="{ active: showFeedFilters }"
+                        @click="showFeedFilters = !showFeedFilters"
                     >
-                        <Filter :size='12' />
+                        <Filter :size="12" />
                     </button>
-                    <div class='it-live-dot' />
+                    <div class="it-live-dot" />
                 </div>
                 <div
-                    v-if='showFeedFilters'
-                    class='it-filters'
+                    v-if="showFeedFilters"
+                    class="it-filters"
                 >
-                    <div class='it-search-wrap'>
+                    <div class="it-search-wrap">
                         <Search
-                            :size='11'
-                            class='it-search-icon'
+                            :size="11"
+                            class="it-search-icon"
                         />
                         <input
-                            v-model='feedSearch'
-                            class='it-search'
-                            placeholder='Search intel…'
+                            v-model="feedSearch"
+                            class="it-search"
+                            placeholder="Search intel…"
                         >
                     </div>
-                    <div class='it-filter-row'>
+                    <div class="it-filter-row">
                         <button
-                            v-for='lvl in RISK_LEVELS'
-                            :key='lvl'
-                            class='it-chip'
-                            :class='{ active: riskFilter === lvl }'
-                            @click='riskFilter = lvl'
+                            v-for="lvl in RISK_LEVELS"
+                            :key="lvl"
+                            class="it-chip"
+                            :class="{ active: riskFilter === lvl }"
+                            @click="riskFilter = lvl"
                         >
                             {{ lvl }}
                         </button>
                     </div>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-if='filteredIntel.length === 0'
-                        class='it-empty'
+                        v-if="filteredIntel.length === 0"
+                        class="it-empty"
                     >
                         <Newspaper
-                            :size='22'
-                            class='it-empty-icon'
+                            :size="22"
+                            class="it-empty-icon"
                         />
                         <span>AWAITING INTELLIGENCE…</span>
-                        <span class='it-muted it-mono'>intel.&gt;</span>
+                        <span class="it-muted it-mono">intel.&gt;</span>
                     </div>
                     <div
-                        v-for='item in filteredIntel'
-                        :key='item.id'
-                        class='it-intel-row'
+                        v-for="item in filteredIntel"
+                        :key="item.id"
+                        class="it-intel-row"
                     >
                         <button
-                            class='it-intel-btn'
-                            @click='expandedIntel = expandedIntel === item.id ? null : item.id'
+                            class="it-intel-btn"
+                            @click="expandedIntel = expandedIntel === item.id ? null : item.id"
                         >
-                            <div class='it-intel-top'>
+                            <div class="it-intel-top">
                                 <span
-                                    class='it-risk'
-                                    :class='riskClass(item.riskScore)'
+                                    class="it-risk"
+                                    :class="riskClass(item.riskScore)"
                                 >{{ riskLabel(item.riskScore) }}</span>
-                                <span class='it-source it-mono'>{{ item.source }}</span>
+                                <span class="it-source it-mono">{{ item.source }}</span>
                                 <MapPin
-                                    v-if='item.location'
-                                    :size='10'
-                                    class='it-acc'
+                                    v-if="item.location"
+                                    :size="10"
+                                    class="it-acc"
                                 />
-                                <span class='it-time it-mono'>{{ timeAgo(item.timestamp) }}</span>
+                                <span class="it-time it-mono">{{ timeAgo(item.timestamp) }}</span>
                             </div>
-                            <div class='it-intel-title'>
+                            <div class="it-intel-title">
                                 {{ item.title }}
                             </div>
                             <div
-                                v-if='item.riskScore >= 8 && item.summary'
-                                class='it-critical-summ'
+                                v-if="item.riskScore >= 8 && item.summary"
+                                class="it-critical-summ"
                             >
-                                <Zap :size='9' /> {{ item.summary.slice(0, 140) }}
+                                <Zap :size="9" /> {{ item.summary.slice(0, 140) }}
                             </div>
                             <div
-                                v-if='item.tags.length > 0'
-                                class='it-tags'
+                                v-if="item.tags.length > 0"
+                                class="it-tags"
                             >
                                 <span
-                                    v-for='tag in item.tags.slice(0,4)'
-                                    :key='tag'
-                                    class='it-tag'
+                                    v-for="tag in item.tags.slice(0,4)"
+                                    :key="tag"
+                                    class="it-tag"
                                 >{{ tag }}</span>
                             </div>
                         </button>
                         <div
-                            v-if='expandedIntel === item.id'
-                            class='it-intel-detail'
+                            v-if="expandedIntel === item.id"
+                            class="it-intel-detail"
                         >
-                            <p v-if='item.summary'>
+                            <p v-if="item.summary">
                                 {{ item.summary }}
                             </p>
                             <p
-                                v-if='item.location'
-                                class='it-mono'
+                                v-if="item.location"
+                                class="it-mono"
                             >
                                 {{ item.location.name ?? `${item.location.lat.toFixed(4)}, ${item.location.lng.toFixed(4)}` }}
                             </p>
                             <a
-                                v-if='item.url'
-                                :href='item.url'
-                                target='_blank'
-                                rel='noopener'
-                                class='it-src-link'
+                                v-if="item.url"
+                                :href="item.url"
+                                target="_blank"
+                                rel="noopener"
+                                class="it-src-link"
                             >
-                                <ExternalLink :size='10' /> SOURCE
+                                <ExternalLink :size="10" /> SOURCE
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ filteredIntel.length }} of {{ intelItems.length }} items</span>
-                    <span class='it-mono'>LIVE • intel.&gt;</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ filteredIntel.length }} of {{ intelItems.length }} items</span>
+                    <span class="it-mono">LIVE • intel.&gt;</span>
                 </div>
             </template>
 
             <!-- ── THREATS ────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "threats"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <ShieldAlert
-                        :size='13'
-                        style='color:#f85149'
+                        :size="13"
+                        style="color:#f85149"
                     />
-                    <span class='it-panel-title'>THREAT BOARD</span>
+                    <span class="it-panel-title">THREAT BOARD</span>
                     <span
-                        v-if='criticalThreats > 0'
-                        class='it-badge crit'
+                        v-if="criticalThreats > 0"
+                        class="it-badge crit"
                     >CRITICAL {{ criticalThreats }}</span>
                     <span
-                        v-if='unackCount > 0'
-                        class='it-badge warn'
+                        v-if="unackCount > 0"
+                        class="it-badge warn"
                     >{{ unackCount }} UNACK</span>
                     <div
-                        class='it-live-dot'
-                        :class='{ red: criticalThreats > 0 }'
+                        class="it-live-dot"
+                        :class="{ red: criticalThreats > 0 }"
                     />
                 </div>
-                <div class='it-filter-bar'>
+                <div class="it-filter-bar">
                     <button
-                        v-for='sev in SEV_LEVELS'
-                        :key='sev'
-                        class='it-chip'
-                        :class='{ active: sevFilter === sev }'
-                        @click='sevFilter = sev'
+                        v-for="sev in SEV_LEVELS"
+                        :key="sev"
+                        class="it-chip"
+                        :class="{ active: sevFilter === sev }"
+                        @click="sevFilter = sev"
                     >
                         {{ sev }}
                     </button>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-if='filteredThreats.length === 0'
-                        class='it-empty'
+                        v-if="filteredThreats.length === 0"
+                        class="it-empty"
                     >
                         <ShieldAlert
-                            :size='22'
-                            class='it-empty-icon'
+                            :size="22"
+                            class="it-empty-icon"
                         />
                         <span>NO ACTIVE THREATS</span>
-                        <span class='it-muted it-mono'>evt.threat.&gt; + det.&gt;</span>
+                        <span class="it-muted it-mono">evt.threat.&gt; + det.&gt;</span>
                     </div>
                     <div
-                        v-for='alert in filteredThreats'
-                        :key='alert.id'
-                        class='it-alert'
-                        :class='[alert.severity.toLowerCase(), { acked: alert.acknowledged }]'
+                        v-for="alert in filteredThreats"
+                        :key="alert.id"
+                        class="it-alert"
+                        :class="[alert.severity.toLowerCase(), { acked: alert.acknowledged }]"
                     >
                         <div
-                            class='it-alert-dot'
-                            :class='alert.severity.toLowerCase()'
+                            class="it-alert-dot"
+                            :class="alert.severity.toLowerCase()"
                         />
-                        <div class='it-alert-body'>
-                            <div class='it-alert-top'>
+                        <div class="it-alert-body">
+                            <div class="it-alert-top">
                                 <span
-                                    class='it-sev'
-                                    :class='alert.severity.toLowerCase()'
+                                    class="it-sev"
+                                    :class="alert.severity.toLowerCase()"
                                 >{{ alert.severity }}</span>
-                                <span class='it-mono'>{{ alert.type }}</span>
-                                <span class='it-time it-mono'>{{ timeAgoS(alert.timestamp) }}</span>
+                                <span class="it-mono">{{ alert.type }}</span>
+                                <span class="it-time it-mono">{{ timeAgoS(alert.timestamp) }}</span>
                             </div>
-                            <div class='it-alert-desc'>
+                            <div class="it-alert-desc">
                                 {{ alert.description }}
                             </div>
-                            <div class='it-alert-meta'>
+                            <div class="it-alert-meta">
                                 <span
-                                    class='it-mono'
-                                    style='font-size:9px;color:rgba(255,255,255,0.25)'
+                                    class="it-mono"
+                                    style="font-size:9px;color:rgba(255,255,255,0.25)"
                                 >{{ alert.subject }}</span>
                                 <button
-                                    v-if='!alert.acknowledged'
-                                    class='it-ack-btn'
-                                    @click='acknowledgeAlert(alert)'
+                                    v-if="!alert.acknowledged"
+                                    class="it-ack-btn"
+                                    @click="acknowledgeAlert(alert)"
                                 >
-                                    <CheckCircle :size='10' /> ACK
+                                    <CheckCircle :size="10" /> ACK
                                 </button>
                                 <span
                                     v-else
-                                    class='it-acked'
+                                    class="it-acked"
                                 >ACKNOWLEDGED</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ threatAlerts.length }} total alerts</span>
-                    <span class='it-mono'>LIVE • evt.threat.&gt; + det.&gt;</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ threatAlerts.length }} total alerts</span>
+                    <span class="it-mono">LIVE • evt.threat.&gt; + det.&gt;</span>
                 </div>
             </template>
 
             <!-- ── WORLD FEEDS ─────────────────────────────────────────────────── -->
             <template v-if='activeTab === "feeds"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Globe
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>WORLD FEEDS</span>
+                    <span class="it-panel-title">WORLD FEEDS</span>
                     <span
-                        class='it-badge'
-                        :class='{ green: liveCount > 0 }'
+                        class="it-badge"
+                        :class="{ green: liveCount > 0 }"
                     >{{ liveCount }}/{{ feeds.length }} LIVE</span>
                     <span
-                        v-if='totalFeedMsgs > 0'
-                        class='it-badge'
+                        v-if="totalFeedMsgs > 0"
+                        class="it-badge"
                     >{{ totalFeedMsgs.toLocaleString() }} MSGS</span>
                 </div>
-                <div class='it-feeds-hdr'>
+                <div class="it-feeds-hdr">
                     <span>Feed</span><span>Status</span><span>Rate</span><span>Last</span>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-for='(feed, idx) in feeds'
-                        :key='feed.name'
+                        v-for="(feed, idx) in feeds"
+                        :key="feed.name"
                     >
                         <div
-                            v-if='idx === 7'
-                            class='it-feeds-divider'
+                            v-if="idx === 7"
+                            class="it-feeds-divider"
                         >
                             INTEL FEEDS
                         </div>
-                        <div class='it-feed-row'>
-                            <div class='it-feed-name'>
+                        <div class="it-feed-row">
+                            <div class="it-feed-name">
                                 <component
-                                    :is='feedIcon(feed.name)'
-                                    :size='13'
+                                    :is="feedIcon(feed.name)"
+                                    :size="13"
                                     :class='feed.status === "live" ? "it-acc" : "it-dim"'
                                 />
                                 <div>
-                                    <div class='it-feed-label'>
+                                    <div class="it-feed-label">
                                         {{ feed.name }}
                                     </div>
                                     <div
-                                        class='it-mono it-dim'
-                                        style='font-size:9px'
+                                        class="it-mono it-dim"
+                                        style="font-size:9px"
                                     >
                                         {{ feed.subject }}
                                     </div>
                                 </div>
                             </div>
-                            <div class='it-feed-status'>
+                            <div class="it-feed-status">
                                 <div
-                                    class='it-feed-dot'
-                                    :class='feed.status'
+                                    class="it-feed-dot"
+                                    :class="feed.status"
                                 />
                                 <span
-                                    class='it-chip-sm'
-                                    :class='feed.status'
+                                    class="it-chip-sm"
+                                    :class="feed.status"
                                 >{{ feed.status.toUpperCase() }}</span>
                             </div>
-                            <div class='it-feed-rate'>
+                            <div class="it-feed-rate">
                                 <template v-if='feed.status === "live" && feed.msgRate > 0'>
-                                    <div class='it-rate-dot' />
+                                    <div class="it-rate-dot" />
                                     <span
-                                        class='it-mono'
-                                        style='color:#22c55e'
+                                        class="it-mono"
+                                        style="color:#22c55e"
                                     >{{ fmtRate(feed.msgRate) }}</span>
                                 </template>
                                 <span
                                     v-else
-                                    class='it-dim it-mono'
+                                    class="it-dim it-mono"
                                 >—</span>
                             </div>
                             <span
-                                class='it-mono it-dim'
-                                style='font-size:10px'
+                                class="it-mono it-dim"
+                                style="font-size:10px"
                             >{{ timeAgoMs(feed.lastMessage) }}</span>
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ totalFeedMsgs.toLocaleString() }} msgs</span>
-                    <span class='it-mono'>{{ fmtRate(feeds.reduce((a,f) => a + f.msgRate, 0)) }} msg/s aggregate</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ totalFeedMsgs.toLocaleString() }} msgs</span>
+                    <span class="it-mono">{{ fmtRate(feeds.reduce((a,f) => a + f.msgRate, 0)) }} msg/s aggregate</span>
                 </div>
             </template>
 
             <!-- ── AI ANALYST ──────────────────────────────────────────────────── -->
             <template v-if='activeTab === "analyst"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Brain
-                        :size='13'
-                        style='color:#d4af37'
+                        :size="13"
+                        style="color:#d4af37"
                     />
                     <div>
-                        <div class='it-panel-title'>
+                        <div class="it-panel-title">
                             INTELLIGENCE ANALYST
                         </div>
                         <div
-                            class='it-mono it-dim'
-                            style='font-size:9px'
+                            class="it-mono it-dim"
+                            style="font-size:9px"
                         >
                             HERMES • agents.prompt.hermes.zeus • {{ nc ? 'ONLINE' : 'OFFLINE' }}
                         </div>
                     </div>
                     <button
-                        v-if='analystMsgs.length > 0'
-                        class='it-icon-btn'
-                        title='Clear'
-                        @click='analystMsgs = []'
+                        v-if="analystMsgs.length > 0"
+                        class="it-icon-btn"
+                        title="Clear"
+                        @click="analystMsgs = []"
                     >
-                        <Trash2 :size='12' />
+                        <Trash2 :size="12" />
                     </button>
                 </div>
                 <div
-                    ref='analystEl'
-                    class='it-analyst-msgs'
+                    ref="analystEl"
+                    class="it-analyst-msgs"
                 >
                     <div
-                        v-if='analystMsgs.length === 0 && !analystLoading'
-                        class='it-analyst-empty'
+                        v-if="analystMsgs.length === 0 && !analystLoading"
+                        class="it-analyst-empty"
                     >
-                        <div class='it-brain-icon'>
+                        <div class="it-brain-icon">
                             <Brain
-                                :size='28'
-                                style='color:#d4af37'
+                                :size="28"
+                                style="color:#d4af37"
                             />
                         </div>
-                        <div class='it-analyst-intro'>
+                        <div class="it-analyst-intro">
                             <div
-                                class='it-panel-title'
-                                style='text-align:center'
+                                class="it-panel-title"
+                                style="text-align:center"
                             >
                                 INTELLIGENCE ANALYST READY
                             </div>
                             <div
-                                class='it-muted it-mono'
-                                style='font-size:10px;text-align:center;max-width:280px'
+                                class="it-muted it-mono"
+                                style="font-size:10px;text-align:center;max-width:280px"
                             >
                                 Routes queries to Hermes via agents.prompt.hermes.zeus. Analyzes live entity state, intel streams, and threat data.
                             </div>
                         </div>
-                        <div class='it-suggestions'>
+                        <div class="it-suggestions">
                             <div
-                                class='it-dim it-mono'
-                                style='font-size:9px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;text-align:center'
+                                class="it-dim it-mono"
+                                style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;text-align:center"
                             >
                                 SUGGESTED QUERIES
                             </div>
                             <button
-                                v-for='q in SUGGESTED_QUERIES'
-                                :key='q'
-                                class='it-suggestion'
-                                @click='analystInput = q'
+                                v-for="q in SUGGESTED_QUERIES"
+                                :key="q"
+                                class="it-suggestion"
+                                @click="analystInput = q"
                             >
-                                <span style='color:#d4af37;margin-right:5px'>›</span>{{ q }}
+                                <span style="color:#d4af37;margin-right:5px">›</span>{{ q }}
                             </button>
                         </div>
-                        <div class='it-analyst-conn'>
+                        <div class="it-analyst-conn">
                             <div
-                                class='it-conn-dot'
-                                :class='{ active: !!nc }'
+                                class="it-conn-dot"
+                                :class="{ active: !!nc }"
                             />
                             <span
                                 :class='nc ? "it-green" : "it-dim"'
-                                style='font-size:9px'
-                                class='it-mono'
+                                style="font-size:9px"
+                                class="it-mono"
                             >
                                 {{ nc ? 'HERMES CONNECTED' : 'NOT CONNECTED' }}
                             </span>
                         </div>
                     </div>
                     <div
-                        v-for='msg in analystMsgs'
-                        :key='msg.id'
-                        class='it-amsg'
-                        :class='msg.role'
+                        v-for="msg in analystMsgs"
+                        :key="msg.id"
+                        class="it-amsg"
+                        :class="msg.role"
                     >
                         <div
-                            class='it-amsg-bubble'
-                            :class='[msg.role, { error: msg.isError }]'
+                            class="it-amsg-bubble"
+                            :class="[msg.role, { error: msg.isError }]"
                         >
-                            <div class='it-amsg-hd'>
+                            <div class="it-amsg-hd">
                                 <User
                                     v-if='msg.role === "user"'
-                                    :size='11'
-                                    style='color:#4a9eff'
+                                    :size="11"
+                                    style="color:#4a9eff"
                                 />
                                 <AlertTriangle
-                                    v-else-if='msg.isError'
-                                    :size='11'
-                                    style='color:#f85149'
+                                    v-else-if="msg.isError"
+                                    :size="11"
+                                    style="color:#f85149"
                                 />
                                 <Bot
                                     v-else
-                                    :size='11'
-                                    style='color:#d4af37'
+                                    :size="11"
+                                    style="color:#d4af37"
                                 />
                                 <span
-                                    class='it-mono'
+                                    class="it-mono"
                                     :style='{ color: msg.role === "user" ? "#4a9eff" : msg.isError ? "#f85149" : "#d4af37" }'
                                 >
                                     {{ msg.role === 'user' ? 'OPERATOR' : 'ANALYST' }}
                                 </span>
-                                <span class='it-mono it-dim it-ml'>{{ fmtTime(msg.timestamp) }}</span>
+                                <span class="it-mono it-dim it-ml">{{ fmtTime(msg.timestamp) }}</span>
                             </div>
                             <div
                                 v-if='msg.role === "analyst" && !msg.isError'
-                                class='it-amsg-content it-mono'
-                                v-html='renderMd(msg.content)'
+                                class="it-amsg-content it-mono"
+                                v-html="renderMd(msg.content)"
                             />
                             <div
                                 v-else
-                                class='it-amsg-content it-mono'
-                                style='white-space:pre-wrap'
+                                class="it-amsg-content it-mono"
+                                style="white-space:pre-wrap"
                             >
                                 {{ msg.content }}
                             </div>
                         </div>
                     </div>
                     <div
-                        v-if='analystLoading'
-                        class='it-amsg analyst'
+                        v-if="analystLoading"
+                        class="it-amsg analyst"
                     >
-                        <div class='it-amsg-bubble analyst'>
-                            <div class='it-amsg-hd'>
+                        <div class="it-amsg-bubble analyst">
+                            <div class="it-amsg-hd">
                                 <Loader2
-                                    :size='11'
-                                    class='it-spin'
-                                    style='color:#d4af37'
+                                    :size="11"
+                                    class="it-spin"
+                                    style="color:#d4af37"
                                 />
                                 <span
-                                    class='it-mono'
-                                    style='color:#d4af37'
+                                    class="it-mono"
+                                    style="color:#d4af37"
                                 >ANALYZING INTELLIGENCE…</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class='it-analyst-input'>
-                    <div class='it-briefing-row'>
+                <div class="it-analyst-input">
+                    <div class="it-briefing-row">
                         <button
-                            class='it-briefing-btn'
-                            :disabled='analystLoading || !nc'
-                            @click='generateBriefing'
+                            class="it-briefing-btn"
+                            :disabled="analystLoading || !nc"
+                            @click="generateBriefing"
                         >
-                            <Sparkles :size='11' /> GENERATE BRIEFING
+                            <Sparkles :size="11" /> GENERATE BRIEFING
                         </button>
                         <span
-                            class='it-mono it-dim'
-                            style='font-size:9px'
+                            class="it-mono it-dim"
+                            style="font-size:9px"
                         >SHIFT+ENTER for newline</span>
                     </div>
-                    <div class='it-analyst-row'>
+                    <div class="it-analyst-row">
                         <textarea
-                            ref='analystInputEl'
-                            v-model='analystInput'
-                            class='it-analyst-ta'
-                            rows='2'
+                            ref="analystInputEl"
+                            v-model="analystInput"
+                            class="it-analyst-ta"
+                            rows="2"
                             :placeholder='nc ? "Query the intelligence analyst…" : "NATS disconnected — connect first"'
-                            :disabled='analystLoading || !nc'
-                            @keydown='onAnalystKey'
+                            :disabled="analystLoading || !nc"
+                            @keydown="onAnalystKey"
                         />
                         <button
-                            class='it-analyst-send'
-                            :disabled='!analystInput.trim() || analystLoading || !nc'
-                            @click='sendAnalystQuery'
+                            class="it-analyst-send"
+                            :disabled="!analystInput.trim() || analystLoading || !nc"
+                            @click="sendAnalystQuery"
                         >
-                            <Send :size='13' />
+                            <Send :size="13" />
                         </button>
                     </div>
                 </div>
@@ -518,192 +518,192 @@
 
             <!-- ── ENTITY GRAPH ────────────────────────────────────────────────── -->
             <template v-if='activeTab === "entity-graph"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Network
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>ENTITY GRAPH</span>
-                    <span class='it-badge'>{{ entityNodes.size }} ENTITIES</span>
-                    <div class='it-live-dot' />
+                    <span class="it-panel-title">ENTITY GRAPH</span>
+                    <span class="it-badge">{{ entityNodes.size }} ENTITIES</span>
+                    <div class="it-live-dot" />
                 </div>
-                <div class='it-filters'>
-                    <div class='it-search-wrap'>
+                <div class="it-filters">
+                    <div class="it-search-wrap">
                         <Search
-                            :size='11'
-                            class='it-search-icon'
+                            :size="11"
+                            class="it-search-icon"
                         />
                         <input
-                            v-model='entitySearch'
-                            class='it-search'
-                            placeholder='Search entities…'
+                            v-model="entitySearch"
+                            class="it-search"
+                            placeholder="Search entities…"
                         >
                     </div>
-                    <div class='it-filter-row'>
+                    <div class="it-filter-row">
                         <button
-                            v-for='t in ENTITY_TYPES'
-                            :key='t'
-                            class='it-chip'
-                            :class='{ active: entityTypeFilter === t }'
-                            @click='entityTypeFilter = t'
+                            v-for="t in ENTITY_TYPES"
+                            :key="t"
+                            class="it-chip"
+                            :class="{ active: entityTypeFilter === t }"
+                            @click="entityTypeFilter = t"
                         >
                             {{ t }}
                         </button>
                     </div>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-if='entityNodes.size === 0'
-                        class='it-empty'
+                        v-if="entityNodes.size === 0"
+                        class="it-empty"
                     >
                         <Network
-                            :size='22'
-                            class='it-empty-icon'
+                            :size="22"
+                            class="it-empty-icon"
                         />
                         <span>NO ENTITIES OBSERVED</span>
-                        <span class='it-muted it-mono'>ent.&gt;</span>
+                        <span class="it-muted it-mono">ent.&gt;</span>
                     </div>
                     <template
-                        v-for='(group, gType) in filteredEntityGroups'
-                        :key='gType'
+                        v-for="(group, gType) in filteredEntityGroups"
+                        :key="gType"
                     >
-                        <div class='it-ent-group-hd'>
+                        <div class="it-ent-group-hd">
                             <component
-                                :is='entityTypeIcon(gType)'
-                                :size='11'
-                                :style='{ color: entityTypeColor(gType) }'
+                                :is="entityTypeIcon(gType)"
+                                :size="11"
+                                :style="{ color: entityTypeColor(gType) }"
                             />
                             <span>{{ gType.toUpperCase() }}</span>
                             <span
-                                class='it-badge'
-                                style='margin-left:4px'
+                                class="it-badge"
+                                style="margin-left:4px"
                             >{{ group.length }}</span>
                         </div>
                         <div
-                            v-for='ent in group'
-                            :key='ent.id'
-                            class='it-ent-row'
-                            :class='{ selected: selectedEntity === ent.id }'
-                            @click='selectedEntity = selectedEntity === ent.id ? null : ent.id'
+                            v-for="ent in group"
+                            :key="ent.id"
+                            class="it-ent-row"
+                            :class="{ selected: selectedEntity === ent.id }"
+                            @click="selectedEntity = selectedEntity === ent.id ? null : ent.id"
                         >
                             <div
-                                class='it-ent-dot'
-                                :style='{ background: entityTypeColor(ent.type) }'
+                                class="it-ent-dot"
+                                :style="{ background: entityTypeColor(ent.type) }"
                             />
-                            <div class='it-ent-body'>
-                                <div class='it-ent-id it-mono'>
+                            <div class="it-ent-body">
+                                <div class="it-ent-id it-mono">
                                     {{ ent.label || ent.id }}
                                 </div>
                                 <div
-                                    v-if='ent.parent'
-                                    class='it-ent-parent it-mono it-dim'
+                                    v-if="ent.parent"
+                                    class="it-ent-parent it-mono it-dim"
                                 >
                                     parent: {{ ent.parent }}
                                 </div>
                             </div>
-                            <span class='it-time it-mono'>{{ timeAgo(ent.lastSeen) }}</span>
+                            <span class="it-time it-mono">{{ timeAgo(ent.lastSeen) }}</span>
                         </div>
                         <div
-                            v-if='selectedEntity && entityNodes.get(selectedEntity)'
-                            class='it-ent-detail'
+                            v-if="selectedEntity && entityNodes.get(selectedEntity)"
+                            class="it-ent-detail"
                         >
-                            <pre class='it-raw-json'>{{ JSON.stringify(entityNodes.get(selectedEntity)!.raw, null, 2) }}</pre>
+                            <pre class="it-raw-json">{{ JSON.stringify(entityNodes.get(selectedEntity)!.raw, null, 2) }}</pre>
                         </div>
                     </template>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ entityNodes.size }} total entities</span>
-                    <span class='it-mono'>LIVE • ent.&gt;</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ entityNodes.size }} total entities</span>
+                    <span class="it-mono">LIVE • ent.&gt;</span>
                 </div>
             </template>
 
             <!-- ── SOURCES ─────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "sources"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Database
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>FEED SOURCES</span>
-                    <span class='it-badge'>{{ FEED_SOURCE_DEFS.length }} FEEDS</span>
-                    <span class='it-badge green'>{{ enabledSourceCount }} ENABLED</span>
+                    <span class="it-panel-title">FEED SOURCES</span>
+                    <span class="it-badge">{{ FEED_SOURCE_DEFS.length }} FEEDS</span>
+                    <span class="it-badge green">{{ enabledSourceCount }} ENABLED</span>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-for='feed in FEED_SOURCE_DEFS'
-                        :key='feed.id'
-                        class='it-src-card'
-                        :class='{ expanded: expandedSource === feed.id }'
+                        v-for="feed in FEED_SOURCE_DEFS"
+                        :key="feed.id"
+                        class="it-src-card"
+                        :class="{ expanded: expandedSource === feed.id }"
                     >
                         <div
-                            class='it-src-hd'
-                            @click='expandedSource = expandedSource === feed.id ? null : feed.id'
+                            class="it-src-hd"
+                            @click="expandedSource = expandedSource === feed.id ? null : feed.id"
                         >
                             <component
-                                :is='feed.icon'
-                                :size='14'
+                                :is="feed.icon"
+                                :size="14"
                                 :class='sourceEnabled(feed.id) ? "it-acc" : "it-dim"'
                             />
-                            <div class='it-src-meta'>
-                                <div class='it-src-name'>
+                            <div class="it-src-meta">
+                                <div class="it-src-name">
                                     {{ feed.name }}
                                 </div>
-                                <div class='it-src-desc it-mono it-dim'>
+                                <div class="it-src-desc it-mono it-dim">
                                     {{ feed.description }}
                                 </div>
                             </div>
-                            <div class='it-src-status'>
+                            <div class="it-src-status">
                                 <div
-                                    class='it-feed-dot'
-                                    :class='sourceStatus(feed.id)'
+                                    class="it-feed-dot"
+                                    :class="sourceStatus(feed.id)"
                                 />
                                 <span
-                                    class='it-chip-sm'
-                                    :class='sourceStatus(feed.id)'
+                                    class="it-chip-sm"
+                                    :class="sourceStatus(feed.id)"
                                 >{{ sourceStatus(feed.id).toUpperCase() }}</span>
                             </div>
                             <button
-                                class='it-toggle'
-                                :class='{ on: sourceEnabled(feed.id) }'
-                                @click.stop='toggleSource(feed.id)'
+                                class="it-toggle"
+                                :class="{ on: sourceEnabled(feed.id) }"
+                                @click.stop="toggleSource(feed.id)"
                             >
                                 {{ sourceEnabled(feed.id) ? 'ON' : 'OFF' }}
                             </button>
                             <ChevronDown
-                                :size='12'
-                                class='it-dim'
+                                :size="12"
+                                class="it-dim"
                                 :style='{ transform: expandedSource === feed.id ? "rotate(180deg)" : "" }'
                             />
                         </div>
                         <div
-                            v-if='expandedSource === feed.id'
-                            class='it-src-settings'
+                            v-if="expandedSource === feed.id"
+                            class="it-src-settings"
                         >
                             <div
-                                v-for='setting in feed.settings'
-                                :key='setting.key'
-                                class='it-src-field'
+                                v-for="setting in feed.settings"
+                                :key="setting.key"
+                                class="it-src-field"
                             >
-                                <label class='it-src-label it-mono'>{{ setting.label }}</label>
+                                <label class="it-src-label it-mono">{{ setting.label }}</label>
                                 <input
                                     :type='setting.type === "password" ? "password" : "text"'
-                                    :placeholder='setting.placeholder'
-                                    :value='getSourceSetting(feed.id, setting.key)'
-                                    class='it-search'
-                                    @input='setSourceSetting(feed.id, setting.key, ($event.target as HTMLInputElement).value)'
+                                    :placeholder="setting.placeholder"
+                                    :value="getSourceSetting(feed.id, setting.key)"
+                                    class="it-search"
+                                    @input="setSourceSetting(feed.id, setting.key, ($event.target as HTMLInputElement).value)"
                                 >
                             </div>
-                            <div class='it-src-actions'>
+                            <div class="it-src-actions">
                                 <button
-                                    class='it-ack-btn'
-                                    @click='publishSourceConfig(feed.id)'
+                                    class="it-ack-btn"
+                                    @click="publishSourceConfig(feed.id)"
                                 >
-                                    <Send :size='10' /> APPLY
+                                    <Send :size="10" /> APPLY
                                 </button>
                                 <span
-                                    v-if='sourcePollTime(feed.id)'
-                                    class='it-mono it-dim'
-                                    style='font-size:9px'
+                                    v-if="sourcePollTime(feed.id)"
+                                    class="it-mono it-dim"
+                                    style="font-size:9px"
                                 >
                                     last poll {{ sourcePollTime(feed.id) }}
                                 </span>
@@ -711,230 +711,230 @@
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ enabledSourceCount }}/{{ FEED_SOURCE_DEFS.length }} enabled</span>
-                    <span class='it-mono'>config → cmd.intel.feed.{id}.config</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ enabledSourceCount }}/{{ FEED_SOURCE_DEFS.length }} enabled</span>
+                    <span class="it-mono">config → cmd.intel.feed.{id}.config</span>
                 </div>
             </template>
 
             <!-- ── ORP BROWSER ─────────────────────────────────────────────────── -->
             <template v-if='activeTab === "orp"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <MapPin
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>ORP BROWSER</span>
-                    <span class='it-badge'>{{ orpEntities.size }} ENTITIES</span>
-                    <div class='it-live-dot' />
+                    <span class="it-panel-title">ORP BROWSER</span>
+                    <span class="it-badge">{{ orpEntities.size }} ENTITIES</span>
+                    <div class="it-live-dot" />
                 </div>
-                <div class='it-filters'>
-                    <div class='it-search-wrap'>
+                <div class="it-filters">
+                    <div class="it-search-wrap">
                         <Search
-                            :size='11'
-                            class='it-search-icon'
+                            :size="11"
+                            class="it-search-icon"
                         />
                         <input
-                            v-model='orpSearch'
-                            class='it-search'
-                            placeholder='Search operational reference points…'
+                            v-model="orpSearch"
+                            class="it-search"
+                            placeholder="Search operational reference points…"
                         >
                     </div>
-                    <div class='it-filter-row'>
+                    <div class="it-filter-row">
                         <button
-                            v-for='t in ORP_TYPES'
-                            :key='t'
-                            class='it-chip'
-                            :class='{ active: orpTypeFilter === t }'
-                            @click='orpTypeFilter = t'
+                            v-for="t in ORP_TYPES"
+                            :key="t"
+                            class="it-chip"
+                            :class="{ active: orpTypeFilter === t }"
+                            @click="orpTypeFilter = t"
                         >
                             {{ t }}
                         </button>
                     </div>
                 </div>
-                <div class='it-orp-grid'>
-                    <div class='it-orp-hdr'>
+                <div class="it-orp-grid">
+                    <div class="it-orp-hdr">
                         <span
                             :class='{ "it-sort-active": orpSort === "label" }'
-                            class='it-mono it-sort-col'
+                            class="it-mono it-sort-col"
                             @click='orpSort = "label"'
                         >NAME</span>
                         <span
                             :class='{ "it-sort-active": orpSort === "type" }'
-                            class='it-mono it-sort-col'
+                            class="it-mono it-sort-col"
                             @click='orpSort = "type"'
                         >TYPE</span>
                         <span
                             :class='{ "it-sort-active": orpSort === "lastSeen" }'
-                            class='it-mono it-sort-col'
+                            class="it-mono it-sort-col"
                             @click='orpSort = "lastSeen"'
                         >LAST SEEN</span>
-                        <span class='it-mono'>COORDS</span>
+                        <span class="it-mono">COORDS</span>
                     </div>
                     <div
-                        class='it-list'
-                        style='flex:1'
+                        class="it-list"
+                        style="flex:1"
                     >
                         <div
-                            v-if='filteredOrp.length === 0'
-                            class='it-empty'
+                            v-if="filteredOrp.length === 0"
+                            class="it-empty"
                         >
                             <MapPin
-                                :size='22'
-                                class='it-empty-icon'
+                                :size="22"
+                                class="it-empty-icon"
                             />
                             <span>NO ORP ENTITIES</span>
-                            <span class='it-muted it-mono'>ent.orp.&gt;</span>
+                            <span class="it-muted it-mono">ent.orp.&gt;</span>
                         </div>
                         <div
-                            v-for='orp in filteredOrp'
-                            :key='orp.id'
-                            class='it-orp-row'
-                            :class='{ selected: selectedOrp === orp.id }'
-                            @click='selectedOrp = selectedOrp === orp.id ? null : orp.id'
+                            v-for="orp in filteredOrp"
+                            :key="orp.id"
+                            class="it-orp-row"
+                            :class="{ selected: selectedOrp === orp.id }"
+                            @click="selectedOrp = selectedOrp === orp.id ? null : orp.id"
                         >
-                            <div class='it-orp-name'>
+                            <div class="it-orp-name">
                                 <component
-                                    :is='orpTypeIcon(orp.type)'
-                                    :size='11'
-                                    :style='{ color: entityTypeColor(orp.type) }'
+                                    :is="orpTypeIcon(orp.type)"
+                                    :size="11"
+                                    :style="{ color: entityTypeColor(orp.type) }"
                                 />
                                 <span>{{ orp.label || orp.id }}</span>
                             </div>
                             <span
-                                class='it-chip-sm'
+                                class="it-chip-sm"
                                 :style='{ background: entityTypeColor(orp.type) + "22", color: entityTypeColor(orp.type) }'
                             >{{ orp.type }}</span>
                             <span
-                                class='it-mono it-dim'
-                                style='font-size:10px'
+                                class="it-mono it-dim"
+                                style="font-size:10px"
                             >{{ timeAgo(orp.lastSeen) }}</span>
-                            <div class='it-orp-coords'>
+                            <div class="it-orp-coords">
                                 <span
-                                    v-if='orp.lat != null'
-                                    class='it-mono'
-                                    style='font-size:9px'
+                                    v-if="orp.lat != null"
+                                    class="it-mono"
+                                    style="font-size:9px"
                                 >
                                     {{ orp.lat.toFixed(4) }}, {{ orp.lng?.toFixed(4) }}
                                 </span>
                                 <button
-                                    v-if='orp.lat != null'
-                                    class='it-copy-btn'
-                                    @click.stop='copyCoords(orp)'
+                                    v-if="orp.lat != null"
+                                    class="it-copy-btn"
+                                    @click.stop="copyCoords(orp)"
                                 >
-                                    <Copy :size='9' />
+                                    <Copy :size="9" />
                                 </button>
                             </div>
                         </div>
                         <div
-                            v-if='selectedOrp'
-                            class='it-orp-detail'
+                            v-if="selectedOrp"
+                            class="it-orp-detail"
                         >
-                            <pre class='it-raw-json'>{{ JSON.stringify(orpEntities.get(selectedOrp)?.raw, null, 2) }}</pre>
+                            <pre class="it-raw-json">{{ JSON.stringify(orpEntities.get(selectedOrp)?.raw, null, 2) }}</pre>
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ filteredOrp.length }} of {{ orpEntities.size }} ORPs</span>
-                    <span class='it-mono'>LIVE • ent.orp.&gt;</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ filteredOrp.length }} of {{ orpEntities.size }} ORPs</span>
+                    <span class="it-mono">LIVE • ent.orp.&gt;</span>
                 </div>
             </template>
 
             <!-- ── REGIONS ─────────────────────────────────────────────────────── -->
             <template v-if='activeTab === "regions"'>
-                <div class='it-panel-hd'>
+                <div class="it-panel-hd">
                     <Globe
-                        :size='13'
-                        class='it-acc'
+                        :size="13"
+                        class="it-acc"
                     />
-                    <span class='it-panel-title'>REGION DOSSIER</span>
-                    <span class='it-badge crit'>{{ criticalRegions }} CRITICAL</span>
-                    <span class='it-badge warn'>{{ highRegions }} HIGH</span>
+                    <span class="it-panel-title">REGION DOSSIER</span>
+                    <span class="it-badge crit">{{ criticalRegions }} CRITICAL</span>
+                    <span class="it-badge warn">{{ highRegions }} HIGH</span>
                 </div>
-                <div class='it-filters'>
-                    <div class='it-search-wrap'>
+                <div class="it-filters">
+                    <div class="it-search-wrap">
                         <Search
-                            :size='11'
-                            class='it-search-icon'
+                            :size="11"
+                            class="it-search-icon"
                         />
                         <input
-                            v-model='regionSearch'
-                            class='it-search'
-                            placeholder='Search regions…'
+                            v-model="regionSearch"
+                            class="it-search"
+                            placeholder="Search regions…"
                         >
                     </div>
                 </div>
-                <div class='it-list'>
+                <div class="it-list">
                     <div
-                        v-for='region in filteredRegions'
-                        :key='region.code'
-                        class='it-region-row'
+                        v-for="region in filteredRegions"
+                        :key="region.code"
+                        class="it-region-row"
                     >
                         <button
-                            class='it-region-btn'
-                            @click='selectedRegion = selectedRegion === region.code ? null : region.code'
+                            class="it-region-btn"
+                            @click="selectedRegion = selectedRegion === region.code ? null : region.code"
                         >
-                            <div class='it-region-top'>
+                            <div class="it-region-top">
                                 <span
-                                    class='it-risk'
-                                    :class='riskClass(region.liveRisk)'
+                                    class="it-risk"
+                                    :class="riskClass(region.liveRisk)"
                                 >{{ riskLabel(region.liveRisk) }}</span>
-                                <span class='it-source it-mono'>{{ region.code }}</span>
-                                <span class='it-region-name'>{{ region.name }}</span>
-                                <span class='it-time it-mono it-dim'>{{ region.region }}</span>
+                                <span class="it-source it-mono">{{ region.code }}</span>
+                                <span class="it-region-name">{{ region.name }}</span>
+                                <span class="it-time it-mono it-dim">{{ region.region }}</span>
                             </div>
-                            <div class='it-region-bar'>
+                            <div class="it-region-bar">
                                 <div
-                                    class='it-region-fill'
+                                    class="it-region-fill"
                                     :style='{ width: (region.liveRisk / 10 * 100) + "%", background: riskColor(region.liveRisk) }'
                                 />
                             </div>
-                            <div class='it-region-meta'>
+                            <div class="it-region-meta">
                                 <span
-                                    class='it-mono it-dim'
-                                    style='font-size:9px'
+                                    class="it-mono it-dim"
+                                    style="font-size:9px"
                                 >{{ region.intelCount }} intel items</span>
                                 <span
-                                    v-if='region.liveRisk !== region.baseRisk'
-                                    class='it-mono'
-                                    style='font-size:9px;color:#f59e0b'
+                                    v-if="region.liveRisk !== region.baseRisk"
+                                    class="it-mono"
+                                    style="font-size:9px;color:#f59e0b"
                                 >
                                     BASE {{ region.baseRisk.toFixed(1) }} → LIVE {{ region.liveRisk.toFixed(1) }}
                                 </span>
                             </div>
                         </button>
                         <div
-                            v-if='selectedRegion === region.code'
-                            class='it-region-detail'
+                            v-if="selectedRegion === region.code"
+                            class="it-region-detail"
                         >
                             <div
-                                v-if='region.recentItems.length === 0'
-                                class='it-dim it-mono'
-                                style='font-size:10px'
+                                v-if="region.recentItems.length === 0"
+                                class="it-dim it-mono"
+                                style="font-size:10px"
                             >
                                 No recent intel items.
                             </div>
                             <div
-                                v-for='item in region.recentItems'
-                                :key='item.id'
-                                class='it-region-intel'
+                                v-for="item in region.recentItems"
+                                :key="item.id"
+                                class="it-region-intel"
                             >
                                 <span
-                                    class='it-risk'
-                                    :class='riskClass(item.riskScore)'
-                                    style='font-size:9px'
+                                    class="it-risk"
+                                    :class="riskClass(item.riskScore)"
+                                    style="font-size:9px"
                                 >{{ riskLabel(item.riskScore) }}</span>
                                 <span
-                                    class='it-mono'
-                                    style='font-size:10px'
+                                    class="it-mono"
+                                    style="font-size:10px"
                                 >{{ item.title.slice(0,100) }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class='it-footer'>
-                    <span class='it-mono'>{{ filteredRegions.length }} regions</span>
-                    <span class='it-mono'>blended with live intel.&gt;</span>
+                <div class="it-footer">
+                    <span class="it-mono">{{ filteredRegions.length }} regions</span>
+                    <span class="it-mono">blended with live intel.&gt;</span>
                 </div>
             </template>
         </div>

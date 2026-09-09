@@ -1,77 +1,77 @@
 <template>
     <TablerModal>
         <div
-            class='modal-status'
-            :class='accentClass'
+            class="modal-status"
+            :class="accentClass"
         />
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='$emit("close")'
         />
-        <div class='modal-header d-flex align-items-center gap-2'>
+        <div class="modal-header d-flex align-items-center gap-2">
             <div
-                class='paging-icon flex-shrink-0'
-                :style='`background: ${meta.tint};`'
+                class="paging-icon flex-shrink-0"
+                :style="`background: ${meta.tint};`"
             >
                 <component
-                    :is='meta.icon'
-                    :size='22'
-                    stroke='1.5'
-                    :class='meta.iconClass'
+                    :is="meta.icon"
+                    :size="22"
+                    stroke="1.5"
+                    :class="meta.iconClass"
                 />
             </div>
             <div
-                class='modal-title'
-                v-text='isEdit ? `Edit ${meta.label}` : `New ${meta.label}`'
+                class="modal-title"
+                v-text="isEdit ? `Edit ${meta.label}` : `New ${meta.label}`"
             />
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerDelete
-                    v-if='isEdit'
-                    displaytype='icon'
-                    @delete='deleteSource'
+                    v-if="isEdit"
+                    displaytype="icon"
+                    @delete="deleteSource"
                 />
             </div>
         </div>
 
         <!-- Step 1: Create / edit -->
         <template v-if='step === "edit"'>
-            <div class='modal-body row g-3'>
-                <div class='col-12'>
+            <div class="modal-body row g-3">
+                <div class="col-12">
                     <TablerInput
-                        v-model='value'
-                        :type='meta.inputType'
-                        :label='meta.valueLabel'
-                        :placeholder='meta.placeholder'
-                        @keyup.enter='saveSource'
+                        v-model="value"
+                        :type="meta.inputType"
+                        :label="meta.valueLabel"
+                        :placeholder="meta.placeholder"
+                        @keyup.enter="saveSource"
                     />
                 </div>
 
                 <div
-                    v-if='isEdit'
-                    class='col-12'
+                    v-if="isEdit"
+                    class="col-12"
                 >
                     <div
-                        class='paging-status-row d-flex align-items-center gap-2 px-3 py-2'
+                        class="paging-status-row d-flex align-items-center gap-2 px-3 py-2"
                     >
-                        <template v-if='verified'>
+                        <template v-if="verified">
                             <IconCircleCheck
-                                :size='20'
-                                stroke='1.5'
-                                class='text-green'
+                                :size="20"
+                                stroke="1.5"
+                                class="text-green"
                             />
-                            <span class='small'>This source is verified</span>
+                            <span class="small">This source is verified</span>
                         </template>
                         <template v-else>
                             <IconAlertCircle
-                                :size='20'
-                                stroke='1.5'
-                                class='text-yellow'
+                                :size="20"
+                                stroke="1.5"
+                                class="text-yellow"
                             />
-                            <span class='small'>Pending verification</span>
+                            <span class="small">Pending verification</span>
                             <button
-                                class='btn btn-sm btn-warning ms-auto'
+                                class="btn btn-sm btn-warning ms-auto"
                                 @click='step = "verify"'
                             >
                                 Enter Code
@@ -81,36 +81,36 @@
                 </div>
 
                 <div
-                    v-if='isEdit && verified'
-                    class='col-12'
+                    v-if="isEdit && verified"
+                    class="col-12"
                 >
-                    <label class='paging-toggle d-flex align-items-center gap-2 px-3 py-2 m-0'>
-                        <span class='form-check form-switch m-0'>
+                    <label class="paging-toggle d-flex align-items-center gap-2 px-3 py-2 m-0">
+                        <span class="form-check form-switch m-0">
                             <input
-                                v-model='enabled'
-                                class='form-check-input'
-                                type='checkbox'
+                                v-model="enabled"
+                                class="form-check-input"
+                                type="checkbox"
                             >
                         </span>
-                        <span class='fw-bold'>Enabled</span>
-                        <span class='text-secondary small ms-auto'>
+                        <span class="fw-bold">Enabled</span>
+                        <span class="text-secondary small ms-auto">
                             {{ enabled ? 'Receiving pages' : 'Paused' }}
                         </span>
                     </label>
                 </div>
             </div>
-            <div class='modal-footer'>
+            <div class="modal-footer">
                 <button
-                    v-if='isEdit && !verified'
-                    class='btn btn-link text-secondary me-auto'
-                    @click='resendCode'
+                    v-if="isEdit && !verified"
+                    class="btn btn-link text-secondary me-auto"
+                    @click="resendCode"
                 >
                     Resend Code
                 </button>
                 <button
-                    class='btn btn-primary'
-                    :disabled='!value'
-                    @click='saveSource'
+                    class="btn btn-primary"
+                    :disabled="!value"
+                    @click="saveSource"
                 >
                     Save
                 </button>
@@ -119,47 +119,47 @@
 
         <!-- Step 2: Enter verification code -->
         <template v-else-if='step === "verify"'>
-            <div class='modal-body'>
-                <div class='text-center mb-3'>
+            <div class="modal-body">
+                <div class="text-center mb-3">
                     <div
-                        class='paging-icon mx-auto mb-2'
-                        :style='`background: ${meta.tint};`'
+                        class="paging-icon mx-auto mb-2"
+                        :style="`background: ${meta.tint};`"
                     >
                         <component
-                            :is='meta.icon'
-                            :size='24'
-                            stroke='1.5'
-                            :class='meta.iconClass'
+                            :is="meta.icon"
+                            :size="24"
+                            stroke="1.5"
+                            :class="meta.iconClass"
                         />
                     </div>
-                    <p class='text-secondary small mb-0'>
+                    <p class="text-secondary small mb-0">
                         Enter the 6-digit code sent to
                     </p>
-                    <p class='fw-bold mb-0 text-break'>
+                    <p class="fw-bold mb-0 text-break">
                         {{ value }}
                     </p>
                 </div>
                 <TablerInput
-                    v-model='verifyCodeInput'
-                    placeholder='000000'
-                    autocomplete='one-time-code'
-                    inputmode='numeric'
-                    class='paging-code-input'
-                    :maxlength='6'
-                    @keyup.enter='submitVerify'
+                    v-model="verifyCodeInput"
+                    placeholder="000000"
+                    autocomplete="one-time-code"
+                    inputmode="numeric"
+                    class="paging-code-input"
+                    :maxlength="6"
+                    @keyup.enter="submitVerify"
                 />
             </div>
-            <div class='modal-footer'>
+            <div class="modal-footer">
                 <button
-                    class='btn btn-link text-secondary me-auto'
-                    @click='resendCode'
+                    class="btn btn-link text-secondary me-auto"
+                    @click="resendCode"
                 >
                     Resend Code
                 </button>
                 <button
-                    class='btn btn-primary'
-                    :disabled='verifyCodeInput.length !== 6'
-                    @click='submitVerify'
+                    class="btn btn-primary"
+                    :disabled="verifyCodeInput.length !== 6"
+                    @click="submitVerify"
                 >
                     Verify
                 </button>
@@ -168,24 +168,24 @@
 
         <!-- Step 3: Verified confirmation -->
         <template v-else-if='step === "verified"'>
-            <div class='modal-body'>
-                <div class='text-center py-4'>
+            <div class="modal-body">
+                <div class="text-center py-4">
                     <IconCircleCheck
-                        :size='56'
-                        stroke='1.5'
-                        class='text-green'
+                        :size="56"
+                        stroke="1.5"
+                        class="text-green"
                     />
-                    <div class='mt-3 fw-bold fs-3'>
+                    <div class="mt-3 fw-bold fs-3">
                         Verified!
                     </div>
-                    <div class='text-secondary small mt-1'>
+                    <div class="text-secondary small mt-1">
                         {{ value }} is ready to receive pages.
                     </div>
                 </div>
             </div>
-            <div class='modal-footer'>
+            <div class="modal-footer">
                 <button
-                    class='btn btn-primary w-100'
+                    class="btn btn-primary w-100"
                     @click='$emit("refresh")'
                 >
                     Done

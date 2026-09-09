@@ -1,42 +1,42 @@
 <template>
     <TablerModal>
-        <div class='modal-status bg-blue' />
-        <div class='modal-body text-center py-4'>
+        <div class="modal-status bg-blue" />
+        <div class="modal-body text-center py-4">
             <IconMail
-                :size='68'
-                class='text-blue mb-2'
-                stroke='1'
+                :size="68"
+                class="text-blue mb-2"
+                stroke="1"
             />
             <h3>Mission Invitation</h3>
-            <div class='text-secondary'>
+            <div class="text-secondary">
                 You have been invited to join the mission:
                 <br>
                 <strong>{{ props.mission.name }}</strong>
             </div>
         </div>
-        <div class='modal-footer'>
-            <div class='w-100'>
-                <div class='row'>
-                    <div class='col'>
+        <div class="modal-footer">
+            <div class="w-100">
+                <div class="row">
+                    <div class="col">
                         <button
-                            class='btn w-100'
-                            @click='ignore'
+                            class="btn w-100"
+                            @click="ignore"
                         >
                             Ignore
                         </button>
                     </div>
-                    <div class='col'>
+                    <div class="col">
                         <button
-                            class='btn btn-danger w-100'
-                            @click='decline'
+                            class="btn btn-danger w-100"
+                            @click="decline"
                         >
                             Delete
                         </button>
                     </div>
-                    <div class='col'>
+                    <div class="col">
                         <button
-                            class='btn btn-success w-100'
-                            @click='accept'
+                            class="btn btn-success w-100"
+                            @click="accept"
                         >
                             Accept
                         </button>

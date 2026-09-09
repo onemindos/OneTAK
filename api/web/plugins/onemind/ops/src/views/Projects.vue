@@ -1,44 +1,44 @@
 <template>
-    <div class='ops-view ops-projects'>
-        <div class='ops-header'>
+    <div class="ops-view ops-projects">
+        <div class="ops-header">
             <h2>Projects</h2>
             <button
-                class='btn-add'
-                @click='showAdd = true'
+                class="btn-add"
+                @click="showAdd = true"
             >
                 + New
             </button>
         </div>
 
         <div
-            v-if='store.projects.length === 0'
-            class='ops-empty'
+            v-if="store.projects.length === 0"
+            class="ops-empty"
         >
             No projects. Create one to start tracking work.
         </div>
 
         <div
             v-else
-            class='ops-grid'
+            class="ops-grid"
         >
             <div
-                v-for='proj in store.projects'
-                :key='proj.id'
-                class='ops-card'
-                :class='proj.status'
-                @click='selected = selected?.id === proj.id ? null : proj'
+                v-for="proj in store.projects"
+                :key="proj.id"
+                class="ops-card"
+                :class="proj.status"
+                @click="selected = selected?.id === proj.id ? null : proj"
             >
-                <div class='ops-card-header'>
+                <div class="ops-card-header">
                     <span
-                        class='ops-status-dot'
-                        :class='proj.status'
+                        class="ops-status-dot"
+                        :class="proj.status"
                     />
-                    <span class='ops-proj-name'>{{ proj.name }}</span>
-                    <span class='ops-task-count'>{{ proj.tasks.length }} tasks</span>
+                    <span class="ops-proj-name">{{ proj.name }}</span>
+                    <span class="ops-task-count">{{ proj.tasks.length }} tasks</span>
                 </div>
                 <div
-                    v-if='proj.description'
-                    class='ops-proj-desc'
+                    v-if="proj.description"
+                    class="ops-proj-desc"
                 >
                     {{ proj.description }}
                 </div>
@@ -46,64 +46,64 @@
         </div>
 
         <div
-            v-if='selected'
-            class='ops-detail'
+            v-if="selected"
+            class="ops-detail"
         >
-            <div class='ops-detail-header'>
+            <div class="ops-detail-header">
                 <h3>{{ selected.name }}</h3>
                 <button
-                    class='btn-icon'
-                    @click='selected = null'
+                    class="btn-icon"
+                    @click="selected = null"
                 >
                     ✕
                 </button>
             </div>
             <div
-                v-if='tasks(selected).length === 0'
-                class='ops-empty'
+                v-if="tasks(selected).length === 0"
+                class="ops-empty"
             >
                 No tasks yet.
             </div>
             <ul
                 v-else
-                class='ops-task-list'
+                class="ops-task-list"
             >
                 <li
-                    v-for='task in tasks(selected)'
-                    :key='task.id'
-                    class='ops-task-item'
-                    :class='task.status'
+                    v-for="task in tasks(selected)"
+                    :key="task.id"
+                    class="ops-task-item"
+                    :class="task.status"
                 >
-                    <span class='ops-task-status'>{{ task.status }}</span>
-                    <span class='ops-task-title'>{{ task.title }}</span>
+                    <span class="ops-task-status">{{ task.status }}</span>
+                    <span class="ops-task-title">{{ task.title }}</span>
                     <span
-                        class='ops-priority'
-                        :class='task.priority'
+                        class="ops-priority"
+                        :class="task.priority"
                     >{{ task.priority }}</span>
                 </li>
             </ul>
         </div>
 
         <div
-            v-if='showAdd'
-            class='ops-modal-backdrop'
-            @click.self='showAdd = false'
+            v-if="showAdd"
+            class="ops-modal-backdrop"
+            @click.self="showAdd = false"
         >
-            <div class='ops-modal'>
+            <div class="ops-modal">
                 <h3>New Project</h3>
                 <label>Name<input
-                    v-model='form.name'
-                    type='text'
+                    v-model="form.name"
+                    type="text"
                 ></label>
                 <label>Description<input
-                    v-model='form.description'
-                    type='text'
+                    v-model="form.description"
+                    type="text"
                 ></label>
-                <div class='ops-modal-actions'>
-                    <button @click='addProject'>
+                <div class="ops-modal-actions">
+                    <button @click="addProject">
                         Create
                     </button>
-                    <button @click='showAdd = false'>
+                    <button @click="showAdd = false">
                         Cancel
                     </button>
                 </div>

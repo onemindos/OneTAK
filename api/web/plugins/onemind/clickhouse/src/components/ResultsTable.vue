@@ -1,15 +1,15 @@
 <template>
-    <div class='results-table'>
-        <div class='results-table__meta'>
+    <div class="results-table">
+        <div class="results-table__meta">
             {{ result.rowCount.toLocaleString() }} rows &nbsp;·&nbsp; {{ result.executionMs }}ms
         </div>
-        <div class='results-table__scroll'>
+        <div class="results-table__scroll">
             <table>
                 <thead>
                     <tr>
                         <th
-                            v-for='col in result.columns'
-                            :key='col'
+                            v-for="col in result.columns"
+                            :key="col"
                         >
                             {{ col }}
                         </th>
@@ -17,12 +17,12 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for='(row, i) in result.rows'
-                        :key='i'
+                        v-for="(row, i) in result.rows"
+                        :key="i"
                     >
                         <td
-                            v-for='col in result.columns'
-                            :key='col'
+                            v-for="col in result.columns"
+                            :key="col"
                         >
                             {{ row[col] }}
                         </td>

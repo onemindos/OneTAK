@@ -1,154 +1,154 @@
 <template>
-    <div class='form-attach-select'>
+    <div class="form-attach-select">
         <div
-            v-if='props.modelValue.length'
-            class='rounded border mb-2'
+            v-if="props.modelValue.length"
+            class="rounded border mb-2"
         >
             <div
-                v-for='attachment of props.modelValue'
-                :key='attachment.form.id'
-                class='d-flex align-items-center gap-2 px-2 py-2 form-attach-row'
+                v-for="attachment of props.modelValue"
+                :key="attachment.form.id"
+                class="d-flex align-items-center gap-2 px-2 py-2 form-attach-row"
             >
                 <IconForms
-                    :size='18'
-                    stroke='1.5'
-                    class='flex-shrink-0 text-secondary'
+                    :size="18"
+                    stroke="1.5"
+                    class="flex-shrink-0 text-secondary"
                 />
                 <div
-                    class='flex-grow-1'
-                    style='min-width: 0;'
+                    class="flex-grow-1"
+                    style="min-width: 0;"
                 >
                     <div
-                        class='text-truncate'
-                        v-text='attachment.form.name'
+                        class="text-truncate"
+                        v-text="attachment.form.name"
                     />
                     <div
-                        v-if='attachment.form.description'
-                        class='small text-secondary text-truncate'
-                        v-text='attachment.form.description'
+                        v-if="attachment.form.description"
+                        class="small text-secondary text-truncate"
+                        v-text="attachment.form.description"
                     />
                 </div>
                 <button
-                    type='button'
-                    class='badge border-0 flex-shrink-0 cursor-pointer'
+                    type="button"
+                    class="badge border-0 flex-shrink-0 cursor-pointer"
                     :class='attachment.required ? "bg-red-lt" : "bg-secondary-lt"'
                     :title='attachment.required ? "The Form must be completed - click to make it optional" : "The Form is optional - click to make it required"'
-                    :disabled='props.disabled'
-                    @click='setRequired(attachment, !attachment.required)'
+                    :disabled="props.disabled"
+                    @click="setRequired(attachment, !attachment.required)"
                     v-text='attachment.required ? "Required" : "Optional"'
                 />
                 <TablerIconButton
-                    title='Remove Form'
-                    :disabled='props.disabled'
-                    @click='remove(attachment)'
+                    title="Remove Form"
+                    :disabled="props.disabled"
+                    @click="remove(attachment)"
                 >
                     <IconTrash
-                        :size='18'
-                        stroke='1'
+                        :size="18"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </div>
         </div>
 
         <TablerDropdown
-            :width='menuWidth'
-            position='bottom-start'
-            class='w-100'
+            :width="menuWidth"
+            position="bottom-start"
+            class="w-100"
         >
             <template #default>
                 <div
-                    ref='trigger'
-                    class='form-select d-flex align-items-center gap-2 w-100 form-attach-trigger'
+                    ref="trigger"
+                    class="form-select d-flex align-items-center gap-2 w-100 form-attach-trigger"
                     :class='{ "cursor-pointer": !props.disabled }'
-                    role='button'
-                    :tabindex='props.disabled ? -1 : 0'
-                    aria-label='Attach a Form'
+                    role="button"
+                    :tabindex="props.disabled ? -1 : 0"
+                    aria-label="Attach a Form"
                 >
                     <IconForms
-                        :size='18'
-                        stroke='1.5'
-                        class='flex-shrink-0 text-secondary'
+                        :size="18"
+                        stroke="1.5"
+                        class="flex-shrink-0 text-secondary"
                     />
                     <span
-                        class='flex-grow-1 text-truncate text-secondary user-select-none'
-                        style='min-width: 0;'
+                        class="flex-grow-1 text-truncate text-secondary user-select-none"
+                        style="min-width: 0;"
                     >Attach a Form</span>
                 </div>
             </template>
 
             <template #dropdown>
                 <div
-                    class='form-attach-menu'
-                    :style='{ width: `${menuWidth}px` }'
+                    class="form-attach-menu"
+                    :style="{ width: `${menuWidth}px` }"
                 >
-                    <div class='d-flex align-items-center px-3 py-2 border-bottom'>
-                        <h3 class='m-0 fw-bold'>
+                    <div class="d-flex align-items-center px-3 py-2 border-bottom">
+                        <h3 class="m-0 fw-bold">
                             Forms
                         </h3>
-                        <div class='ms-auto btn-list'>
+                        <div class="ms-auto btn-list">
                             <TablerIconButton
-                                title='Refresh Forms'
-                                @click.stop='listForms'
+                                title="Refresh Forms"
+                                @click.stop="listForms"
                             >
                                 <IconRefresh
-                                    :size='20'
-                                    stroke='1'
+                                    :size="20"
+                                    stroke="1"
                                 />
                             </TablerIconButton>
                         </div>
                     </div>
 
-                    <div class='px-3 py-2'>
+                    <div class="px-3 py-2">
                         <!-- The dropdown autocloses on any click it sees - the
                              search field has to swallow its own -->
                         <TablerInput
-                            v-model='search'
-                            placeholder='Search...'
-                            icon='search'
-                            :autofocus='true'
-                            class='mb-0'
+                            v-model="search"
+                            placeholder="Search..."
+                            icon="search"
+                            :autofocus="true"
+                            class="mb-0"
                             @click.stop
                         />
                     </div>
 
-                    <div class='px-2 pb-2 overflow-auto form-attach-list'>
+                    <div class="px-2 pb-2 overflow-auto form-attach-list">
                         <TablerLoading
-                            v-if='loading'
-                            :compact='true'
-                            desc='Loading Forms'
+                            v-if="loading"
+                            :compact="true"
+                            desc="Loading Forms"
                         />
                         <TablerAlert
-                            v-else-if='error'
-                            :err='error'
+                            v-else-if="error"
+                            :err="error"
                         />
                         <template v-else>
                             <div
-                                v-for='form of filtered'
-                                :key='form.id'
-                                class='col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none d-flex align-items-center gap-2'
-                                @click='add(form)'
+                                v-for="form of filtered"
+                                :key="form.id"
+                                class="col-12 py-1 px-2 cloudtak-hover cursor-pointer user-select-none d-flex align-items-center gap-2"
+                                @click="add(form)"
                             >
                                 <IconPlus
-                                    :size='20'
-                                    stroke='1.5'
-                                    class='flex-shrink-0'
+                                    :size="20"
+                                    stroke="1.5"
+                                    class="flex-shrink-0"
                                 />
-                                <div style='min-width: 0;'>
+                                <div style="min-width: 0;">
                                     <div
-                                        class='text-truncate'
-                                        v-text='form.name'
+                                        class="text-truncate"
+                                        v-text="form.name"
                                     />
                                     <div
-                                        v-if='form.description'
-                                        class='small text-secondary text-truncate'
-                                        v-text='form.description'
+                                        v-if="form.description"
+                                        class="small text-secondary text-truncate"
+                                        v-text="form.description"
                                     />
                                 </div>
                             </div>
                             <TablerNone
-                                v-if='!filtered.length'
-                                :compact='true'
-                                :create='false'
+                                v-if="!filtered.length"
+                                :compact="true"
+                                :create="false"
                                 :label='forms.length ? "No Matching Forms" : "No Forms shared with this Channel"'
                             />
                         </template>

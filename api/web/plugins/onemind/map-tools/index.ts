@@ -1,6 +1,8 @@
+import { markRaw } from 'vue';
 import type { App } from 'vue';
-import type { PluginAPI, PluginInstance } from '../../plugin';
-import { addProtocol, removeProtocol } from 'maplibre-gl';
+import type { PluginAPI, PluginInstance } from '../../../plugin';
+import { addProtocol, removeProtocol, type AddProtocolAction } from 'maplibre-gl';
+import { IconMap2 } from '@tabler/icons-vue';
 import { useMapToolsStore } from './src/store';
 
 const MENU_KEY   = 'onemind-map-tools';
@@ -36,6 +38,7 @@ export default class MapToolsPlugin implements PluginInstance {
 
         this.api.menu.add({
             key:         MENU_KEY,
+            icon:        markRaw(IconMap2),
             label:       'Map Tools',
             route:       ROUTE_NAME,
             tooltip:     'Measurements · Terrain · Export · Offline · Import',
@@ -65,7 +68,7 @@ export default class MapToolsPlugin implements PluginInstance {
         // Vector text formats: load KML, GPX, CSV, TopoJSON directly as GeoJSON.
         // Usage: map.addSource('route', { type: 'geojson', data: 'gpx://https://...' })
         const VTP = await import('maplibre-gl-vector-text-protocol');
-        const vtp = VTP.default ?? VTP;
+        const vtp = (VTP.default ?? VTP) as unknown as AddProtocolAction;
         addProtocol('kml',      vtp);
         addProtocol('gpx',      vtp);
         addProtocol('csv',      vtp);
@@ -84,7 +87,7 @@ export default class MapToolsPlugin implements PluginInstance {
     private async mountExportControl(): Promise<void> {
         try {
             const { MaplibreExportControl } = await import('@watergis/maplibre-gl-export');
-            this.exportControl = new MaplibreExportControl({ Format: 'PNG', DPI: 300 });
+            this.exportControl = new MaplibreExportControl({ Format: 'png', DPI: 300 });
             this.api.map.addControl(this.exportControl as Parameters<typeof this.api.map.addControl>[0], 'top-right');
         } catch (err) {
             console.warn('[map-tools] export control unavailable:', err);

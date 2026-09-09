@@ -1,86 +1,86 @@
 <template>
     <div>
-        <div class='card-header'>
-            <h1 class='card-title'>
+        <div class="card-header">
+            <h1 class="card-title">
                 Video Lease
             </h1>
 
-            <div class='ms-auto btn-list'>
+            <div class="ms-auto btn-list">
                 <TablerRefreshButton
-                    :loading='loading'
-                    @click='fetchList'
+                    :loading="loading"
+                    @click="fetchList"
                 />
             </div>
         </div>
-        <div style='min-height: 20vh; margin-bottom: 61px'>
-            <div class='row g-0 py-2'>
-                <div class='col-md-12 px-2'>
+        <div style="min-height: 20vh; margin-bottom: 61px">
+            <div class="row g-0 py-2">
+                <div class="col-md-12 px-2">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        placeholder='Filter...'
+                        v-model="paging.filter"
+                        icon="search"
+                        placeholder="Filter..."
                     />
                 </div>
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading Video Leases'
+                v-if="loading"
+                desc="Loading Video Leases"
             />
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
             <TablerNone
-                v-else-if='!list.items.length'
-                label='No Video Leases'
-                :create='false'
+                v-else-if="!list.items.length"
+                label="No Video Leases"
+                :create="false"
             />
             <div
                 v-else
-                class='table-responsive'
+                class="table-responsive"
             >
-                <table class='table card-table table-hover table-vcenter datatable'>
+                <table class="table card-table table-hover table-vcenter datatable">
                     <TableHeader
-                        v-model:sort='paging.sort'
-                        v-model:order='paging.order'
-                        v-model:header='header'
+                        v-model:sort="paging.sort"
+                        v-model:order="paging.order"
+                        v-model:header="header"
                     />
                     <tbody>
                         <tr
-                            v-for='lease in list.items'
-                            :key='lease.id'
-                            class='cursor-pointer'
-                            @click='modal = lease'
+                            v-for="lease in list.items"
+                            :key="lease.id"
+                            class="cursor-pointer"
+                            @click="modal = lease"
                         >
-                            <template v-for='h in header'>
-                                <template v-if='h.display'>
+                            <template v-for="h in header">
+                                <template v-if="h.display">
                                     <td>
                                         <template v-if='h.name === "expiration"'>
                                             <TablerBadge
-                                                v-if='expired(lease.expiration)'
-                                                background-color='rgba(239, 68, 68, 0.2)'
-                                                border-color='rgba(239, 68, 68, 0.5)'
-                                                text-color='#dc2626'
+                                                v-if="expired(lease.expiration)"
+                                                background-color="rgba(239, 68, 68, 0.2)"
+                                                border-color="rgba(239, 68, 68, 0.5)"
+                                                text-color="#dc2626"
                                             >
                                                 Expired
                                             </TablerBadge>
                                             <TablerBadge
-                                                v-else-if='lease.expiration === null'
-                                                background-color='rgba(59, 130, 246, 0.25)'
-                                                border-color='rgba(59, 130, 246, 0.5)'
-                                                text-color='#2563eb'
+                                                v-else-if="lease.expiration === null"
+                                                background-color="rgba(59, 130, 246, 0.25)"
+                                                border-color="rgba(59, 130, 246, 0.5)"
+                                                text-color="#2563eb"
                                             >
                                                 Permanent
                                             </TablerBadge>
                                             <span
                                                 v-else
-                                                class='subheader'
-                                                v-text='lease.expiration'
+                                                class="subheader"
+                                                v-text="lease.expiration"
                                             />
                                         </template>
                                         <template v-else>
-                                            <span v-text='lease[h.name]' />
+                                            <span v-text="lease[h.name]" />
                                         </template>
                                     </td>
                                 </template>
@@ -90,24 +90,24 @@
                 </table>
             </div>
             <div
-                class='position-absolute bottom-0 w-100'
-                style='height: 61px;'
+                class="position-absolute bottom-0 w-100"
+                style="height: 61px;"
             >
                 <TableFooter
-                    :limit='paging.limit'
-                    :total='list.total'
-                    @page='paging.page = $event'
+                    :limit="paging.limit"
+                    :total="list.total"
+                    @page="paging.page = $event"
                 />
             </div>
         </div>
     </div>
 
     <VideoLeaseModal
-        v-if='modal'
-        :lease='modal'
-        :is-system-admin='true'
-        @close='modal = undefined'
-        @refresh='fetchList'
+        v-if="modal"
+        :lease="modal"
+        :is-system-admin="true"
+        @close="modal = undefined"
+        @refresh="fetchList"
     />
 </template>
 

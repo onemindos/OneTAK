@@ -1,164 +1,164 @@
 <template>
-    <MenuTemplate :scroll='false'>
+    <MenuTemplate :scroll="false">
         <template
-            v-if='cot'
+            v-if="cot"
             #header
         >
-            <div class='flex-shrink-0'>
+            <div class="flex-shrink-0">
                 <PropertyBattery
-                    v-if='cot && cot.properties.status && cot.properties.status.battery && !isNaN(parseInt(cot.properties.status.battery))'
-                    :battery='Number(cot.properties.status.battery)'
+                    v-if="cot && cot.properties.status && cot.properties.status.battery && !isNaN(parseInt(cot.properties.status.battery))"
+                    :battery="Number(cot.properties.status.battery)"
                 />
                 <FeatureIcon
                     v-else
-                    :key='cot.properties.type'
-                    :size='32'
-                    :feature='cot'
+                    :key="cot.properties.type"
+                    :size="32"
+                    :feature="cot"
                 />
             </div>
             <div
-                class='flex-grow-1 mx-2'
-                style='min-width: 0'
+                class="flex-grow-1 mx-2"
+                style="min-width: 0"
             >
                 <CopyField
-                    :model-value='cot.properties.callsign'
-                    :edit='is_editable'
-                    :minheight='44'
-                    :hover='is_editable'
+                    :model-value="cot.properties.callsign"
+                    :edit="is_editable"
+                    :minheight="44"
+                    :hover="is_editable"
                     @submit='updateProperty("callsign", $event)'
                 />
             </div>
         </template>
 
         <TablerNone
-            v-if='!cot'
-            :create='false'
-            label='No CoT Marker'
+            v-if="!cot"
+            :create="false"
+            label="No CoT Marker"
         />
         <div
             v-else
-            :key='String(route.params.uid)'
-            class='d-flex flex-column h-100'
-            style='min-height: 0;'
+            :key="String(route.params.uid)"
+            class="d-flex flex-column h-100"
+            style="min-height: 0;"
         >
             <div
-                v-if='offlineEvent'
-                class='col-12 flex-shrink-0 px-2 pt-2'
+                v-if="offlineEvent"
+                class="col-12 flex-shrink-0 px-2 pt-2"
             >
                 <TablerInlineAlert
-                    severity='warning'
-                    title='Event Details Unavailable'
-                    description='This marker is a CloudTAK Event - the Event it was generated from could not be loaded from the server.'
+                    severity="warning"
+                    title="Event Details Unavailable"
+                    description="This marker is a CloudTAK Event - the Event it was generated from could not be loaded from the server."
                 />
                 <TablerButton
-                    class='w-100'
-                    :disabled='retrying'
-                    @click='retryEvent'
+                    class="w-100"
+                    :disabled="retrying"
+                    @click="retryEvent"
                 >
                     Retry
                 </TablerButton>
             </div>
 
-            <div class='col-12 border-bottom cloudtak-header flex-shrink-0 d-flex align-items-center flex-nowrap gap-0 px-1 py-1'>
-                <div class='btn-list d-flex flex-nowrap align-items-center gap-0 mb-0'>
+            <div class="col-12 border-bottom cloudtak-header flex-shrink-0 d-flex align-items-center flex-nowrap gap-0 px-1 py-1">
+                <div class="btn-list d-flex flex-nowrap align-items-center gap-0 mb-0">
                     <IconStarFilled
-                        v-if='cot.properties.archived'
-                        title='Saved Feature'
-                        :size='actionIconSize'
-                        stroke='1'
+                        v-if="cot.properties.archived"
+                        title="Saved Feature"
+                        :size="actionIconSize"
+                        stroke="1"
                     />
                     <TablerIconButton
-                        v-else-if='cot.is_archivable'
-                        title='Save Feature'
-                        @click='cot.properties.archived = true'
+                        v-else-if="cot.is_archivable"
+                        title="Save Feature"
+                        @click="cot.properties.archived = true"
                     >
                         <IconStar
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Zoom To'
-                        @click='cot.flyTo()'
+                        title="Zoom To"
+                        @click="cot.flyTo()"
                     >
                         <IconZoomPan
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
-                        v-if='cot.is_route'
+                        v-if="cot.is_route"
                         :title='isNavigating ? "End Navigation" : "Navigate"'
-                        @click='toggleNavigation'
+                        @click="toggleNavigation"
                     >
                         <IconNavigationFilled
-                            v-if='isNavigating'
-                            :size='actionIconSize'
-                            stroke='1'
-                            style='color: #1E90FF;'
+                            v-if="isNavigating"
+                            :size="actionIconSize"
+                            stroke="1"
+                            style="color: #1E90FF;"
                         />
                         <IconNavigation
                             v-else
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerIconButton
                         v-if='cot.geometry.type === "Point"'
                         :title='isLocked ? "Unlock" : "Lock On"'
-                        @click='toggleLock'
+                        @click="toggleLock"
                     >
                         <IconLock
-                            v-if='isLocked'
-                            :size='actionIconSize'
-                            stroke='1'
+                            v-if="isLocked"
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                         <IconLockOpen
                             v-else
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
 
                     <TablerIconButton
-                        v-if='cot.properties.video && cot.properties.video.url'
-                        title='View Video Stream'
-                        @click='floatStore.addCOT(String(route.params.uid))'
+                        v-if="cot.properties.video && cot.properties.video.url"
+                        title="View Video Stream"
+                        @click="floatStore.addCOT(String(route.params.uid))"
                     >
                         <IconPlayerPlay
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Share'
-                        @click='share = true'
+                        title="Share"
+                        @click="share = true"
                     >
                         <IconShare2
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
-                <div class='ms-auto btn-list d-flex flex-nowrap align-items-center gap-0 mb-0'>
+                <div class="ms-auto btn-list d-flex flex-nowrap align-items-center gap-0 mb-0">
                     <TablerDropdown
                         v-if='cot.geometry.type === "Point"'
                     >
                         <TablerIconButton
-                            title='Load Breadcrumb'
+                            title="Load Breadcrumb"
                         >
-                            <div style='position: relative; display: inline-flex;'>
+                            <div style="position: relative; display: inline-flex;">
                                 <IconRoute
-                                    :size='actionIconSize'
-                                    stroke='1'
+                                    :size="actionIconSize"
+                                    stroke="1"
                                 />
                                 <span
-                                    v-if='breadcrumbLive'
-                                    style='
+                                    v-if="breadcrumbLive"
+                                    style="
                                             position: absolute;
                                             top: 0;
                                             right: 0;
@@ -167,92 +167,92 @@
                                             border-radius: 50%;
                                             background: #e74c3c;
                                             border: 2px solid var(--tblr-body-bg, #1a1a2e);
-                                        '
+                                        "
                                 />
                             </div>
                         </TablerIconButton>
 
                         <template #dropdown>
                             <div
-                                class='py-1'
-                                style='min-width: 260px;'
+                                class="py-1"
+                                style="min-width: 260px;"
                                 @click.stop
                             >
                                 <Breadcrumb
-                                    :uid='cot.id'
-                                    @live='breadcrumbLive = $event'
+                                    :uid="cot.id"
+                                    @live="breadcrumbLive = $event"
                                 />
                             </div>
                         </template>
                     </TablerDropdown>
 
                     <TablerIconButton
-                        v-if='is_editable'
-                        title='Edit'
-                        @click='editGeometry'
+                        v-if="is_editable"
+                        title="Edit"
+                        @click="editGeometry"
                     >
                         <IconPencil
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerDropdown
-                        v-if='hasGeoJSONTransforms'
+                        v-if="hasGeoJSONTransforms"
                     >
                         <TablerIconButton
-                            title='Transforms'
+                            title="Transforms"
                         >
                             <svg
-                                :width='actionIconSize'
-                                :height='actionIconSize'
-                                viewBox='0 0 24 24'
-                                fill='none'
-                                stroke='currentColor'
-                                stroke-width='1'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
+                                :width="actionIconSize"
+                                :height="actionIconSize"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
                             >
                                 <path
-                                    stroke='none'
-                                    d='M0 0h24v24H0z'
-                                    fill='none'
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
                                 />
-                                <path d='M12 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' />
-                                <path d='M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' />
-                                <path d='M18 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' />
-                                <path d='M6 8v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-2' />
-                                <path d='M12 12l0 4' />
+                                <path d="M12 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M18 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M6 8v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2 -2v-2" />
+                                <path d="M12 12l0 4" />
                             </svg>
                         </TablerIconButton>
 
                         <template #dropdown>
                             <div
-                                class='py-1'
-                                style='min-width: 220px;'
+                                class="py-1"
+                                style="min-width: 220px;"
                             >
                                 <div
-                                    role='button'
-                                    class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
-                                    @click.stop='openBufferInput'
+                                    role="button"
+                                    class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
+                                    @click.stop="openBufferInput"
                                 >
                                     <IconAdjustments
-                                        stroke='1'
-                                        :size='32'
-                                    /><div class='mx-2'>
+                                        stroke="1"
+                                        :size="32"
+                                    /><div class="mx-2">
                                         Buffer
                                     </div>
                                 </div>
                                 <div
                                     v-if='cot.geometry.type === "LineString" && !cot.is_route'
-                                    role='button'
-                                    class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
-                                    @click.stop='cot.toRoute()'
+                                    role="button"
+                                    class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
+                                    @click.stop="cot.toRoute()"
                                 >
                                     <IconRoute
-                                        stroke='1'
-                                        :size='32'
-                                    /><div class='mx-2'>
+                                        stroke="1"
+                                        :size="32"
+                                    /><div class="mx-2">
                                         Convert to Route
                                     </div>
                                 </div>
@@ -261,38 +261,38 @@
                     </TablerDropdown>
 
                     <TablerIconButton
-                        v-if='cot.properties.group && !cot.is_self'
-                        title='Chat'
-                        @click='router.push(`/menu/chats/new?callsign=${cot.properties.callsign}&uid=${cot.id}`)'
+                        v-if="cot.properties.group && !cot.is_self"
+                        title="Chat"
+                        @click="router.push(`/menu/chats/new?callsign=${cot.properties.callsign}&uid=${cot.id}`)"
                     >
                         <IconMessage
-                            :size='actionIconSize'
-                            stroke='1'
+                            :size="actionIconSize"
+                            stroke="1"
                         />
                     </TablerIconButton>
 
                     <TablerDelete
-                        v-if='is_editable'
-                        displaytype='icon'
-                        @delete='deleteCOT'
+                        v-if="is_editable"
+                        displaytype="icon"
+                        @delete="deleteCOT"
                     />
 
                     <TablerDropdown
-                        v-if='is_editable'
+                        v-if="is_editable"
                     >
                         <TablerIconButton
-                            title='Add Properties'
+                            title="Add Properties"
                         >
                             <IconDotsVertical
-                                :size='actionIconSize'
-                                stroke='1'
+                                :size="actionIconSize"
+                                stroke="1"
                             />
                         </TablerIconButton>
 
                         <template #dropdown>
                             <div
-                                class='py-1'
-                                style='min-width: 260px;'
+                                class="py-1"
+                                style="min-width: 260px;"
                             >
                                 <div
                                     v-if='
@@ -302,73 +302,73 @@
                                             && cot.properties.sensor !== undefined
                                             && (cot.geometry.type !== "Polygon" || cot.properties.geofence !== undefined)
                                     '
-                                    class='px-2 py-2 text-muted'
+                                    class="px-2 py-2 text-muted"
                                 >
                                     No Properties to add
                                 </div>
                                 <template v-else>
                                     <div
-                                        v-if='cot.properties.attachments === undefined'
-                                        role='button'
-                                        class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
-                                        @click.stop='updatePropertyAttachment([])'
+                                        v-if="cot.properties.attachments === undefined"
+                                        role="button"
+                                        class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
+                                        @click.stop="updatePropertyAttachment([])"
                                     >
                                         <IconPaperclip
-                                            stroke='1'
-                                            :size='32'
-                                        /><div class='mx-2'>
+                                            stroke="1"
+                                            :size="32"
+                                        /><div class="mx-2">
                                             Add Attachment
                                         </div>
                                     </div>
                                     <div
-                                        v-if='cot.properties.links === undefined'
-                                        role='button'
-                                        class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
+                                        v-if="cot.properties.links === undefined"
+                                        role="button"
+                                        class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
                                         @click.stop='updateProperty("links", [])'
                                     >
                                         <IconLink
-                                            stroke='1'
-                                            :size='32'
-                                        /><div class='mx-2'>
+                                            stroke="1"
+                                            :size="32"
+                                        /><div class="mx-2">
                                             Add External Links
                                         </div>
                                     </div>
                                     <div
-                                        v-if='cot.properties.video === undefined'
-                                        role='button'
-                                        class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
+                                        v-if="cot.properties.video === undefined"
+                                        role="button"
+                                        class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
                                         @click.stop='updateProperty("video", { url: "" })'
                                     >
                                         <IconMovie
-                                            stroke='1'
-                                            :size='32'
-                                        /><div class='mx-2'>
+                                            stroke="1"
+                                            :size="32"
+                                        /><div class="mx-2">
                                             Add Video
                                         </div>
                                     </div>
                                     <div
-                                        v-if='cot.properties.sensor === undefined'
-                                        role='button'
-                                        class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
+                                        v-if="cot.properties.sensor === undefined"
+                                        role="button"
+                                        class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
                                         @click.stop='updateProperty("sensor", {})'
                                     >
                                         <IconCone
-                                            stroke='1'
-                                            :size='32'
-                                        /><div class='mx-2'>
+                                            stroke="1"
+                                            :size="32"
+                                        /><div class="mx-2">
                                             Add Sensor
                                         </div>
                                     </div>
                                     <div
                                         v-if='cot.properties.geofence === undefined && cot.geometry.type === "Polygon"'
-                                        role='button'
-                                        class='cloudtak-hover px-2 py-2 d-flex align-items-center rounded'
+                                        role="button"
+                                        class="cloudtak-hover px-2 py-2 d-flex align-items-center rounded"
                                         @click.stop='updateProperty("geofence", { elevationMonitored: false, tracking: false })'
                                     >
                                         <IconFence
-                                            stroke='1'
-                                            :size='32'
-                                        /><div class='mx-2'>
+                                            stroke="1"
+                                            :size="32"
+                                        /><div class="mx-2">
                                             Add Geofence
                                         </div>
                                     </div>
@@ -379,226 +379,226 @@
                 </div>
             </div>
 
-            <div class='col-12 px-2 py-2'>
+            <div class="col-12 px-2 py-2">
                 <TablerPillGroup
-                    v-model='mode'
-                    :options='modeOptions'
-                    :rounded='false'
-                    size='default'
-                    name='btn-mode'
-                    padding=''
+                    v-model="mode"
+                    :options="modeOptions"
+                    :rounded="false"
+                    size="default"
+                    name="btn-mode"
+                    padding=""
                 >
-                    <template #option='{ option }'>
+                    <template #option="{ option }">
                         <IconInfoCircle
                             v-if='option.value === "default"'
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                         <IconAffiliate
                             v-else-if='option.value === "channels"'
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
                         <IconCode
                             v-else
-                            :size='20'
-                            stroke='1'
+                            :size="20"
+                            stroke="1"
                         />
-                        <span class='mx-2'>{{ option.label }}</span>
+                        <span class="mx-2">{{ option.label }}</span>
                     </template>
                 </TablerPillGroup>
             </div>
 
             <div
                 v-if='mode === "default"'
-                class='overflow-auto overflow-x-hidden cot-view-properties flex-grow-1'
-                style='min-height: 0;'
+                class="overflow-auto overflow-x-hidden cot-view-properties flex-grow-1"
+                style="min-height: 0;"
             >
-                <div class='row g-0'>
+                <div class="row g-0">
                     <div
-                        v-if='subscription'
-                        class='col-12'
+                        v-if="subscription"
+                        class="col-12"
                     >
-                        <div class='d-flex align-items-center py-2 px-2 my-2 mx-2 rounded cloudtak-accent'>
+                        <div class="d-flex align-items-center py-2 px-2 my-2 mx-2 rounded cloudtak-accent">
                             <IconAmbulance
-                                :size='32'
-                                stroke='1'
+                                :size="32"
+                                stroke="1"
                             />
-                            <span class='ms-2'>From:</span>
+                            <span class="ms-2">From:</span>
                             <a
-                                class='mx-2 cursor-pointer'
-                                @click='router.push(`/menu/missions/${subscription.meta.guid}`)'
-                                v-text='subscription.meta.name'
+                                class="mx-2 cursor-pointer"
+                                @click="router.push(`/menu/missions/${subscription.meta.guid}`)"
+                                v-text="subscription.meta.name"
                             />
                         </div>
                     </div>
 
-                    <div class='pt-2 col-12 px-2'>
+                    <div class="pt-2 col-12 px-2">
                         <!-- Not keyed on the type - a remount would collapse the
                              type selector every time a new type is picked -->
                         <PropertyType
                             v-if='cot.properties.type.startsWith("a-") || cot.properties.type.startsWith("u-") || isSIDCType(cot.properties.type)'
-                            :key='cot.properties.id'
-                            :edit='is_editable'
-                            :model-value='cot.properties.type'
-                            @update:model-value='updatePropertyType($event)'
+                            :key="cot.properties.id"
+                            :edit="is_editable"
+                            :model-value="cot.properties.type"
+                            @update:model-value="updatePropertyType($event)"
                         />
                     </div>
 
                     <div
-                        v-for='guid of missionLinks'
-                        :key='guid'
-                        class='pt-2 col-12 px-2'
+                        v-for="guid of missionLinks"
+                        :key="guid"
+                        class="pt-2 col-12 px-2"
                     >
-                        <PropertyMission :guid='guid' />
+                        <PropertyMission :guid="guid" />
                     </div>
 
                     <div
-                        class='pt-2'
+                        class="pt-2"
                         :class='{
                             "col-md-8": center.length > 2,
                             "col-12": center.length <= 2,
                         }'
                     >
                         <Coordinate
-                            :key='String(route.params.uid)'
+                            :key="String(route.params.uid)"
                             :label='cot.geometry.type === "Point" ? "Location" : "Center"'
-                            :edit='is_editable'
-                            :hover='is_editable'
-                            :model-value='center'
-                            @update:model-value='updateCoordinates($event)'
+                            :edit="is_editable"
+                            :hover="is_editable"
+                            :model-value="center"
+                            @update:model-value="updateCoordinates($event)"
                         />
                     </div>
                     <div
-                        v-if='center.length > 2'
-                        class='col-md-4 pt-2'
+                        v-if="center.length > 2"
+                        class="col-md-4 pt-2"
                     >
                         <PropertyElevation
-                            :key='String(route.params.uid)'
-                            label='Elevation'
-                            :unit='units.display_elevation'
-                            :elevation='center[2]'
+                            :key="String(route.params.uid)"
+                            label="Elevation"
+                            :unit="units.display_elevation"
+                            :elevation="center[2]"
                         />
                     </div>
 
                     <div
                         v-if='cot && cot.geometry.type === "LineString"'
-                        class='col-12 pt-2'
+                        class="col-12 pt-2"
                     >
                         <LineLength
-                            :key='String(route.params.uid)'
-                            :cot='cot'
-                            :unit='units.display_distance'
+                            :key="String(route.params.uid)"
+                            :cot="cot"
+                            :unit="units.display_distance"
                         />
                     </div>
 
                     <div
-                        v-if='lineGeometry && terrainBasemapId'
-                        class='col-12'
+                        v-if="lineGeometry && terrainBasemapId"
+                        class="col-12"
                     >
                         <PropertyProfile
-                            :key='`${route.params.uid}-${terrainBasemapId}`'
-                            :geometry='lineGeometry'
-                            :terrain-basemap-id='terrainBasemapId'
-                            :distance-unit='units.display_distance'
-                            :elevation-unit='units.display_elevation'
+                            :key="`${route.params.uid}-${terrainBasemapId}`"
+                            :geometry="lineGeometry"
+                            :terrain-basemap-id="terrainBasemapId"
+                            :distance-unit="units.display_distance"
+                            :elevation-unit="units.display_elevation"
                         />
                     </div>
 
                     <div
                         v-if='cot && cot.geometry.type === "Polygon"'
-                        class='col-12 pt-2'
+                        class="col-12 pt-2"
                     >
                         <PolygonArea
-                            :key='String(route.params.uid)'
-                            :cot='cot'
+                            :key="String(route.params.uid)"
+                            :cot="cot"
                         />
                     </div>
 
                     <div
-                        v-if='cot && cot.properties.shape && cot.properties.shape.ellipse && cot.properties.shape.ellipse.major === cot.properties.shape.ellipse.minor'
-                        class='col-12 pt-2'
+                        v-if="cot && cot.properties.shape && cot.properties.shape.ellipse && cot.properties.shape.ellipse.major === cot.properties.shape.ellipse.minor"
+                        class="col-12 pt-2"
                     >
                         <PropertyDistance
-                            :key='cot.properties.id'
-                            label='Radius'
-                            :unit='units.display_distance'
-                            :edit='is_editable'
-                            :hover='is_editable'
-                            :model-value='cot.properties.shape.ellipse.major * 0.001'
-                            @submit='updateRadius($event)'
+                            :key="cot.properties.id"
+                            label="Radius"
+                            :unit="units.display_distance"
+                            :edit="is_editable"
+                            :hover="is_editable"
+                            :model-value="cot.properties.shape.ellipse.major * 0.001"
+                            @submit="updateRadius($event)"
                         />
                     </div>
 
                     <div
-                        v-if='cot.properties.speed !== undefined && !isNaN(cot.properties.speed)'
-                        class='pt-2'
+                        v-if="cot.properties.speed !== undefined && !isNaN(cot.properties.speed)"
+                        class="pt-2"
                         :class='{
                             "col-md-6": cot.properties.course,
                             "col-12": !cot.properties.course,
                         }'
                     >
                         <PropertySpeed
-                            :key='cot.properties.id'
-                            :unit='units.display_speed'
-                            :speed='cot.properties.speed'
+                            :key="cot.properties.id"
+                            :unit="units.display_speed"
+                            :speed="cot.properties.speed"
                         />
                     </div>
 
                     <div
-                        v-if='cot.properties.course !== undefined && !isNaN(cot.properties.course)'
-                        class='pt-2'
+                        v-if="cot.properties.course !== undefined && !isNaN(cot.properties.course)"
+                        class="pt-2"
                         :class='{
                             "col-md-6": cot.properties.course,
                             "col-12": !cot.properties.course,
                         }'
                     >
                         <PropertyBearing
-                            :key='cot.properties.id'
-                            label='Course'
-                            :model-value='cot.properties.course'
+                            :key="cot.properties.id"
+                            label="Course"
+                            :model-value="cot.properties.course"
                         />
                     </div>
 
-                    <div v-if='cot.properties.contact && cot.properties.contact.phone'>
+                    <div v-if="cot.properties.contact && cot.properties.contact.phone">
                         <PropertyPhone
-                            :key='cot.properties.id'
-                            :phone='cot.properties.contact.phone'
+                            :key="cot.properties.id"
+                            :phone="cot.properties.contact.phone"
                         />
                     </div>
                 </div>
 
                 <PropertyEmail
-                    v-if='username'
-                    :key='cot.properties.id'
-                    :email='username'
+                    v-if="username"
+                    :key="cot.properties.id"
+                    :email="username"
                 />
 
 
 
                 <div
-                    v-if='cot.properties.remarks !== undefined'
-                    class='col-12'
+                    v-if="cot.properties.remarks !== undefined"
+                    class="col-12"
                 >
                     <SlideDownHeader
-                        v-model='remarksExpanded'
-                        label='Remarks'
+                        v-model="remarksExpanded"
+                        label="Remarks"
                     >
                         <template #icon>
                             <IconBlockquote
-                                :size='18'
-                                stroke='1'
-                                color='#6b7990'
-                                class='ms-2 me-1'
+                                :size="18"
+                                stroke="1"
+                                color="#6b7990"
+                                class="ms-2 me-1"
                             />
                         </template>
 
-                        <div class='px-2 pt-2'>
+                        <div class="px-2 pt-2">
                             <CopyField
-                                :model-value='cot.properties.remarks'
-                                :rows='10'
-                                :edit='is_editable'
-                                :hover='is_editable'
+                                :model-value="cot.properties.remarks"
+                                :rows="10"
+                                :edit="is_editable"
+                                :hover="is_editable"
                                 @submit='updateProperty("remarks", $event)'
                             />
                         </div>
@@ -606,109 +606,109 @@
                 </div>
 
                 <PropertyAttachments
-                    v-if='!cot.properties.contact'
-                    :key='cot.properties.id'
-                    :model-value='cot.properties.attachments || []'
-                    :subscription='subscription'
-                    @update:model-value='updatePropertyAttachment($event)'
+                    v-if="!cot.properties.contact"
+                    :key="cot.properties.id"
+                    :model-value="cot.properties.attachments || []"
+                    :subscription="subscription"
+                    @update:model-value="updatePropertyAttachment($event)"
                 />
 
                 <PropertyGeofence
-                    v-if='cot.properties.geofence'
-                    :geofence='cot.properties.geofence'
+                    v-if="cot.properties.geofence"
+                    :geofence="cot.properties.geofence"
                 />
 
                 <PropertyLinks
-                    v-if='cot.properties.links'
-                    :cot='cot'
-                    :edit='is_editable'
+                    v-if="cot.properties.links"
+                    :cot="cot"
+                    :edit="is_editable"
                 />
 
                 <PropertyVideo
-                    v-if='cot.properties.video !== undefined'
-                    :key='cot.properties.id'
-                    :cot='cot'
+                    v-if="cot.properties.video !== undefined"
+                    :key="cot.properties.id"
+                    :cot="cot"
                 />
 
                 <PropertyTimes
-                    v-if='!cot.properties.archived'
-                    :cot='cot'
+                    v-if="!cot.properties.archived"
+                    :cot="cot"
                 />
 
                 <PropertySensor
-                    v-if='cot.properties.sensor !== undefined'
-                    :key='cot.properties.id'
-                    :cot='cot'
+                    v-if="cot.properties.sensor !== undefined"
+                    :key="cot.properties.id"
+                    :cot="cot"
                 />
 
                 <PropertyRadSensor
-                    v-if='cot.properties.radsensordetail'
-                    :radsensordetail='cot.properties.radsensordetail'
+                    v-if="cot.properties.radsensordetail"
+                    :radsensordetail="cot.properties.radsensordetail"
                 />
 
                 <PropertyChemSensor
-                    v-if='cot.properties.chemsensordetail'
-                    :chemsensordetail='cot.properties.chemsensordetail'
+                    v-if="cot.properties.chemsensordetail"
+                    :chemsensordetail="cot.properties.chemsensordetail"
                 />
 
                 <PropertyBioSensor
-                    v-if='cot.properties.biosensordetail'
-                    :biosensordetail='cot.properties.biosensordetail'
+                    v-if="cot.properties.biosensordetail"
+                    :biosensordetail="cot.properties.biosensordetail"
                 />
 
                 <PropertyStyle
-                    v-if='is_editable && !cot.is_self'
-                    :geometry='cot.geometry.type'
-                    :model-value='cot.properties'
-                    @update:model-value='updateStyle($event)'
+                    v-if="is_editable && !cot.is_self"
+                    :geometry="cot.geometry.type"
+                    :model-value="cot.properties"
+                    @update:model-value="updateStyle($event)"
                 />
 
                 <PropertyCreator
-                    v-if='cot.properties.creator'
-                    :key='cot.properties.id'
-                    :creator='cot.properties.creator'
+                    v-if="cot.properties.creator"
+                    :key="cot.properties.id"
+                    :creator="cot.properties.creator"
                 />
 
                 <PropertyMetadata
-                    v-if='
+                    v-if="
                         cot.properties.takv
                             && cot.properties.takv
                             && Object.keys(cot.properties.takv).length
-                    '
-                    :cot='cot'
+                    "
+                    :cot="cot"
                 />
             </div>
             <div
                 v-else-if='mode === "channels"'
-                class='overflow-auto overflow-x-hidden flex-grow-1'
-                style='min-height: 0;'
+                class="overflow-auto overflow-x-hidden flex-grow-1"
+                style="min-height: 0;"
             >
-                <Subscriptions :cot='cot' />
+                <Subscriptions :cot="cot" />
             </div>
             <div
                 v-else-if='mode === "raw"'
-                class='overflow-auto flex-grow-1'
-                style='min-height: 0;'
+                class="overflow-auto flex-grow-1"
+                style="min-height: 0;"
             >
                 <CopyField
-                    mode='pre'
-                    :model-value='JSON.stringify(cot.as_feature(), null, 4)'
+                    mode="pre"
+                    :model-value="JSON.stringify(cot.as_feature(), null, 4)"
                 />
             </div>
         </div>
     </MenuTemplate>
 
     <Share
-        v-if='share && cot'
-        :feats='[cot.as_feature()]'
-        @done='share = false'
-        @close='share = false'
+        v-if="share && cot"
+        :feats="[cot.as_feature()]"
+        @done="share = false"
+        @close="share = false"
     />
 
     <BufferInput
-        v-if='bufferCotId'
-        :cot-id='bufferCotId'
-        @close='bufferCotId = null'
+        v-if="bufferCotId"
+        :cot-id="bufferCotId"
+        @close="bufferCotId = null"
     />
 </template>
 

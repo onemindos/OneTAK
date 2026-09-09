@@ -1,59 +1,59 @@
 <template>
-    <MenuTemplate name='Overlay Explorer'>
+    <MenuTemplate name="Overlay Explorer">
         <template #buttons>
             <TablerRefreshButton
-                :loading='loading'
-                @click='fetchList'
+                :loading="loading"
+                @click="fetchList"
             />
         </template>
         <template #default>
-            <div class='d-flex flex-column gap-3 min-vh-100'>
-                <div class='mt-2 d-flex align-items-center gap-3 flex-wrap'>
+            <div class="d-flex flex-column gap-3 min-vh-100">
+                <div class="mt-2 d-flex align-items-center gap-3 flex-wrap">
                     <TablerInput
-                        v-model='paging.filter'
-                        icon='search'
-                        placeholder='Search overlays...'
-                        class='flex-grow-1'
+                        v-model="paging.filter"
+                        icon="search"
+                        placeholder="Search overlays..."
+                        class="flex-grow-1"
                     />
                 </div>
 
                 <div
-                    v-if='paging.collection'
-                    class='d-flex align-items-center gap-2'
+                    v-if="paging.collection"
+                    class="d-flex align-items-center gap-2"
                 >
-                    <PathBreadcrumb v-model:collection='paging.collection' />
+                    <PathBreadcrumb v-model:collection="paging.collection" />
                 </div>
 
-                <TablerLoading v-if='loading' />
+                <TablerLoading v-if="loading" />
                 <template v-else>
                     <StandardItem
-                        class='p-3 bg-info-subtle border border-info border-opacity-50'
-                        @click='goToFiles'
+                        class="p-3 bg-info-subtle border border-info border-opacity-50"
+                        @click="goToFiles"
                     >
-                        <div class='d-flex justify-content-between gap-3 w-100'>
-                            <div class='d-flex align-items-center gap-2 flex-grow-1 min-w-0'>
+                        <div class="d-flex justify-content-between gap-3 w-100">
+                            <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
                                 <IconUser
-                                    class='flex-shrink-0 text-white-50'
-                                    :size='24'
-                                    stroke='1'
+                                    class="flex-shrink-0 text-white-50"
+                                    :size="24"
+                                    stroke="1"
                                 />
-                                <div class='flex-grow-1 min-w-0'>
-                                    <div class='d-flex align-items-center gap-2'>
-                                        <span class='fw-semibold'>Your Files</span>
+                                <div class="flex-grow-1 min-w-0">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="fw-semibold">Your Files</span>
                                     </div>
-                                    <p class='mb-0 small text-white-50'>
+                                    <p class="mb-0 small text-white-50">
                                         Access overlays you have uploaded
                                     </p>
                                 </div>
                             </div>
-                            <div class='d-flex align-items-center gap-2 flex-wrap'>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
                                 <TablerIconButton
-                                    title='Open Files'
-                                    @click.stop.prevent='goToFiles'
+                                    title="Open Files"
+                                    @click.stop.prevent="goToFiles"
                                 >
                                     <IconFolder
-                                        :size='20'
-                                        stroke='1'
+                                        :size="20"
+                                        stroke="1"
                                     />
                                 </TablerIconButton>
                             </div>
@@ -61,33 +61,33 @@
                     </StandardItem>
 
                     <div
-                        v-if='list.items.length || list.collections.length'
-                        class='d-flex flex-column gap-2'
+                        v-if="list.items.length || list.collections.length"
+                        class="d-flex flex-column gap-2"
                     >
                         <StandardItemFolder
-                            v-for='collection in list.collections'
-                            :key='collection.name'
-                            :name='collection.name'
-                            @click='setCollection(collection.name)'
+                            v-for="collection in list.collections"
+                            :key="collection.name"
+                            :name="collection.name"
+                            @click="setCollection(collection.name)"
                         />
 
                         <StandardItemBasemap
-                            v-for='basemap in list.items'
-                            :key='basemap.id'
-                            :basemap='basemap'
+                            v-for="basemap in list.items"
+                            :key="basemap.id"
+                            :basemap="basemap"
                             :class='[
                                 basemapExists(basemap) || loading ? "opacity-50 pe-none" : "",
                             ]'
-                            :hover='!basemapExists(basemap) && !loading'
-                            :aria-disabled='loading || basemapExists(basemap)'
-                            @click='handleExplorerSelect(basemap)'
+                            :hover="!basemapExists(basemap) && !loading"
+                            :aria-disabled="loading || basemapExists(basemap)"
+                            @click="handleExplorerSelect(basemap)"
                         />
                     </div>
 
                     <TablerNone
                         v-else
-                        label='No Overlays'
-                        :create='false'
+                        label="No Overlays"
+                        :create="false"
                     />
                 </template>
             </div>

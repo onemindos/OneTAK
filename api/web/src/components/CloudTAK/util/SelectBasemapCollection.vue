@@ -1,79 +1,79 @@
 <template>
-    <div class='col-12 mt-3'>
-        <label class='form-label'>Collection Folder</label>
+    <div class="col-12 mt-3">
+        <label class="form-label">Collection Folder</label>
 
         <StandardItem
-            class='d-flex align-items-center gap-2 px-2 py-2'
-            @click='toggleOptions()'
+            class="d-flex align-items-center gap-2 px-2 py-2"
+            @click="toggleOptions()"
         >
             <div @click.stop>
-                <PathBreadcrumb v-model:collection='collection' />
+                <PathBreadcrumb v-model:collection="collection" />
             </div>
 
-            <div class='ms-auto'>
+            <div class="ms-auto">
                 <IconChevronDown
-                    v-if='showOptions'
-                    :size='20'
-                    stroke='1'
+                    v-if="showOptions"
+                    :size="20"
+                    stroke="1"
                 />
                 <IconChevronRight
                     v-else
-                    :size='20'
-                    stroke='1'
+                    :size="20"
+                    stroke="1"
                 />
             </div>
         </StandardItem>
 
         <div
-            v-if='showOptions'
-            class='collection-selector w-100 border rounded p-2 mt-2'
+            v-if="showOptions"
+            class="collection-selector w-100 border rounded p-2 mt-2"
         >
             <TablerInput
-                v-model='newFolder'
-                label='Create Folder in Path'
-                placeholder='New folder name'
-                @keydown.enter.prevent='appendFolder()'
+                v-model="newFolder"
+                label="Create Folder in Path"
+                placeholder="New folder name"
+                @keydown.enter.prevent="appendFolder()"
             >
                 <TablerIconButton
-                    title='Add Folder'
-                    @click='appendFolder()'
+                    title="Add Folder"
+                    @click="appendFolder()"
                 >
                     <IconPlus
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
             </TablerInput>
 
-            <div class='small text-white-50 mt-2 mb-2'>
+            <div class="small text-white-50 mt-2 mb-2">
                 Select Existing Folder
             </div>
 
             <TablerLoading
-                v-if='loading'
-                desc='Loading folders'
+                v-if="loading"
+                desc="Loading folders"
             />
 
             <TablerAlert
-                v-else-if='error'
-                :err='error'
+                v-else-if="error"
+                :err="error"
             />
 
             <TablerNone
-                v-else-if='!childFolders.length'
-                :create='false'
-                label='No folders'
+                v-else-if="!childFolders.length"
+                :create="false"
+                label="No folders"
             />
 
             <div
                 v-else
-                class='d-flex flex-column gap-2'
+                class="d-flex flex-column gap-2"
             >
                 <StandardItemFolder
-                    v-for='folder in childFolders'
-                    :key='folder.path'
-                    :name='folder.name'
-                    @click='setCollection(folder.path)'
+                    v-for="folder in childFolders"
+                    :key="folder.path"
+                    :name="folder.name"
+                    @click="setCollection(folder.path)"
                 />
             </div>
         </div>

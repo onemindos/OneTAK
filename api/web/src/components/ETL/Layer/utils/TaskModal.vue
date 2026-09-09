@@ -177,126 +177,126 @@ watch(browsing, async () => {
 </script>
 
 <template>
-    <TablerModal size='xl'>
+    <TablerModal size="xl">
         <button
-            type='button'
-            class='btn-close'
-            aria-label='Close'
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             @click='emit("close")'
         />
-        <div class='modal-status bg-yellow' />
-        <div class='modal-body py-4'>
-            <div class='row g-0'>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-body py-4">
+            <div class="row g-0">
                 <div
-                    v-if='browsing'
-                    class='col-12 col-md-3 border-end'
+                    v-if="browsing"
+                    class="col-12 col-md-3 border-end"
                 >
-                    <div class='card-header'>
-                        <div class='card-title subheader'>
+                    <div class="card-header">
+                        <div class="card-title subheader">
                             Task Selection
                         </div>
                     </div>
 
-                    <div class='pb-2'>
+                    <div class="pb-2">
                         <TablerInput
-                            v-model='paging.filter'
-                            placeholder='Filter Tasks'
+                            v-model="paging.filter"
+                            placeholder="Filter Tasks"
                         />
                     </div>
 
                     <TablerLoading
-                        v-if='loading.tasks'
-                        desc='Loading Tasks'
+                        v-if="loading.tasks"
+                        desc="Loading Tasks"
                     />
                     <template v-else>
-                        <div class='card-body'>
+                        <div class="card-body">
                             <div
-                                role='menu'
-                                class='list-group'
+                                role="menu"
+                                class="list-group"
                             >
                                 <span
-                                    v-for='t of list.items'
-                                    :key='t.prefix'
-                                    tabindex='0'
-                                    role='menuitem'
-                                    class='list-group-item list-group-item-action d-flex align-items-center'
+                                    v-for="t of list.items"
+                                    :key="t.prefix"
+                                    tabindex="0"
+                                    role="menuitem"
+                                    class="list-group-item list-group-item-action d-flex align-items-center"
                                     :class='{
                                         "active": current && current.prefix === t.prefix,
                                         "cursor-pointer": !current || current.prefix !== t.prefix
                                     }'
-                                    @click='current = t'
+                                    @click="current = t"
                                 >
                                     <span
-                                        class='mx-3'
-                                        v-text='t.name'
+                                        class="mx-3"
+                                        v-text="t.name"
                                     />
                                 </span>
                             </div>
                         </div>
                     </template>
 
-                    <div class='col-lg-12 py-2 d-flex'>
-                        <div class='ms-auto'>
+                    <div class="col-lg-12 py-2 d-flex">
+                        <div class="ms-auto">
                             <TablerPager
-                                v-if='list.total > paging.limit'
-                                :page='paging.page'
-                                :total='list.total'
-                                :limit='paging.limit'
-                                @page='paging.page = $event'
+                                v-if="list.total > paging.limit"
+                                :page="paging.page"
+                                :total="list.total"
+                                :limit="paging.limit"
+                                @page="paging.page = $event"
                             />
                         </div>
                     </div>
                 </div>
                 <div
-                    class='position-relative px-4'
+                    class="position-relative px-4"
                     :class='browsing ? "col-12 col-md-9" : "col-12"'
                 >
                     <TablerLoading
-                        v-if='loading.task'
-                        desc='Loading Task'
+                        v-if="loading.task"
+                        desc="Loading Task"
                     />
                     <TablerNone
-                        v-else-if='!current'
-                        :create='false'
+                        v-else-if="!current"
+                        :create="false"
                     />
                     <div v-else>
-                        <div class='card-header d-flex align-items-center'>
+                        <div class="card-header d-flex align-items-center">
                             <div
-                                class='card-title subheader'
-                                v-text='`${current.name} (${current.prefix})`'
+                                class="card-title subheader"
+                                v-text="`${current.name} (${current.prefix})`"
                             />
                             <div
-                                v-if='!browsing'
-                                class='ms-auto'
+                                v-if="!browsing"
+                                class="ms-auto"
                             >
                                 <button
-                                    class='btn btn-sm btn-secondary'
-                                    @click='browsing = true'
+                                    class="btn btn-sm btn-secondary"
+                                    @click="browsing = true"
                                 >
                                     Change Task
                                 </button>
                             </div>
                         </div>
-                        <div class='card-body'>
+                        <div class="card-body">
                             <TablerMarkdown
-                                class='card-body'
-                                :markdown='current.readme'
+                                class="card-body"
+                                :markdown="current.readme"
                             />
                         </div>
-                        <div class='card-footer'>
-                            <div class='row g-2'>
-                                <template v-if='versions.length'>
-                                    <div class='col-md-8'>
+                        <div class="card-footer">
+                            <div class="row g-2">
+                                <template v-if="versions.length">
+                                    <div class="col-md-8">
                                         <TablerEnum
-                                            v-model='version'
-                                            :options='versions'
+                                            v-model="version"
+                                            :options="versions"
                                         />
                                     </div>
-                                    <div class='col-md-4'>
+                                    <div class="col-md-4">
                                         <button
-                                            class='btn btn-primary w-100'
-                                            style='margin-top: 8px;'
-                                            @click='select'
+                                            class="btn btn-primary w-100"
+                                            style="margin-top: 8px;"
+                                            @click="select"
                                         >
                                             Select
                                         </button>

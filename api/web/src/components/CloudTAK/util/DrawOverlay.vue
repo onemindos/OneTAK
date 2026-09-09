@@ -1,372 +1,372 @@
 <template>
     <GenericBottomPane>
         <div
-            v-if='mapStore.draw.mode === DrawToolMode.POINT'
-            class='card cloudtak-panel user-select-none'
+            v-if="mapStore.draw.mode === DrawToolMode.POINT"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
-                <template v-if='!appStore.isMobileDetected'>
+            <div class="card-header">
+                <template v-if="!appStore.isMobileDetected">
                     <CoordinateType
-                        v-model='mapStore.draw.point.type'
+                        v-model="mapStore.draw.point.type"
                     />
                 </template>
                 <template v-else>
                     <IconPoint
-                        :size='24'
-                        stroke='1'
-                    /><span class='mx-2'>Draw Point</span>
+                        :size="24"
+                        stroke="1"
+                    /><span class="mx-2">Draw Point</span>
                 </template>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        v-if='appStore.isMobileDetected'
+                        v-if="appStore.isMobileDetected"
                         :title='opened ? "Close Settings" : "Open Settings"'
-                        @click='opened = !opened'
+                        @click="opened = !opened"
                     >
-                        <span class='d-flex align-items-center'>
+                        <span class="d-flex align-items-center">
                             <span>More</span>
                             <IconChevronDown
-                                v-if='opened'
-                                :size='24'
-                                stroke='1'
+                                v-if="opened"
+                                :size="24"
+                                stroke="1"
                             />
                             <IconChevronUp
                                 v-else
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </span>
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
             <div
-                v-if='appStore.isMobileDetected && opened'
-                class='card-body'
+                v-if="appStore.isMobileDetected && opened"
+                class="card-body"
             >
                 <CoordinateType
-                    v-model='mapStore.draw.point.type'
+                    v-model="mapStore.draw.point.type"
                 />
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.CIRCLE'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.CIRCLE"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconCircle
-                    :size='24'
-                    stroke='1'
+                    :size="24"
+                    stroke="1"
                 />
-                <span class='mx-2'>Circle Editing</span>
+                <span class="mx-2">Circle Editing</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.RECTANGLE'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.RECTANGLE"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconVector
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Rectangle Editing</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Rectangle Editing</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.LINESTRING || mapStore.draw.mode === DrawToolMode.SNAPPING'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.LINESTRING || mapStore.draw.mode === DrawToolMode.SNAPPING"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconLine
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Line Editing</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Line Editing</span>
 
-                <div class='ms-auto btn-list align-items-center'>
+                <div class="ms-auto btn-list align-items-center">
                     <TablerEnum
-                        v-if='!appStore.isMobileDetected'
-                        v-model='mapStore.draw.snappingLayer'
-                        description='Choose the type of line to draw.'
-                        default='No Snapping'
-                        :options='mapStore.draw.snappingOptions'
-                        :disabled='!mapStore.hasSnapping'
+                        v-if="!appStore.isMobileDetected"
+                        v-model="mapStore.draw.snappingLayer"
+                        description="Choose the type of line to draw."
+                        default="No Snapping"
+                        :options="mapStore.draw.snappingOptions"
+                        :disabled="!mapStore.hasSnapping"
                     />
 
                     <TablerIconButton
-                        v-if='appStore.isMobileDetected'
+                        v-if="appStore.isMobileDetected"
                         :title='opened ? "Close Settings" : "Open Settings"'
-                        @click='opened = !opened'
+                        @click="opened = !opened"
                     >
-                        <span class='d-flex align-items-center'>
+                        <span class="d-flex align-items-center">
                             <span>More</span>
                             <IconChevronDown
-                                v-if='opened'
-                                :size='24'
-                                stroke='1'
+                                v-if="opened"
+                                :size="24"
+                                stroke="1"
                             />
                             <IconChevronUp
                                 v-else
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </span>
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
             <div
-                v-if='appStore.isMobileDetected && opened'
-                class='card-body'
+                v-if="appStore.isMobileDetected && opened"
+                class="card-body"
             >
                 <TablerEnum
-                    v-model='mapStore.draw.snappingLayer'
-                    description='Choose the type of line to draw.'
-                    default='No Snapping'
-                    :options='mapStore.draw.snappingOptions'
-                    :disabled='!mapStore.hasSnapping'
+                    v-model="mapStore.draw.snappingLayer"
+                    description="Choose the type of line to draw."
+                    default="No Snapping"
+                    :options="mapStore.draw.snappingOptions"
+                    :disabled="!mapStore.hasSnapping"
                 />
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.POLYGON'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.POLYGON"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconPolygon
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Polygon Editing</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Polygon Editing</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.SECTOR'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.SECTOR"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconCone
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Sector Editing</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Sector Editing</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.FREEHAND'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.FREEHAND"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconLasso
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Lasso Select</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Lasso Select</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        v-if='appStore.isMobileDetected'
+                        v-if="appStore.isMobileDetected"
                         :title='opened ? "Close Settings" : "Open Settings"'
-                        @click='opened = !opened'
+                        @click="opened = !opened"
                     >
-                        <span class='d-flex align-items-center'>
+                        <span class="d-flex align-items-center">
                             <span>More</span>
                             <IconChevronDown
-                                v-if='opened'
-                                :size='24'
-                                stroke='1'
+                                v-if="opened"
+                                :size="24"
+                                stroke="1"
                             />
                             <IconChevronUp
                                 v-else
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                         </span>
                     </TablerIconButton>
 
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>
             </div>
             <div
-                v-if='!appStore.isMobileDetected || opened'
-                class='card-body'
+                v-if="!appStore.isMobileDetected || opened"
+                class="card-body"
             >
                 <TablerEnum
-                    v-model='mapStore.draw.lasso.overlay'
-                    label='Layer Selection'
-                    description='Features will be selected from the chosen layer.'
-                    default='Map Features'
-                    :options='filteredOverlayNames'
+                    v-model="mapStore.draw.lasso.overlay"
+                    label="Layer Selection"
+                    description="Features will be selected from the chosen layer."
+                    default="Map Features"
+                    :options="filteredOverlayNames"
                 />
             </div>
         </div>
         <div
-            v-else-if='mapStore.draw.mode === DrawToolMode.SELECT'
-            class='card cloudtak-panel user-select-none'
+            v-else-if="mapStore.draw.mode === DrawToolMode.SELECT"
+            class="card cloudtak-panel user-select-none"
         >
-            <div class='card-header'>
+            <div class="card-header">
                 <IconPencil
-                    :size='24'
-                    stroke='1'
-                /><span class='mx-2'>Editing Existing Feature</span>
+                    :size="24"
+                    stroke="1"
+                /><span class="mx-2">Editing Existing Feature</span>
 
-                <div class='ms-auto btn-list'>
+                <div class="ms-auto btn-list">
                     <TablerIconButton
-                        title='Finish Drawing'
-                        :disabled='!mapStore.draw.canFinish'
-                        @click='mapStore.draw.finish()'
+                        title="Finish Drawing"
+                        :disabled="!mapStore.draw.canFinish"
+                        @click="mapStore.draw.finish()"
                     >
                         <IconCheck
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                     <TablerIconButton
-                        title='Cancel Editing'
-                        @click='mapStore.draw.stop()'
+                        title="Cancel Editing"
+                        @click="mapStore.draw.stop()"
                     >
                         <IconX
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </TablerIconButton>
                 </div>

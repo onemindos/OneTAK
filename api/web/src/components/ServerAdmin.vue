@@ -1,84 +1,84 @@
 <template>
     <div
-        class='h-full w-full cloudtak-page'
-        style='overflow: auto;'
+        class="h-full w-full cloudtak-page"
+        style="overflow: auto;"
     >
-        <NavHeader title='Admin' />
+        <NavHeader title="Admin" />
 
-        <div class='page-body'>
-            <div class='container-xl'>
-                <div class='row row-deck row-cards'>
-                    <div class='col-lg-12'>
-                        <div class='card'>
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="row row-deck row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
                             <TablerLoading
-                                v-if='isAdmin === undefined'
-                                desc='Loading Profile'
+                                v-if="isAdmin === undefined"
+                                desc="Loading Profile"
                             />
                             <TablerAlert
-                                v-else-if='!isAdmin'
+                                v-else-if="!isAdmin"
                                 :err='new Error("Insufficient Access")'
                             />
                             <div
                                 v-else
-                                style='height: 100%;'
-                                class='row g-0 admin-layout'
+                                style="height: 100%;"
+                                class="row g-0 admin-layout"
                             >
                                 <div
-                                    class='border-end admin-sidebar'
+                                    class="border-end admin-sidebar"
                                     :class='{
                                         "col-12 col-md-3": !nest,
                                         "admin-sidebar--nest": nest,
                                         "admin-sidebar--hover": nest && hovered
                                     }'
-                                    @mouseenter='hovered = true'
-                                    @mouseleave='hovered = false'
+                                    @mouseenter="hovered = true"
+                                    @mouseleave="hovered = false"
                                 >
-                                    <div class='card-body admin-sidebar-panel'>
+                                    <div class="card-body admin-sidebar-panel">
                                         <template
-                                            v-for='section in sections'
-                                            :key='section.title'
+                                            v-for="section in sections"
+                                            :key="section.title"
                                         >
                                             <h4
                                                 :class='{
                                                     "text-center": collapsed,
                                                     "py-2 my-0": section !== sections[0]
                                                 }'
-                                                class='subheader user-select-none'
+                                                class="subheader user-select-none"
                                             >
                                                 {{ collapsed ? section.short : section.title }}
                                             </h4>
                                             <div
-                                                role='menu'
-                                                class='list-group list-group-transparent'
+                                                role="menu"
+                                                class="list-group list-group-transparent"
                                             >
                                                 <span
-                                                    v-for='item in section.items'
-                                                    :key='item.to'
-                                                    tabindex='0'
-                                                    role='menuitem'
-                                                    class='list-group-item list-group-item-action d-flex align-items-center user-select-none'
+                                                    v-for="item in section.items"
+                                                    :key="item.to"
+                                                    tabindex="0"
+                                                    role="menuitem"
+                                                    class="list-group-item list-group-item-action d-flex align-items-center user-select-none"
                                                     :class='{
                                                         "active": isActive(item),
                                                         "cursor-pointer": !isActive(item)
                                                     }'
-                                                    :title='collapsed ? item.label : undefined'
-                                                    @keyup.enter='router.push(item.to)'
-                                                    @click='router.push(item.to)'
+                                                    :title="collapsed ? item.label : undefined"
+                                                    @keyup.enter="router.push(item.to)"
+                                                    @click="router.push(item.to)"
                                                 >
                                                     <component
-                                                        :is='item.icon'
-                                                        :size='32'
-                                                        stroke='1'
+                                                        :is="item.icon"
+                                                        :size="32"
+                                                        stroke="1"
                                                     />
-                                                    <span class='mx-3 admin-sidebar-label'>{{ item.label }}</span>
+                                                    <span class="mx-3 admin-sidebar-label">{{ item.label }}</span>
                                                 </span>
                                             </div>
                                         </template>
                                     </div>
                                 </div>
                                 <div
-                                    class='col-12 position-relative'
-                                    style='height: 100%;'
+                                    class="col-12 position-relative"
+                                    style="height: 100%;"
                                     :style='nest ? "width: calc(100% - 64px);" : ""'
                                     :class='{
                                         "col-md-9": !nest,

@@ -1,128 +1,128 @@
 <template>
-    <div class='col-12'>
+    <div class="col-12">
         <SlideDownHeader
-            v-model='expanded'
-            label='Attachments'
+            v-model="expanded"
+            label="Attachments"
         >
             <template #icon>
                 <IconPaperclip
-                    :size='18'
-                    stroke='1'
-                    color='#6b7990'
-                    class='ms-2 me-1'
+                    :size="18"
+                    stroke="1"
+                    color="#6b7990"
+                    class="ms-2 me-1"
                 />
             </template>
             <template #right>
                 <TablerIconButton
-                    v-if='!upload'
-                    title='Add Attachment'
-                    class='me-2'
-                    @click.stop='upload = true; expanded = true'
+                    v-if="!upload"
+                    title="Add Attachment"
+                    class="me-2"
+                    @click.stop="upload = true; expanded = true"
                 >
                     <IconFileUpload
-                        :size='20'
-                        stroke='1'
+                        :size="20"
+                        stroke="1"
                     />
                 </TablerIconButton>
                 <TablerBadge
-                    class='me-2'
-                    background-color='rgba(59, 130, 246, 0.15)'
-                    border-color='rgba(59, 130, 246, 0.4)'
-                    text-color='#3b82f6'
+                    class="me-2"
+                    background-color="rgba(59, 130, 246, 0.15)"
+                    border-color="rgba(59, 130, 246, 0.4)"
+                    text-color="#3b82f6"
                 >
                     {{ files.length }}
                 </TablerBadge>
             </template>
-            <div class='col-12'>
-                <div class='mx-2 py-2'>
+            <div class="col-12">
+                <div class="mx-2 py-2">
                     <div
-                        class='rounded px-2 py-2'
+                        class="rounded px-2 py-2"
                         :class='{ "cloudtak-accent": !isEmpty }'
                     >
                         <TablerLoading
-                            v-if='loading'
-                            :inline='true'
-                            class='my-2'
+                            v-if="loading"
+                            :inline="true"
+                            class="my-2"
                         />
                         <TablerError
-                            v-else-if='error'
-                            :err='error'
-                            @close='refresh'
+                            v-else-if="error"
+                            :err="error"
+                            @close="refresh"
                         />
                         <div
-                            v-else-if='upload'
-                            class='py-2 px-4'
+                            v-else-if="upload"
+                            class="py-2 px-4"
                         >
                             <Upload
-                                :url='uploadURL()'
-                                method='PUT'
-                                @cancel='upload = false'
-                                @done='uploadComplete($event)'
+                                :url="uploadURL()"
+                                method="PUT"
+                                @cancel="upload = false"
+                                @done="uploadComplete($event)"
                             />
                         </div>
 
                         <TablerNone
-                            v-else-if='!files.length'
-                            :compact='true'
-                            :create='false'
+                            v-else-if="!files.length"
+                            :compact="true"
+                            :create="false"
                         />
                         <template v-else>
-                            <div class='w-100 d-flex flex-wrap align-items-center justify-content-center'>
-                                <template v-for='file of files'>
+                            <div class="w-100 d-flex flex-wrap align-items-center justify-content-center">
+                                <template v-for="file of files">
                                     <div
-                                        class='px-2 py-2 cloudtak-hover rounded'
+                                        class="px-2 py-2 cloudtak-hover rounded"
                                     >
                                         <div
-                                            class='d-flex align-items-center justify-content-center'
-                                            style='
+                                            class="d-flex align-items-center justify-content-center"
+                                            style="
                                                 height: 200px;
                                                 width: 200px;
-                                            '
+                                            "
                                         >
                                             <img
                                                 v-if='[".png", ".jpg", ".jpeg", ".webp"].includes(file.ext.toLowerCase())'
-                                                class='cursor-pointer'
+                                                class="cursor-pointer"
                                                 :style='{
                                                     "max-height": "180px",
                                                     "object-fit": "contain"
                                                 }'
-                                                :src='downloadAssetUrl(file)'
-                                                @click='attachmentPane(file)'
+                                                :src="downloadAssetUrl(file)"
+                                                @click="attachmentPane(file)"
                                             >
                                             <IconFile
                                                 v-else
-                                                :size='60'
-                                                stroke='1'
+                                                :size="60"
+                                                stroke="1"
                                             />
                                         </div>
 
                                         <div
-                                            class='d-flex align-items-center pt-2'
-                                            style='
+                                            class="d-flex align-items-center pt-2"
+                                            style="
                                                 height: 30px;
-                                            '
+                                            "
                                         >
                                             <span
-                                                class='mx-2 text-truncate'
-                                                style='max-width: 160px;'
-                                                v-text='file.name'
+                                                class="mx-2 text-truncate"
+                                                style="max-width: 160px;"
+                                                v-text="file.name"
                                             />
 
-                                            <div class='ms-auto d-flex'>
+                                            <div class="ms-auto d-flex">
                                                 <TablerDelete
-                                                    v-if='canRemove'
-                                                    displaytype='icon'
-                                                    title='Remove Attachment'
-                                                    :size='24'
-                                                    @delete='deleteAttachment(file)'
+                                                    v-if="canRemove"
+                                                    displaytype="icon"
+                                                    title="Remove Attachment"
+                                                    :size="24"
+                                                    @delete="deleteAttachment(file)"
                                                 />
                                                 <TablerIconButton
-                                                    title='Download Asset'
-                                                    @click='downloadAsset(file)'
+                                                    title="Download Asset"
+                                                    @click="downloadAsset(file)"
                                                 >
                                                     <IconDownload
-                                                        :size='24'
-                                                        stroke='1'
+                                                        :size="24"
+                                                        stroke="1"
                                                     />
                                                 </TablerIconButton>
                                             </div>

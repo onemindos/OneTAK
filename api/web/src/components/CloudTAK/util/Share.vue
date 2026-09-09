@@ -1,212 +1,212 @@
 <template>
     <TablerModal
-        size='lg'
+        size="lg"
     >
-        <div class='modal-status bg-yellow' />
-        <div class='modal-header'>
-            <span class='modal-title'>Share Features</span>
-            <div class='ms-auto btn-list'>
-                <div class='d-flex align-items-center'>
+        <div class="modal-status bg-yellow" />
+        <div class="modal-header">
+            <span class="modal-title">Share Features</span>
+            <div class="ms-auto btn-list">
+                <div class="d-flex align-items-center">
                     <IconUsers
-                        :size='20'
-                        stroke='1'
-                    /><span class='mx-2'>{{ selectedUsers.size }}</span>
+                        :size="20"
+                        stroke="1"
+                    /><span class="mx-2">{{ selectedUsers.size }}</span>
                 </div>
-                <div class='d-flex align-items-center'>
+                <div class="d-flex align-items-center">
                     <IconAffiliate
-                        :size='20'
-                        stroke='1'
-                    /><span class='mx-2'>{{ selectedGroups.size }}</span>
+                        :size="20"
+                        stroke="1"
+                    /><span class="mx-2">{{ selectedGroups.size }}</span>
                 </div>
-                <div class='d-flex align-items-center'>
+                <div class="d-flex align-items-center">
                     <IconAmbulance
-                        :size='20'
-                        stroke='1'
-                    /><span class='mx-2'>{{ selectedMissions.size }}</span>
+                        :size="20"
+                        stroke="1"
+                    /><span class="mx-2">{{ selectedMissions.size }}</span>
                 </div>
             </div>
 
             <button
-                type='button'
-                class='btn-close'
-                aria-label='Close'
+                type="button"
+                class="btn-close"
+                aria-label="Close"
                 @click='emit("close")'
             />
         </div>
         <div
-            class='modal-body'
+            class="modal-body"
         >
-            <div class='mx-2'>
+            <div class="mx-2">
                 <TablerInput
-                    v-model='filter'
-                    icon='search'
-                    label=''
-                    placeholder='Filter...'
+                    v-model="filter"
+                    icon="search"
+                    label=""
+                    placeholder="Filter..."
                 />
             </div>
             <TablerPillGroup
-                v-model='mode'
+                v-model="mode"
                 :options='[
                     { value: "users", label: "Users" },
                     { value: "groups", label: "Channels" },
                     { value: "missions", label: "Data Syncs" }
                 ]'
-                :disabled='loading'
+                :disabled="loading"
             >
-                <template #option='{ option }'>
+                <template #option="{ option }">
                     <span
                         v-if='option.value === "users"'
-                        title='Users'
+                        title="Users"
                     >
                         <IconUsers
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </span>
                     <span
                         v-else-if='option.value === "groups"'
-                        title='Channels'
+                        title="Channels"
                     >
                         <IconAffiliate
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </span>
                     <span
                         v-else
-                        title='Data Syncs'
+                        title="Data Syncs"
                     >
                         <IconAmbulance
-                            :size='24'
-                            stroke='1'
+                            :size="24"
+                            stroke="1"
                         />
                     </span>
-                    <span class='ms-2'>{{ option.label }}</span>
+                    <span class="ms-2">{{ option.label }}</span>
                 </template>
             </TablerPillGroup>
 
             <div
-                class='col-12 overflow-auto'
-                style='height: 50vh;'
+                class="col-12 overflow-auto"
+                style="height: 50vh;"
             >
                 <template v-if='mode === "users"'>
                     <TablerLoading
-                        v-if='loading'
+                        v-if="loading"
                     />
                     <TablerNone
-                        v-else-if='!visibleContacts.length'
-                        :create='false'
+                        v-else-if="!visibleContacts.length"
+                        :create="false"
                     />
                     <template v-else>
                         <COTContact
-                            v-for='a of visibleContacts'
-                            :key='a.uid'
-                            :contact='a'
-                            :button-chat='false'
-                            :button-zoom='false'
-                            :fly-to-click='false'
-                            :selected='selectedUsers.has(a)'
-                            class='rounded'
-                            @click='selectedUsers.has(a) ? selectedUsers.delete(a) : selectedUsers.add(a)'
+                            v-for="a of visibleContacts"
+                            :key="a.uid"
+                            :contact="a"
+                            :button-chat="false"
+                            :button-zoom="false"
+                            :fly-to-click="false"
+                            :selected="selectedUsers.has(a)"
+                            class="rounded"
+                            @click="selectedUsers.has(a) ? selectedUsers.delete(a) : selectedUsers.add(a)"
                         />
                     </template>
                 </template>
                 <template v-else-if='mode === "groups"'>
                     <TablerLoading
-                        v-if='loading'
+                        v-if="loading"
                     />
                     <TablerNone
-                        v-else-if='!Object.keys(visibleChannels).length'
-                        :create='false'
+                        v-else-if="!Object.keys(visibleChannels).length"
+                        :create="false"
                     />
                     <template v-else>
                         <div
-                            v-for='ch in visibleChannels'
-                            :key='ch.name'
-                            class='col-lg-12 py-2 px-2 cloudtak-hover rounded cursor-pointer user-select-none'
-                            @click='selectedGroups.has(ch) ? selectedGroups.delete(ch) : selectedGroups.add(ch)'
+                            v-for="ch in visibleChannels"
+                            :key="ch.name"
+                            class="col-lg-12 py-2 px-2 cloudtak-hover rounded cursor-pointer user-select-none"
+                            @click="selectedGroups.has(ch) ? selectedGroups.delete(ch) : selectedGroups.add(ch)"
                         >
                             <IconAffiliate
-                                v-if='!selectedGroups.has(ch)'
-                                :size='24'
-                                stroke='1'
+                                v-if="!selectedGroups.has(ch)"
+                                :size="24"
+                                stroke="1"
                             />
                             <IconCheck
                                 v-else
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                             <span
-                                class='mx-2'
-                                v-text='ch.name'
+                                class="mx-2"
+                                v-text="ch.name"
                             />
                         </div>
                     </template>
                 </template>
                 <template v-else-if='mode === "missions"'>
                     <TablerLoading
-                        v-if='loading'
+                        v-if="loading"
                     />
                     <TablerNone
-                        v-else-if='!visibleMissions.length'
-                        :create='false'
+                        v-else-if="!visibleMissions.length"
+                        :create="false"
                     />
                     <template v-else>
                         <div
-                            v-for='m in visibleMissions'
-                            :key='m.name'
-                            class='col-lg-12 py-2 px-2 cloudtak-hover rounded cursor-pointer user-select-none'
-                            @click='selectedMissions.has(m) ? selectedMissions.delete(m) : selectedMissions.add(m)'
+                            v-for="m in visibleMissions"
+                            :key="m.name"
+                            class="col-lg-12 py-2 px-2 cloudtak-hover rounded cursor-pointer user-select-none"
+                            @click="selectedMissions.has(m) ? selectedMissions.delete(m) : selectedMissions.add(m)"
                         >
                             <IconAmbulance
-                                v-if='!selectedMissions.has(m)'
-                                :size='24'
-                                stroke='1'
+                                v-if="!selectedMissions.has(m)"
+                                :size="24"
+                                stroke="1"
                             />
                             <IconCheck
                                 v-else
-                                :size='24'
-                                stroke='1'
+                                :size="24"
+                                stroke="1"
                             />
                             <span
-                                class='mx-2'
-                                v-text='m.name'
+                                class="mx-2"
+                                v-text="m.name"
                             />
                         </div>
                     </template>
                 </template>
             </div>
         </div>
-        <div class='modal-footer'>
-            <div class='row g-2 w-100'>
+        <div class="modal-footer">
+            <div class="row g-2 w-100">
                 <div
-                    class='col-6'
+                    class="col-6"
                 >
                     <TablerButton
-                        title='Share to Selected'
-                        :disabled='(selectedUsers.size === 0 && selectedGroups.size === 0 && selectedMissions.size === 0) || loading'
-                        class='w-100 btn-primary'
-                        @click='share'
+                        title="Share to Selected"
+                        :disabled="(selectedUsers.size === 0 && selectedGroups.size === 0 && selectedMissions.size === 0) || loading"
+                        class="w-100 btn-primary"
+                        @click="share"
                     >
                         <IconShare2
-                            :size='20'
-                            stroke='1'
-                            class='me-1'
+                            :size="20"
+                            stroke="1"
+                            class="me-1"
                         />
                         <span>Share</span>
                     </TablerButton>
                 </div>
-                <div class='col-6'>
+                <div class="col-6">
                     <TablerButton
-                        title='Broadcast to All Users'
-                        :disabled='loading'
-                        class='w-100 btn-secondary'
-                        @click='broadcast'
+                        title="Broadcast to All Users"
+                        :disabled="loading"
+                        class="w-100 btn-secondary"
+                        @click="broadcast"
                     >
                         <IconBroadcast
-                            :size='20'
-                            stroke='1'
-                            class='me-1'
+                            :size="20"
+                            stroke="1"
+                            class="me-1"
                         />
                         <span>Broadcast To All Users</span>
                     </TablerButton>
