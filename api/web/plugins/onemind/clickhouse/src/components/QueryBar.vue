@@ -1,26 +1,26 @@
 <template>
-  <div class="query-bar">
-    <textarea
-      :value="modelValue"
-      class="query-bar__input"
-      placeholder="SELECT * FROM cot_events LIMIT 100"
-      rows="4"
-      :disabled="loading"
-      @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
-      @keydown.ctrl.enter.prevent="$emit('run')"
-      @keydown.meta.enter.prevent="$emit('run')"
-    />
-    <div class="query-bar__actions">
-      <span class="query-bar__hint">Ctrl+Enter to run</span>
-      <button
-        class="query-bar__run"
-        :disabled="loading || !modelValue.trim()"
-        @click="$emit('run')"
-      >
-        {{ loading ? 'Running…' : 'Run' }}
-      </button>
+    <div class='query-bar'>
+        <textarea
+            :value='modelValue'
+            class='query-bar__input'
+            placeholder='SELECT * FROM cot_events LIMIT 100'
+            rows='4'
+            :disabled='loading'
+            @input='$emit(&apos;update:modelValue&apos;, ($event.target as HTMLTextAreaElement).value)'
+            @keydown.ctrl.enter.prevent='$emit(&apos;run&apos;)'
+            @keydown.meta.enter.prevent='$emit(&apos;run&apos;)'
+        />
+        <div class='query-bar__actions'>
+            <span class='query-bar__hint'>Ctrl+Enter to run</span>
+            <button
+                class='query-bar__run'
+                :disabled='loading || !modelValue.trim()'
+                @click='$emit(&apos;run&apos;)'
+            >
+                {{ loading ? 'Running…' : 'Run' }}
+            </button>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

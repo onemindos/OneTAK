@@ -1,32 +1,46 @@
 <template>
-  <div class="track-replay">
-    <div class="track-replay__header">
-      Track Replay
-      <span class="track-replay__count">{{ result.rowCount }} points</span>
+    <div class='track-replay'>
+        <div class='track-replay__header'>
+            Track Replay
+            <span class='track-replay__count'>{{ result.rowCount }} points</span>
+        </div>
+        <div class='track-replay__controls'>
+            <button
+                class='track-replay__btn'
+                @click='toggleReplay'
+            >
+                {{ store.replay.active ? '⏸ Pause' : '▶ Play' }}
+            </button>
+            <input
+                type='range'
+                class='track-replay__slider'
+                :min='minTime'
+                :max='maxTime'
+                :value='store.replay.currentTime'
+                @input='onScrub'
+            >
+            <select
+                v-model='store.replay.speedMultiplier'
+                class='track-replay__speed'
+            >
+                <option :value='1'>
+                    1×
+                </option>
+                <option :value='5'>
+                    5×
+                </option>
+                <option :value='10'>
+                    10×
+                </option>
+                <option :value='60'>
+                    60×
+                </option>
+            </select>
+        </div>
+        <div class='track-replay__time'>
+            {{ currentTimeLabel }}
+        </div>
     </div>
-    <div class="track-replay__controls">
-      <button class="track-replay__btn" @click="toggleReplay">
-        {{ store.replay.active ? '⏸ Pause' : '▶ Play' }}
-      </button>
-      <input
-        type="range"
-        class="track-replay__slider"
-        :min="minTime"
-        :max="maxTime"
-        :value="store.replay.currentTime"
-        @input="onScrub"
-      />
-      <select class="track-replay__speed" v-model="store.replay.speedMultiplier">
-        <option :value="1">1×</option>
-        <option :value="5">5×</option>
-        <option :value="10">10×</option>
-        <option :value="60">60×</option>
-      </select>
-    </div>
-    <div class="track-replay__time">
-      {{ currentTimeLabel }}
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">

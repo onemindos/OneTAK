@@ -1,26 +1,29 @@
 <template>
-  <div class="ai-panel">
-    <div class="ai-panel__header">
-      <span class="ai-panel__title">Hermes</span>
-      <span class="ai-panel__status" :class="{ 'ai-panel__status--on': store.connected }">
-        {{ store.connected ? 'online' : 'offline' }}
-      </span>
+    <div class='ai-panel'>
+        <div class='ai-panel__header'>
+            <span class='ai-panel__title'>Hermes</span>
+            <span
+                class='ai-panel__status'
+                :class='{ &apos;ai-panel__status--on&apos;: store.connected }'
+            >
+                {{ store.connected ? 'online' : 'offline' }}
+            </span>
+        </div>
+
+        <ToolCard
+            v-for='call in store.pendingToolCalls'
+            :key='call.id'
+            :call='call'
+        />
+
+        <ChatThread class='ai-panel__thread' />
+
+        <PromptInput
+            class='ai-panel__input'
+            :disabled='!store.connected || store.streaming'
+            @send='onSend'
+        />
     </div>
-
-    <ToolCard
-      v-for="call in store.pendingToolCalls"
-      :key="call.id"
-      :call="call"
-    />
-
-    <ChatThread class="ai-panel__thread" />
-
-    <PromptInput
-      class="ai-panel__input"
-      :disabled="!store.connected || store.streaming"
-      @send="onSend"
-    />
-  </div>
 </template>
 
 <script setup lang="ts">

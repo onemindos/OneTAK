@@ -17,7 +17,6 @@
  */
 
 import type { Map, MapMouseEvent } from 'maplibre-gl';
-import turfDistance from '@turf/distance';
 import turfArea     from '@turf/area';
 import turfLength   from '@turf/length';
 import type { Feature, Position } from 'geojson';
@@ -138,7 +137,7 @@ export class MeasureTool {
             properties: {},
         }));
 
-        (this.map.getSource(SRC_POINTS) as ReturnType<Map['getSource']> & { setData: Function })
+        (this.map.getSource(SRC_POINTS) as ReturnType<Map['getSource']> & { setData: (data: unknown) => void })
             ?.setData({ type: 'FeatureCollection', features: pointFeatures });
 
         if (this.vertices.length >= 2) {
@@ -155,7 +154,7 @@ export class MeasureTool {
                 properties: {},
             };
 
-            (this.map.getSource(SRC_LINE) as ReturnType<Map['getSource']> & { setData: Function })
+            (this.map.getSource(SRC_LINE) as ReturnType<Map['getSource']> & { setData: (data: unknown) => void })
                 ?.setData({ type: 'FeatureCollection', features: [lineFeature] });
         }
     }

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { ref, shallowRef, computed } from 'vue';
 import type { Map } from 'maplibre-gl';
 import type { DeckLayerConfig, TemporalRange } from './types';
-import { setLayers } from './overlay';
 
 export const useDeckStore = defineStore('onemind-deck', () => {
     const map      = shallowRef<Map | null>(null);

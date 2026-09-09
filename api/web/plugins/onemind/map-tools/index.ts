@@ -85,7 +85,6 @@ export default class MapToolsPlugin implements PluginInstance {
         try {
             const { MaplibreExportControl } = await import('@watergis/maplibre-gl-export');
             this.exportControl = new MaplibreExportControl({ Format: 'PNG', DPI: 300 });
-            (this.api.map as ReturnType<typeof this.api.map.addControl>);
             this.api.map.addControl(this.exportControl as Parameters<typeof this.api.map.addControl>[0], 'top-right');
         } catch (err) {
             console.warn('[map-tools] export control unavailable:', err);

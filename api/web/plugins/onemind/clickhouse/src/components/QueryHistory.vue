@@ -1,16 +1,23 @@
 <template>
-  <div class="history">
-    <div class="history__header">History</div>
-    <div v-if="!store.queryHistory.length" class="history__empty">No queries yet</div>
-    <div
-      v-for="q in store.queryHistory"
-      :key="q.id"
-      class="history__item"
-      @click="$emit('select', q.sql)"
-    >
-      <span class="history__sql">{{ q.sql.slice(0, 60).replace(/\s+/g, ' ') }}…</span>
+    <div class='history'>
+        <div class='history__header'>
+            History
+        </div>
+        <div
+            v-if='!store.queryHistory.length'
+            class='history__empty'
+        >
+            No queries yet
+        </div>
+        <div
+            v-for='q in store.queryHistory'
+            :key='q.id'
+            class='history__item'
+            @click='$emit(&apos;select&apos;, q.sql)'
+        >
+            <span class='history__sql'>{{ q.sql.slice(0, 60).replace(/\s+/g, ' ') }}…</span>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

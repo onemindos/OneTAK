@@ -1,24 +1,41 @@
 <template>
-  <div class="ops-view ops-activity">
-    <div class="ops-header">
-      <h2>Activity Log</h2>
-      <div class="ops-header-actions">
-        <button class="btn-icon" title="Clear log" @click="clearLog">✕</button>
-      </div>
-    </div>
+    <div class='ops-view ops-activity'>
+        <div class='ops-header'>
+            <h2>Activity Log</h2>
+            <div class='ops-header-actions'>
+                <button
+                    class='btn-icon'
+                    title='Clear log'
+                    @click='clearLog'
+                >
+                    ✕
+                </button>
+            </div>
+        </div>
 
-    <div v-if="log.length === 0" class="ops-empty">
-      No activity recorded yet.
-    </div>
+        <div
+            v-if='log.length === 0'
+            class='ops-empty'
+        >
+            No activity recorded yet.
+        </div>
 
-    <ul v-else class="ops-list">
-      <li v-for="entry in log" :key="entry.id" class="ops-item" :class="entry.level">
-        <span class="ops-time">{{ formatTime(entry.ts) }}</span>
-        <span class="ops-level">{{ entry.level }}</span>
-        <span class="ops-msg">{{ entry.message }}</span>
-      </li>
-    </ul>
-  </div>
+        <ul
+            v-else
+            class='ops-list'
+        >
+            <li
+                v-for='entry in log'
+                :key='entry.id'
+                class='ops-item'
+                :class='entry.level'
+            >
+                <span class='ops-time'>{{ formatTime(entry.ts) }}</span>
+                <span class='ops-level'>{{ entry.level }}</span>
+                <span class='ops-msg'>{{ entry.message }}</span>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script setup lang="ts">

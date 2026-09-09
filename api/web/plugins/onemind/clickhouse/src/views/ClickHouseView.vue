@@ -1,28 +1,31 @@
 <template>
-  <div class="ch-view">
-    <div class="ch-view__sidebar">
-      <PresetQueries @select="onPreset" />
-      <QueryHistory @select="onHistorySelect" />
+    <div class='ch-view'>
+        <div class='ch-view__sidebar'>
+            <PresetQueries @select='onPreset' />
+            <QueryHistory @select='onHistorySelect' />
+        </div>
+        <div class='ch-view__main'>
+            <QueryBar
+                v-model='sql'
+                :loading='store.loading'
+                @run='runQuery'
+            />
+            <ResultsTable
+                v-if='store.activeResult && !store.activeResult.error'
+                :result='store.activeResult'
+            />
+            <div
+                v-else-if='store.activeResult?.error'
+                class='ch-view__error'
+            >
+                {{ store.activeResult.error }}
+            </div>
+            <TrackReplay
+                v-if='hasTrackData'
+                :result='store.activeResult!'
+            />
+        </div>
     </div>
-    <div class="ch-view__main">
-      <QueryBar
-        v-model="sql"
-        :loading="store.loading"
-        @run="runQuery"
-      />
-      <ResultsTable
-        v-if="store.activeResult && !store.activeResult.error"
-        :result="store.activeResult"
-      />
-      <div v-else-if="store.activeResult?.error" class="ch-view__error">
-        {{ store.activeResult.error }}
-      </div>
-      <TrackReplay
-        v-if="hasTrackData"
-        :result="store.activeResult!"
-      />
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">

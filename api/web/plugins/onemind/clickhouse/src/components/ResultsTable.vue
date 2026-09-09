@@ -1,23 +1,36 @@
 <template>
-  <div class="results-table">
-    <div class="results-table__meta">
-      {{ result.rowCount.toLocaleString() }} rows &nbsp;·&nbsp; {{ result.executionMs }}ms
+    <div class='results-table'>
+        <div class='results-table__meta'>
+            {{ result.rowCount.toLocaleString() }} rows &nbsp;·&nbsp; {{ result.executionMs }}ms
+        </div>
+        <div class='results-table__scroll'>
+            <table>
+                <thead>
+                    <tr>
+                        <th
+                            v-for='col in result.columns'
+                            :key='col'
+                        >
+                            {{ col }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for='(row, i) in result.rows'
+                        :key='i'
+                    >
+                        <td
+                            v-for='col in result.columns'
+                            :key='col'
+                        >
+                            {{ row[col] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="results-table__scroll">
-      <table>
-        <thead>
-          <tr>
-            <th v-for="col in result.columns" :key="col">{{ col }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(row, i) in result.rows" :key="i">
-            <td v-for="col in result.columns" :key="col">{{ row[col] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">

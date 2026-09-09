@@ -1,15 +1,25 @@
 <template>
-  <div class="tool-card">
-    <div class="tool-card__header">
-      <span class="tool-card__name">{{ call.name }}</span>
-      <span class="tool-card__badge">tool request</span>
+    <div class='tool-card'>
+        <div class='tool-card__header'>
+            <span class='tool-card__name'>{{ call.name }}</span>
+            <span class='tool-card__badge'>tool request</span>
+        </div>
+        <pre class='tool-card__args'>{{ formattedArgs }}</pre>
+        <div class='tool-card__actions'>
+            <button
+                class='tool-card__btn tool-card__btn--approve'
+                @click='approve'
+            >
+                Approve
+            </button>
+            <button
+                class='tool-card__btn tool-card__btn--deny'
+                @click='deny'
+            >
+                Deny
+            </button>
+        </div>
     </div>
-    <pre class="tool-card__args">{{ formattedArgs }}</pre>
-    <div class="tool-card__actions">
-      <button class="tool-card__btn tool-card__btn--approve" @click="approve">Approve</button>
-      <button class="tool-card__btn tool-card__btn--deny" @click="deny">Deny</button>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">

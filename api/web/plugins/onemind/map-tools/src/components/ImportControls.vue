@@ -13,9 +13,22 @@
             @dragleave='dragging = false'
             @drop.prevent='onDrop'
         >
-            <p class='text-xs text-gray-400 mb-2'>Drop file here</p>
-            <input ref='fileInput' type='file' class='hidden' :accept='acceptedFormats' @change='onFileInput' />
-            <button class='text-xs text-blue-400 hover:text-blue-300' @click='fileInput?.click()'>Browse file</button>
+            <p class='text-xs text-gray-400 mb-2'>
+                Drop file here
+            </p>
+            <input
+                ref='fileInput'
+                type='file'
+                class='hidden'
+                :accept='acceptedFormats'
+                @change='onFileInput'
+            >
+            <button
+                class='text-xs text-blue-400 hover:text-blue-300'
+                @click='fileInput?.click()'
+            >
+                Browse file
+            </button>
         </div>
 
         <!-- URL input -->
@@ -27,7 +40,7 @@
                     class='flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
                     placeholder='https://example.com/track.gpx'
                     @keydown.enter='addFromUrl'
-                />
+                >
                 <button
                     :disabled='!urlInput'
                     class='px-3 py-2 text-xs rounded bg-blue-700 hover:bg-blue-600 text-white transition-colors disabled:opacity-40'
@@ -39,7 +52,10 @@
         </div>
 
         <!-- Active layers -->
-        <div v-if='store.importedLayers.length' class='space-y-2'>
+        <div
+            v-if='store.importedLayers.length'
+            class='space-y-2'
+        >
             <span class='text-xs text-gray-400'>Active layers</span>
             <div
                 v-for='layer in store.importedLayers'
@@ -47,10 +63,19 @@
                 class='flex items-center justify-between bg-gray-800 rounded px-3 py-2'
             >
                 <div>
-                    <p class='text-xs text-white'>{{ layer.label }}</p>
-                    <p class='text-xs text-gray-500 uppercase'>{{ layer.format }}</p>
+                    <p class='text-xs text-white'>
+                        {{ layer.label }}
+                    </p>
+                    <p class='text-xs text-gray-500 uppercase'>
+                        {{ layer.format }}
+                    </p>
                 </div>
-                <button class='text-xs text-red-400 hover:text-red-300' @click='removeLayer(layer.id)'>Remove</button>
+                <button
+                    class='text-xs text-red-400 hover:text-red-300'
+                    @click='removeLayer(layer.id)'
+                >
+                    Remove
+                </button>
             </div>
         </div>
     </div>

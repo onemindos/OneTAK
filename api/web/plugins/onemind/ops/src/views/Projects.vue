@@ -1,58 +1,115 @@
 <template>
-  <div class="ops-view ops-projects">
-    <div class="ops-header">
-      <h2>Projects</h2>
-      <button class="btn-add" @click="showAdd = true">+ New</button>
-    </div>
-
-    <div v-if="store.projects.length === 0" class="ops-empty">
-      No projects. Create one to start tracking work.
-    </div>
-
-    <div v-else class="ops-grid">
-      <div
-        v-for="proj in store.projects"
-        :key="proj.id"
-        class="ops-card"
-        :class="proj.status"
-        @click="selected = selected?.id === proj.id ? null : proj"
-      >
-        <div class="ops-card-header">
-          <span class="ops-status-dot" :class="proj.status" />
-          <span class="ops-proj-name">{{ proj.name }}</span>
-          <span class="ops-task-count">{{ proj.tasks.length }} tasks</span>
+    <div class='ops-view ops-projects'>
+        <div class='ops-header'>
+            <h2>Projects</h2>
+            <button
+                class='btn-add'
+                @click='showAdd = true'
+            >
+                + New
+            </button>
         </div>
-        <div v-if="proj.description" class="ops-proj-desc">{{ proj.description }}</div>
-      </div>
-    </div>
 
-    <div v-if="selected" class="ops-detail">
-      <div class="ops-detail-header">
-        <h3>{{ selected.name }}</h3>
-        <button class="btn-icon" @click="selected = null">✕</button>
-      </div>
-      <div v-if="tasks(selected).length === 0" class="ops-empty">No tasks yet.</div>
-      <ul v-else class="ops-task-list">
-        <li v-for="task in tasks(selected)" :key="task.id" class="ops-task-item" :class="task.status">
-          <span class="ops-task-status">{{ task.status }}</span>
-          <span class="ops-task-title">{{ task.title }}</span>
-          <span class="ops-priority" :class="task.priority">{{ task.priority }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="showAdd" class="ops-modal-backdrop" @click.self="showAdd = false">
-      <div class="ops-modal">
-        <h3>New Project</h3>
-        <label>Name<input v-model="form.name" type="text" /></label>
-        <label>Description<input v-model="form.description" type="text" /></label>
-        <div class="ops-modal-actions">
-          <button @click="addProject">Create</button>
-          <button @click="showAdd = false">Cancel</button>
+        <div
+            v-if='store.projects.length === 0'
+            class='ops-empty'
+        >
+            No projects. Create one to start tracking work.
         </div>
-      </div>
+
+        <div
+            v-else
+            class='ops-grid'
+        >
+            <div
+                v-for='proj in store.projects'
+                :key='proj.id'
+                class='ops-card'
+                :class='proj.status'
+                @click='selected = selected?.id === proj.id ? null : proj'
+            >
+                <div class='ops-card-header'>
+                    <span
+                        class='ops-status-dot'
+                        :class='proj.status'
+                    />
+                    <span class='ops-proj-name'>{{ proj.name }}</span>
+                    <span class='ops-task-count'>{{ proj.tasks.length }} tasks</span>
+                </div>
+                <div
+                    v-if='proj.description'
+                    class='ops-proj-desc'
+                >
+                    {{ proj.description }}
+                </div>
+            </div>
+        </div>
+
+        <div
+            v-if='selected'
+            class='ops-detail'
+        >
+            <div class='ops-detail-header'>
+                <h3>{{ selected.name }}</h3>
+                <button
+                    class='btn-icon'
+                    @click='selected = null'
+                >
+                    ✕
+                </button>
+            </div>
+            <div
+                v-if='tasks(selected).length === 0'
+                class='ops-empty'
+            >
+                No tasks yet.
+            </div>
+            <ul
+                v-else
+                class='ops-task-list'
+            >
+                <li
+                    v-for='task in tasks(selected)'
+                    :key='task.id'
+                    class='ops-task-item'
+                    :class='task.status'
+                >
+                    <span class='ops-task-status'>{{ task.status }}</span>
+                    <span class='ops-task-title'>{{ task.title }}</span>
+                    <span
+                        class='ops-priority'
+                        :class='task.priority'
+                    >{{ task.priority }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div
+            v-if='showAdd'
+            class='ops-modal-backdrop'
+            @click.self='showAdd = false'
+        >
+            <div class='ops-modal'>
+                <h3>New Project</h3>
+                <label>Name<input
+                    v-model='form.name'
+                    type='text'
+                ></label>
+                <label>Description<input
+                    v-model='form.description'
+                    type='text'
+                ></label>
+                <div class='ops-modal-actions'>
+                    <button @click='addProject'>
+                        Create
+                    </button>
+                    <button @click='showAdd = false'>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

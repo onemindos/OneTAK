@@ -24,8 +24,6 @@
 import type { Map } from 'maplibre-gl';
 import type { ContourConfig } from '../types';
 
-let demSourceInstance: unknown = null;
-
 export async function mountContours(map: Map, config: ContourConfig): Promise<void> {
     await unmountContours(map);
 

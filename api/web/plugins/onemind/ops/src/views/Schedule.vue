@@ -1,46 +1,88 @@
 <template>
-  <div class="ops-view ops-schedule">
-    <div class="ops-header">
-      <h2>Schedule</h2>
-      <button class="btn-add" @click="showAdd = true">+ Add</button>
-    </div>
-
-    <div v-if="store.schedule.length === 0" class="ops-empty">
-      No scheduled items.
-    </div>
-
-    <ul v-else class="ops-list">
-      <li v-for="item in sorted" :key="item.id" class="ops-item">
-        <div class="ops-item-header">
-          <span class="ops-tag" :class="item.type">{{ item.type }}</span>
-          <span class="ops-time">{{ formatDateTime(item.startAt) }}</span>
+    <div class='ops-view ops-schedule'>
+        <div class='ops-header'>
+            <h2>Schedule</h2>
+            <button
+                class='btn-add'
+                @click='showAdd = true'
+            >
+                + Add
+            </button>
         </div>
-        <div class="ops-item-title">{{ item.title }}</div>
-        <div v-if="item.notes" class="ops-item-notes">{{ item.notes }}</div>
-      </li>
-    </ul>
 
-    <div v-if="showAdd" class="ops-modal-backdrop" @click.self="showAdd = false">
-      <div class="ops-modal">
-        <h3>New Schedule Item</h3>
-        <label>Title<input v-model="form.title" type="text" /></label>
-        <label>Type
-          <select v-model="form.type">
-            <option>mission</option>
-            <option>maintenance</option>
-            <option>briefing</option>
-            <option>other</option>
-          </select>
-        </label>
-        <label>Start<input v-model="form.startAt" type="datetime-local" /></label>
-        <label>Notes<textarea v-model="form.notes" rows="3" /></label>
-        <div class="ops-modal-actions">
-          <button @click="addItem">Add</button>
-          <button @click="showAdd = false">Cancel</button>
+        <div
+            v-if='store.schedule.length === 0'
+            class='ops-empty'
+        >
+            No scheduled items.
         </div>
-      </div>
+
+        <ul
+            v-else
+            class='ops-list'
+        >
+            <li
+                v-for='item in sorted'
+                :key='item.id'
+                class='ops-item'
+            >
+                <div class='ops-item-header'>
+                    <span
+                        class='ops-tag'
+                        :class='item.type'
+                    >{{ item.type }}</span>
+                    <span class='ops-time'>{{ formatDateTime(item.startAt) }}</span>
+                </div>
+                <div class='ops-item-title'>
+                    {{ item.title }}
+                </div>
+                <div
+                    v-if='item.notes'
+                    class='ops-item-notes'
+                >
+                    {{ item.notes }}
+                </div>
+            </li>
+        </ul>
+
+        <div
+            v-if='showAdd'
+            class='ops-modal-backdrop'
+            @click.self='showAdd = false'
+        >
+            <div class='ops-modal'>
+                <h3>New Schedule Item</h3>
+                <label>Title<input
+                    v-model='form.title'
+                    type='text'
+                ></label>
+                <label>Type
+                    <select v-model='form.type'>
+                        <option>mission</option>
+                        <option>maintenance</option>
+                        <option>briefing</option>
+                        <option>other</option>
+                    </select>
+                </label>
+                <label>Start<input
+                    v-model='form.startAt'
+                    type='datetime-local'
+                ></label>
+                <label>Notes<textarea
+                    v-model='form.notes'
+                    rows='3'
+                /></label>
+                <div class='ops-modal-actions'>
+                    <button @click='addItem'>
+                        Add
+                    </button>
+                    <button @click='showAdd = false'>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

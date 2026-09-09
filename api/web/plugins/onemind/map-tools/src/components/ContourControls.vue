@@ -11,7 +11,7 @@
                 v-model='config.demUrl'
                 class='w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
                 placeholder='https://tiles.local/terrain/{z}/{x}/{y}.png'
-            />
+            >
             <p class='text-xs text-gray-500'>
                 Self-hosted: use Martin at <code class='text-blue-400'>geo/martin</code> with a terrarium PMTiles DEM.
             </p>
@@ -24,8 +24,12 @@
                     v-model='config.encoding'
                     class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none'
                 >
-                    <option value='terrarium'>Terrarium (AWS/Mapzen)</option>
-                    <option value='mapbox'>Mapbox Terrain-RGB</option>
+                    <option value='terrarium'>
+                        Terrarium (AWS/Mapzen)
+                    </option>
+                    <option value='mapbox'>
+                        Mapbox Terrain-RGB
+                    </option>
                 </select>
             </div>
             <div class='flex-1 space-y-1'>
@@ -36,7 +40,7 @@
                     min='10'
                     step='10'
                     class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none'
-                />
+                >
             </div>
         </div>
 

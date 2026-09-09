@@ -1,44 +1,86 @@
 <template>
-  <div class="ops-view ops-feeds">
-    <div class="ops-header">
-      <h2>Feed Systems</h2>
-      <button class="btn-add" @click="showAdd = true">+ Subscribe</button>
-    </div>
-
-    <div v-if="store.feeds.length === 0" class="ops-empty">
-      No active feeds. Subscribe to a NATS subject to start receiving data.
-    </div>
-
-    <ul v-else class="ops-list">
-      <li v-for="feed in store.feeds" :key="feed.id" class="ops-item">
-        <div class="ops-item-header">
-          <span class="ops-dot" :class="{ active: feed.active }" />
-          <span class="ops-feed-name">{{ feed.name }}</span>
-          <span class="ops-count">{{ feed.messageCount }}</span>
+    <div class='ops-view ops-feeds'>
+        <div class='ops-header'>
+            <h2>Feed Systems</h2>
+            <button
+                class='btn-add'
+                @click='showAdd = true'
+            >
+                + Subscribe
+            </button>
         </div>
-        <div class="ops-subject">{{ feed.subject }}</div>
-        <div v-if="feed.lastMessage" class="ops-last">
-          <span class="ops-last-ts">{{ formatTime(feed.lastAt!) }}</span>
-          {{ truncate(feed.lastMessage) }}
-        </div>
-        <button class="btn-toggle" @click="toggleFeed(feed)">
-          {{ feed.active ? 'Pause' : 'Resume' }}
-        </button>
-      </li>
-    </ul>
 
-    <div v-if="showAdd" class="ops-modal-backdrop" @click.self="showAdd = false">
-      <div class="ops-modal">
-        <h3>Subscribe to Feed</h3>
-        <label>Name<input v-model="form.name" type="text" placeholder="My Feed" /></label>
-        <label>NATS Subject<input v-model="form.subject" type="text" placeholder="onemind.data.>" /></label>
-        <div class="ops-modal-actions">
-          <button @click="addFeed">Subscribe</button>
-          <button @click="showAdd = false">Cancel</button>
+        <div
+            v-if='store.feeds.length === 0'
+            class='ops-empty'
+        >
+            No active feeds. Subscribe to a NATS subject to start receiving data.
         </div>
-      </div>
+
+        <ul
+            v-else
+            class='ops-list'
+        >
+            <li
+                v-for='feed in store.feeds'
+                :key='feed.id'
+                class='ops-item'
+            >
+                <div class='ops-item-header'>
+                    <span
+                        class='ops-dot'
+                        :class='{ active: feed.active }'
+                    />
+                    <span class='ops-feed-name'>{{ feed.name }}</span>
+                    <span class='ops-count'>{{ feed.messageCount }}</span>
+                </div>
+                <div class='ops-subject'>
+                    {{ feed.subject }}
+                </div>
+                <div
+                    v-if='feed.lastMessage'
+                    class='ops-last'
+                >
+                    <span class='ops-last-ts'>{{ formatTime(feed.lastAt!) }}</span>
+                    {{ truncate(feed.lastMessage) }}
+                </div>
+                <button
+                    class='btn-toggle'
+                    @click='toggleFeed(feed)'
+                >
+                    {{ feed.active ? 'Pause' : 'Resume' }}
+                </button>
+            </li>
+        </ul>
+
+        <div
+            v-if='showAdd'
+            class='ops-modal-backdrop'
+            @click.self='showAdd = false'
+        >
+            <div class='ops-modal'>
+                <h3>Subscribe to Feed</h3>
+                <label>Name<input
+                    v-model='form.name'
+                    type='text'
+                    placeholder='My Feed'
+                ></label>
+                <label>NATS Subject<input
+                    v-model='form.subject'
+                    type='text'
+                    placeholder='onemind.data.>'
+                ></label>
+                <div class='ops-modal-actions'>
+                    <button @click='addFeed'>
+                        Subscribe
+                    </button>
+                    <button @click='showAdd = false'>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

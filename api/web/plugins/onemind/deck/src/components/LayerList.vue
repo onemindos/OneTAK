@@ -1,6 +1,9 @@
 <template>
     <div class='space-y-3'>
-        <p v-if='!store.configs.length' class='text-xs text-gray-500 text-center py-8'>
+        <p
+            v-if='!store.configs.length'
+            class='text-xs text-gray-500 text-center py-8'
+        >
             No deck layers added yet. Use the 3D Tiles, Heatmap, or Trips tabs to add layers.
         </p>
 
@@ -17,11 +20,18 @@
                     @click='store.updateLayerConfig(layer.id, { visible: !layer.visible })'
                 />
                 <div>
-                    <p class='text-xs text-white'>{{ layer.label }}</p>
-                    <p class='text-xs text-gray-500 uppercase'>{{ layer.type }}</p>
+                    <p class='text-xs text-white'>
+                        {{ layer.label }}
+                    </p>
+                    <p class='text-xs text-gray-500 uppercase'>
+                        {{ layer.type }}
+                    </p>
                 </div>
             </div>
-            <button class='text-xs text-red-400 hover:text-red-300' @click='store.removeLayerConfig(layer.id)'>
+            <button
+                class='text-xs text-red-400 hover:text-red-300'
+                @click='store.removeLayerConfig(layer.id)'
+            >
                 Remove
             </button>
         </div>

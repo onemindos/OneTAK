@@ -19,10 +19,10 @@
         </div>
 
         <div class='flex-1 overflow-y-auto p-3'>
-            <Tile3DConfig   v-if='activeTab === "tile3d"' />
-            <HeatmapConfig  v-else-if='activeTab === "heatmap"' />
-            <TripsConfig    v-else-if='activeTab === "trips"' />
-            <LayerList      v-else-if='activeTab === "layers"' />
+            <Tile3DConfig v-if='activeTab === "tile3d"' />
+            <HeatmapConfig v-else-if='activeTab === "heatmap"' />
+            <TripsConfig v-else-if='activeTab === "trips"' />
+            <LayerList v-else-if='activeTab === "layers"' />
         </div>
     </div>
 </template>

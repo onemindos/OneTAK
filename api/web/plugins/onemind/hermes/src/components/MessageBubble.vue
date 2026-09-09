@@ -1,8 +1,11 @@
 <template>
-  <div class="bubble" :class="`bubble--${message.role}`">
-    <span class="bubble__role">{{ roleLabel }}</span>
-    <span class="bubble__content">{{ message.content }}</span>
-  </div>
+    <div
+        class='bubble'
+        :class='`bubble--${message.role}`'
+    >
+        <span class='bubble__role'>{{ roleLabel }}</span>
+        <span class='bubble__content'>{{ message.content }}</span>
+    </div>
 </template>
 
 <script setup lang="ts">

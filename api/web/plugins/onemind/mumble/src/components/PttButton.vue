@@ -1,18 +1,20 @@
 <template>
-  <div class="ptt">
-    <button
-      class="ptt__btn"
-      :class="{ 'ptt__btn--active': store.talking }"
-      :disabled="store.connectionState !== 'connected'"
-      @mousedown="startPtt"
-      @mouseup="stopPtt"
-      @touchstart.prevent="startPtt"
-      @touchend.prevent="stopPtt"
-    >
-      {{ store.talking ? '🔴 Transmitting' : 'Hold to Talk' }}
-    </button>
-    <div class="ptt__hint">Space bar also works when panel is focused</div>
-  </div>
+    <div class='ptt'>
+        <button
+            class='ptt__btn'
+            :class='{ &apos;ptt__btn--active&apos;: store.talking }'
+            :disabled='store.connectionState !== &apos;connected&apos;'
+            @mousedown='startPtt'
+            @mouseup='stopPtt'
+            @touchstart.prevent='startPtt'
+            @touchend.prevent='stopPtt'
+        >
+            {{ store.talking ? '🔴 Transmitting' : 'Hold to Talk' }}
+        </button>
+        <div class='ptt__hint'>
+            Space bar also works when panel is focused
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">

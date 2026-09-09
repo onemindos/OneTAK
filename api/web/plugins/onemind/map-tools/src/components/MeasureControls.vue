@@ -1,6 +1,8 @@
 <template>
     <div class='space-y-4'>
-        <p class='text-xs text-gray-400'>Click on the map to add vertices. Double-click to finish.</p>
+        <p class='text-xs text-gray-400'>
+            Click on the map to add vertices. Double-click to finish.
+        </p>
 
         <!-- Mode selector -->
         <div class='flex gap-2'>
@@ -46,10 +48,18 @@
         </div>
 
         <!-- Results -->
-        <div v-if='store.measureResults.length' class='space-y-2'>
+        <div
+            v-if='store.measureResults.length'
+            class='space-y-2'
+        >
             <div class='flex items-center justify-between'>
                 <span class='text-xs text-gray-400'>Results</span>
-                <button class='text-xs text-gray-500 hover:text-gray-300' @click='store.clearMeasureResults'>Clear all</button>
+                <button
+                    class='text-xs text-gray-500 hover:text-gray-300'
+                    @click='store.clearMeasureResults'
+                >
+                    Clear all
+                </button>
             </div>
             <div
                 v-for='(r, i) in store.measureResults'

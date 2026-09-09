@@ -11,7 +11,7 @@
                 v-model='form.url'
                 class='w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
                 placeholder='https://intel.local/3dtiles/buildings/tileset.json'
-            />
+            >
         </div>
 
         <div class='space-y-2'>
@@ -20,17 +20,30 @@
                 v-model='form.label'
                 class='w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none'
                 placeholder='City Buildings'
-            />
+            >
         </div>
 
         <div class='flex gap-2'>
             <div class='flex-1 space-y-1'>
                 <label class='block text-xs text-gray-400'>Point size</label>
-                <input v-model.number='form.pointSize' type='number' min='1' max='10' class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none' />
+                <input
+                    v-model.number='form.pointSize'
+                    type='number'
+                    min='1'
+                    max='10'
+                    class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none'
+                >
             </div>
             <div class='flex-1 space-y-1'>
                 <label class='block text-xs text-gray-400'>Opacity</label>
-                <input v-model.number='form.opacity' type='number' min='0' max='1' step='0.1' class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none' />
+                <input
+                    v-model.number='form.opacity'
+                    type='number'
+                    min='0'
+                    max='1'
+                    step='0.1'
+                    class='w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none'
+                >
             </div>
         </div>
 
@@ -44,7 +57,9 @@
 
         <!-- Preset tile sources -->
         <div class='space-y-1'>
-            <p class='text-xs text-gray-500'>Quick-add presets</p>
+            <p class='text-xs text-gray-500'>
+                Quick-add presets
+            </p>
             <button
                 v-for='preset in presets'
                 :key='preset.label'

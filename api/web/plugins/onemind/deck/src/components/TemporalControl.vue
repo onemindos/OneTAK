@@ -13,7 +13,7 @@
             :value='store.temporal.current'
             class='w-full h-1 accent-amber-500'
             @input='onScrub'
-        />
+        >
 
         <div class='flex items-center gap-2'>
             <button
@@ -28,10 +28,18 @@
                 v-model.number='speed'
                 class='bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs text-white focus:border-blue-500 focus:outline-none'
             >
-                <option :value='1'>1x</option>
-                <option :value='5'>5x</option>
-                <option :value='10'>10x</option>
-                <option :value='60'>60x</option>
+                <option :value='1'>
+                    1x
+                </option>
+                <option :value='5'>
+                    5x
+                </option>
+                <option :value='10'>
+                    10x
+                </option>
+                <option :value='60'>
+                    60x
+                </option>
             </select>
 
             <span class='text-xs text-gray-500 ml-auto'>speed</span>
