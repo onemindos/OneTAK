@@ -98,7 +98,7 @@
         "@geomatico/maplibre-cog-protocol": "^0.9.2",
         "maplibre-contour": "^0.0.6",
         "maplibre-gl": "^6.0.0",
-        "maplibre-gl-vector-text-protocol": "^3.0.0",
+        "maplibre-gl-vector-text-protocol": "^0.0.5",
         "milsymbol": "^3.0.2",
         "openapi-fetch": "^0.17.0",
         "phone": "^3.1.59",
