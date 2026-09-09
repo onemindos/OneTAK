@@ -95,7 +95,6 @@
         "@loaders.gl/3d-tiles": "^4.0.0",
         "@loaders.gl/core": "^4.0.0",
         "@watergis/maplibre-gl-export": "^3.0.0",
-        "cesium": "^1.121.0",
         "maplibre-cog-protocol": "^1.0.0",
         "maplibre-contour": "^0.0.6",
         "maplibre-gl": "^6.0.0",

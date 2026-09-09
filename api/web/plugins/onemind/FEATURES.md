@@ -17,7 +17,6 @@ how it works, what services it depends on, and how to extend it.
 | `legacy-ai/` | Active | (AI panel) | — |
 | `map-tools/` | Active | Map Tools | — (offline capable) |
 | `deck/` | Active | Deck Layers | — (offline capable) |
-| `globe/` | Active | (bottom bar) | optional `VITE_CESIUM_ION_TOKEN` |
 
 ---
 
@@ -178,63 +177,6 @@ Animated CoT track history as moving trails.
 ### All Layers tab
 
 Lists all active deck.gl layers with visibility toggles and remove buttons.
-
----
-
-## `globe/` — CesiumJS 3D Globe Plugin
-
-**Bottom bar:** 3D toggle button  
-**Service deps:** Optional `VITE_CESIUM_ION_TOKEN` for world terrain + imagery.
-
-### Architecture
-
-CesiumJS mounts in a separate full-screen `<div>` injected into `document.body` via Vue `<teleport>`.
-It sits above the MapLibre canvas. Closing the globe destroys the Cesium viewer and returns to MapLibre.
-
-Camera position syncs **one-way** from MapLibre to Cesium on open (so you land in the same area).
-
-### When to use Globe vs MapLibre
-
-| Situation | Use |
-|-----------|-----|
-| 2D tactical ops, CoT overlays, normal use | MapLibre (default) |
-| Arctic/polar operations — Mercator distortion unacceptable | Globe |
-| Long-range arc visualization (great-circle routes) | Globe |
-| 3D terrain fly-through for mission planning | Globe |
-| WGS84-accurate area/distance at global scale | Globe |
-
-### Offline setup (no CesiumIon)
-
-1. Leave `VITE_CESIUM_ION_TOKEN` unset (or null).
-2. Add a self-hosted terrain provider in `cesium.ts`:
-   ```ts
-   const terrain = new Cesium.CesiumTerrainProvider({ url: 'https://tiles.local/terrain' });
-   ```
-3. Add a local imagery provider:
-   ```ts
-   const imagery = new Cesium.TileMapServiceImageryProvider({ url: 'https://tiles.local/imagery' });
-   ```
-4. The globe will render fully offline with local tile assets.
-
-### Vite config required
-
-Cesium's WASM workers and widget CSS must be copied to the build output.
-Add to `api/web/vite.config.ts`:
-
-```ts
-import { viteStaticCopy } from 'vite-plugin-static-copy';
-
-export default {
-  plugins: [
-    viteStaticCopy({
-      targets: [{ src: 'node_modules/cesium/Build/Cesium', dest: '' }]
-    })
-  ],
-  define: {
-    CESIUM_BASE_URL: JSON.stringify('/Cesium/')
-  }
-}
-```
 
 ---
 
