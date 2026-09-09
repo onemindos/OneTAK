@@ -59,7 +59,7 @@ export default class MapToolsPlugin implements PluginInstance {
     private async registerProtocols(): Promise<void> {
         // Cloud Optimized GeoTIFF: treat any cog:// URL as a raster tile source.
         // Usage: map.addSource('imagery', { type: 'raster', url: 'cog://https://...' })
-        const { cogProtocol } = await import('maplibre-cog-protocol');
+        const { cogProtocol } = await import('@geomatico/maplibre-cog-protocol');
         addProtocol('cog', cogProtocol);
 
         // Vector text formats: load KML, GPX, CSV, TopoJSON directly as GeoJSON.
