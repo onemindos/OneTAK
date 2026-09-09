@@ -1,5 +1,5 @@
 {
-    "name": "@tak-ps/cloudtak",
+    "name": "@onemindos/onetak",
     "type": "module",
     "version": "13.78.0",
     "types": "dist/types/plugin.d.ts",
