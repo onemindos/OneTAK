@@ -4,6 +4,7 @@
 
 import * as THREE from 'three'
 import { MercatorCoordinate } from 'maplibre-gl'
+import type { Map as MaplibreMap } from 'maplibre-gl'
 import type { XrEntityState } from '../../xr/src/types'
 
 const LAYER_ID = 'onemind-three-entities'
@@ -21,14 +22,14 @@ export class ThreeLayer {
     readonly type = 'custom' as const
     readonly renderingMode = '3d' as const
 
-    private map!:      maplibregl.Map
+    private map!:      MaplibreMap
     private renderer!: THREE.WebGLRenderer
     private scene!:    THREE.Scene
     private camera!:   THREE.Camera
 
     private pool = new Map<string, EntityMesh>()
 
-    onAdd(map: maplibregl.Map, gl: WebGLRenderingContext): void {
+    onAdd(map: MaplibreMap, gl: WebGLRenderingContext): void {
         this.map = map
 
         this.renderer = new THREE.WebGLRenderer({
@@ -42,9 +43,7 @@ export class ThreeLayer {
         this.scene  = new THREE.Scene()
         this.camera = new THREE.Camera()
 
-        // Lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 1.0)
-        this.scene.add(ambient)
+        this.scene.add(new THREE.AmbientLight(0xffffff, 1.0))
     }
 
     render(_gl: WebGLRenderingContext, matrix: number[]): void {
@@ -57,7 +56,8 @@ export class ThreeLayer {
         this.map.triggerRepaint()
     }
 
-    onRemove(_map: maplibregl.Map, _gl: WebGLRenderingContext): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onRemove(_map: MaplibreMap, _gl: WebGLRenderingContext): void {
         this.clear()
         this.renderer.dispose()
     }
@@ -90,15 +90,15 @@ export class ThreeLayer {
             cvs.width  = 256
             cvs.height = 64
             const ctx = cvs.getContext('2d')!
-            ctx.font       = 'bold 20px sans-serif'
-            ctx.fillStyle  = '#ffffff'
+            ctx.font        = 'bold 20px sans-serif'
+            ctx.fillStyle   = '#ffffff'
             ctx.strokeStyle = 'rgba(0,0,0,0.7)'
-            ctx.lineWidth  = 3
-            ctx.textAlign  = 'center'
+            ctx.lineWidth   = 3
+            ctx.textAlign   = 'center'
             ctx.strokeText(e.callsign, 128, 40)
             ctx.fillText(e.callsign, 128, 40)
-            const tex    = new THREE.CanvasTexture(cvs)
-            const label  = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }))
+            const tex   = new THREE.CanvasTexture(cvs)
+            const label = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }))
             label.matrixAutoUpdate = false
             mesh.add(label)
 
@@ -107,14 +107,13 @@ export class ThreeLayer {
             this.pool.set(e.uid, entry)
         }
 
-        const S = scale * 50  // world-unit size in Mercator space (adjust for zoom)
+        const S = scale * 50
 
         entry.mesh.matrix
             .makeTranslation(mc.x, mc.y, mc.z)
             .scale(SCALE_SIGN.clone().multiplyScalar(S))
         entry.mesh.matrixWorldNeedsUpdate = true
 
-        // Label floats above the mesh
         entry.label.matrix
             .makeTranslation(0, 4, 0)
             .scale(new THREE.Vector3(3 * S, S, 1))
@@ -137,6 +136,3 @@ export class ThreeLayer {
 
     get size(): number { return this.pool.size }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type maplibregl = any

@@ -83,7 +83,7 @@ export default class ElevationPlugin implements PluginInstance {
         try {
             const raw = map.queryTerrainElevation([lng, lat], { exaggerated: false })
             if (raw != null) elev = raw
-        } catch (_) {}
+        } catch { /* queryTerrainElevation unavailable */ }
 
         if (elev === null) {
             try {
@@ -91,7 +91,7 @@ export default class ElevationPlugin implements PluginInstance {
                 const res  = await fetch(`${VALHALLA_URL}/height?json=${encodeURIComponent(body)}`)
                 const data = await res.json()
                 elev = data.height?.[0] ?? null
-            } catch (_) {}
+            } catch { /* Valhalla unavailable */ }
         }
 
         const point = { lng, lat, elev, ts: Date.now() }

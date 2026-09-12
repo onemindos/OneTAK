@@ -29,6 +29,7 @@ export default class MaplibreThreePlugin implements PluginInstance {
         const orig = this.layer.upsertEntity.bind(this.layer)
         this.layer.upsertEntity = (e) => { orig(e); entityCount.value = this.layer!.size }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const map = this.api.map as any
         const addLayer = () => map.addLayer(this.layer)
         if (map.isStyleLoaded()) addLayer()
@@ -61,6 +62,7 @@ export default class MaplibreThreePlugin implements PluginInstance {
     async disable(): Promise<void> {
         await disconnectNats()
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const map = this.api.map as any
         if (map.getLayer(LAYER_ID)) map.removeLayer(LAYER_ID)
 

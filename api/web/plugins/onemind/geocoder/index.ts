@@ -18,6 +18,7 @@ const geocoderApi = {
             const res  = await fetch(url)
             const data = await res.json()
             return {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 features: (data.features ?? []).map((f: any) => ({
                     type:       'Feature',
                     geometry:   f.geometry,
@@ -38,6 +39,7 @@ const geocoderApi = {
             const res  = await fetch(url)
             const data = await res.json()
             return {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 features: (data.features ?? []).map((f: any) => ({
                     type:       'Feature',
                     geometry:   f.geometry,

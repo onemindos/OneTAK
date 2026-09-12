@@ -48,6 +48,7 @@ export async function publishHermesCommand(text: string): Promise<void> {
     nc.publish('agents.prompt.hermes.zeus.legacy', sc.encode(payload))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function upsertFromRaw(store: ReturnType<typeof useXrStore>, raw: any, fallbackUid: string) {
     const entity: XrEntityState = {
         uid:      raw.uid      ?? fallbackUid,
