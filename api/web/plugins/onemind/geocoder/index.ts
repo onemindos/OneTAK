@@ -3,7 +3,7 @@ import type { App } from 'vue'
 import type { PluginAPI, PluginInstance } from '../../../plugin'
 import { IconSearch } from '@tabler/icons-vue'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
-import maplibregl from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
 
 const NOMINATIM_URL = import.meta.env.VITE_NOMINATIM_URL ?? 'https://nominatim.onemindos.dev'

@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { isEnabled, isLive, formattedStart, formattedEnd } from '../state'
+import { isEnabled, isLive, formattedStart, formattedEnd } from './state'
 </script>
 
 <style scoped>

@@ -61,7 +61,7 @@ import {
     PRESETS, isLive, isEnabled,
     timeRangeStart, timeRangeEnd,
     formattedStart, formattedEnd,
-} from '../state'
+} from './state'
 import { applyTemporalFilter } from './filter'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
