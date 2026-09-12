@@ -56,6 +56,8 @@
         "@loaders.gl/3d-tiles": "^4.0.0",
         "@loaders.gl/core": "^4.0.0",
         "@mapbox/tile-cover": "^3.0.2",
+        "@maplibre/maplibre-gl-compare": "^0.5.0",
+        "@maplibre/maplibre-gl-geocoder": "^1.9.4",
         "@scalar/api-reference": "^1.66.1",
         "@simplewebauthn/browser": "^13.3.0",
         "@tabler/core": "^1.4.0",
