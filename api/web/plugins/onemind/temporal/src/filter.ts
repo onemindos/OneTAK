@@ -4,6 +4,7 @@ function isTakLayer(id: string): boolean {
     return TAK_LAYER_PREFIXES.some(p => id.startsWith(p))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyTemporalFilter(map: any, start: number, end: number): void {
     const style = map.getStyle()
     if (!style?.layers) return
@@ -20,6 +21,7 @@ export function applyTemporalFilter(map: any, start: number, end: number): void 
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function clearTemporalFilter(map: any): void {
     const style = map.getStyle()
     if (!style?.layers) return

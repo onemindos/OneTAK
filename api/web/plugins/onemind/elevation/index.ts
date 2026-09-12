@@ -8,6 +8,7 @@ const MENU_KEY   = 'onemind-elevation'
 const ROUTE_NAME = 'home-menu-onemind-elevation'
 const FLOAT_UID  = 'onemind-elevation-float'
 const MAX_READINGS = 10
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const VALHALLA_URL = (import.meta as any).env?.VITE_VALHALLA_URL ?? 'https://valhalla.onemindos.dev'
 
 export default class ElevationPlugin implements PluginInstance {

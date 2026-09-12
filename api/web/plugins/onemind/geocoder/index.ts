@@ -69,6 +69,7 @@ export default class GeocoderPlugin implements PluginInstance {
     }
 
     async enable(): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.geocoder = new MaplibreGeocoder(geocoderApi as any, {
             maplibregl,
             placeholder: 'Search places...',
